@@ -1,0 +1,17 @@
+# Taksim
+
+Taksim is an Intelligence Control Plane for coding agents.
+
+Canonical site: https://taksim.edgee.tech
+Documentation: https://taksim.edgee.tech/docs
+Getting started: https://taksim.edgee.tech/docs/getting-started
+Pricing: https://taksim.edgee.tech/pricing
+Privacy: https://taksim.edgee.tech/privacy
+
+Current client boundary (verified 2026-09-08):
+- Claude Code: managed sessions and historical import.
+- Codex: managed observation and historical import; native model selection in v0.
+- Devin: managed sessions and historical import.
+- GitHub Copilot Coding Agent: historical visibility only; no managed launch.
+
+Taksim governs policy, quality, privacy, budget, eligibility, evidence, direct resource selection, and approved provider-native delegation. It is not positioned as a proprietary request-level multi-model router.
