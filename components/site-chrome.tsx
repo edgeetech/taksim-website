@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { ArrowRight, BadgeCheck, Menu } from 'lucide-react';
+import { ArrowRight, Menu } from 'lucide-react';
+import { TrustStrip } from '@/components/trust-strip';
 
 export function Brand() {
   return (
@@ -42,37 +43,6 @@ export function Header() {
         </details>
       </div>
     </header>
-  );
-}
-
-export function TrustStrip() {
-  return (
-    <section className="trust-strip" aria-labelledby="trust-heading">
-      <div className="shell trust-inner">
-        <div>
-          <p className="eyebrow" id="trust-heading">
-            Trust &amp; Compliance
-          </p>
-          <h2>Building the controls serious engineering teams expect.</h2>
-        </div>
-        <div className="trust-items">
-          <div className="trust-item">
-            <BadgeCheck size={24} />
-            <span>
-              <strong>SOC 2 — In progress</strong>
-              <small>Certification process underway.</small>
-            </span>
-          </div>
-          <div className="trust-item">
-            <BadgeCheck size={24} />
-            <span>
-              <strong>ISO 27001 — In progress</strong>
-              <small>Certification process underway.</small>
-            </span>
-          </div>
-        </div>
-      </div>
-    </section>
   );
 }
 

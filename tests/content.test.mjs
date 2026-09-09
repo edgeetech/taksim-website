@@ -8,9 +8,11 @@ async function source(path) {
 
 test('keeps the preview trust strip visible and qualifies both programmes', async () => {
   const chrome = await source('components/site-chrome.tsx');
+  const trust = await source('components/trust-strip.tsx');
   assert.match(chrome, /<TrustStrip \/>/);
-  assert.match(chrome, /SOC 2 — In progress/);
-  assert.match(chrome, /ISO 27001 — In progress/);
+  assert.match(trust, /\.chatgpt\.site/);
+  assert.match(trust, /SOC 2 — In progress/);
+  assert.match(trust, /ISO 27001 — In progress/);
 });
 
 test('states Solo eligibility by use, not seat count', async () => {
