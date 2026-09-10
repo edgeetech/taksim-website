@@ -41,3 +41,13 @@ test('publishes discovery files for the canonical domain', async () => {
   assert.match(robots, /taksim\.edgee\.tech/);
   assert.match(sitemap, /taksim\.edgee\.tech/);
 });
+
+test('exports a platform-independent static site for GitHub Pages', async () => {
+  const config = await source('next.config.ts');
+  const workflow = await source('.github/workflows/pages.yml');
+  const vite = await source('vite.config.ts');
+  assert.match(config, /output: 'export'/);
+  assert.match(workflow, /path: dist\/client/);
+  assert.match(workflow, /retention-days: 1/);
+  assert.doesNotMatch(vite, /openai|cloudflare|wrangler/i);
+});
