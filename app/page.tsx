@@ -9,7 +9,7 @@ import {
 
 const clients = [
   ['Claude Code', 'Managed + history'],
-  ['Codex', 'Observed + history'],
+  ['Codex', 'Managed + history'],
   ['Devin', 'Managed + history'],
   ['GitHub Copilot', 'History visibility'],
 ];
@@ -286,7 +286,10 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <Link className="inline-link light-link" href="/docs#clients">
+          <Link
+            className="inline-link light-link"
+            href="/docs#client-compatibility"
+          >
             View exact compatibility <ChevronRight size={16} />
           </Link>
         </div>

@@ -1817,7 +1817,7 @@ h2 {
 }
 /* Documentation shell — intentionally quieter and denser than marketing pages. */
 .docs-layout {
-  --docs-sidebar: 260px;
+  --docs-sidebar: 288px;
   display: grid;
   grid-template-columns: var(--docs-sidebar) minmax(0, 1fr);
   min-height: calc(100vh - 82px);
@@ -1827,8 +1827,9 @@ h2 {
   position: sticky;
   top: 82px;
   height: calc(100vh - 82px);
+  overflow-x: hidden;
   overflow-y: auto;
-  padding: 30px 24px 48px max(24px, calc((100vw - var(--max)) / 2));
+  padding: 30px 24px 48px 32px;
   border-right: 1px solid #e8eceb;
   background: #fbfcfc;
 }
@@ -1850,6 +1851,10 @@ h2 {
   background: #fff;
   color: #637078;
   font-size: 0.73rem;
+  line-height: 1.35;
+}
+.docs-search-button span {
+  min-width: 0;
 }
 .docs-search-button kbd {
   padding: 2px 6px;
@@ -1876,6 +1881,9 @@ h2 {
   border-radius: 6px;
   color: #46535a;
   font-size: 0.76rem;
+  line-height: 1.35;
+  overflow-wrap: normal;
+  word-break: normal;
 }
 .docs-sidebar nav a:hover {
   background: var(--turquoise-soft);

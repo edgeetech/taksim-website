@@ -28,6 +28,22 @@ test('keeps the Copilot managed-launch boundary explicit', async () => {
   assert.match(quickstart, /managed launch is not currently supported/i);
 });
 
+test('states current managed Codex support and its native-selection boundary', async () => {
+  const home = await source('app/page.tsx');
+  const docs = await source('app/docs/page.tsx');
+  assert.match(home, /\['Codex', 'Managed \+ history'\]/);
+  assert.match(docs, /Responses gateway; native model selection in v0/);
+});
+
+test('keeps the desktop docs navigation readable', async () => {
+  const styles = await source('app/globals.css');
+  const search = await source('components/docs-search.tsx');
+  assert.match(styles, /--docs-sidebar: 288px/);
+  assert.match(styles, /padding: 30px 24px 48px 32px/);
+  assert.match(styles, /overflow-x: hidden/);
+  assert.doesNotMatch(search, /href: '#(?:concepts|clients)'/);
+});
+
 test('uses governance and delegation positioning, not a proprietary router claim', async () => {
   const home = await source('app/page.tsx');
   assert.match(home, /governance/i);

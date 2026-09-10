@@ -61,6 +61,23 @@ export default function Docs() {
             </div>
           </div>
         </section>
+        <section id="connector">
+          <h2>Local Connector, fail-open by design</h2>
+          <p>
+            Managed Claude Code and Codex sessions use a local Connector for
+            policy decisions and evidence collection. Telemetry, persistence,
+            and remote advice do not get to hold a healthy provider request
+            hostage.
+          </p>
+          <div className="docs-callout">
+            <strong>Native workflow stays available</strong>
+            <p>
+              If the managed path cannot start safely, Taksim preserves the
+              native client invocation instead of blocking the developer. Raw
+              prompt, response, and source content is not persisted by default.
+            </p>
+          </div>
+        </section>
         <section id="verification">
           <h2>Verification is evidence-dependent</h2>
           <p>
@@ -71,7 +88,7 @@ export default function Docs() {
         </section>
         <section id="client-compatibility">
           <h2>Client compatibility</h2>
-          <p className="docs-updated">Last verified · 8 September 2026</p>
+          <p className="docs-updated">Last verified · 10 September 2026</p>
           <div className="compat-table-wrap">
             <table className="compat-table">
               <caption>Client compatibility</caption>
@@ -93,8 +110,8 @@ export default function Docs() {
                 <tr>
                   <th>Codex</th>
                   <td>Available</td>
-                  <td>Observed</td>
-                  <td>Native model selection in v0</td>
+                  <td>Managed</td>
+                  <td>Responses gateway; native model selection in v0</td>
                 </tr>
                 <tr>
                   <th>Devin</th>
@@ -126,6 +143,7 @@ export default function Docs() {
         <strong>On this page</strong>
         <Link href="#how-taksim-works">How Taksim works</Link>
         <Link href="#governance">Three authorities</Link>
+        <Link href="#connector">Connector &amp; availability</Link>
         <Link href="#verification">Verification</Link>
         <Link href="#client-compatibility">Client compatibility</Link>
       </aside>

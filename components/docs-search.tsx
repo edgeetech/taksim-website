@@ -14,14 +14,20 @@ const entries = [
   {
     title: 'How Taksim works',
     copy: 'Understand organisational governance, selection, delegation, and evidence.',
-    href: '#concepts',
+    href: '#how-taksim-works',
     keywords: 'policy verification authority auto runtime',
   },
   {
     title: 'Client compatibility',
     copy: 'See exact support boundaries for Claude Code, Codex, Devin, and Copilot.',
-    href: '#clients',
+    href: '#client-compatibility',
     keywords: 'history managed live observation import',
+  },
+  {
+    title: 'Connector & availability',
+    copy: 'Understand the local, fail-open managed path.',
+    href: '#connector',
+    keywords: 'gateway local fail open resilience native fallback',
   },
   {
     title: 'Privacy model',

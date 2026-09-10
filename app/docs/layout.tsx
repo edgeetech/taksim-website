@@ -14,6 +14,7 @@ const groups = [
     links: [
       ['Governance', '/docs#governance'],
       ['Delegation', '/docs#delegation'],
+      ['Connector & availability', '/docs#connector'],
       ['Verification', '/docs#verification'],
       ['Privacy model', '/privacy'],
     ],
