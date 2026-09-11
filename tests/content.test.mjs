@@ -41,7 +41,13 @@ test('keeps first-time Windows installation self-contained in the docs', async (
   const quickstart = await source('app/docs/getting-started/page.tsx');
   const navigation = await source('app/docs/layout.tsx');
   const search = await source('components/docs-search.tsx');
-  assert.match(quickstart, /edgeetech\/taksim-releases/);
+  assert.match(
+    quickstart,
+    /https:\/\/github\.com\/edgeetech\/taksim-releases\/releases\/download\/v0\.1\.0\/install-release\.ps1/,
+  );
+  assert.match(quickstart, /Invoke-WebRequest \\`\r?\n\s+-Uri/);
+  assert.match(quickstart, /install-release\.ps1 \\`\r?\n\s+-Repository/);
+  assert.doesNotMatch(quickstart, /asozyurt\/taksim/);
   assert.match(quickstart, /Version 0\.1\.0/);
   assert.match(quickstart, /taksim version/);
   assert.match(quickstart, /taksim doctor/);
