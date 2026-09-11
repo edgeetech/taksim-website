@@ -34,7 +34,7 @@ export default function GettingStarted() {
             requires Team.
           </p>
           <div className="docs-choice-list">
-            <Link href="/pricing#solo">
+            <Link href="#prerequisites">
               <span>
                 <strong>Personal or independent side project</strong>
                 <small>Continue with Solo — Free</small>
@@ -82,9 +82,11 @@ export default function GettingStarted() {
             published SHA-256 checksum, validates the binary, and only then
             switches the local installation to that version.
           </p>
-          <pre>
-            <code>{installerCommand}</code>
-          </pre>
+          <div className="docs-command-list">
+            <pre>
+              <code>{installerCommand}</code>
+            </pre>
+          </div>
           <p className="docs-note">
             Taksim keeps its versioned binaries under{' '}
             <code>%LOCALAPPDATA%\Taksim</code> and its separate user data under{' '}
@@ -99,9 +101,11 @@ export default function GettingStarted() {
             Open a new PowerShell terminal so Windows can pick up the Taksim
             command, then run:
           </p>
-          <pre>
-            <code>{verificationCommand}</code>
-          </pre>
+          <div className="docs-command-list">
+            <pre>
+              <code>{verificationCommand}</code>
+            </pre>
+          </div>
           <p>
             All three commands should complete successfully. <code>doctor</code>{' '}
             checks the local environment; <code>install status</code> shows the
@@ -185,7 +189,10 @@ export default function GettingStarted() {
                 Read the reported check, make the indicated local correction,
                 and rerun <code>taksim doctor</code>. If the issue remains,
                 include that output when you{' '}
-                <Link href="/contact?intent=support">contact support</Link>.
+                <a href="mailto:info@edgee.tech?subject=Taksim%20support">
+                  contact support
+                </a>
+                .
               </p>
             </details>
           </div>
