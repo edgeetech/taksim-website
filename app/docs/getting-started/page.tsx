@@ -147,6 +147,41 @@ export default function GettingStarted() {
           </div>
         </section>
 
+        <section id="import-history">
+          <h2>Optional: import existing history</h2>
+          <p>
+            History import is not required for your first managed session. If
+            you already use one of the supported clients, import its local
+            history when you are ready:
+          </p>
+          <div className="docs-command-list">
+            <details open>
+              <summary>Claude Code</summary>
+              <pre>
+                <code>taksim history import</code>
+              </pre>
+            </details>
+            <details>
+              <summary>Codex</summary>
+              <pre>
+                <code>taksim history import --client codex</code>
+              </pre>
+            </details>
+            <details>
+              <summary>Devin</summary>
+              <pre>
+                <code>taksim history import --client devin</code>
+              </pre>
+            </details>
+            <details>
+              <summary>GitHub Copilot</summary>
+              <pre>
+                <code>taksim history import --client github_copilot</code>
+              </pre>
+            </details>
+          </div>
+        </section>
+
         <section id="troubleshooting">
           <h2>Troubleshooting</h2>
           <div className="docs-command-list">
@@ -205,6 +240,7 @@ export default function GettingStarted() {
         <Link href="#install">Download and install</Link>
         <Link href="#verify-install">Verify installation</Link>
         <Link href="#start-session">Start a session</Link>
+        <Link href="#import-history">Import history</Link>
         <Link href="#troubleshooting">Troubleshooting</Link>
       </aside>
     </div>

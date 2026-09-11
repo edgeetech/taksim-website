@@ -54,6 +54,10 @@ test('keeps first-time Windows installation self-contained in the docs', async (
   assert.match(quickstart, /taksim install status/);
   assert.match(quickstart, /taksim claude/);
   assert.match(quickstart, /taksim codex/);
+  assert.match(quickstart, /taksim history import/);
+  assert.match(quickstart, /history import --client codex/);
+  assert.match(quickstart, /history import --client devin/);
+  assert.match(quickstart, /history import --client github_copilot/);
   assert.match(quickstart, /Scope Process/);
   assert.doesNotMatch(quickstart, /INSTALLATION\.md/);
   assert.match(navigation, /Install Taksim/);
