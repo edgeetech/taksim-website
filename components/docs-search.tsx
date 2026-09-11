@@ -10,7 +10,7 @@ const entries = [
     copy: 'Install the verified Windows release, verify it, and start Claude Code or Codex.',
     href: '/docs/getting-started',
     keywords:
-      'install setup cli start release v0.1.0 windows powershell checksum claude code codex doctor troubleshooting',
+      'quickstart install setup cli start release v0.1.0 windows powershell checksum claude code codex doctor troubleshooting',
   },
   {
     title: 'How Taksim works',

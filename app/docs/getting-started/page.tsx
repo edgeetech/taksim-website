@@ -147,6 +147,23 @@ export default function GettingStarted() {
           </div>
         </section>
 
+        <section id="verify-session">
+          <h2>6. Inspect the latest session</h2>
+          <p>
+            After completing a managed task, inspect the verification evidence
+            Taksim recorded for the latest observed request:
+          </p>
+          <div className="docs-command-list">
+            <pre>
+              <code>taksim verification explain-latest</code>
+            </pre>
+          </div>
+          <p>
+            The explanation keeps missing or incomplete evidence explicit; a
+            successful provider response is not presented as proof by itself.
+          </p>
+        </section>
+
         <section id="import-history">
           <h2>Optional: import existing history</h2>
           <p>
@@ -240,6 +257,7 @@ export default function GettingStarted() {
         <Link href="#install">Download and install</Link>
         <Link href="#verify-install">Verify installation</Link>
         <Link href="#start-session">Start a session</Link>
+        <Link href="#verify-session">Inspect latest session</Link>
         <Link href="#import-history">Import history</Link>
         <Link href="#troubleshooting">Troubleshooting</Link>
       </aside>
