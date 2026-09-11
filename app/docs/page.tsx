@@ -134,7 +134,7 @@ export default function Docs() {
           <div>
             <span>Next</span>
             <Link href="/docs/getting-started">
-              Get started <ArrowRight size={15} />
+              Install Taksim <ArrowRight size={15} />
             </Link>
           </div>
         </footer>
