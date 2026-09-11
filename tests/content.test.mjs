@@ -33,9 +33,26 @@ test('states Solo eligibility by use, not seat count', async () => {
 
 test('keeps the Copilot managed-launch boundary explicit', async () => {
   const docs = await source('app/docs/page.tsx');
-  const quickstart = await source('app/docs/getting-started/page.tsx');
   assert.match(docs, /Historical visibility only/);
-  assert.match(quickstart, /managed launch is not currently supported/i);
+  assert.match(docs, /<td>Not available<\/td>/);
+});
+
+test('keeps first-time Windows installation self-contained in the docs', async () => {
+  const quickstart = await source('app/docs/getting-started/page.tsx');
+  const navigation = await source('app/docs/layout.tsx');
+  const search = await source('components/docs-search.tsx');
+  assert.match(quickstart, /edgeetech\/taksim-releases/);
+  assert.match(quickstart, /Version 0\.1\.0/);
+  assert.match(quickstart, /taksim version/);
+  assert.match(quickstart, /taksim doctor/);
+  assert.match(quickstart, /taksim install status/);
+  assert.match(quickstart, /taksim claude/);
+  assert.match(quickstart, /taksim codex/);
+  assert.match(quickstart, /Scope Process/);
+  assert.doesNotMatch(quickstart, /INSTALLATION\.md/);
+  assert.match(navigation, /Install Taksim/);
+  assert.match(search, /powershell/);
+  assert.match(search, /claude code codex/);
 });
 
 test('states current managed Codex support and its native-selection boundary', async () => {

@@ -1,130 +1,204 @@
-'use client';
-
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import { useState } from 'react';
 
-const commands = {
-  Claude: [
-    'taksim history import',
-    'taksim claude',
-    'taksim verification explain-latest',
-  ],
-  Codex: ['taksim history import --client codex', 'taksim codex'],
-  Devin: ['taksim history import --client devin', 'taksim devin'],
-  Copilot: ['taksim history import --client github_copilot'],
-};
+const installerCommand = `Invoke-WebRequest \
+  -Uri 'https://github.com/edgeetech/taksim-releases/releases/download/v0.1.0/install-release.ps1' \
+  -OutFile '.\\install-release.ps1'
+
+.\\install-release.ps1 \
+  -Repository edgeetech/taksim-releases \
+  -Version 0.1.0`;
+
+const verificationCommand = `taksim version
+taksim doctor
+taksim install status`;
 
 export default function GettingStarted() {
-  const [personal, setPersonal] = useState(false);
   return (
     <div className="docs-page-grid">
       <article className="docs-article">
         <header className="docs-article-header">
           <span>Quickstart</span>
-          <h1>Get started</h1>
+          <h1>Install Taksim</h1>
           <p>
-            Choose how you will use Taksim, then follow the path for your coding
-            agent.
+            Set up Taksim on Windows, check the local installation, and start
+            your first managed Claude Code or Codex session without leaving the
+            documentation.
           </p>
         </header>
+
         <section id="eligibility">
-          <h2>1. Choose your use</h2>
+          <h2>1. Confirm your plan</h2>
+          <p>
+            Solo is free for personal use and independent side projects. Work
+            performed for an employer, client, consultancy, or organisation
+            requires Team.
+          </p>
           <div className="docs-choice-list">
-            <button type="button" onClick={() => setPersonal(true)}>
+            <Link href="/pricing#solo">
               <span>
                 <strong>Personal or independent side project</strong>
                 <small>Continue with Solo — Free</small>
               </span>
-              <ArrowRight size={17} />
-            </button>
+            </Link>
             <Link href="/contact?intent=team">
               <span>
                 <strong>Work for my company or a client</strong>
-                <small>Explore Team</small>
+                <small>Talk to us about Team</small>
               </span>
-              <ArrowRight size={17} />
             </Link>
           </div>
-          <p className="docs-note">
-            Solo is for personal and independent use only. Employer, client,
-            consultancy, and organisational work requires Team.
-          </p>
         </section>
-        <section id="install">
-          <h2>2. Install Taksim on Windows</h2>
+
+        <section id="prerequisites">
+          <h2>2. Check the prerequisites</h2>
           <p>
-            Download the installer from the verified{' '}
+            You need a Windows computer, PowerShell, and one signed-in coding
+            client. Install and sign in to either{' '}
             <a
-              href="https://github.com/edgeetech/taksim-releases/releases/tag/v0.1.0"
+              href="https://docs.anthropic.com/en/docs/claude-code/overview"
               rel="noreferrer"
               target="_blank"
             >
-              Taksim v0.1.0 release
+              Claude Code
             </a>{' '}
-            and run it from PowerShell.
+            or{' '}
+            <a
+              href="https://developers.openai.com/codex/cli/"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Codex
+            </a>
+            . You only need one; choose it later in this guide.
+          </p>
+        </section>
+
+        <section id="install">
+          <h2>3. Download and install</h2>
+          <p>
+            Open PowerShell in a folder where you are happy to keep the
+            temporary installer file, then run both commands below. The
+            installer downloads the selected release over HTTPS, checks its
+            published SHA-256 checksum, validates the binary, and only then
+            switches the local installation to that version.
           </p>
           <pre>
-            <code>{`Invoke-WebRequest -Uri 'https://github.com/edgeetech/taksim-releases/releases/download/v0.1.0/install-release.ps1' -OutFile '.\\install-release.ps1'
-.\\install-release.ps1 -Repository edgeetech/taksim-releases -Version 0.1.0
-taksim version
-taksim doctor
-taksim install status`}</code>
+            <code>{installerCommand}</code>
           </pre>
           <p className="docs-note">
-            The installer checks the release archive against its published
-            SHA-256 entry before switching versions. See the public{' '}
-            <a
-              href="https://github.com/edgeetech/taksim-releases/blob/main/INSTALLATION.md"
-              rel="noreferrer"
-              target="_blank"
-            >
-              installation and data-storage details
-            </a>
-            .
+            Taksim keeps its versioned binaries under{' '}
+            <code>%LOCALAPPDATA%\Taksim</code> and its separate user data under{' '}
+            <code>%USERPROFILE%\.taksim</code>. Installing an updated version
+            does not replace that user-data directory.
           </p>
         </section>
-        <section id="client">
-          <h2>3. Choose your client</h2>
-          {!personal && (
-            <p className="docs-muted">
-              Select the Solo path above to reveal the commands.
-            </p>
-          )}
-          {personal && (
-            <div className="docs-command-list" aria-live="polite">
-              {Object.entries(commands).map(([client, items]) => (
-                <details key={client} open={client === 'Claude'}>
-                  <summary>{client}</summary>
-                  <pre>
-                    <code>{items.join('\n')}</code>
-                  </pre>
-                  {client === 'Copilot' && (
-                    <p>
-                      Managed launch is not currently supported for GitHub
-                      Copilot Coding Agent.
-                    </p>
-                  )}
-                </details>
-              ))}
-            </div>
-          )}
-        </section>
-        <section id="verify">
-          <h2>4. Verify the session</h2>
+
+        <section id="verify-install">
+          <h2>4. Verify the installation</h2>
           <p>
-            Review the observed execution, applied policy, economics, and
-            available verification evidence before treating an outcome as
-            verified.
+            Open a new PowerShell terminal so Windows can pick up the Taksim
+            command, then run:
           </p>
+          <pre>
+            <code>{verificationCommand}</code>
+          </pre>
+          <p>
+            All three commands should complete successfully. <code>doctor</code>{' '}
+            checks the local environment; <code>install status</code> shows the
+            installed version and path.
+          </p>
+        </section>
+
+        <section id="start-session">
+          <h2>5. Start your first session</h2>
+          <p>
+            Run one command for the coding client you installed. Do not run both
+            commands. Any arguments intended for your native client can continue
+            after the selected command.
+          </p>
+          <div className="docs-command-list">
+            <details open>
+              <summary>Claude Code</summary>
+              <pre>
+                <code>taksim claude</code>
+              </pre>
+            </details>
+            <details>
+              <summary>Codex</summary>
+              <pre>
+                <code>taksim codex</code>
+              </pre>
+            </details>
+          </div>
+          <div className="docs-callout">
+            <strong>What to expect</strong>
+            <p>
+              Taksim prepares its local Connector, then opens your selected
+              native client. Taksim should show as active with the selected
+              resource or model. If the local Taksim path is unavailable, the
+              client fails open to its native behaviour. Taksim does not send
+              raw prompts, source code, or client replies to Taksim
+              Intelligence.
+            </p>
+          </div>
+        </section>
+
+        <section id="troubleshooting">
+          <h2>Troubleshooting</h2>
+          <div className="docs-command-list">
+            <details>
+              <summary>
+                PowerShell cannot find <code>taksim</code>
+              </summary>
+              <p>
+                Close PowerShell, open a new terminal, and run{' '}
+                <code>taksim version</code> again. If it is still unavailable,
+                rerun the installer and then use <code>taksim doctor</code> to
+                inspect the local setup.
+              </p>
+            </details>
+            <details>
+              <summary>Claude Code or Codex cannot be found</summary>
+              <p>
+                Install the one client you selected using its official guide
+                above, sign in to that client, open a new PowerShell terminal,
+                and rerun the matching <code>taksim claude</code> or{' '}
+                <code>taksim codex</code> command.
+              </p>
+            </details>
+            <details>
+              <summary>The installer script is blocked</summary>
+              <p>
+                Do not lower your global execution-policy setting. For the
+                current PowerShell session only, run{' '}
+                <code>
+                  Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+                </code>
+                , then rerun the installer command above.
+              </p>
+            </details>
+            <details>
+              <summary>
+                <code>taksim doctor</code> reports an error
+              </summary>
+              <p>
+                Read the reported check, make the indicated local correction,
+                and rerun <code>taksim doctor</code>. If the issue remains,
+                include that output when you{' '}
+                <Link href="/contact?intent=support">contact support</Link>.
+              </p>
+            </details>
+          </div>
         </section>
       </article>
       <aside className="docs-toc" aria-label="On this page">
         <strong>On this page</strong>
-        <Link href="#eligibility">Choose your use</Link>
-        <Link href="#install">Install Taksim</Link>
-        <Link href="#client">Choose your client</Link>
-        <Link href="#verify">Verify the session</Link>
+        <Link href="#eligibility">Confirm your plan</Link>
+        <Link href="#prerequisites">Prerequisites</Link>
+        <Link href="#install">Download and install</Link>
+        <Link href="#verify-install">Verify installation</Link>
+        <Link href="#start-session">Start a session</Link>
+        <Link href="#troubleshooting">Troubleshooting</Link>
       </aside>
     </div>
   );
