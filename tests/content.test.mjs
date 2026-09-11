@@ -19,6 +19,7 @@ test('uses the selected Taksim brand mark alongside accessible product text', as
   const chrome = await source('components/site-chrome.tsx');
   assert.match(chrome, /src="\/taksim-mark\.png"/);
   assert.match(chrome, /alt=""/);
+  assert.match(chrome, /unoptimized/);
   assert.match(chrome, /<strong>Taksim<\/strong>/);
 });
 

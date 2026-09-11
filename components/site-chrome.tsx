@@ -14,6 +14,7 @@ export function Brand() {
         width={30}
         height={30}
         priority
+        unoptimized
       />
       <span className="brand-copy">
         <strong>Taksim</strong>
