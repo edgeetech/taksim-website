@@ -7,9 +7,9 @@ import { useMemo, useState } from 'react';
 const entries = [
   {
     title: 'Quickstart',
-    copy: 'Install Taksim and run your first observed session.',
+    copy: 'Install the verified Windows release and run your first managed session.',
     href: '/docs/getting-started',
-    keywords: 'install setup cli start',
+    keywords: 'install setup cli start release v0.1.0 windows checksum',
   },
   {
     title: 'How Taksim works',

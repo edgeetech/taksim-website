@@ -8,7 +8,10 @@ const groups = [
       ['How Taksim works', '/docs#how-taksim-works'],
     ],
   },
-  { title: 'Quickstart', links: [['Get started', '/docs/getting-started']] },
+  {
+    title: 'Quickstart',
+    links: [['Install and get started', '/docs/getting-started']],
+  },
   {
     title: 'Core concepts',
     links: [
