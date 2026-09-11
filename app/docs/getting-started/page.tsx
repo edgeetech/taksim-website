@@ -1,12 +1,12 @@
 import Link from 'next/link';
 
 const installerCommand = `Invoke-WebRequest \`
-  -Uri 'https://github.com/edgeetech/taksim-releases/releases/download/v0.1.0/install-release.ps1' \`
+  -Uri 'https://github.com/edgeetech/taksim-releases/releases/download/v0.1.1/install-release.ps1' \`
   -OutFile '.\\install-release.ps1'
 
 .\\install-release.ps1 \`
   -Repository edgeetech/taksim-releases \`
-  -Version 0.1.0`;
+  -Version 0.1.1`;
 
 const verificationCommand = `taksim version
 taksim doctor
