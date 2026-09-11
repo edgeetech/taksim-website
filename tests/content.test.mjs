@@ -17,10 +17,12 @@ test('keeps the preview trust strip visible and qualifies both programmes', asyn
 
 test('uses the selected Taksim brand mark alongside accessible product text', async () => {
   const chrome = await source('components/site-chrome.tsx');
+  const layout = await source('app/layout.tsx');
   assert.match(chrome, /src="\/taksim-mark\.png"/);
   assert.match(chrome, /alt=""/);
   assert.match(chrome, /unoptimized/);
   assert.match(chrome, /<strong>Taksim<\/strong>/);
+  assert.match(layout, /taksim-icon-v1\.svg/);
 });
 
 test('states Solo eligibility by use, not seat count', async () => {

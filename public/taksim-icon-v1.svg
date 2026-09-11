@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title>Taksim</title>
+  <path fill="#1198dc" d="M8 12h24l11 11-11 11H20L8 22z"/>
+  <path fill="#df4175" d="M32 12h24L44 24H32z"/>
+  <path fill="#292929" d="M27 30l10 10v16L25 44z"/>
+</svg>

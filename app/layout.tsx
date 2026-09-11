@@ -17,6 +17,10 @@ export const metadata: Metadata = {
   },
   description:
     'Govern local, private, cloud, and provider-native intelligence for coding agents. Preserve the quality bar and verify engineering outcomes with evidence.',
+  icons: {
+    icon: [{ url: '/taksim-icon-v1.svg', type: 'image/svg+xml' }],
+    shortcut: '/taksim-icon-v1.svg',
+  },
 };
 
 export default function RootLayout({
