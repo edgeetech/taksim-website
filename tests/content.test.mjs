@@ -15,6 +15,13 @@ test('keeps the preview trust strip visible and qualifies both programmes', asyn
   assert.match(trust, /ISO 27001 — In progress/);
 });
 
+test('uses the selected Taksim brand mark alongside accessible product text', async () => {
+  const chrome = await source('components/site-chrome.tsx');
+  assert.match(chrome, /src="\/taksim-mark\.png"/);
+  assert.match(chrome, /alt=""/);
+  assert.match(chrome, /<strong>Taksim<\/strong>/);
+});
+
 test('states Solo eligibility by use, not seat count', async () => {
   const pricing = await source('app/pricing/page.tsx');
   assert.match(pricing, /personal use and independent side projects/i);

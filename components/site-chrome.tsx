@@ -1,10 +1,20 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowRight, Menu } from 'lucide-react';
 import { TrustStrip } from '@/components/trust-strip';
 
 export function Brand() {
   return (
     <Link className="brand" href="/" aria-label="Taksim home">
+      <Image
+        className="brand-mark"
+        src="/taksim-mark.png"
+        alt=""
+        aria-hidden="true"
+        width={30}
+        height={30}
+        priority
+      />
       <span className="brand-copy">
         <strong>Taksim</strong>
         <small>by EdgeeTech</small>

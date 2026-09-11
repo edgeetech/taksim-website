@@ -81,6 +81,11 @@ textarea {
   gap: 10px;
   width: max-content;
 }
+.brand-mark {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
 .brand-copy {
   display: grid;
   line-height: 1;
@@ -920,6 +925,10 @@ h2 {
 .site-footer p,
 .site-footer nav a {
   color: #91a3a9;
+}
+.site-footer .brand-mark {
+  width: 34px;
+  height: 34px;
 }
 .site-footer p {
   max-width: 340px;
