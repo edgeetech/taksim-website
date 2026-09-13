@@ -6,6 +6,12 @@ import { useMemo, useState } from 'react';
 
 const entries = [
   {
+    title: 'Account sign-in (next release)',
+    copy: 'Automatic browser login, Solo terms, remembered access and model displays.',
+    href: '/docs/sign-in',
+    keywords: 'identity google github login logout device credential model sol astra progress terms',
+  },
+  {
     title: 'Install Taksim',
     copy: 'Install the verified Windows release, verify it, and start Claude Code or Codex.',
     href: '/docs/getting-started',

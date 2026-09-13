@@ -4,6 +4,7 @@ const routes = [
   '/pricing',
   '/docs',
   '/docs/getting-started',
+  '/docs/sign-in',
   '/privacy',
   '/terms',
   '/contact',
@@ -11,7 +12,7 @@ const routes = [
 export default function sitemap(): MetadataRoute.Sitemap {
   return routes.map((route) => ({
     url: `https://taksim.edgee.tech${route}`,
-    lastModified: new Date('2026-09-08'),
+    lastModified: new Date('2026-09-13'),
     changeFrequency: route.startsWith('/docs') ? 'weekly' : 'monthly',
     priority: route === '' ? 1 : route === '/docs' ? 0.9 : 0.7,
   }));
