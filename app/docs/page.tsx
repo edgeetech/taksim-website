@@ -23,6 +23,10 @@ export default function Docs() {
           </p>
         </header>
         <DocsSearch />
+        <div className="docs-callout">
+          <strong>Identity v1: account access before command startup</strong>
+          <p>The next release adds required Taksim sign-in. This access check fails closed when it cannot verify your credential; the Connector’s request-level resilience described below is a separate concern. See the <Link href="/docs/sign-in">sign-in guide and availability notes</Link>.</p>
+        </div>
         <section id="how-taksim-works">
           <h2>How Taksim works</h2>
           <p>

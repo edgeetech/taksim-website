@@ -17,6 +17,10 @@ const clients = [
 export default function Home() {
   return (
     <main>
+      <div className="shell docs-callout">
+        <strong>Coming next: simpler account sign-in</strong>
+        <p>Start your coding client with Taksim, sign in with Google or GitHub, and return to your terminal. <Link href="/docs/sign-in">Explore the next-release login flow and model display guide.</Link></p>
+      </div>
       <section className="hero">
         <div className="hero-glow hero-glow-one" aria-hidden="true" />
         <div className="hero-glow hero-glow-two" aria-hidden="true" />

@@ -5,6 +5,7 @@ Taksim is an Intelligence Control Plane for coding agents.
 Canonical site: https://taksim.edgee.tech
 Documentation: https://taksim.edgee.tech/docs
 Getting started: https://taksim.edgee.tech/docs/getting-started
+Identity v1 (next release): https://taksim.edgee.tech/docs/sign-in
 Pricing: https://taksim.edgee.tech/pricing
 Privacy: https://taksim.edgee.tech/privacy
 
@@ -15,3 +16,5 @@ Current client boundary (verified 2026-09-08):
 - GitHub Copilot Coding Agent: historical visibility only; no managed launch.
 
 Taksim governs policy, quality, privacy, budget, eligibility, evidence, direct resource selection, and approved provider-native delegation. It is not positioned as a proprietary request-level multi-model router.
+
+Identity v1 source changes require account verification before CLI command startup, support Google/GitHub browser sign-in and explicit Solo terms, and store device credentials in Windows Credential Manager. Credentials currently last up to 24 hours without automatic refresh. The public installer remains v0.1.1; production identity deployment and a new packaged release are pending. In the new Codex Auto path, startup model selection is passed to the native client; request-level routing status may subsequently differ.

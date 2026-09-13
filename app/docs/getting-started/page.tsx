@@ -26,6 +26,10 @@ export default function GettingStarted() {
           </p>
         </header>
 
+        <div className="docs-callout">
+          <strong>Coming next: Taksim account sign-in</strong>
+          <p>This installer supplies v0.1.1. The next release introduces browser sign-in before CLI commands start. Read the <Link href="/docs/sign-in">sign-in and model display guide</Link> for the new flow and deployment requirements.</p>
+        </div>
         <section id="eligibility">
           <h2>1. Confirm your plan</h2>
           <p>
