@@ -24,8 +24,8 @@ export default function Docs() {
         </header>
         <DocsSearch />
         <div className="docs-callout">
-          <strong>Identity v1: account access before command startup</strong>
-          <p>The next release adds required Taksim sign-in. This access check fails closed when it cannot verify your credential; the Connector’s request-level resilience described below is a separate concern. See the <Link href="/docs/sign-in">sign-in guide and availability notes</Link>.</p>
+          <strong>Sign-in is optional and off by default</strong>
+          <p>Install Taksim and run <code>taksim claude</code> or <code>taksim codex</code> without an account. Hosted sign-in only applies when an operator sets <code>Identity__Enabled=true</code>. See the <Link href="/docs/sign-in">optional sign-in guide</Link>.</p>
         </div>
         <section id="how-taksim-works">
           <h2>How Taksim works</h2>
@@ -78,9 +78,28 @@ export default function Docs() {
             <p>
               If the managed path cannot start safely, Taksim preserves the
               native client invocation instead of blocking the developer. Raw
-              prompt, response, and source content is not persisted by default.
+              prompt, response, and source content is not persisted by
+              default, and nothing leaves the machine unless you opt in to
+              hosted features.
             </p>
           </div>
+        </section>
+        <section id="subscriptions-and-api-keys">
+          <h2>Subscriptions are observed, not rewritten</h2>
+          <p>
+            If Claude Code is authenticated with a Claude subscription (Max or
+            Pro), Taksim does not rewrite the model. It records what it would
+            have chosen and reports a cost/quota comparison against your
+            actual usage. Model rewrite only applies to API-key traffic.
+            Power users can opt in to subscription rewrite at their own risk
+            with <code>TAKSIM_ALLOW_SUBSCRIPTION_REWRITE=1</code>.
+          </p>
+          <p>
+            For subscription users, the value is quota visibility, a
+            baseline report (<code>taksim report baseline</code>), and
+            evidence of what Taksim would have chosen — not a savings
+            promise.
+          </p>
         </section>
         <section id="verification">
           <h2>Verification is evidence-dependent</h2>
@@ -148,6 +167,7 @@ export default function Docs() {
         <Link href="#how-taksim-works">How Taksim works</Link>
         <Link href="#governance">Three authorities</Link>
         <Link href="#connector">Connector &amp; availability</Link>
+        <Link href="#subscriptions-and-api-keys">Subscriptions &amp; API keys</Link>
         <Link href="#verification">Verification</Link>
         <Link href="#client-compatibility">Client compatibility</Link>
       </aside>

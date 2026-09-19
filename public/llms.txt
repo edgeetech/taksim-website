@@ -5,7 +5,7 @@ Taksim is an Intelligence Control Plane for coding agents.
 Canonical site: https://taksim.edgee.tech
 Documentation: https://taksim.edgee.tech/docs
 Getting started: https://taksim.edgee.tech/docs/getting-started
-Identity v1 (next release): https://taksim.edgee.tech/docs/sign-in
+Sign-in (optional): https://taksim.edgee.tech/docs/sign-in
 Pricing: https://taksim.edgee.tech/pricing
 Privacy: https://taksim.edgee.tech/privacy
 
@@ -17,4 +17,8 @@ Current client boundary (verified 2026-09-08):
 
 Taksim governs policy, quality, privacy, budget, eligibility, evidence, direct resource selection, and approved provider-native delegation. It is not positioned as a proprietary request-level multi-model router.
 
-Identity v1 source changes require account verification before CLI command startup, support Google/GitHub browser sign-in and explicit Solo terms, and store device credentials in Windows Credential Manager. Credentials currently last up to 24 hours without automatic refresh. The public installer remains v0.1.1; production identity deployment and a new packaged release are pending. In the new Codex Auto path, startup model selection is passed to the native client; request-level routing status may subsequently differ.
+Sign-in is optional and off by default: install Taksim and run `taksim claude` or `taksim codex` with no account. Hosted sign-in only activates when an operator sets `Identity__Enabled=true`, in which case it supports Google/GitHub browser sign-in and explicit Solo terms, and stores device credentials in Windows Credential Manager (up to 24 hours, no automatic refresh). The public installer remains v0.1.1.
+
+Everything runs locally on 127.0.0.1 by default; nothing leaves the machine unless you opt in. There is no default hosted routing-advice service.
+
+Subscription traffic is observed, not rewritten: when Claude Code runs on a Claude subscription (Max/Pro, `Authorization: Bearer`), Taksim records what it would have chosen and reports cost/quota comparisons via `taksim report baseline`, without rewriting the model. Model rewrite applies only to API-key traffic (`x-api-key`); power users can opt out of the observe-only default with `TAKSIM_ALLOW_SUBSCRIPTION_REWRITE=1` at their own risk.

@@ -38,6 +38,10 @@ const faq = [
     'No. Capability, policy, privacy, and the required quality bar constrain every decision before economics.',
   ],
   [
+    'Does Taksim rewrite my model on a Claude subscription?',
+    'No. On Claude Max or Pro, Taksim observes and reports what it would have chosen instead of rewriting the request; model rewrite applies only to API-key traffic. See taksim report baseline for the cost/quota comparison. Power users can opt in to subscription rewrite themselves.',
+  ],
+  [
     'What does VERIFIED mean?',
     'The configured and available engineering evidence satisfied the applicable verification rules. It is not a guarantee that code is correct, secure, or complete.',
   ],

@@ -5,17 +5,17 @@ export default function SignInGuide() {
     <div className="docs-page-grid">
       <article className="docs-article">
         <header className="docs-article-header">
-          <span>Identity v1 · Next release</span>
-          <h1>Sign in and start your session</h1>
-          <p>The new CLI requires a verified Taksim account before starting a managed session.</p>
+          <span>Identity · Optional</span>
+          <h1>Optional sign-in for hosted features</h1>
+          <p>Taksim runs fully offline with no account by default. Sign-in only matters when an operator turns on hosted features.</p>
         </header>
         <section id="availability">
           <h2>Availability</h2>
-          <p>This guide describes the Identity v1 source changes. The public installer currently downloads v0.1.1, which predates this flow. A production identity service and a new packaged release are still required for general availability.</p>
-          <p>For the current release, follow the <Link href="/docs/getting-started">Windows installation guide</Link>. For a development build, your operator must configure <code>Identity__VerificationOrigin</code> to the trusted HTTPS identity service. Do not use someone else’s localhost address or share OAuth secrets in support messages.</p>
+          <p>By default, <code>taksim claude</code> and <code>taksim codex</code> start immediately with no account and no sign-in step. Hosted sign-in is disabled until an operator sets <code>Identity__Enabled=true</code> and configures <code>Identity__VerificationOrigin</code> with the trusted HTTPS identity service. Do not use someone else’s localhost address or share OAuth secrets in support messages.</p>
+          <p>For the default, account-free flow, follow the <Link href="/docs/getting-started">Windows installation guide</Link>. The rest of this page describes what happens once an operator opts in.</p>
         </section>
         <section id="first-session">
-          <h2>Your first session</h2>
+          <h2>Your first session when sign-in is enabled</h2>
           <ol>
             <li>Open an interactive terminal and run <code>taksim codex</code> or <code>taksim claude</code>. You do not need to run a separate login command first.</li>
             <li>Follow the browser link shown in the terminal and sign in with Google or GitHub.</li>
@@ -27,6 +27,7 @@ export default function SignInGuide() {
         </section>
         <section id="remembered-access">
           <h2>Remembered access</h2>
+          <p>The following applies only when an operator has enabled sign-in with <code>Identity__Enabled=true</code>.</p>
           <p>Windows Credential Manager stores the device credential. Subsequent commands reuse it while it is valid and verify it with the identity service. There is no plaintext credential fallback.</p>
           <p>The current credential lifetime is up to 24 hours; automatic refresh is not implemented. Expiration or revocation requires sign-in again. Run <code>taksim logout</code> to remove the local credential and request server revocation.</p>
           <p>If the service cannot verify access, the command does not start. Help, version, login and logout remain accessible. Noninteractive commands do not open a browser: sign in from an interactive terminal first. Credential storage currently supports Windows.</p>

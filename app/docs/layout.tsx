@@ -10,7 +10,7 @@ const groups = [
   },
   {
     title: 'Quickstart',
-    links: [['Install Taksim', '/docs/getting-started'], ['Sign in (next release)', '/docs/sign-in']],
+    links: [['Install Taksim', '/docs/getting-started'], ['Sign in (optional)', '/docs/sign-in']],
   },
   {
     title: 'Core concepts',

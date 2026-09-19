@@ -67,6 +67,40 @@ test('keeps first-time Windows installation self-contained in the docs', async (
   assert.match(search, /claude code codex/);
 });
 
+test('keeps sign-in optional and off by default across the site', async () => {
+  const quickstart = await source('app/docs/getting-started/page.tsx');
+  const docs = await source('app/docs/page.tsx');
+  const signIn = await source('app/docs/sign-in/page.tsx');
+  const llms = await source('public/llms.txt');
+  assert.match(quickstart, /No Taksim account is required/i);
+  assert.doesNotMatch(quickstart, /Coming next: Taksim account sign-in/);
+  assert.match(docs, /Sign-in is optional and off by default/i);
+  assert.doesNotMatch(docs, /Identity v1: account access before command startup/);
+  assert.match(signIn, /Identity__Enabled=true/);
+  assert.doesNotMatch(signIn, /requires a verified Taksim account/i);
+  assert.match(llms, /optional and off by default/i);
+});
+
+test('states subscription traffic is observed, not rewritten', async () => {
+  const docs = await source('app/docs/page.tsx');
+  const pricing = await source('app/pricing/page.tsx');
+  const llms = await source('public/llms.txt');
+  assert.match(docs, /does not rewrite the model/i);
+  assert.match(docs, /TAKSIM_ALLOW_SUBSCRIPTION_REWRITE/);
+  assert.match(pricing, /Does Taksim rewrite my model on a Claude subscription\?/);
+  assert.match(pricing, /model rewrite applies only to API-key traffic/i);
+  assert.match(llms, /Authorization: Bearer/);
+  assert.match(llms, /TAKSIM_ALLOW_SUBSCRIPTION_REWRITE/);
+});
+
+test('has no default hosted routing-advice service and stays local by default', async () => {
+  const privacy = await source('app/privacy/page.tsx');
+  const llms = await source('public/llms.txt');
+  assert.match(privacy, /no default hosted\s+routing-advice service/i);
+  assert.match(privacy, /nothing leaves the machine unless you\s+explicitly opt in/i);
+  assert.match(llms, /no default hosted routing-advice service/i);
+});
+
 test('states current managed Codex support and its native-selection boundary', async () => {
   const home = await source('app/page.tsx');
   const docs = await source('app/docs/page.tsx');
