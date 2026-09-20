@@ -6,10 +6,16 @@ import { useMemo, useState } from 'react';
 
 const entries = [
   {
-    title: 'Account sign-in (next release)',
-    copy: 'Automatic browser login, Solo terms, remembered access and model displays.',
+    title: 'Sign in (optional)',
+    copy: 'Opt-in browser login for hosted features, Solo terms, remembered access and model displays.',
     href: '/docs/sign-in',
-    keywords: 'identity google github login logout device credential model sol astra progress terms',
+    keywords: 'identity google github login logout device credential model optional off by default terms',
+  },
+  {
+    title: 'Subscriptions & API keys',
+    copy: 'Why Claude subscriptions are observed, not rewritten, and how API-key routing differs.',
+    href: '#subscriptions-and-api-keys',
+    keywords: 'subscription max pro api key rewrite observe quota baseline report',
   },
   {
     title: 'Install Taksim',

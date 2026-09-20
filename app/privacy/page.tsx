@@ -40,11 +40,19 @@ export default function Privacy() {
           </p>
           <h2>Local and transient processing</h2>
           <p>
-            Some adapters may inspect native client data or request content
-            transiently to derive content-blind classifications and structural
-            facts. Product documentation for each client describes its exact
-            boundary. Where an observed provider or model cannot be established,
-            Taksim records it as unknown.
+            Taksim runs locally by default. There is no default hosted
+            routing-advice service, and nothing leaves the machine unless you
+            explicitly opt in to a hosted Taksim feature. This is a claim
+            about Taksim&rsquo;s own telemetry and hosted services, not about
+            the native AI client you run through it: if you sign in to
+            Claude Code, Codex, or another provider-native client, that
+            client still sends prompts and responses to its own provider
+            under that provider&rsquo;s terms, independent of Taksim. Some
+            adapters may inspect native client data or request content
+            transiently to derive content-blind classifications and
+            structural facts. Product documentation for each client
+            describes its exact boundary. Where an observed provider or
+            model cannot be established, Taksim records it as unknown.
           </p>
           <h2>Website data</h2>
           <p>

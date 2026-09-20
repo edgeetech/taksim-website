@@ -27,8 +27,8 @@ export default function GettingStarted() {
         </header>
 
         <div className="docs-callout">
-          <strong>Coming next: Taksim account sign-in</strong>
-          <p>This installer supplies v0.1.1. The next release introduces browser sign-in before CLI commands start. Read the <Link href="/docs/sign-in">sign-in and model display guide</Link> for the new flow and deployment requirements.</p>
+          <strong>No Taksim account required</strong>
+          <p>Install and run <code>taksim claude</code> or <code>taksim codex</code> directly. Taksim sign-in is opt-in and off by default; it only matters if an operator turns on hosted features. See the <Link href="/docs/sign-in">optional sign-in guide</Link>.</p>
         </div>
         <section id="eligibility">
           <h2>1. Confirm your plan</h2>
@@ -57,7 +57,8 @@ export default function GettingStarted() {
           <h2>2. Check the prerequisites</h2>
           <p>
             You need a Windows computer, PowerShell, and one signed-in coding
-            client. Install and sign in to either{' '}
+            client. No Taksim account is required. Install and sign in to
+            either{' '}
             <a
               href="https://docs.anthropic.com/en/docs/claude-code/overview"
               rel="noreferrer"
@@ -141,12 +142,13 @@ export default function GettingStarted() {
           <div className="docs-callout">
             <strong>What to expect</strong>
             <p>
-              Taksim prepares its local Connector, then opens your selected
-              native client. Taksim should show as active with the selected
-              resource or model. If the local Taksim path is unavailable, the
-              client fails open to its native behaviour. Taksim does not send
-              raw prompts, source code, or client replies to Taksim
-              Intelligence.
+              Taksim prepares its local Connector on <code>127.0.0.1</code>,
+              then opens your selected native client. Taksim should show as
+              active with the selected resource or model. If the local
+              Taksim path is unavailable, the client fails open to its
+              native behaviour. Everything runs locally by default; nothing
+              leaves the machine unless you explicitly opt in to hosted
+              features.
             </p>
           </div>
         </section>
