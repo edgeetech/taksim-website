@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Terms',
   description:
-    'Preview terms describing Solo eligibility, Team use, third-party providers, verification, and economics boundaries.',
+    'Preview terms describing free developer use, Team use, third-party providers, verification, and economics boundaries.',
 };
 export default function Terms() {
   return (
@@ -25,23 +25,20 @@ export default function Terms() {
           </p>
           <h2>1. About Taksim</h2>
           <p>
-            Taksim is an intelligence control plane developed by EdgeeTech Ltd.
+            Taksim is a local-first sufficiency ledger for AI coding developed by EdgeeTech Ltd.
             It works with third-party coding agents, model providers, and
             runtimes; it is not the underlying model provider.
           </p>
-          <h2>2. Solo eligibility</h2>
+          <h2>2. Developer use</h2>
           <p>
-            Solo is free for personal use and independent side projects. It may
-            not be used for work performed on behalf of an employer, client,
-            customer, company, consultancy, or other organisation. Eligibility
-            follows whose behalf the work is performed on, not the number of
-            developers.
+            The Taksim CLI is free for any individual developer, including for
+            work performed for an employer or client.
           </p>
           <h2>3. Team use</h2>
           <p>
-            Company, client, employer, consultancy, and organisational work
-            requires an eligible Team agreement. Team pricing is custom and
-            agreed separately.
+            Team features, such as the team roll-up, savings digest, budgets
+            and alerts, require a Team subscription. Team pricing is published
+            on the pricing page.
           </p>
           <h2>4. Customer responsibilities</h2>
           <p>

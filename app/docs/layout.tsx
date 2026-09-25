@@ -15,9 +15,9 @@ const groups = [
   {
     title: 'Core concepts',
     links: [
-      ['Governance', '/docs#governance'],
-      ['Delegation', '/docs#delegation'],
-      ['Connector & availability', '/docs#connector'],
+      ['Judging and consensus', '/docs#judging'],
+      ['Subscriptions & API keys', '/docs#subscriptions-and-api-keys'],
+      ['Local gateway', '/docs#connector'],
       ['Verification', '/docs#verification'],
       ['Privacy model', '/privacy'],
     ],
@@ -27,7 +27,6 @@ const groups = [
     links: [
       ['Claude Code', '/docs#client-compatibility'],
       ['Codex', '/docs#client-compatibility'],
-      ['Devin', '/docs#client-compatibility'],
       ['GitHub Copilot', '/docs#client-compatibility'],
     ],
   },

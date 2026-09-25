@@ -6,7 +6,7 @@ import { DocsSearch } from '@/components/docs-search';
 export const metadata: Metadata = {
   title: 'Documentation',
   description:
-    'Technical documentation for Taksim governance, delegation, verification, clients, and privacy.',
+    'Technical documentation for Taksim: priced sessions, judging, subscriptions and API keys, clients, and privacy.',
 };
 
 export default function Docs() {
@@ -17,9 +17,8 @@ export default function Docs() {
           <span>Introduction</span>
           <h1>Welcome to Taksim</h1>
           <p>
-            The organisational intelligence control plane for coding agents.
-            Govern access, delegate within policy, and verify outcomes with
-            evidence.
+            A local-first sufficiency ledger for AI coding: which model ran,
+            what it cost, and whether a cheaper model would have been enough.
           </p>
         </header>
         <DocsSearch />
@@ -30,46 +29,55 @@ export default function Docs() {
         <section id="how-taksim-works">
           <h2>How Taksim works</h2>
           <p>
-            Taksim sits above the coding agents and intelligence resources your
-            engineering organisation already uses. It does not replace the
-            internal request-level planning of provider-native runtimes.
+            Taksim reads the local history and hooks your coding clients
+            already write, prices each session by model, and records it in a
+            local ledger. It stores metadata only: no prompts, responses,
+            code, paths or credentials.
           </p>
           <div className="docs-callout">
-            <strong>Policy envelope first</strong>
+            <strong>Observe first</strong>
             <p>
-              Capability, privacy, quality, and budget constraints determine
-              which resources may be used before economics are considered.
+              By default Taksim records and judges. It does not change which
+              model runs. Live routing is optional and limited to traffic
+              billed to your own API key.
             </p>
           </div>
         </section>
-        <section id="governance">
-          <h2>Three distinct authorities</h2>
+        <section id="judging">
+          <h2>Judging and consensus</h2>
           <div className="docs-definition-list">
             <div>
-              <h3>Native Auto</h3>
-              <p>The provider or runtime owns internal selection.</p>
-            </div>
-            <div>
-              <h3>Taksim Auto</h3>
+              <h3>Judge</h3>
               <p>
-                Taksim owns the organisational resource decision where it has
-                authority.
+                An LLM judge grades a completed turn and names the cheapest
+                tier that would have passed: in-session Claude, your Anthropic
+                API key, TypeSafe Jev with your own key, or a local Ollama
+                model.
               </p>
             </div>
-            <div id="delegation">
-              <h3>Delegated runtime</h3>
+            <div>
+              <h3>Consensus</h3>
               <p>
-                Taksim owns the policy envelope; the approved runtime owns its
-                internal execution plan.
+                A verdict counts only when two judges agree and at least one of
+                them is a strong judge. Weak-only agreement and disputes are
+                reported but never counted.
+              </p>
+            </div>
+            <div>
+              <h3>Shadow policy</h3>
+              <p>
+                Taksim can suggest routing defaults from consensus verdicts and
+                report what they would have changed. The shadow policy stays
+                counterfactual; it never changes your model.
               </p>
             </div>
           </div>
         </section>
         <section id="connector">
-          <h2>Local Connector, fail-open by design</h2>
+          <h2>Local gateway, fail-open by design</h2>
           <p>
-            Managed Claude Code and Codex sessions use a local Connector for
-            policy decisions and evidence collection. Telemetry, persistence,
+            Optional live routing for API-key traffic uses a local gateway on
+            127.0.0.1. Telemetry, persistence,
             and remote advice do not get to hold a healthy provider request
             hostage.
           </p>
@@ -88,11 +96,12 @@ export default function Docs() {
           <h2>Subscriptions are observed, not rewritten</h2>
           <p>
             If Claude Code is authenticated with a Claude subscription (Max or
-            Pro), Taksim does not rewrite the model. It records what it would
+            Pro, Team or Enterprise), Taksim does not rewrite the model and
+            never sits between Claude Code and the subscription account. It records what it would
             have chosen and reports a cost/quota comparison against your
-            actual usage. Model rewrite only applies to API-key traffic.
-            Power users can opt in to subscription rewrite at their own risk
-            with <code>TAKSIM_ALLOW_SUBSCRIPTION_REWRITE=1</code>.
+            actual usage. Model rewrite only applies to API-key traffic, and
+            only if you turn routing on. The same applies to Codex on a
+            ChatGPT plan.
           </p>
           <p>
             For subscription users, the value is quota visibility, a
@@ -119,7 +128,7 @@ export default function Docs() {
                 <tr>
                   <th>Client</th>
                   <th>History</th>
-                  <th>Managed/live</th>
+                  <th>Live routing</th>
                   <th>Boundary</th>
                 </tr>
               </thead>
@@ -127,20 +136,14 @@ export default function Docs() {
                 <tr>
                   <th>Claude Code</th>
                   <td>Available</td>
-                  <td>Managed</td>
-                  <td>Plain Claude remains independent</td>
+                  <td>API key only, optional</td>
+                  <td>Subscription traffic is observed, never rewritten</td>
                 </tr>
                 <tr>
                   <th>Codex</th>
                   <td>Available</td>
-                  <td>Managed</td>
+                  <td>API key only, optional</td>
                   <td>Responses gateway; native model selection in v0</td>
-                </tr>
-                <tr>
-                  <th>Devin</th>
-                  <td>Available</td>
-                  <td>Managed</td>
-                  <td>Native Devin remains the client</td>
                 </tr>
                 <tr>
                   <th>GitHub Copilot</th>
@@ -165,8 +168,8 @@ export default function Docs() {
       <aside className="docs-toc" aria-label="On this page">
         <strong>On this page</strong>
         <Link href="#how-taksim-works">How Taksim works</Link>
-        <Link href="#governance">Three authorities</Link>
-        <Link href="#connector">Connector &amp; availability</Link>
+        <Link href="#judging">Judging and consensus</Link>
+        <Link href="#connector">Local gateway</Link>
         <Link href="#subscriptions-and-api-keys">Subscriptions &amp; API keys</Link>
         <Link href="#verification">Verification</Link>
         <Link href="#client-compatibility">Client compatibility</Link>

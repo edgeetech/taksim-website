@@ -33,20 +33,19 @@ export default function GettingStarted() {
         <section id="eligibility">
           <h2>1. Confirm your plan</h2>
           <p>
-            Solo is free for personal use and independent side projects. Work
-            performed for an employer, client, consultancy, or organisation
-            requires Team.
+            The Taksim CLI is free for any individual developer, at home or at
+            work. Team features such as the team roll-up are paid.
           </p>
           <div className="docs-choice-list">
             <Link href="#prerequisites">
               <span>
-                <strong>Personal or independent side project</strong>
-                <small>Continue with Solo — Free</small>
+                <strong>Install for myself</strong>
+                <small>Continue with the free CLI</small>
               </span>
             </Link>
             <Link href="/contact?intent=team">
               <span>
-                <strong>Work for my company or a client</strong>
+                <strong>Set up my team</strong>
                 <small>Talk to us about Team</small>
               </span>
             </Link>

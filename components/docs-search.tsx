@@ -7,7 +7,7 @@ import { useMemo, useState } from 'react';
 const entries = [
   {
     title: 'Sign in (optional)',
-    copy: 'Opt-in browser login for hosted features, Solo terms, remembered access and model displays.',
+    copy: 'Opt-in browser login for hosted features, remembered access and model displays.',
     href: '/docs/sign-in',
     keywords: 'identity google github login logout device credential model optional off by default terms',
   },
@@ -26,19 +26,19 @@ const entries = [
   },
   {
     title: 'How Taksim works',
-    copy: 'Understand organisational governance, selection, delegation, and evidence.',
+    copy: 'Understand the local ledger, judging, consensus and the shadow policy.',
     href: '#how-taksim-works',
-    keywords: 'policy verification authority auto runtime',
+    keywords: 'ledger judge consensus shadow policy verdict tier',
   },
   {
     title: 'Client compatibility',
-    copy: 'See exact support boundaries for Claude Code, Codex, Devin, and Copilot.',
+    copy: 'See exact support boundaries for Claude Code, Codex, and Copilot.',
     href: '#client-compatibility',
     keywords: 'history managed live observation import',
   },
   {
-    title: 'Connector & availability',
-    copy: 'Understand the local, fail-open managed path.',
+    title: 'Local gateway',
+    copy: 'Understand the optional, fail-open routing path for API-key traffic.',
     href: '#connector',
     keywords: 'gateway local fail open resilience native fallback',
   },

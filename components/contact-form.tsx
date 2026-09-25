@@ -66,7 +66,7 @@ export function ContactForm() {
         Primary coding-agent tools
         <input
           name="tools"
-          placeholder="Claude Code, Codex, Devin, Copilot…"
+          placeholder="Claude Code, Codex, Copilot…"
           required
         />
       </label>

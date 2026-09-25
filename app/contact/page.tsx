@@ -11,10 +11,10 @@ export default function Contact() {
       <section className="page-hero">
         <div className="shell">
           <p className="eyebrow">Team assessment</p>
-          <h1>Turn AI engineering spend into a governed company resource.</h1>
+          <h1>See what your team&rsquo;s AI coding actually needed.</h1>
           <p>
-            Tell us about your current usage and constraints. We’ll discuss
-            whether Taksim is a good fit.
+            Tell us about your team&rsquo;s AI coding usage. We&rsquo;ll help you
+            set up a team pilot or a baseline readout.
           </p>
         </div>
       </section>

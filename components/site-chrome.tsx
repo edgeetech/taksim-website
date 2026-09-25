@@ -30,6 +30,8 @@ export function Header() {
       <div className="shell header-inner">
         <Brand />
         <nav className="main-nav" aria-label="Primary navigation">
+          <Link href="/#how-it-works">How it works</Link>
+          <Link href="/#clients">Clients</Link>
           <Link href="/pricing">Pricing</Link>
           <Link href="/docs">Docs</Link>
         </nav>
@@ -38,7 +40,7 @@ export function Header() {
             Talk to us
           </Link>
           <Link className="button button-small" href="/docs/getting-started">
-            Get Taksim Free
+            Install Taksim
           </Link>
         </div>
         <details className="mobile-menu">
@@ -46,10 +48,12 @@ export function Header() {
             <Menu size={21} />
           </summary>
           <nav aria-label="Mobile navigation">
+            <Link href="/#how-it-works">How it works</Link>
+            <Link href="/#clients">Clients</Link>
             <Link href="/pricing">Pricing</Link>
             <Link href="/docs">Docs</Link>
             <Link href="/contact">Talk to us</Link>
-            <Link href="/docs/getting-started">Get Taksim Free</Link>
+            <Link href="/docs/getting-started">Install Taksim</Link>
           </nav>
         </details>
       </div>
@@ -65,7 +69,7 @@ export function Footer() {
         <div className="shell footer-grid">
           <div>
             <Brand />
-            <p>Organisational governance for engineering intelligence.</p>
+            <p>A local-first sufficiency ledger for AI coding.</p>
           </div>
           <nav aria-label="Taksim footer">
             <strong>Taksim</strong>

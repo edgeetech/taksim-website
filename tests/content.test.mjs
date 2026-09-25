@@ -25,10 +25,23 @@ test('uses the selected Taksim brand mark alongside accessible product text', as
   assert.match(layout, /taksim-icon-v1\.svg/);
 });
 
-test('states Solo eligibility by use, not seat count', async () => {
+test('keeps the CLI free for individuals, including at work, and publishes Team pricing', async () => {
+  const plans = await source('components/pricing-plans.tsx');
   const pricing = await source('app/pricing/page.tsx');
-  assert.match(pricing, /personal use and independent side projects/i);
-  assert.match(pricing, /employer, client, or\s+organisation/i);
+  assert.match(plans, /for any individual, at home or at work/);
+  assert.match(plans, /\$8/);
+  assert.match(plans, /\$99 per month minimum/);
+  assert.match(pricing, /Can I use the free version at work\?/);
+  for (const path of [
+    'app/pricing/page.tsx',
+    'components/pricing-plans.tsx',
+    'app/terms/page.tsx',
+    'app/docs/getting-started/page.tsx',
+    'app/docs/sign-in/page.tsx',
+    'public/llms.txt',
+  ]) {
+    assert.doesNotMatch(await source(path), /\bSolo\b/, path);
+  }
 });
 
 test('keeps the Copilot managed-launch boundary explicit', async () => {
@@ -84,13 +97,17 @@ test('keeps sign-in optional and off by default across the site', async () => {
 test('states subscription traffic is observed, not rewritten', async () => {
   const docs = await source('app/docs/page.tsx');
   const pricing = await source('app/pricing/page.tsx');
+  const home = await source('app/page.tsx');
   const llms = await source('public/llms.txt');
   assert.match(docs, /does not rewrite the model/i);
-  assert.match(docs, /TAKSIM_ALLOW_SUBSCRIPTION_REWRITE/);
-  assert.match(pricing, /Does Taksim rewrite my model on a Claude subscription\?/);
-  assert.match(pricing, /model rewrite applies only to API-key traffic/i);
+  assert.match(pricing, /Does Taksim change my model on a Claude or ChatGPT subscription\?/);
+  assert.match(pricing, /only on traffic billed to your own API key/i);
+  assert.match(home, /On a subscription plan, Taksim only observes/);
   assert.match(llms, /Authorization: Bearer/);
-  assert.match(llms, /TAKSIM_ALLOW_SUBSCRIPTION_REWRITE/);
+  for (const text of [docs, pricing, home, llms]) {
+    assert.doesNotMatch(text, /TAKSIM_ALLOW_SUBSCRIPTION_REWRITE/);
+    assert.doesNotMatch(text, /power users/i);
+  }
 });
 
 test('has no default hosted routing-advice service and stays local by default', async () => {
@@ -101,11 +118,19 @@ test('has no default hosted routing-advice service and stays local by default', 
   assert.match(llms, /no default hosted routing-advice service/i);
 });
 
-test('states current managed Codex support and its native-selection boundary', async () => {
-  const home = await source('app/page.tsx');
+test('keeps the client matrix in one config with subscriptions observe-only', async () => {
+  const matrix = await source('lib/client-support.ts');
   const docs = await source('app/docs/page.tsx');
-  assert.match(home, /\['Codex', 'Managed \+ history'\]/);
+  const llms = await source('public/llms.txt');
+  const rows = [...matrix.matchAll(/access: '([^']+)',\s*cells: \{[\s\S]*?route: \{ state: '(\w+)'/g)];
+  assert.ok(rows.length >= 5);
+  for (const [, access, route] of rows) {
+    if (/plan/i.test(access)) assert.equal(route, 'no', access);
+  }
+  assert.match(matrix, /access: 'Anthropic API key'[\s\S]*?route: \{ state: 'yes'/);
   assert.match(docs, /Responses gateway; native model selection in v0/);
+  assert.doesNotMatch(docs, /<th>Devin<\/th>/);
+  assert.doesNotMatch(llms, /Devin: managed/i);
 });
 
 test('keeps the desktop docs navigation readable', async () => {
@@ -117,11 +142,16 @@ test('keeps the desktop docs navigation readable', async () => {
   assert.doesNotMatch(search, /href: '#(?:concepts|clients)'/);
 });
 
-test('uses governance and delegation positioning, not a proprietary router claim', async () => {
+test('positions Taksim as a sufficiency ledger, not a control plane', async () => {
   const home = await source('app/page.tsx');
-  assert.match(home, /governance/i);
-  assert.match(home, /delegat/i);
-  assert.match(home, /provider-native/i);
+  const layout = await source('app/layout.tsx');
+  const llms = await source('public/llms.txt');
+  assert.match(home, /when a cheaper model would have done the job/);
+  assert.match(llms, /sufficiency ledger/);
+  for (const text of [home, layout, llms]) {
+    assert.doesNotMatch(text, /control plane/i);
+    assert.doesNotMatch(text, /Selection and delegation governance/);
+  }
 });
 
 test('publishes discovery files for the canonical domain', async () => {

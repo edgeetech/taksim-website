@@ -20,7 +20,6 @@ export default function SignInGuide() {
           <ol>
             <li>Open an interactive terminal and run <code>taksim codex</code> or <code>taksim claude</code>. You do not need to run a separate login command first.</li>
             <li>Follow the browser link shown in the terminal and sign in with Google or GitHub.</li>
-            <li>For Solo, review the personal-use terms and select <strong>I accept the Solo terms</strong>. Employer and client work requires Team.</li>
             <li>Check the terminal code and approve the device only if you started this login.</li>
             <li>When the success screen appears, close that tab and return to the terminal. Progress messages show that Taksim is finishing sign-in; your original command resumes automatically.</li>
           </ol>
