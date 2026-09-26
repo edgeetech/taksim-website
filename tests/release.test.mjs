@@ -116,6 +116,8 @@ const clientNames = {
   OpenCode: 'opencode',
   'Kilo Code': 'kilo',
   'Oh My Pi': 'pi',
+  AgentBoard: 'agentboard',
+  'Agent Workstation': 'agentworkstation',
   Cursor: null,
   Aider: null,
   Cline: null,
