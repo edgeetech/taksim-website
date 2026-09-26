@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import type { Dictionary } from '@/lib/i18n';
 
 type Verdict = 'sufficient' | 'over' | 'disputed';
 
@@ -11,20 +12,20 @@ type Row = {
   model: string;
   cost: number;
   verdict: Verdict;
-  label: string;
+  label: keyof Dictionary['ledger']['verdicts'];
 };
 
 const templates: Omit<Row, 'id' | 'time'>[] = [
-  { client: 'Claude Code', model: 'Opus 5.5', cost: 4.82, verdict: 'over', label: 'Sonnet was enough' },
-  { client: 'Claude Code', model: 'Sonnet', cost: 1.14, verdict: 'sufficient', label: 'Right size' },
-  { client: 'Claude Code', model: 'Fable 5.1', cost: 7.36, verdict: 'sufficient', label: 'Needed the top tier' },
-  { client: 'Claude app', model: 'Opus 5.5', cost: 2.07, verdict: 'over', label: 'Haiku was enough' },
-  { client: 'Claude Code', model: 'Sonnet', cost: 0.61, verdict: 'sufficient', label: 'Right size' },
-  { client: 'Claude Code', model: 'Opus 5.5', cost: 3.4, verdict: 'disputed', label: 'Judges disagree' },
-  { client: 'Claude Code', model: 'Sonnet', cost: 0.92, verdict: 'over', label: 'Haiku was enough' },
-  { client: 'Claude Code', model: 'Fable 5.1', cost: 5.95, verdict: 'over', label: 'Opus was enough' },
-  { client: 'Claude Code', model: 'Haiku', cost: 0.08, verdict: 'sufficient', label: 'Right size' },
-  { client: 'Claude app', model: 'Opus 5.5', cost: 2.63, verdict: 'sufficient', label: 'Needed Opus' },
+  { client: 'Claude Code', model: 'Opus 5.5', cost: 4.82, verdict: 'over', label: 'sonnetEnough' },
+  { client: 'Claude Code', model: 'Sonnet', cost: 1.14, verdict: 'sufficient', label: 'rightSize' },
+  { client: 'Claude Code', model: 'Fable 5.1', cost: 7.36, verdict: 'sufficient', label: 'neededTop' },
+  { client: 'Claude app', model: 'Opus 5.5', cost: 2.07, verdict: 'over', label: 'haikuEnough' },
+  { client: 'Claude Code', model: 'Sonnet', cost: 0.61, verdict: 'sufficient', label: 'rightSize' },
+  { client: 'Claude Code', model: 'Opus 5.5', cost: 3.4, verdict: 'disputed', label: 'disagree' },
+  { client: 'Claude Code', model: 'Sonnet', cost: 0.92, verdict: 'over', label: 'haikuEnough' },
+  { client: 'Claude Code', model: 'Fable 5.1', cost: 5.95, verdict: 'over', label: 'opusEnough' },
+  { client: 'Claude Code', model: 'Haiku', cost: 0.08, verdict: 'sufficient', label: 'rightSize' },
+  { client: 'Claude app', model: 'Opus 5.5', cost: 2.63, verdict: 'sufficient', label: 'neededOpus' },
 ];
 
 const VISIBLE = 6;
@@ -50,7 +51,7 @@ const money = new Intl.NumberFormat('en-US', {
   minimumFractionDigits: 2,
 });
 
-export function LedgerStream() {
+export function LedgerStream({ t }: { t: Dictionary['ledger'] }) {
   const [rows, setRows] = useState<Row[]>(initialRows);
   const [total, setTotal] = useState(START_TOTAL);
   const [running, setRunning] = useState(false);
@@ -100,36 +101,36 @@ export function LedgerStream() {
         </span>
         <span>taksim ledger</span>
         <span className={running ? 'ledger-live is-live' : 'ledger-live'}>
-          {running ? 'recording' : 'paused'}
+          {running ? t.recording : t.paused}
         </span>
       </div>
       <div className="ledger-totals">
         <div>
-          <small>Spend this week, list price</small>
+          <small>{t.spend}</small>
           <strong className="tabular" aria-live="off">
             {money.format(total)}
           </strong>
         </div>
         <div>
-          <small>Always-Sonnet counterfactual</small>
+          <small>{t.counterfactual}</small>
           <strong className="tabular ledger-delta">−45%</strong>
         </div>
         <div>
-          <small>Over-sized, on screen</small>
+          <small>{t.overSized}</small>
           <strong className="tabular">{overShare}%</strong>
         </div>
       </div>
       <table className="ledger-table">
-        <caption className="sr-only">Illustrative stream of recorded AI coding turns</caption>
+        <caption className="sr-only">{t.caption}</caption>
         <thead>
           <tr>
-            <th scope="col">Time</th>
-            <th scope="col">Client</th>
-            <th scope="col">Model</th>
+            <th scope="col">{t.time}</th>
+            <th scope="col">{t.client}</th>
+            <th scope="col">{t.model}</th>
             <th scope="col" className="num">
-              Cost
+              {t.cost}
             </th>
-            <th scope="col">Verdict</th>
+            <th scope="col">{t.verdict}</th>
           </tr>
         </thead>
         <tbody>
@@ -145,16 +146,14 @@ export function LedgerStream() {
                     <i />
                     <i />
                   </span>
-                  {row.label}
+                  {t.verdicts[row.label]}
                 </span>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <p className="ledger-note">
-        Illustrative stream. Totals modelled on the founder&rsquo;s own week at API-equivalent list prices.
-      </p>
+      <p className="ledger-note">{t.note}</p>
     </div>
   );
 }

@@ -2,10 +2,11 @@
 
 import { BadgeCheck } from 'lucide-react';
 import { useSyncExternalStore } from 'react';
+import type { Dictionary } from '@/lib/i18n';
 
 const previewHosts = new Set(['localhost', '127.0.0.1']);
 
-export function TrustStrip() {
+export function TrustStrip({ t }: { t: Dictionary['chrome']['trust'] }) {
   const visible = useSyncExternalStore(
     () => () => undefined,
     () => {
@@ -22,23 +23,23 @@ export function TrustStrip() {
       <div className="shell trust-inner">
         <div>
           <p className="eyebrow" id="trust-heading">
-            Trust &amp; Compliance
+            {t.eyebrow}
           </p>
-          <h2>Building the controls serious engineering teams expect.</h2>
+          <h2>{t.title}</h2>
         </div>
         <div className="trust-items">
           <div className="trust-item">
             <BadgeCheck size={24} />
             <span>
-              <strong>SOC 2 — In progress</strong>
-              <small>Certification process underway.</small>
+              <strong>{t.soc2}</strong>
+              <small>{t.underway}</small>
             </span>
           </div>
           <div className="trust-item">
             <BadgeCheck size={24} />
             <span>
-              <strong>ISO 27001 — In progress</strong>
-              <small>Certification process underway.</small>
+              <strong>{t.iso}</strong>
+              <small>{t.underway}</small>
             </span>
           </div>
         </div>

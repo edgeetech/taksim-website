@@ -1,21 +1,6 @@
 import Link from 'next/link';
 import { Check } from 'lucide-react';
-
-const developer = [
-  'History import for Claude Code, Codex and Copilot',
-  'Priced sessions, model mix and cache efficiency',
-  'Turn-by-turn judging of Claude Code sessions with your choice of judge (in-session Claude, Ollama, your own API key)',
-  'Weekly report, digest and status line',
-  'Optional live routing for API-key traffic',
-];
-
-const team = [
-  'Team roll-up from developer exports, no hosted service required',
-  'Weekly savings digest for the team lead',
-  'Cost by repo and task, for chargeback or client rebilling',
-  'Budget warnings by developer, repo and team (informational; nothing is blocked)',
-  'Each developer creates their export and can inspect it before sharing; exports carry repo aliases, never paths',
-];
+import { getDictionary, localePath, type Locale } from '@/lib/i18n';
 
 function Features({ items }: { items: string[] }) {
   return (
@@ -30,32 +15,33 @@ function Features({ items }: { items: string[] }) {
   );
 }
 
-export function PricingPlans() {
+export function PricingPlans({ locale }: { locale: Locale }) {
+  const { developer, team } = getDictionary(locale).plans;
   return (
     <div className="plans">
       <article className="plan" aria-labelledby="plan-developer">
         <header>
-          <h3 id="plan-developer">Developer</h3>
-          <p className="plan-price">Free</p>
-          <p className="plan-sub">Free for any individual, at home or at work.</p>
+          <h3 id="plan-developer">{developer.name}</h3>
+          <p className="plan-price">{developer.price}</p>
+          <p className="plan-sub">{developer.sub}</p>
         </header>
-        <Features items={developer} />
-        <Link className="btn btn-ghost" href="/docs/getting-started">
-          Install Taksim
+        <Features items={developer.features} />
+        <Link className="btn btn-ghost" href={localePath(locale, '/docs/getting-started')}>
+          {developer.cta}
         </Link>
       </article>
       <article className="plan plan-team" aria-labelledby="plan-team">
         <header>
-          <h3 id="plan-team">Team</h3>
+          <h3 id="plan-team">{team.name}</h3>
           <p className="plan-price">
-            <span className="tabular">$8</span>
-            <small>per active developer per month</small>
+            <span className="tabular">{team.price}</span>
+            <small>{team.per}</small>
           </p>
-          <p className="plan-sub">$99 per month minimum. 20% off with annual billing.</p>
+          <p className="plan-sub">{team.sub}</p>
         </header>
-        <Features items={team} />
-        <Link className="btn btn-primary" href="/contact?intent=team">
-          Start a team pilot
+        <Features items={team.features} />
+        <Link className="btn btn-primary" href={localePath(locale, '/contact?intent=team')}>
+          {team.cta}
         </Link>
       </article>
     </div>

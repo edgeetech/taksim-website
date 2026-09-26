@@ -1,10 +1,5 @@
-import type { Metadata } from 'next';
-export const metadata: Metadata = {
-  title: 'Terms',
-  description:
-    'Preview terms describing free developer use, Team use, third-party providers, verification, and economics boundaries.',
-};
-export default function Terms() {
+// English only for now; locale routes show UntranslatedNote above it.
+export function TermsPage() {
   return (
     <main>
       <section className="page-hero">

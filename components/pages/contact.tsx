@@ -1,11 +1,7 @@
-import type { Metadata } from 'next';
+// English only for now; locale routes show UntranslatedNote above it.
 import { ContactForm } from '@/components/contact-form';
-export const metadata: Metadata = {
-  title: 'Talk to Taksim — Team Assessment',
-  description:
-    'Tell EdgeeTech about your AI engineering usage and explore whether Taksim Team is a good fit.',
-};
-export default function Contact() {
+import type { Locale } from '@/lib/i18n';
+export function ContactPage({ locale }: { locale: Locale }) {
   return (
     <main>
       <section className="page-hero">
@@ -20,7 +16,7 @@ export default function Contact() {
       </section>
       <section className="content-section">
         <div className="shell contact-layout">
-          <ContactForm />
+          <ContactForm locale={locale} />
           <aside>
             <p className="eyebrow">What happens next</p>
             <ol>

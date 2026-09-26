@@ -1,6 +1,8 @@
 import Link from 'next/link';
+import { localePath, type Locale } from '@/lib/i18n';
 
-export default function SignInGuide() {
+// English only for now; locale routes show UntranslatedNote above it.
+export function SignInPage({ locale }: { locale: Locale }) {
   return (
     <div className="docs-page-grid">
       <article className="docs-article">
@@ -13,7 +15,7 @@ export default function SignInGuide() {
           <h2>Availability</h2>
           <p>By default, <code>taksim claude</code> and <code>taksim codex</code> start immediately with no account and no sign-in step. Hosted sign-in is disabled until an operator sets <code>Identity__Enabled=true</code> and configures <code>Identity__VerificationOrigin</code> with the trusted HTTPS identity service. Do not use someone else’s localhost address or share OAuth secrets in support messages.</p>
           <p>The public release (v0.2.0) includes this sign-in code, but it stays off unless an operator sets <code>Identity__Enabled=true</code> and points it at a trusted identity service.</p>
-          <p>For the default, account-free flow, follow the <Link href="/docs/getting-started">Windows installation guide</Link>. The rest of this page describes what happens once an operator opts in.</p>
+          <p>For the default, account-free flow, follow the <Link href={localePath(locale, '/docs/getting-started')}>Windows installation guide</Link>. The rest of this page describes what happens once an operator opts in.</p>
         </section>
         <section id="first-session">
           <h2>Your first session when sign-in is enabled</h2>

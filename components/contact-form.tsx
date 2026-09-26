@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { type SyntheticEvent, useState } from 'react';
+import { localePath, type Locale } from '@/lib/i18n/config';
 
-export function ContactForm() {
+export function ContactForm({ locale }: { locale: Locale }) {
   const [sent, setSent] = useState(false);
   function submit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -90,7 +91,7 @@ export function ContactForm() {
         <input type="checkbox" required />{' '}
         <span>
           I agree that EdgeeTech may use these details to respond to this
-          request. See the <Link href="/privacy">Privacy notice</Link>.
+          request. See the <Link href={localePath(locale, '/privacy')}>Privacy notice</Link>.
         </span>
       </label>
       <button className="button purple-button" type="submit">
