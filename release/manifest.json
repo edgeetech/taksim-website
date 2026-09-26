@@ -1,8 +1,8 @@
 {
   "schema": "taksim.release-manifest.v1",
   "repository": "edgeetech/taksim-releases",
-  "version": "0.3.2",
-  "tag": "v0.3.2",
+  "version": "0.3.3",
+  "tag": "v0.3.3",
   "platforms": [
     "win-x64"
   ],
@@ -15,7 +15,7 @@
   ],
   "install": {
     "oneLine": "irm https://github.com/edgeetech/taksim-releases/releases/latest/download/install.ps1 | iex",
-    "pinned": "& ([scriptblock]::Create((irm https://github.com/edgeetech/taksim-releases/releases/latest/download/install.ps1))) -Version v0.3.2 -NoSetup"
+    "pinned": "& ([scriptblock]::Create((irm https://github.com/edgeetech/taksim-releases/releases/latest/download/install.ps1))) -Version v0.3.3 -NoSetup"
   },
   "commands": [
     "budget",
@@ -50,9 +50,11 @@
     "history preflight",
     "history recalculate",
     "insights",
+    "insights anomalies",
     "insights cache",
     "insights context",
     "insights effort",
+    "insights quota",
     "insights rework",
     "insights subagents",
     "install",
@@ -226,5 +228,5 @@
     }
   ],
   "source": "release-manifest",
-  "publishedAt": "2026-09-26T22:22:03Z"
+  "publishedAt": "2026-09-26T23:55:37Z"
 }
