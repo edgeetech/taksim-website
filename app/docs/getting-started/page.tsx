@@ -26,6 +26,16 @@ export default function GettingStarted() {
           </p>
         </header>
 
+        <div className="docs-callout" id="preview-release">
+          <strong>Early preview release</strong>
+          <p>
+            The current public release (v0.1.1) is an early preview; judging
+            and reports described here ship in the next release. So do{' '}
+            <code>taksim setup</code> and the credential check that keeps
+            subscription sign-ins out of the local gateway.
+          </p>
+        </div>
+
         <div className="docs-callout">
           <strong>No Taksim account required</strong>
           <p>Install and run <code>taksim claude</code> or <code>taksim codex</code> directly. Taksim sign-in is opt-in and off by default; it only matters if an operator turns on hosted features. See the <Link href="/docs/sign-in">optional sign-in guide</Link>.</p>
@@ -142,12 +152,11 @@ export default function GettingStarted() {
             <strong>What to expect</strong>
             <p>
               Taksim prepares its local Connector on <code>127.0.0.1</code>,
-              then opens your selected native client. Taksim should show as
-              active with the selected resource or model. If the local
-              Taksim path is unavailable, the client fails open to its
-              native behaviour. Everything runs locally by default; nothing
-              leaves the machine unless you explicitly opt in to hosted
-              features.
+              then opens your selected native client. If the local Taksim
+              path is unavailable, the client fails open to its native
+              behaviour. Everything runs locally by default; nothing leaves
+              the machine unless you explicitly opt in to hosted features or
+              a remote judge.
             </p>
           </div>
         </section>

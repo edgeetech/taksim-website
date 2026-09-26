@@ -11,15 +11,23 @@ Privacy: https://taksim.edgee.tech/privacy
 
 Current client boundary:
 - Claude Code (Pro, Max, Team, Enterprise subscription): history import, hooks, status line, judging, reports. Observe-only: no proxy and no model changes.
-- Claude Code (API key): all of the above, plus optional live routing through the local gateway.
-- Codex CLI (ChatGPT plan): history import, notify hook, judging, reports. Observe-only.
-- Codex CLI (API key): all of the above, plus optional live routing.
-- GitHub Copilot: usage import and reports; no routing.
+- Claude Code (API key): all of the above, plus optional live routing through the local gateway in sessions launched with `taksim claude`.
+- Codex CLI (ChatGPT plan): history import from `CODEX_HOME` sessions, reports. Observe-only. Judging is not supported yet.
+- Codex CLI (OpenAI API key): history import, reports, plus optional live routing through the local gateway in sessions launched with `taksim codex`. Judging is not supported yet (only the experimental Jev judge grades these turns, and a single weak judge never counts toward savings).
+- GitHub Copilot: usage import from the local Copilot CLI session store, reports; no request-time routing.
 
-Pricing: the CLI is free for any individual developer, at home or at work. Team is $8 per active developer per month, $99 per month minimum, 20% off with annual billing.
+Judging covers Claude Code turns only. A verdict counts toward the "could have saved" figure only when two judges agree and at least one is a strong judge.
+
+Usage and cost: API-key usage is shown in billed dollars; subscription usage is shown as API-equivalent list-price dollars, labelled as quota, not billed. Weekly reports are on demand: `taksim report weekly` and `taksim digest`.
+
+Platforms: Windows only.
+
+Release status: the current public release (v0.1.1) is an early preview. Judging, reports, `taksim setup` and the credential check that keeps subscription sign-ins out of the local gateway ship in the next release.
+
+Pricing: the CLI is free for any individual developer, at home or at work. Team is $8 per active developer per month, $99 per month minimum, 20% off with annual billing. The team roll-up is built from exports each developer creates and can inspect before sharing; exports carry repo aliases, never paths.
 
 Sign-in is optional and off by default: install Taksim and run `taksim claude` or `taksim codex` with no account. Hosted sign-in only activates when an operator sets `Identity__Enabled=true`, in which case it supports Google/GitHub browser sign-in and stores device credentials in Windows Credential Manager (up to 24 hours, no automatic refresh). The public installer remains v0.1.1, which predates this opt-in sign-in flow; it currently requires a source/development build.
 
-Everything runs locally on 127.0.0.1 by default; nothing leaves the machine unless you opt in to a hosted Taksim feature. There is no default hosted routing-advice service. This does not describe the native AI client itself: Claude Code, Codex, and similar clients still send prompts and responses to their own provider under that provider's terms, independent of Taksim.
+Everything runs locally on 127.0.0.1 by default; nothing leaves the machine unless you opt in to a hosted Taksim feature or a remote judge on your own key (which receives truncated excerpts of the turns it grades). There is no default hosted routing-advice service. This does not describe the native AI client itself: Claude Code, Codex, and similar clients still send prompts and responses to their own provider under that provider's terms, independent of Taksim.
 
-Subscription traffic is observed, not rewritten: when Claude Code runs on a Claude subscription (Max/Pro, `Authorization: Bearer`), Taksim records what it would have chosen and reports cost/quota comparisons via `taksim report baseline`, without rewriting the model. Model rewrite applies only to API-key traffic (`x-api-key`), and only if routing is turned on.
+Subscription traffic is observed, not rewritten: when Claude Code runs on a Claude subscription (Max/Pro, `Authorization: Bearer`), `taksim claude` launches Claude Code natively and observes it from local transcripts and hooks; `taksim report baseline` shows usage and quota, without rewriting the model. Model rewrite applies only to API-key traffic (`x-api-key`), and only in sessions launched through Taksim.

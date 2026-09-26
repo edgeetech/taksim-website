@@ -20,7 +20,7 @@ export const capabilities: { key: Capability; label: string; description: string
   {
     key: 'observe',
     label: 'Observe',
-    description: 'Prices each session by model from local history, hooks or usage reports.',
+    description: 'Prices each session by model from local history, hooks or the Copilot CLI session store.',
   },
   {
     key: 'judge',
@@ -30,7 +30,7 @@ export const capabilities: { key: Capability; label: string; description: string
   {
     key: 'route',
     label: 'Route',
-    description: 'Optional live model choice, only on traffic billed to your own API key and only when you turn it on.',
+    description: 'Optional live model choice, only on traffic billed to your own API key and only in sessions you launch through Taksim.',
   },
 ];
 
@@ -59,15 +59,15 @@ export const clientSupport: ClientSupportRow[] = [
     cells: {
       observe: { state: 'yes' },
       judge: { state: 'yes' },
-      route: { state: 'yes', note: 'Optional, through the local gateway. Off until you turn it on.' },
+      route: { state: 'yes', note: 'Optional, through the local gateway, in sessions you start with taksim claude.' },
     },
   },
   {
     client: 'Codex CLI',
     access: 'ChatGPT plan',
     cells: {
-      observe: { state: 'yes', note: 'History import and notify hook.' },
-      judge: { state: 'yes' },
+      observe: { state: 'yes', note: 'History import from CODEX_HOME sessions.' },
+      judge: { state: 'no', note: 'Not yet. Judging covers Claude Code turns only.' },
       route: { state: 'no', note: 'Not offered. No proxy and no model changes.' },
     },
   },
@@ -75,18 +75,21 @@ export const clientSupport: ClientSupportRow[] = [
     client: 'Codex CLI',
     access: 'OpenAI API key',
     cells: {
-      observe: { state: 'yes' },
-      judge: { state: 'yes' },
-      route: { state: 'yes', note: 'Optional live routing. Off until you turn it on.' },
+      observe: { state: 'yes', note: 'History import and the local gateway.' },
+      judge: {
+        state: 'no',
+        note: 'Not yet. Only the experimental Jev judge grades these turns, and one weak judge never counts toward savings.',
+      },
+      route: { state: 'yes', note: 'Optional, through the local gateway, in sessions you start with taksim codex.' },
     },
   },
   {
     client: 'GitHub Copilot',
     access: 'Copilot plan',
     cells: {
-      observe: { state: 'yes', note: 'Usage import from GitHub usage reports.' },
+      observe: { state: 'yes', note: 'Usage import from the local Copilot CLI session store.' },
       judge: { state: 'no' },
-      route: { state: 'no', note: 'Not applicable.' },
+      route: { state: 'no', note: 'No request-time routing. taksim copilot only picks the startup model.' },
     },
   },
 ];

@@ -12,7 +12,7 @@ export default function Terms() {
           <p className="eyebrow">Terms</p>
           <h1>Clear boundaries for Taksim use.</h1>
           <p>
-            These preview terms capture the intended product and licence
+            These preview terms capture the intended product and pricing
             boundaries. Final production terms require legal review.
           </p>
         </div>
@@ -36,9 +36,10 @@ export default function Terms() {
           </p>
           <h2>3. Team use</h2>
           <p>
-            Team features, such as the team roll-up, savings digest, budgets
-            and alerts, require a Team subscription. Team pricing is published
-            on the pricing page.
+            Team features, such as the team roll-up across developer exports,
+            the team section of the savings digest and team budgets, are part
+            of the paid Team plan. Team pricing is published on the pricing
+            page.
           </p>
           <h2>4. Customer responsibilities</h2>
           <p>

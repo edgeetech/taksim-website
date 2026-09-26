@@ -14,7 +14,7 @@ export default function Contact() {
           <h1>See what your team&rsquo;s AI coding actually needed.</h1>
           <p>
             Tell us about your team&rsquo;s AI coding usage. We&rsquo;ll help you
-            set up a team pilot or a baseline readout.
+            set up a team pilot.
           </p>
         </div>
       </section>

@@ -16,12 +16,12 @@ type Row = {
 
 const templates: Omit<Row, 'id' | 'time'>[] = [
   { client: 'Claude Code', model: 'Opus 5.5', cost: 4.82, verdict: 'over', label: 'Sonnet was enough' },
-  { client: 'Codex', model: 'gpt-5.6', cost: 1.14, verdict: 'sufficient', label: 'Right size' },
+  { client: 'Claude Code', model: 'Sonnet', cost: 1.14, verdict: 'sufficient', label: 'Right size' },
   { client: 'Claude Code', model: 'Fable 5.1', cost: 7.36, verdict: 'sufficient', label: 'Needed the top tier' },
   { client: 'Claude app', model: 'Opus 5.5', cost: 2.07, verdict: 'over', label: 'Haiku was enough' },
   { client: 'Claude Code', model: 'Sonnet', cost: 0.61, verdict: 'sufficient', label: 'Right size' },
   { client: 'Claude Code', model: 'Opus 5.5', cost: 3.4, verdict: 'disputed', label: 'Judges disagree' },
-  { client: 'Codex', model: 'gpt-5.6', cost: 0.92, verdict: 'over', label: 'Smaller was enough' },
+  { client: 'Claude Code', model: 'Sonnet', cost: 0.92, verdict: 'over', label: 'Haiku was enough' },
   { client: 'Claude Code', model: 'Fable 5.1', cost: 5.95, verdict: 'over', label: 'Opus was enough' },
   { client: 'Claude Code', model: 'Haiku', cost: 0.08, verdict: 'sufficient', label: 'Right size' },
   { client: 'Claude app', model: 'Opus 5.5', cost: 2.63, verdict: 'sufficient', label: 'Needed Opus' },

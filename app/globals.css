@@ -2140,14 +2140,6 @@ h3 {
 .plan .btn {
   align-self: flex-start;
 }
-.plans-note {
-  margin: 28px 0 0;
-  color: var(--muted);
-}
-.plans-note strong {
-  color: var(--ink);
-  font-weight: 600;
-}
 .page-lead {
   border-top: 0;
   padding-top: 96px;

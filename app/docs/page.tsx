@@ -49,10 +49,11 @@ export default function Docs() {
             <div>
               <h3>Judge</h3>
               <p>
-                An LLM judge grades a completed turn and names the cheapest
-                tier that would have passed: in-session Claude, your Anthropic
-                API key, TypeSafe Jev with your own key, or a local Ollama
-                model.
+                An LLM judge grades a completed Claude Code turn and names the
+                cheapest tier that would have passed: in-session Claude, your
+                Anthropic API key, TypeSafe Jev with your own key, or a local
+                Ollama model. Codex and Copilot turns are priced but not yet
+                judged.
               </p>
             </div>
             <div>
@@ -88,7 +89,7 @@ export default function Docs() {
               native client invocation instead of blocking the developer. Raw
               prompt, response, and source content is not persisted by
               default, and nothing leaves the machine unless you opt in to
-              hosted features.
+              hosted features or a remote judge.
             </p>
           </div>
         </section>
@@ -97,17 +98,19 @@ export default function Docs() {
           <p>
             If Claude Code is authenticated with a Claude subscription (Max or
             Pro, Team or Enterprise), Taksim does not rewrite the model and
-            never sits between Claude Code and the subscription account. It records what it would
-            have chosen and reports a cost/quota comparison against your
-            actual usage. Model rewrite only applies to API-key traffic, and
-            only if you turn routing on. The same applies to Codex on a
-            ChatGPT plan.
+            never sits between Claude Code and the subscription account.
+            <code>taksim claude</code> launches Claude Code natively and
+            observes it from local transcripts and hooks. Model rewrite only
+            applies to API-key traffic, in sessions you launch through Taksim.
+            The same applies to Codex on a ChatGPT plan, which is observed
+            from its local session history.
           </p>
           <p>
-            For subscription users, the value is quota visibility, a
-            baseline report (<code>taksim report baseline</code>), and
-            evidence of what Taksim would have chosen — not a savings
-            promise.
+            Subscription usage is shown as API-equivalent list-price dollars,
+            labelled as quota, not billed. For subscription users, the value
+            is quota visibility, a baseline report
+            (<code>taksim report baseline</code>) and judge verdicts on
+            finished Claude Code turns, not a savings promise.
           </p>
         </section>
         <section id="verification">
@@ -120,7 +123,7 @@ export default function Docs() {
         </section>
         <section id="client-compatibility">
           <h2>Client compatibility</h2>
-          <p className="docs-updated">Last verified · 10 September 2026</p>
+          <p className="docs-updated">Last verified · 26 September 2026</p>
           <div className="compat-table-wrap">
             <table className="compat-table">
               <caption>Client compatibility</caption>
@@ -129,6 +132,7 @@ export default function Docs() {
                   <th>Client</th>
                   <th>History</th>
                   <th>Live routing</th>
+                  <th>Judging</th>
                   <th>Boundary</th>
                 </tr>
               </thead>
@@ -137,19 +141,22 @@ export default function Docs() {
                   <th>Claude Code</th>
                   <td>Available</td>
                   <td>API key only, optional</td>
+                  <td>Available</td>
                   <td>Subscription traffic is observed, never rewritten</td>
                 </tr>
                 <tr>
                   <th>Codex</th>
                   <td>Available</td>
                   <td>API key only, optional</td>
-                  <td>Responses gateway; native model selection in v0</td>
+                  <td>Not yet</td>
+                  <td>Responses gateway on API keys; model rewrite only for proven model ids; ChatGPT sign-in is observed, never rewritten</td>
                 </tr>
                 <tr>
                   <th>GitHub Copilot</th>
                   <td>Available</td>
                   <td>Not available</td>
-                  <td>Historical visibility only</td>
+                  <td>Not yet</td>
+                  <td>Usage import from the local Copilot CLI session store; startup model selection only</td>
                 </tr>
               </tbody>
             </table>

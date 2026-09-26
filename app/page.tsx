@@ -6,7 +6,7 @@ import { PricingPlans } from '@/components/pricing-plans';
 const valueProps = [
   {
     title: 'Every session, priced.',
-    body: 'Taksim imports what your coding agents already write to disk and prices each session by model, repo and task, including cache reads and writes. It shows dollars for API-key usage and window usage for subscriptions.',
+    body: 'Taksim imports what your coding agents already write to disk and prices each session by model, repo and task, including cache reads and writes. API-key usage is shown in billed dollars; subscription usage is shown as API-equivalent list-price dollars, labelled as quota, not billed.',
   },
   {
     title: 'Was the cheaper model enough?',
@@ -21,12 +21,12 @@ const valueProps = [
 const steps = [
   {
     title: 'Import',
-    body: 'Taksim reads the local history and hooks of Claude Code, the Claude desktop app and Codex, and imports Copilot usage reports. Each turn becomes a ledger line: model, tokens, cache, list-price cost.',
+    body: 'Taksim reads the local history and hooks of Claude Code, the Claude desktop app and Codex, and imports GitHub Copilot usage from its local session store. Each turn becomes a ledger line: model, tokens, cache, list-price cost.',
     detail: 'taksim setup',
   },
   {
     title: 'Judge',
-    body: 'An LLM judge looks at a finished turn and names the cheapest tier that would have passed. Use Claude inside your session, a local Ollama model, or a remote judge on your own API key.',
+    body: 'An LLM judge looks at a finished Claude Code turn and names the cheapest tier that would have passed. Use Claude inside your session, a local Ollama model, or a remote judge on your own API key.',
     detail: 'taksim judge enable --in-session',
   },
   {
@@ -36,7 +36,7 @@ const steps = [
   },
   {
     title: 'Report',
-    body: 'Every Monday, one report: spend, model mix, cache efficiency, judge coverage, and what a shadow policy would have changed. The shadow policy is counterfactual. Taksim never silently changes your model.',
+    body: 'One command, one weekly report: spend, model mix, cache efficiency, judge coverage, and what a shadow policy would have changed. The shadow policy is counterfactual. Taksim never silently changes your model.',
     detail: 'taksim report weekly --html',
   },
 ];
@@ -49,7 +49,7 @@ const tierMix = [
 const faq = [
   {
     q: 'Does Taksim change my model on a Claude or ChatGPT subscription?',
-    a: 'No. Subscription traffic is observed from local history and hooks. Model changes happen only on traffic billed to your own API key, and only if you turn routing on.',
+    a: 'No. Subscription traffic is observed from local history and hooks. Model changes happen only on traffic billed to your own API key, and only in sessions you launch with taksim claude or taksim codex.',
   },
   {
     q: 'Can I use the free version at work?',
@@ -65,11 +65,15 @@ const faq = [
   },
   {
     q: 'How complete is the pricing?',
-    a: 'Taksim prices about 99% of recorded usage, including Claude Opus 5.5 and Fable 5.1, at published list rates. taksim doctor shows your priced share.',
+    a: 'Taksim prices recorded usage at published list rates, including Claude Opus 5.5 and Fable 5.1. Models without a list price are excluded, never counted as free, and every report shows its priced coverage.',
   },
   {
     q: 'Which platforms are supported?',
-    a: 'The release installer targets Windows today. The install guide covers the full setup.',
+    a: 'Windows only, for now. The install guide covers the full setup.',
+  },
+  {
+    q: 'Can Taksim judge Codex or Copilot turns?',
+    a: 'Not yet. Codex and Copilot sessions are imported and priced, but judging covers Claude Code turns only.',
   },
 ];
 
@@ -85,8 +89,8 @@ export default function Home() {
             </h1>
             <p className="hero-lede">
               Taksim reads the local history and hooks of Claude Code, Codex and GitHub Copilot, prices every
-              session, and grades finished turns: was Opus needed, or would Sonnet have passed? It runs on your
-              machine and keeps no prompts or code.
+              session, and grades finished Claude Code turns: was Opus needed, or would Sonnet have passed? It runs
+              on your machine and keeps no prompts or code.
             </p>
             <div className="hero-actions">
               <Link className="btn btn-primary" href="/docs/getting-started">
@@ -195,10 +199,10 @@ export default function Home() {
       <section className="band report" aria-labelledby="report-title">
         <div className="shell">
           <div className="section-lead">
-            <h2 id="report-title">One report on Monday morning.</h2>
+            <h2 id="report-title">One command, one weekly report.</h2>
             <p>
-              taksim report weekly writes a single self-contained HTML file. Here is the shape of it, with sample
-              figures.
+              Run taksim report weekly --html for a single self-contained HTML file, or taksim digest for a one-page
+              summary of what you could have saved. Here is the shape of the report, with sample figures.
             </p>
           </div>
           <article className="report-doc" aria-label="Sample weekly report">
@@ -331,7 +335,7 @@ export default function Home() {
               <p>
                 On Claude and ChatGPT plans Taksim reads local history and hooks. It never sits between your client
                 and a subscription account, and never changes the model. Live routing applies only to traffic billed
-                to your own API key, and only if you turn it on.
+                to your own API key, and only in sessions you launch through Taksim.
               </p>
             </div>
           </div>

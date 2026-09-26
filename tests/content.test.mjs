@@ -46,8 +46,11 @@ test('keeps the CLI free for individuals, including at work, and publishes Team 
 
 test('keeps the Copilot managed-launch boundary explicit', async () => {
   const docs = await source('app/docs/page.tsx');
-  assert.match(docs, /Historical visibility only/);
+  const matrix = await source('lib/client-support.ts');
+  assert.match(docs, /Usage import from the local Copilot CLI session store/);
   assert.match(docs, /<td>Not available<\/td>/);
+  assert.match(matrix, /Usage import from the local Copilot CLI session store/);
+  assert.doesNotMatch(matrix, /GitHub usage reports/);
 });
 
 test('keeps first-time Windows installation self-contained in the docs', async () => {
@@ -128,7 +131,7 @@ test('keeps the client matrix in one config with subscriptions observe-only', as
     if (/plan/i.test(access)) assert.equal(route, 'no', access);
   }
   assert.match(matrix, /access: 'Anthropic API key'[\s\S]*?route: \{ state: 'yes'/);
-  assert.match(docs, /Responses gateway; native model selection in v0/);
+  assert.match(docs, /model rewrite only for proven model ids/);
   assert.doesNotMatch(docs, /<th>Devin<\/th>/);
   assert.doesNotMatch(llms, /Devin: managed/i);
 });
@@ -152,6 +155,62 @@ test('positions Taksim as a sufficiency ledger, not a control plane', async () =
     assert.doesNotMatch(text, /control plane/i);
     assert.doesNotMatch(text, /Selection and delegation governance/);
   }
+});
+
+const publicCopy = [
+  'app/page.tsx',
+  'app/pricing/page.tsx',
+  'app/docs/page.tsx',
+  'app/docs/getting-started/page.tsx',
+  'app/docs/sign-in/page.tsx',
+  'app/terms/page.tsx',
+  'app/privacy/page.tsx',
+  'app/contact/page.tsx',
+  'components/pricing-plans.tsx',
+  'components/ledger-stream.tsx',
+  'lib/client-support.ts',
+  'public/llms.txt',
+];
+
+test('makes no claim the current product does not back', async () => {
+  for (const path of publicCopy) {
+    const text = await source(path);
+    assert.doesNotMatch(text, /open[ -]source/i, path);
+    assert.doesNotMatch(text, /notify hook/i, path);
+    assert.doesNotMatch(text, /baseline readout|Book a readout|\$750/i, path);
+    assert.doesNotMatch(text, /window usage/i, path);
+    assert.doesNotMatch(text, /consent/i, path);
+    assert.doesNotMatch(text, /every Monday|on Monday/i, path);
+    assert.doesNotMatch(text, /usage reports/i, path);
+    assert.doesNotMatch(text, /licen[cs]e (?:key|boundar)/i, path);
+  }
+});
+
+test('states judging covers Claude Code turns only and Codex judging is not yet supported', async () => {
+  const matrix = await source('lib/client-support.ts');
+  const llms = await source('public/llms.txt');
+  const codexRows = [...matrix.matchAll(/client: 'Codex CLI',[\s\S]*?judge: \{\s*state: '(\w+)'/g)];
+  assert.equal(codexRows.length, 2);
+  for (const [, state] of codexRows) assert.equal(state, 'no');
+  assert.match(matrix, /History import from CODEX_HOME sessions/);
+  assert.match(llms, /Judging covers Claude Code turns only/);
+});
+
+test('labels subscription usage as quota and team exports as inspectable aliases', async () => {
+  const home = await source('app/page.tsx');
+  const plans = await source('components/pricing-plans.tsx');
+  assert.match(home, /API-equivalent list-price dollars, labelled as quota, not billed/);
+  assert.match(home, /One command, one weekly report/);
+  assert.match(plans, /Free for any individual, at home or at work/);
+  assert.match(plans, /can inspect it before sharing; exports carry repo aliases, never paths/);
+});
+
+test('flags the public installer as an early preview until the next release', async () => {
+  const quickstart = await source('app/docs/getting-started/page.tsx');
+  const llms = await source('public/llms.txt');
+  assert.match(quickstart, /is an early preview; judging\s+and reports described here ship in the next release/);
+  assert.match(llms, /early preview/);
+  assert.match(llms, /Windows only/);
 });
 
 test('publishes discovery files for the canonical domain', async () => {

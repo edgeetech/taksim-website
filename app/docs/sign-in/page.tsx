@@ -35,7 +35,7 @@ export default function SignInGuide() {
         <section id="model-display">
           <h2>Understanding the model display</h2>
           <p>In Auto mode, Taksim passes its initial model selection to Codex so the startup displays agree. An explicit model argument keeps your manual selection.</p>
-          <p>During execution, <code>Taksim · Auto request</code> describes the model selected for that request. Routing can change it as the work requires; the native client’s startup model is not a record of every later request.</p>
+          <p>During execution, <code>Taksim · Auto request</code> describes the model selected for that request. On API-key sessions, routing can change it as the work requires; the native client’s startup model is not a record of every later request.</p>
         </section>
         <section id="troubleshooting">
           <h2>If sign-in cannot be verified</h2>

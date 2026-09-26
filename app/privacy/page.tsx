@@ -44,8 +44,10 @@ export default function Privacy() {
             routing-advice service, and nothing leaves the machine unless you
             explicitly opt in to a hosted Taksim feature. This is a claim
             about Taksim&rsquo;s own telemetry and hosted services, not about
-            the native AI client you run through it: if you sign in to
-            Claude Code, Codex, or another provider-native client, that
+            the native AI client you run through it. If you choose a remote
+            judge (Anthropic or TypeSafe Jev, on your own key), that provider
+            receives truncated excerpts of the turns it grades. If you sign in
+            to Claude Code, Codex, or another provider-native client, that
             client still sends prompts and responses to its own provider
             under that provider&rsquo;s terms, independent of Taksim. Some
             adapters may inspect native client data or request content

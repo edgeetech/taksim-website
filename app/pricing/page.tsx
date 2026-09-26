@@ -14,7 +14,7 @@ const faq = [
   ],
   [
     'Does Taksim change my model on a Claude or ChatGPT subscription?',
-    'No. Subscription traffic is observed from local history and hooks. Model changes happen only on traffic billed to your own API key, and only if you turn routing on.',
+    'No. Subscription traffic is observed from local history and hooks. Model changes happen only on traffic billed to your own API key, and only in sessions you launch with taksim claude or taksim codex.',
   ],
   [
     'Is the “could have saved” number guaranteed?',
