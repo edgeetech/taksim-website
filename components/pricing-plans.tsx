@@ -26,7 +26,7 @@ export function PricingPlans({ locale }: { locale: Locale }) {
           <p className="plan-sub">{developer.sub}</p>
         </header>
         <Features items={developer.features} />
-        <Link className="btn btn-ghost" href={localePath(locale, '/docs/getting-started')}>
+        <Link className="btn btn-ghost" href={localePath(locale, '/docs/quick-start')}>
           {developer.cta}
         </Link>
       </article>

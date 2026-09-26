@@ -57,15 +57,21 @@ test('keeps the Copilot managed-launch boundary explicit', async () => {
 
 test('keeps first-time Windows installation self-contained in the docs', async () => {
   const quickstart = await source('components/pages/getting-started.tsx');
+  const easy = await source('components/pages/quick-start.tsx');
   const copy = await source(copyPath);
-  assert.match(
-    quickstart,
-    /https:\/\/github\.com\/edgeetech\/taksim-releases\/releases\/download\/v0\.2\.0\/install-release\.ps1/,
-  );
-  assert.match(quickstart, /Invoke-WebRequest \\`\r?\n\s+-Uri/);
-  assert.match(quickstart, /install-release\.ps1 \\`\r?\n\s+-Repository/);
-  assert.doesNotMatch(quickstart, /asozyurt\/taksim/);
-  assert.match(quickstart, /Version 0\.2\.0/);
+  for (const page of [quickstart, easy]) {
+    assert.match(page, /release\.installCommand/);
+    assert.doesNotMatch(page, /asozyurt\/taksim|install-release\.ps1|v\d+\.\d+\.\d+/);
+  }
+  assert.match(easy, /taksim setup/);
+  assert.match(easy, /taksim dashboard/);
+  assert.match(easy, /taksim update --apply/);
+  assert.match(copy, /More info\*\*, then \*\*Run anyway/);
+  assert.match(copy, /Unblock-File/);
+  assert.match(copy, /taksim notify clear/);
+  assert.match(copy, /\['Easy install', '\/docs\/quick-start'\]/);
+  assert.match(quickstart, /history import --client opencode/);
+  assert.match(quickstart, /history import --client devin_desktop/);
   assert.match(quickstart, /taksim version/);
   assert.match(quickstart, /taksim doctor/);
   assert.match(quickstart, /taksim install status/);
@@ -78,7 +84,7 @@ test('keeps first-time Windows installation self-contained in the docs', async (
   assert.match(quickstart, /history import --client github_copilot/);
   assert.match(copy, /Scope Process/);
   assert.doesNotMatch(quickstart + copy, /INSTALLATION\.md/);
-  assert.match(copy, /\['Install Taksim', '\/docs\/getting-started'\]/);
+  assert.match(copy, /\['Full install guide', '\/docs\/getting-started'\]/);
   assert.match(copy, /powershell/);
   assert.match(copy, /quickstart/);
   assert.match(copy, /claude code codex/);
@@ -161,11 +167,16 @@ const publicCopy = [
   'lib/i18n/en.ts',
   'lib/i18n/tr.ts',
   'components/pages/getting-started.tsx',
+  'components/pages/quick-start.tsx',
+  'components/pages/next-steps.tsx',
+  'components/pages/home.tsx',
+  'components/pages/docs-home.tsx',
   'components/pages/sign-in.tsx',
   'components/pages/terms.tsx',
   'components/pages/contact.tsx',
   'components/ledger-stream.tsx',
   'lib/client-support.ts',
+  'release/llms.template.txt',
   'public/llms.txt',
 ];
 
@@ -183,15 +194,16 @@ test('makes no claim the current product does not back', async () => {
   }
 });
 
-test('states judging covers Claude Code turns only and Codex judging is not yet supported', async () => {
+test('states which clients are judged and that Copilot and Devin CLI are not', async () => {
   const { clientSupport } = await import('../lib/client-support.ts');
   const { en } = await import('../lib/i18n/en.ts');
   const llms = await source('public/llms.txt');
-  const codexRows = clientSupport.filter((row) => en.matrix.rows[row.id].client === 'Codex CLI');
-  assert.equal(codexRows.length, 2);
-  for (const row of codexRows) assert.equal(row.cells.judge, 'no');
+  const judged = (id) => clientSupport.find((row) => row.id === id)?.cells.judge;
+  for (const id of ['claudeCodePlan', 'codexPlan', 'codexApi', 'devinDesktop', 'openCodeKilo', 'pi']) assert.equal(judged(id), 'yes', id);
+  for (const id of ['copilotPlan', 'devinCli']) assert.equal(judged(id), 'no', id);
   assert.match(en.matrix.rows.codexPlan.observe, /History import from CODEX_HOME sessions/);
-  assert.match(llms, /Judging covers Claude Code turns only/);
+  assert.match(llms, /GitHub Copilot CLI: usage import .* Not judged/);
+  assert.doesNotMatch(llms + (await source(copyPath)), /Judging covers Claude Code turns only/);
 });
 
 test('labels subscription usage as quota and team exports as inspectable aliases', async () => {
@@ -202,12 +214,12 @@ test('labels subscription usage as quota and team exports as inspectable aliases
   assert.match(copy, /can inspect it before sharing; exports carry repo aliases, never paths/);
 });
 
-test('points every install and release reference at v0.2.0', async () => {
-  const quickstart = await source('components/pages/getting-started.tsx');
+test('takes the release version and install command from the release manifest', async () => {
+  const manifest = JSON.parse(await source('release/manifest.json'));
   const llms = await source('public/llms.txt');
-  assert.match(quickstart, /releases\/download\/v0\.2\.0\/install-release\.ps1/);
-  assert.match(llms, /Current release: v0\.2\.0/);
-  assert.match(llms, /Windows only/);
+  assert.match(llms, new RegExp(`Current release: ${manifest.tag.replaceAll('.', '\\.')}\\.`));
+  assert.ok(llms.includes(manifest.install.oneLine));
+  assert.match(llms, /Windows x64 only/);
   for (const path of publicCopy) {
     const text = await source(path);
     assert.doesNotMatch(text, /0\.1\.1|early preview|source\/development build/i, path);

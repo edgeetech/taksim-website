@@ -28,6 +28,21 @@ export const en = {
         description:
           'Preview terms describing free developer use, Team use, third-party providers, verification, and economics boundaries.',
       },
+      quickStart: {
+        title: 'Easy install',
+        description:
+          'Install Taksim on Windows in three steps: one PowerShell line, taksim setup, taksim dashboard. Troubleshooting, update and uninstall.',
+      },
+      gettingStarted: {
+        title: 'Install guide',
+        description:
+          'The complete Taksim install guide: prerequisites, the verified one-line installer, checks, managed sessions and history import.',
+      },
+      nextSteps: {
+        title: 'Next steps',
+        description:
+          'After setup: the local dashboard, judging, budgets, the weekly digest, Slack and webhook alerts, and the team roll-up.',
+      },
       contact: {
         title: 'Talk to Taksim — Team Assessment',
         description:
@@ -83,8 +98,10 @@ export const en = {
   home: {
     hero: {
       title: 'See where your AI coding spend goes, and when a cheaper model would have done the job.',
-      lede: 'Taksim reads the local history and hooks of Claude Code, Codex and GitHub Copilot, prices every session, and grades finished Claude Code turns: was Opus needed, or would Sonnet have passed? It runs on your machine and keeps no prompts or code.',
+      lede: 'Taksim reads the local history and hooks of Claude Code, Codex, GitHub Copilot and other coding agents, prices every session, and grades finished turns: was Opus needed, or would Sonnet have passed? It runs on your machine and keeps no prompts or code.',
       seeHow: 'See how it works',
+      installLabel: 'Install on Windows with one PowerShell line',
+      installGuide: 'Easy install in 3 steps',
       footnote: 'Free for individual developers. Teams pay for the roll-up.',
     },
     valuesLabel: 'What Taksim does',
@@ -126,12 +143,12 @@ export const en = {
     steps: [
       {
         title: 'Import',
-        body: 'Taksim reads the local history and hooks of Claude Code, the Claude desktop app and Codex, and imports GitHub Copilot usage from its local session store. Each turn becomes a ledger line: model, tokens, cache, list-price cost.',
+        body: 'Taksim reads the local history and hooks of Claude Code, the Claude desktop app, Codex, GitHub Copilot, Devin, OpenCode, Kilo Code and Pi. Each turn becomes a ledger line: model, tokens, cache, list-price cost.',
         detail: 'taksim setup',
       },
       {
         title: 'Judge',
-        body: 'An LLM judge looks at a finished Claude Code turn and names the cheapest tier that would have passed. Use Claude inside your session, a local Ollama model, or a remote judge on your own API key.',
+        body: 'An LLM judge looks at a finished turn and names the cheapest tier that would have passed. Use Claude or Codex inside your session, a local Ollama model, or a remote judge on your own API key.',
         detail: 'taksim judge enable --in-session',
       },
       {
@@ -141,13 +158,13 @@ export const en = {
       },
       {
         title: 'Report',
-        body: 'One command, one weekly report: spend, model mix, cache efficiency, judge coverage, and what a shadow policy would have changed. The shadow policy is counterfactual. Taksim never silently changes your model.',
-        detail: 'taksim report weekly --html',
+        body: 'A local dashboard and a weekly report: spend, model mix, cache efficiency, judge coverage, and what a shadow policy would have changed. The shadow policy is counterfactual. Taksim never silently changes your model.',
+        detail: 'taksim dashboard',
       },
     ],
     report: {
       title: 'One command, one weekly report.',
-      body: 'Run taksim report weekly --html for a single self-contained HTML file, or taksim digest for a one-page summary of what you could have saved. Here is the shape of the report, with sample figures.',
+      body: 'Run taksim dashboard to browse it locally, taksim report weekly --html for a single self-contained HTML file, or taksim digest for a one-page summary of what you could have saved. Here is the shape of the report, with sample figures.',
       docLabel: 'Sample weekly report',
       heading: 'Weekly report',
       range: 'Last 7 days, all clients',
@@ -224,11 +241,11 @@ export const en = {
       },
       {
         q: 'Which platforms are supported?',
-        a: 'Windows only, for now. The install guide covers the full setup.',
+        a: 'Windows only, for now. The easy install takes three steps.',
       },
       {
-        q: 'Can Taksim judge Codex or Copilot turns?',
-        a: 'Not yet. Codex and Copilot sessions are imported and priced, but judging covers Claude Code turns only.',
+        q: 'Which turns can Taksim judge?',
+        a: 'Claude Code, Codex, OpenCode, Kilo Code, Pi and Devin Desktop turns. OpenCode, Kilo Code and Pi turns are judged when they ran on Claude-tier models. GitHub Copilot and Devin CLI sessions are imported and priced, but not judged yet.',
       },
     ],
     cta: {
@@ -268,10 +285,10 @@ export const en = {
       price: 'Free',
       sub: 'Free for any individual, at home or at work.',
       features: [
-        'History import for Claude Code, Codex and Copilot',
+        'History import for Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code and Pi',
         'Priced sessions, model mix and cache efficiency',
-        'Turn-by-turn judging of Claude Code sessions with your choice of judge (in-session Claude, Ollama, your own API key)',
-        'Weekly report, digest and status line',
+        'Turn-by-turn judging with your choice of judge (in-session Claude or Codex, Ollama, your own API key)',
+        'Local dashboard, weekly report, digest and status line',
         'Optional live routing for API-key traffic',
       ],
       cta: 'Install Taksim',
@@ -327,7 +344,7 @@ export const en = {
     capabilities: {
       observe: {
         label: 'Observe',
-        description: 'Prices each session by model from local history, hooks or the Copilot CLI session store.',
+        description: 'Prices each session by model from local history, hooks or the client’s own session store.',
       },
       judge: {
         label: 'Judge',
@@ -365,23 +382,50 @@ export const en = {
         client: 'Codex CLI',
         access: 'ChatGPT plan',
         observe: 'History import from CODEX_HOME sessions.',
-        judge: 'Not yet. Judging covers Claude Code turns only.',
+        judge: 'History judging and an in-session Stop hook.',
         route: 'Not offered. No proxy and no model changes.',
       },
       codexApi: {
         client: 'Codex CLI',
         access: 'OpenAI API key',
         observe: 'History import and the local gateway.',
-        judge:
-          'Not yet. Only the experimental Jev judge grades these turns, and one weak judge never counts toward savings.',
+        judge: '',
         route: 'Optional, through the local gateway, in sessions you start with taksim codex.',
       },
       copilotPlan: {
         client: 'GitHub Copilot',
         access: 'Copilot plan',
         observe: 'Usage import from the local Copilot CLI session store.',
-        judge: '',
+        judge: 'Not yet.',
         route: 'No request-time routing. taksim copilot only picks the startup model.',
+      },
+      devinCli: {
+        client: 'Devin CLI',
+        access: 'Devin plan',
+        observe: 'History import from the local Devin session store.',
+        judge: 'Not yet.',
+        route: 'No request-time routing.',
+      },
+      devinDesktop: {
+        client: 'Devin Desktop',
+        access: 'Formerly Windsurf, Devin plan',
+        observe: 'History import from the local ACP event log.',
+        judge: '',
+        route: 'Never routed. No proxy and no model changes.',
+      },
+      openCodeKilo: {
+        client: 'OpenCode and Kilo Code',
+        access: 'Your own provider settings',
+        observe: 'History import from the local session databases.',
+        judge: 'Turns that ran on Claude-tier models.',
+        route: 'Not offered.',
+      },
+      pi: {
+        client: 'Pi and Oh My Pi',
+        access: 'Your own provider settings',
+        observe: 'History import from local session files.',
+        judge: 'Turns that ran on Claude-tier models.',
+        route: 'Not offered.',
       },
     },
     footnote:
@@ -409,8 +453,20 @@ export const en = {
       {
         title: 'Quickstart',
         links: [
-          ['Install Taksim', '/docs/getting-started'],
+          ['Easy install', '/docs/quick-start'],
+          ['Full install guide', '/docs/getting-started'],
+          ['Next steps', '/docs/next-steps'],
           ['Sign in (optional)', '/docs/sign-in'],
+        ],
+      },
+      {
+        title: 'Use Taksim',
+        links: [
+          ['Dashboard', '/docs/next-steps#dashboard'],
+          ['Judging', '/docs/next-steps#judging'],
+          ['Budgets, digest and alerts', '/docs/next-steps#budgets'],
+          ['Team roll-up', '/docs/next-steps#team'],
+          ['Update and uninstall', '/docs/quick-start#update'],
         ],
       },
       {
@@ -429,6 +485,8 @@ export const en = {
           ['Claude Code', '/docs#client-compatibility'],
           ['Codex', '/docs#client-compatibility'],
           ['GitHub Copilot', '/docs#client-compatibility'],
+          ['Devin and Devin Desktop', '/docs#client-compatibility'],
+          ['OpenCode, Kilo Code and Pi', '/docs#client-compatibility'],
         ],
       },
     ] as { title: string; links: [string, string][] }[],
@@ -452,11 +510,24 @@ export const en = {
         keywords: 'subscription max pro api key rewrite observe quota baseline report',
       },
       {
-        title: 'Install Taksim',
-        copy: 'Install the verified Windows release, verify it, and start Claude Code or Codex.',
+        title: 'Easy install',
+        copy: 'Three steps: one PowerShell line, taksim setup, taksim dashboard. Troubleshooting, update and uninstall.',
+        href: '/docs/quick-start',
+        keywords:
+          'quickstart easy install one line irm iex setup dashboard smartscreen unblock execution policy path doctor update uninstall',
+      },
+      {
+        title: 'Full install guide',
+        copy: 'Install the verified Windows release, check it, and start Claude Code or Codex.',
         href: '/docs/getting-started',
         keywords:
-          'quickstart install setup cli start release v0.2.0 windows powershell checksum claude code codex doctor troubleshooting',
+          'quickstart install setup cli start latest release windows powershell checksum claude code codex doctor troubleshooting history import',
+      },
+      {
+        title: 'Next steps',
+        copy: 'Dashboard, judging, budgets, the weekly digest, Slack and webhook alerts, and the team roll-up.',
+        href: '/docs/next-steps',
+        keywords: 'dashboard judge budget digest slack webhook notify alerts team export summary',
       },
       {
         title: 'How Taksim works',
@@ -466,7 +537,7 @@ export const en = {
       },
       {
         title: 'Client compatibility',
-        copy: 'See exact support boundaries for Claude Code, Codex, and Copilot.',
+        copy: 'See exact support boundaries for Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code and Pi.',
         href: '#client-compatibility',
         keywords: 'history managed live observation import',
       },
@@ -504,7 +575,7 @@ export const en = {
       items: [
         {
           term: 'Judge',
-          body: 'An LLM judge grades a completed Claude Code turn and names the cheapest tier that would have passed: in-session Claude, your Anthropic API key, TypeSafe Jev with your own key, or a local Ollama model. Codex and Copilot turns are priced but not yet judged.',
+          body: 'An LLM judge grades a completed turn and names the cheapest tier that would have passed: in-session Claude or Codex, your Anthropic API key, TypeSafe Jev with your own key, or a local Ollama model. Claude Code, Codex, OpenCode, Kilo Code, Pi and Devin Desktop turns can be judged; Copilot and Devin CLI turns are priced but not yet judged.',
         },
         {
           term: 'Consensus',
@@ -527,7 +598,7 @@ export const en = {
       title: 'Subscriptions are observed, not rewritten',
       body: 'If Claude Code is authenticated with a Claude subscription (Max or Pro, Team or Enterprise), Taksim does not rewrite the model and never sits between Claude Code and the subscription account. `taksim claude` launches Claude Code natively and observes it from local transcripts and hooks. Model rewrite only applies to API-key traffic, in sessions you launch through Taksim. The same applies to Codex on a ChatGPT plan, which is observed from its local session history.',
       body2:
-        'Subscription usage is shown as API-equivalent list-price dollars, labelled as quota, not billed. For subscription users, the value is quota visibility, a baseline report (`taksim report baseline`) and judge verdicts on finished Claude Code turns, not a savings promise.',
+        'Subscription usage is shown as API-equivalent list-price dollars, labelled as quota, not billed. For subscription users, the value is quota visibility, a baseline report (`taksim report baseline`) and judge verdicts on finished turns, not a savings promise.',
     },
     verification: {
       title: 'Verification is evidence-dependent',
@@ -550,7 +621,7 @@ export const en = {
           'Codex',
           'Available',
           'API key only, optional',
-          'Not yet',
+          'Available',
           'Responses gateway on API keys; model rewrite only for proven model ids; ChatGPT sign-in is observed, never rewritten',
         ],
         [
@@ -560,10 +631,26 @@ export const en = {
           'Not yet',
           'Usage import from the local Copilot CLI session store; startup model selection only',
         ],
+        ['Devin CLI', 'Available', 'Not available', 'Not yet', 'History import only'],
+        [
+          'Devin Desktop',
+          'Available',
+          'Not available',
+          'Available',
+          'Formerly Windsurf; observed from its local event log, never routed',
+        ],
+        [
+          'OpenCode, Kilo Code',
+          'Available',
+          'Not available',
+          'Claude-tier models',
+          'History import from local session databases',
+        ],
+        ['Pi, Oh My Pi', 'Available', 'Not available', 'Claude-tier models', 'History import from local session files'],
       ],
     },
     next: 'Next',
-    nextLink: 'Install Taksim',
+    nextLink: 'Easy install',
     toc: {
       label: 'On this page',
       how: 'How Taksim works',
@@ -575,13 +662,92 @@ export const en = {
     },
   },
 
+  quickStart: {
+    eyebrow: 'Quickstart',
+    title: 'Easy install',
+    lede: 'Three steps, about two minutes. No account and no administrator rights. Windows x64 for now.',
+    install: {
+      title: '1. Install',
+      body: 'Open **PowerShell** (press Start, type PowerShell, press Enter), paste this line and press Enter:',
+      after:
+        'It downloads the latest Taksim release, checks it against the published checksums, installs it for your user only and adds `taksim` to your PATH. When it finishes, it starts step 2 for you.',
+      copy: 'Copy',
+      copied: 'Copied',
+    },
+    setup: {
+      title: '2. Run setup',
+      body: 'If setup did not start on its own, open a new PowerShell window and run:',
+      seeTitle: 'What you will see',
+      see: [
+        '**Detected clients**: the coding agents found on this machine, such as Claude Code, Codex, GitHub Copilot, OpenCode, Kilo Code and Pi.',
+        '**Credential mode**: a subscription sign-in is shown as observe-only. Taksim reads its transcripts and hooks; no traffic passes through Taksim.',
+        '**Import and pricing**: the history those clients already keep is imported and priced at list rates.',
+        '**One question** about the Claude desktop Stop hook (`Install it? [Y/n]`). It lets Claude grade its own finished turns. Press Enter to accept, or type `n` to skip.',
+        '**Your first report** and the next commands to try. You can rerun setup at any time.',
+      ],
+    },
+    dashboard: {
+      title: '3. Open the dashboard',
+      body: 'Setup opens it when it finishes. To open it again later:',
+      after:
+        'The dashboard runs only on your machine (127.0.0.1) and is read-only: spend by repo, model and client, what a cheaper model could have saved where two judges agree, judge coverage and cache efficiency. Press Ctrl+C in the terminal to stop it.',
+    },
+    doneTitle: 'That is it',
+    doneBody:
+      'Keep using your coding agents as usual; Taksim reads what they already write to disk. See [next steps](/docs/next-steps) for judging, budgets, Slack alerts and team reports, or the [full install guide](/docs/getting-started) for every detail.',
+    troubleshooting: {
+      title: 'If something goes wrong',
+      items: [
+        {
+          q: 'Windows SmartScreen or your antivirus blocks `taksim.exe`',
+          a: 'The Taksim binary is not code-signed yet, so Windows may warn about an unrecognised app. If SmartScreen appears, choose **More info**, then **Run anyway**. If Windows says the file came from another computer, unblock the installed copy and try again: `Unblock-File "$env:LOCALAPPDATA\\Taksim\\current\\taksim.exe"`',
+        },
+        {
+          q: 'PowerShell says running scripts is disabled',
+          a: 'For this PowerShell window only, run `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass`, then paste the install line again. Do not change the machine-wide policy.',
+        },
+        {
+          q: 'PowerShell cannot find `taksim`',
+          a: 'Close PowerShell and open a new window so it picks up the updated PATH, then run `taksim version`. If it is still missing, run the install line again; running it twice is safe.',
+        },
+        {
+          q: 'Something else looks wrong',
+          a: 'Run `taksim doctor`. It checks the installation, your clients, the credential mode and coverage, and says what to fix. If the problem stays, send that output to [support](mailto:info@edgee.tech?subject=Taksim%20support).',
+        },
+      ],
+    },
+    update: {
+      title: 'Update',
+      body: '`taksim doctor` tells you when a newer release is out. To check, and then install it:',
+      after: 'Updating keeps your data and settings. Running the install line again does the same.',
+    },
+    uninstall: {
+      title: 'Uninstall',
+      body: 'There is no uninstall command yet. To remove Taksim completely:',
+      steps: [
+        'If you turned them on, remove the hooks Taksim added to Claude Code and Codex, and the saved Slack or webhook address: `taksim judge disable --user-settings`, `taksim judge disable --codex-settings`, `taksim cache-guard disable` and `taksim notify clear`.',
+        'Delete the program folder `%LOCALAPPDATA%\\Taksim`, and remove its `current` entry from your user PATH (Start, type “environment variables”, Edit environment variables for your account).',
+        'To delete your local ledger and reports too, delete `%USERPROFILE%\\.taksim`. This cannot be undone.',
+      ],
+    },
+    toc: {
+      label: 'On this page',
+      install: 'Install',
+      setup: 'Run setup',
+      dashboard: 'Open the dashboard',
+      troubleshooting: 'Troubleshooting',
+      update: 'Update',
+      uninstall: 'Uninstall',
+    },
+  },
+
   gettingStarted: {
     eyebrow: 'Quickstart',
-    title: 'Install Taksim',
-    lede: 'Set up Taksim on Windows, check the local installation, and start your first managed Claude Code or Codex session without leaving the documentation.',
+    title: 'Install guide',
+    lede: 'Every detail of installing Taksim on Windows: what the installer checks, how to confirm it worked, and how to start your first session. For the short version, use the [easy install](/docs/quick-start).',
     noAccountTitle: 'No Taksim account required',
     noAccountBody:
-      'Install and run `taksim claude` or `taksim codex` directly. Taksim sign-in is opt-in and off by default; it only matters if an operator turns on hosted features. See the [optional sign-in guide](/docs/sign-in).',
+      'Install and run Taksim directly. Taksim sign-in is opt-in and off by default; it only matters if an operator turns on hosted features. See the [optional sign-in guide](/docs/sign-in).',
     plan: {
       title: '1. Confirm your plan',
       body: 'The Taksim CLI is free for any individual developer, at home or at work. Team features such as the team roll-up are paid.',
@@ -592,35 +758,41 @@ export const en = {
     },
     prerequisites: {
       title: '2. Check the prerequisites',
-      body: 'You need a Windows computer, PowerShell, and one signed-in coding client. No Taksim account is required. Install and sign in to either [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) or [Codex](https://developers.openai.com/codex/cli/). You only need one; choose it later in this guide.',
+      body: 'You need Windows x64 with Windows PowerShell 5.1 or PowerShell 7; no administrator rights or .NET SDK. No Taksim account is required. Taksim works from the coding clients you already use, such as [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) or [Codex](https://developers.openai.com/codex/cli/); install and sign in to at least one of them.',
     },
     install: {
-      title: '3. Download and install',
-      body: 'Open PowerShell in a folder where you are happy to keep the temporary installer file, then run both commands below. The installer downloads the selected release over HTTPS, checks its published SHA-256 checksum, validates the binary, and only then switches the local installation to that version.',
+      title: '3. Install with one line',
+      body: 'Open PowerShell and run the command below. It downloads the latest release over HTTPS, checks the Connector archive and the installer against the published `SHA256SUMS.txt` (and stops if anything does not match), installs into `%LOCALAPPDATA%\\Taksim`, adds it to your user PATH and then runs `taksim setup`.',
+      pinnedTitle: 'Pin a version or skip setup',
+      pinnedBody: 'To install one specific release without running setup afterwards:',
       note: 'Taksim keeps its versioned binaries under `%LOCALAPPDATA%\\Taksim` and its separate user data under `%USERPROFILE%\\.taksim`. Installing an updated version does not replace that user-data directory.',
     },
     verify: {
       title: '4. Verify the installation',
       body: 'Open a new PowerShell terminal so Windows can pick up the Taksim command, then run:',
       after:
-        'All three commands should complete successfully. `doctor` checks the local environment; `install status` shows the installed version and path.',
+        'All three commands should complete successfully. `doctor` checks the local environment and says when an update is available; `install status` shows the installed version and path.',
+    },
+    setup: {
+      title: '5. Run setup and open the dashboard',
+      body: 'The installer runs setup for you. Run it again at any time; it is safe to repeat. It detects your clients and their credential mode, imports and prices their history, turns on in-session judging and writes your first report. Then open the local dashboard:',
     },
     session: {
-      title: '5. Start your first session',
-      body: 'Run one command for the coding client you installed. Do not run both commands. Any arguments intended for your native client can continue after the selected command.',
+      title: '6. Optional: start a managed session',
+      body: 'You can keep running `claude`, `codex` and your other clients exactly as before; Taksim reads their history. To let Taksim launch Claude Code or Codex with its hooks and status line (and optional routing on API-key traffic), run one of these. Arguments for the native client can follow the command.',
       expectTitle: 'What to expect',
       expectBody:
-        'Taksim prepares its local Connector on `127.0.0.1`, then opens your selected native client. If the local Taksim path is unavailable, the client fails open to its native behaviour. Everything runs locally by default; nothing leaves the machine unless you explicitly opt in to hosted features or a remote judge.',
+        'On a Claude or ChatGPT subscription, Taksim starts the client natively and observes it; no traffic passes through Taksim. With an API key, Taksim prepares its local gateway on `127.0.0.1` first; if the managed path is unavailable, the client falls back to its native behaviour. Everything runs locally by default; nothing leaves the machine unless you explicitly opt in to hosted features or a remote judge.',
     },
     inspect: {
-      title: '6. Inspect the latest session',
+      title: '7. Inspect the latest session',
       body: 'After completing a managed task, inspect the verification evidence Taksim recorded for the latest observed request:',
       after:
         'The explanation keeps missing or incomplete evidence explicit; a successful provider response is not presented as proof by itself.',
     },
     history: {
-      title: 'Optional: import existing history',
-      body: 'History import is not required for your first managed session. If you already use one of the supported clients, import its local history when you are ready:',
+      title: 'Optional: import history again',
+      body: 'Setup already imports every client it detects. To import again later, or to import a client setup did not find:',
     },
     troubleshooting: {
       title: 'Troubleshooting',
@@ -630,8 +802,8 @@ export const en = {
           a: 'Close PowerShell, open a new terminal, and run `taksim version` again. If it is still unavailable, rerun the installer and then use `taksim doctor` to inspect the local setup.',
         },
         {
-          q: 'Claude Code or Codex cannot be found',
-          a: 'Install the one client you selected using its official guide above, sign in to that client, open a new PowerShell terminal, and rerun the matching `taksim claude` or `taksim codex` command.',
+          q: 'Windows SmartScreen blocks `taksim.exe`',
+          a: 'The binary is not code-signed yet. Choose **More info**, then **Run anyway**, or unblock the installed copy with `Unblock-File "$env:LOCALAPPDATA\\Taksim\\current\\taksim.exe"`.',
         },
         {
           q: 'The installer script is blocked',
@@ -647,12 +819,49 @@ export const en = {
       label: 'On this page',
       plan: 'Confirm your plan',
       prerequisites: 'Prerequisites',
-      install: 'Download and install',
+      install: 'Install',
       verify: 'Verify installation',
-      session: 'Start a session',
+      setup: 'Setup and dashboard',
+      session: 'Managed session',
       inspect: 'Inspect latest session',
       history: 'Import history',
       troubleshooting: 'Troubleshooting',
+    },
+  },
+
+  nextSteps: {
+    eyebrow: 'Next steps',
+    title: 'After setup',
+    lede: 'Short guides for what most people turn on next. Everything runs on your machine.',
+    dashboard: {
+      title: 'Dashboard',
+      body: 'A local, read-only dashboard in your browser with Overview, Costs (by repo, task, client, model or day), Sessions, Judge and Team pages. **Share summary** exports a one-page executive summary that carries repository aliases only; the second command writes the same summary as a file.',
+    },
+    judging: {
+      title: 'Judging: was the cheaper model enough?',
+      body: 'Setup turns on in-session judging for sessions you start with `taksim claude`. To also grade Claude desktop and plain `claude` sessions, or Codex sessions, add the user-level Stop hooks (Codex asks you to trust its hook once, in `/hooks`):',
+      history:
+        'To grade the history you imported with a judge you choose (a local Ollama model, or your own Anthropic key), start with a dry run that shows how many turns would be graded and the estimated cost:',
+      after:
+        'The in-session judge asks at the end of a session and you can decline. `judge status` shows coverage and agreement. Only verdicts where two judges agree, one of them strong, count toward the “could have saved” figure.',
+    },
+    budgets: {
+      title: 'Budgets, the weekly digest and Slack alerts',
+      body: 'Budgets are warnings, never limits: set a daily or monthly amount in API-equivalent dollars for yourself, a repo or the team, and Taksim shows it in the status line and warns at 75%, 90% and 100%.',
+      digest: 'The digest is a one-page “what you could have saved” summary, written to a file:',
+      notify:
+        'To receive the digest and budget alerts in Slack or any webhook, save the address once (it is stored in Windows Credential Manager, and only aggregates and repo aliases are sent), send a test, then post the digest:',
+    },
+    team: {
+      title: 'Team roll-up',
+      body: 'Each developer writes a metadata-only export into a shared folder and can inspect it before sharing; exports carry repo aliases, never paths. The team lead combines them into one report, or opens them in the dashboard. The team roll-up is part of the [Team plan](/pricing).',
+    },
+    toc: {
+      label: 'On this page',
+      dashboard: 'Dashboard',
+      judging: 'Judging',
+      budgets: 'Budgets and alerts',
+      team: 'Team roll-up',
     },
   },
 

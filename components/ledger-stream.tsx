@@ -99,7 +99,7 @@ export function LedgerStream({ t }: { t: Dictionary['ledger'] }) {
           <i />
           <i />
         </span>
-        <span>taksim ledger</span>
+        <span>Taksim ledger</span>
         <span className={running ? 'ledger-live is-live' : 'ledger-live'}>
           {running ? t.recording : t.paused}
         </span>

@@ -9,7 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     );
     return locales.map((locale) => ({
       url: `${siteUrl}${locale === 'en' ? path : localePath(locale, route === '/' ? '/' : path)}`,
-      lastModified: new Date('2026-09-13'),
+      lastModified: new Date('2026-09-26'),
       changeFrequency: path.startsWith('/docs') ? ('weekly' as const) : ('monthly' as const),
       priority: path === '' ? 1 : path === '/docs' ? 0.9 : 0.7,
       alternates: { languages },

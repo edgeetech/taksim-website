@@ -1,8 +1,10 @@
 import Link from 'next/link';
 import { ClientMatrix } from '@/components/client-matrix';
+import { CopyCommand } from '@/components/copy-command';
 import { LedgerStream } from '@/components/ledger-stream';
 import { PricingPlans } from '@/components/pricing-plans';
 import { getDictionary, localePath, type Locale } from '@/lib/i18n';
+import { release } from '@/lib/release';
 
 const tierMix = [
   { key: 'tierTop', share: 70, tone: 'top' },
@@ -22,11 +24,22 @@ export function HomePage({ locale }: { locale: Locale }) {
             <h1 id="hero-title">{t.hero.title}</h1>
             <p className="hero-lede">{t.hero.lede}</p>
             <div className="hero-actions">
-              <Link className="btn btn-primary" href={href('/docs/getting-started')}>
+              <Link className="btn btn-primary" href={href('/docs/quick-start')}>
                 {dict.chrome.install}
               </Link>
               <Link className="btn btn-ghost" href="#how-it-works">
                 {t.hero.seeHow}
+              </Link>
+            </div>
+            <div className="hero-install">
+              <span>{t.hero.installLabel}</span>
+              <CopyCommand
+                command={release.installCommand}
+                copy={dict.quickStart.install.copy}
+                copied={dict.quickStart.install.copied}
+              />
+              <Link className="text-link" href={href('/docs/quick-start')}>
+                {t.hero.installGuide} →
               </Link>
             </div>
             <p className="hero-footnote">{t.hero.footnote}</p>
@@ -271,7 +284,7 @@ export function HomePage({ locale }: { locale: Locale }) {
           <h2 id="cta-title">{t.cta.title}</h2>
           <p>{t.cta.body}</p>
           <div className="hero-actions">
-            <Link className="btn btn-primary" href={href('/docs/getting-started')}>
+            <Link className="btn btn-primary" href={href('/docs/quick-start')}>
               {dict.chrome.install}
             </Link>
             <Link className="btn btn-ghost" href={href('/docs')}>

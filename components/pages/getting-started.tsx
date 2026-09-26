@@ -1,24 +1,24 @@
 import Link from 'next/link';
 import { Rich } from '@/components/rich';
 import { getDictionary, localePath, type Locale } from '@/lib/i18n';
-
-const installerCommand = `Invoke-WebRequest \`
-  -Uri 'https://github.com/edgeetech/taksim-releases/releases/download/v0.2.0/install-release.ps1' \`
-  -OutFile '.\\install-release.ps1'
-
-.\\install-release.ps1 \`
-  -Repository edgeetech/taksim-releases \`
-  -Version 0.2.0`;
+import { release } from '@/lib/release';
 
 const verificationCommand = `taksim version
 taksim doctor
 taksim install status`;
 
+const setupCommand = `taksim setup
+taksim dashboard`;
+
 const historyCommands = [
   ['Claude Code', 'taksim history import'],
   ['Codex', 'taksim history import --client codex'],
-  ['Devin', 'taksim history import --client devin'],
   ['GitHub Copilot', 'taksim history import --client github_copilot'],
+  ['Devin', 'taksim history import --client devin'],
+  ['Devin Desktop', 'taksim history import --client devin_desktop'],
+  ['OpenCode', 'taksim history import --client opencode'],
+  ['Kilo Code', 'taksim history import --client kilo'],
+  ['Pi / Oh My Pi', 'taksim history import --client pi'],
 ];
 
 export function GettingStartedPage({ locale }: { locale: Locale }) {
@@ -30,7 +30,7 @@ export function GettingStartedPage({ locale }: { locale: Locale }) {
         <header className="docs-article-header">
           <span>{t.eyebrow}</span>
           <h1>{t.title}</h1>
-          <p>{t.lede}</p>
+          <p>{rich(t.lede)}</p>
         </header>
 
         <div className="docs-callout">
@@ -63,11 +63,18 @@ export function GettingStartedPage({ locale }: { locale: Locale }) {
 
         <section id="install">
           <h2>{t.install.title}</h2>
-          <p>{t.install.body}</p>
+          <p>{rich(t.install.body)}</p>
           <div className="docs-command-list">
             <pre>
-              <code>{installerCommand}</code>
+              <code>{release.installCommand}</code>
             </pre>
+            <details>
+              <summary>{t.install.pinnedTitle}</summary>
+              <p>{t.install.pinnedBody}</p>
+              <pre>
+                <code>{release.pinnedInstallCommand}</code>
+              </pre>
+            </details>
           </div>
           <p className="docs-note">{rich(t.install.note)}</p>
         </section>
@@ -83,9 +90,19 @@ export function GettingStartedPage({ locale }: { locale: Locale }) {
           <p>{rich(t.verify.after)}</p>
         </section>
 
+        <section id="setup">
+          <h2>{t.setup.title}</h2>
+          <p>{rich(t.setup.body)}</p>
+          <div className="docs-command-list">
+            <pre>
+              <code>{setupCommand}</code>
+            </pre>
+          </div>
+        </section>
+
         <section id="start-session">
           <h2>{t.session.title}</h2>
-          <p>{t.session.body}</p>
+          <p>{rich(t.session.body)}</p>
           <div className="docs-command-list">
             <details open>
               <summary>Claude Code</summary>
@@ -150,6 +167,7 @@ export function GettingStartedPage({ locale }: { locale: Locale }) {
         <Link href="#prerequisites">{t.toc.prerequisites}</Link>
         <Link href="#install">{t.toc.install}</Link>
         <Link href="#verify-install">{t.toc.verify}</Link>
+        <Link href="#setup">{t.toc.setup}</Link>
         <Link href="#start-session">{t.toc.session}</Link>
         <Link href="#verify-session">{t.toc.inspect}</Link>
         <Link href="#import-history">{t.toc.history}</Link>

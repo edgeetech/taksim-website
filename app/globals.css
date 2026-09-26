@@ -2421,3 +2421,68 @@ h3 {
     padding: 96px 0;
   }
 }
+
+/* One-line install: home hero and easy-install page */
+.copy-command {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  margin: 14px 0;
+}
+.copy-command pre {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  margin: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--night);
+  color: #b7e9df;
+  font-size: 0.73rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.copy-command button {
+  flex: none;
+  padding: 0 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--surface-raised);
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.copy-command button:hover {
+  border-color: var(--turquoise);
+  color: var(--turquoise-bright);
+}
+.hero-copy {
+  min-width: 0;
+}
+.hero-install {
+  margin-top: 28px;
+  max-width: 620px;
+  min-width: 0;
+}
+.hero-install > span {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.hero-install .copy-command {
+  margin: 8px 0 10px;
+}
+.hero-install .text-link {
+  font-size: 0.85rem;
+}
+.docs-list {
+  display: grid;
+  gap: 8px;
+  margin: 10px 0 0;
+  padding-left: 20px;
+  color: var(--muted);
+}
+.docs-callout .docs-list {
+  margin-top: 8px;
+}

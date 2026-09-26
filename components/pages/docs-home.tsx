@@ -93,7 +93,7 @@ export function DocsHomePage({ locale }: { locale: Locale }) {
           <CheckCircle2 size={20} />
           <div>
             <span>{t.next}</span>
-            <Link href={localePath(locale, '/docs/getting-started')}>
+            <Link href={localePath(locale, '/docs/quick-start')}>
               {t.nextLink} <ArrowRight size={15} />
             </Link>
           </div>

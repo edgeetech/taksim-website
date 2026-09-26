@@ -28,6 +28,21 @@ export const tr: Dictionary = {
         description:
           'Ücretsiz geliştirici kullanımı, Team kullanımı, üçüncü taraf sağlayıcılar, doğrulama ve ekonomik sınırları açıklayan önizleme koşulları.',
       },
+      quickStart: {
+        title: 'Kolay kurulum',
+        description:
+          'Taksim’i Windows’a üç adımda kurun: tek satır PowerShell, taksim setup, taksim dashboard. Sorun giderme, güncelleme ve kaldırma.',
+      },
+      gettingStarted: {
+        title: 'Kurulum rehberi',
+        description:
+          'Eksiksiz Taksim kurulum rehberi: ön koşullar, doğrulanmış tek satırlık kurulum, kontroller, yönetilen oturumlar ve geçmiş içe aktarma.',
+      },
+      nextSteps: {
+        title: 'Sonraki adımlar',
+        description:
+          'Kurulumdan sonra: yerel dashboard, judge değerlendirmesi, bütçeler, haftalık digest, Slack ve webhook uyarıları ve ekip toplu görünümü.',
+      },
       contact: {
         title: 'Taksim ile görüşün — Team değerlendirmesi',
         description:
@@ -83,8 +98,10 @@ export const tr: Dictionary = {
   home: {
     hero: {
       title: 'AI kodlama harcamanızın nereye gittiğini ve daha ucuz bir modelin işi ne zaman görebileceğini görün.',
-      lede: 'Taksim; Claude Code, Codex ve GitHub Copilot’un yerel geçmişini ve hook’larını okur, her oturumu fiyatlandırır ve tamamlanan Claude Code turlarını değerlendirir: Opus gerçekten gerekli miydi, yoksa Sonnet yeterli olur muydu? Kendi makinenizde çalışır; prompt ya da kod saklamaz.',
+      lede: 'Taksim; Claude Code, Codex, GitHub Copilot ve diğer kodlama ajanlarının yerel geçmişini ve hook’larını okur, her oturumu fiyatlandırır ve tamamlanan turları değerlendirir: Opus gerçekten gerekli miydi, yoksa Sonnet yeterli olur muydu? Kendi makinenizde çalışır; prompt ya da kod saklamaz.',
       seeHow: 'Nasıl çalıştığını görün',
+      installLabel: 'Windows’a tek satır PowerShell ile kurun',
+      installGuide: '3 adımda kolay kurulum',
       footnote: 'Bireysel geliştiriciler için ücretsiz. Ekipler toplu görünüm (roll-up) için ödeme yapar.',
     },
     valuesLabel: 'Taksim ne yapar',
@@ -126,12 +143,12 @@ export const tr: Dictionary = {
     steps: [
       {
         title: 'İçe aktar',
-        body: 'Taksim; Claude Code, Claude masaüstü uygulaması ve Codex’in yerel geçmişini ve hook’larını okur, GitHub Copilot kullanımını da yerel oturum deposundan içe aktarır. Her tur bir defter satırına dönüşür: model, token, cache, liste fiyatı maliyeti.',
+        body: 'Taksim; Claude Code, Claude masaüstü uygulaması, Codex, GitHub Copilot, Devin, OpenCode, Kilo Code ve Pi’nin yerel geçmişini ve hook’larını okur. Her tur bir defter satırına dönüşür: model, token, cache, liste fiyatı maliyeti.',
         detail: 'taksim setup',
       },
       {
         title: 'Değerlendir',
-        body: 'Bir LLM judge, tamamlanmış bir Claude Code turuna bakar ve yeterli olacak en ucuz seviyeyi belirler. Oturumunuzun içindeki Claude’u, yerel bir Ollama modelini ya da kendi API key’inizle çalışan uzak bir judge’ı kullanabilirsiniz.',
+        body: 'Bir LLM judge, tamamlanmış bir tura bakar ve yeterli olacak en ucuz seviyeyi belirler. Oturumunuzun içindeki Claude’u veya Codex’i, yerel bir Ollama modelini ya da kendi API key’inizle çalışan uzak bir judge’ı kullanabilirsiniz.',
         detail: 'taksim judge enable --in-session',
       },
       {
@@ -141,13 +158,13 @@ export const tr: Dictionary = {
       },
       {
         title: 'Raporla',
-        body: 'Tek komut, tek haftalık rapor: harcama, model dağılımı, cache verimliliği, judge kapsamı ve bir shadow policy’nin neleri değiştireceği. Shadow policy karşı olgusaldır. Taksim modelinizi asla sessizce değiştirmez.',
-        detail: 'taksim report weekly --html',
+        body: 'Yerel bir dashboard ve haftalık rapor: harcama, model dağılımı, cache verimliliği, judge kapsamı ve bir shadow policy’nin neleri değiştireceği. Shadow policy karşı olgusaldır. Taksim modelinizi asla sessizce değiştirmez.',
+        detail: 'taksim dashboard',
       },
     ],
     report: {
       title: 'Tek komut, tek haftalık rapor.',
-      body: 'Tek başına çalışan bir HTML dosyası için taksim report weekly --html, ne kadar tasarruf edebileceğinizin tek sayfalık özeti için taksim digest komutunu çalıştırın. Raporun yapısı aşağıda, örnek rakamlarla.',
+      body: 'Yerelde incelemek için taksim dashboard, tek başına çalışan bir HTML dosyası için taksim report weekly --html, ne kadar tasarruf edebileceğinizin tek sayfalık özeti için taksim digest komutunu çalıştırın. Raporun yapısı aşağıda, örnek rakamlarla.',
       docLabel: 'Örnek haftalık rapor',
       heading: 'Haftalık rapor',
       range: 'Son 7 gün, tüm istemciler',
@@ -224,11 +241,11 @@ export const tr: Dictionary = {
       },
       {
         q: 'Hangi platformlar destekleniyor?',
-        a: 'Şimdilik yalnızca Windows. Kurulum rehberi tüm kurulumu anlatır.',
+        a: 'Şimdilik yalnızca Windows. Kolay kurulum üç adım sürer.',
       },
       {
-        q: 'Taksim, Codex veya Copilot turlarını değerlendirebilir mi?',
-        a: 'Henüz değil. Codex ve Copilot oturumları içe aktarılır ve fiyatlandırılır, ancak değerlendirme yalnızca Claude Code turlarını kapsar.',
+        q: 'Taksim hangi turları değerlendirebilir?',
+        a: 'Claude Code, Codex, OpenCode, Kilo Code, Pi ve Devin Desktop turlarını. OpenCode, Kilo Code ve Pi turları, Claude seviyesindeki modellerle çalıştıklarında değerlendirilir. GitHub Copilot ve Devin CLI oturumları içe aktarılır ve fiyatlandırılır, ancak henüz değerlendirilmez.',
       },
     ],
     cta: {
@@ -268,10 +285,10 @@ export const tr: Dictionary = {
       price: 'Ücretsiz',
       sub: 'Evde ya da işte, her birey için ücretsiz.',
       features: [
-        'Claude Code, Codex ve Copilot için geçmiş içe aktarma',
+        'Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code ve Pi için geçmiş içe aktarma',
         'Fiyatlandırılmış oturumlar, model dağılımı ve cache verimliliği',
-        'Claude Code oturumlarının, seçtiğiniz judge ile (oturum içi Claude, Ollama, kendi API key’iniz) tur tur değerlendirilmesi',
-        'Haftalık rapor, digest ve status line',
+        'Seçtiğiniz judge ile (oturum içi Claude veya Codex, Ollama, kendi API key’iniz) tur tur değerlendirme',
+        'Yerel dashboard, haftalık rapor, digest ve status line',
         'API key trafiği için isteğe bağlı canlı yönlendirme',
       ],
       cta: 'Taksim’i kurun',
@@ -328,7 +345,7 @@ export const tr: Dictionary = {
       observe: {
         label: 'Gözlem',
         description:
-          'Her oturumu yerel geçmiş, hook’lar veya Copilot CLI oturum deposu üzerinden modele göre fiyatlandırır.',
+          'Her oturumu yerel geçmiş, hook’lar veya istemcinin kendi oturum deposu üzerinden modele göre fiyatlandırır.',
       },
       judge: {
         label: 'Judge',
@@ -366,23 +383,50 @@ export const tr: Dictionary = {
         client: 'Codex CLI',
         access: 'ChatGPT planı',
         observe: 'CODEX_HOME oturumlarından geçmiş içe aktarma.',
-        judge: 'Henüz değil. Değerlendirme yalnızca Claude Code turlarını kapsar.',
+        judge: 'Geçmiş değerlendirmesi ve oturum içi Stop hook.',
         route: 'Sunulmuyor. Proxy yok, model değişikliği yok.',
       },
       codexApi: {
         client: 'Codex CLI',
         access: 'OpenAI API key',
         observe: 'Geçmiş içe aktarma ve yerel gateway.',
-        judge:
-          'Henüz değil. Bu turları yalnızca deneysel Jev judge değerlendirir ve tek bir zayıf judge asla tasarrufa sayılmaz.',
+        judge: '',
         route: 'İsteğe bağlı; yerel gateway üzerinden, taksim codex ile başlattığınız oturumlarda.',
       },
       copilotPlan: {
         client: 'GitHub Copilot',
         access: 'Copilot planı',
         observe: 'Yerel Copilot CLI oturum deposundan kullanım içe aktarma.',
-        judge: '',
+        judge: 'Henüz değil.',
         route: 'İstek anında yönlendirme yok. taksim copilot yalnızca başlangıç modelini seçer.',
+      },
+      devinCli: {
+        client: 'Devin CLI',
+        access: 'Devin planı',
+        observe: 'Yerel Devin oturum deposundan geçmiş içe aktarma.',
+        judge: 'Henüz değil.',
+        route: 'İstek anında yönlendirme yok.',
+      },
+      devinDesktop: {
+        client: 'Devin Desktop',
+        access: 'Eski adıyla Windsurf, Devin planı',
+        observe: 'Yerel ACP olay günlüğünden geçmiş içe aktarma.',
+        judge: '',
+        route: 'Asla yönlendirilmez. Proxy yok, model değişikliği yok.',
+      },
+      openCodeKilo: {
+        client: 'OpenCode ve Kilo Code',
+        access: 'Kendi sağlayıcı ayarlarınız',
+        observe: 'Yerel oturum veritabanlarından geçmiş içe aktarma.',
+        judge: 'Claude seviyesindeki modellerle çalışan turlar.',
+        route: 'Sunulmuyor.',
+      },
+      pi: {
+        client: 'Pi ve Oh My Pi',
+        access: 'Kendi sağlayıcı ayarlarınız',
+        observe: 'Yerel oturum dosyalarından geçmiş içe aktarma.',
+        judge: 'Claude seviyesindeki modellerle çalışan turlar.',
+        route: 'Sunulmuyor.',
       },
     },
     footnote:
@@ -410,8 +454,20 @@ export const tr: Dictionary = {
       {
         title: 'Hızlı başlangıç',
         links: [
-          ['Taksim’i kurun', '/docs/getting-started'],
+          ['Kolay kurulum', '/docs/quick-start'],
+          ['Ayrıntılı kurulum rehberi', '/docs/getting-started'],
+          ['Sonraki adımlar', '/docs/next-steps'],
           ['Giriş yapma (isteğe bağlı)', '/docs/sign-in'],
+        ],
+      },
+      {
+        title: 'Taksim’i kullanın',
+        links: [
+          ['Dashboard', '/docs/next-steps#dashboard'],
+          ['Judge değerlendirmesi', '/docs/next-steps#judging'],
+          ['Bütçeler, digest ve uyarılar', '/docs/next-steps#budgets'],
+          ['Ekip toplu görünümü', '/docs/next-steps#team'],
+          ['Güncelleme ve kaldırma', '/docs/quick-start#update'],
         ],
       },
       {
@@ -430,6 +486,8 @@ export const tr: Dictionary = {
           ['Claude Code', '/docs#client-compatibility'],
           ['Codex', '/docs#client-compatibility'],
           ['GitHub Copilot', '/docs#client-compatibility'],
+          ['Devin ve Devin Desktop', '/docs#client-compatibility'],
+          ['OpenCode, Kilo Code ve Pi', '/docs#client-compatibility'],
         ],
       },
     ],
@@ -454,11 +512,24 @@ export const tr: Dictionary = {
         keywords: 'subscription max pro api key rewrite observe quota baseline report abonelik kota gözlem',
       },
       {
-        title: 'Taksim’i kurun',
+        title: 'Kolay kurulum',
+        copy: 'Üç adım: tek satır PowerShell, taksim setup, taksim dashboard. Sorun giderme, güncelleme ve kaldırma.',
+        href: '/docs/quick-start',
+        keywords:
+          'quickstart easy install one line irm iex setup dashboard smartscreen unblock execution policy path doctor update uninstall kolay kurulum tek satır güncelleme kaldırma',
+      },
+      {
+        title: 'Ayrıntılı kurulum rehberi',
         copy: 'Doğrulanmış Windows sürümünü kurun, kontrol edin ve Claude Code veya Codex’i başlatın.',
         href: '/docs/getting-started',
         keywords:
-          'quickstart install setup cli start release v0.2.0 windows powershell checksum claude code codex doctor troubleshooting kurulum hızlı başlangıç sorun giderme',
+          'quickstart install setup cli start latest release windows powershell checksum claude code codex doctor troubleshooting history import kurulum hızlı başlangıç sorun giderme',
+      },
+      {
+        title: 'Sonraki adımlar',
+        copy: 'Dashboard, judge değerlendirmesi, bütçeler, haftalık digest, Slack ve webhook uyarıları ve ekip toplu görünümü.',
+        href: '/docs/next-steps',
+        keywords: 'dashboard judge budget digest slack webhook notify alerts team export summary bütçe uyarı ekip',
       },
       {
         title: 'Taksim nasıl çalışır',
@@ -468,7 +539,7 @@ export const tr: Dictionary = {
       },
       {
         title: 'İstemci uyumluluğu',
-        copy: 'Claude Code, Codex ve Copilot için destek sınırlarını tam olarak görün.',
+        copy: 'Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code ve Pi için destek sınırlarını tam olarak görün.',
         href: '#client-compatibility',
         keywords: 'history managed live observation import geçmiş uyumluluk istemci',
       },
@@ -506,7 +577,7 @@ export const tr: Dictionary = {
       items: [
         {
           term: 'Judge',
-          body: 'Bir LLM judge, tamamlanmış bir Claude Code turunu değerlendirir ve yeterli olacak en ucuz seviyeyi belirler: oturum içi Claude, Anthropic API key’iniz, kendi key’inizle TypeSafe Jev ya da yerel bir Ollama modeli. Codex ve Copilot turları fiyatlandırılır ancak henüz değerlendirilmez.',
+          body: 'Bir LLM judge, tamamlanmış bir turu değerlendirir ve yeterli olacak en ucuz seviyeyi belirler: oturum içi Claude veya Codex, Anthropic API key’iniz, kendi key’inizle TypeSafe Jev ya da yerel bir Ollama modeli. Claude Code, Codex, OpenCode, Kilo Code, Pi ve Devin Desktop turları değerlendirilebilir; Copilot ve Devin CLI turları fiyatlandırılır ancak henüz değerlendirilmez.',
         },
         {
           term: 'Consensus',
@@ -529,7 +600,7 @@ export const tr: Dictionary = {
       title: 'Subscription’lar gözlemlenir, yeniden yazılmaz',
       body: 'Claude Code bir Claude subscription’ı (Max veya Pro, Team veya Enterprise) ile kimlik doğrulaması yapmışsa Taksim modeli yeniden yazmaz ve Claude Code ile subscription hesabı arasına asla girmez. `taksim claude`, Claude Code’u yerel olarak başlatır ve yerel transkriptler ile hook’lar üzerinden gözlemler. Model yeniden yazımı yalnızca API key trafiği için, Taksim üzerinden başlattığınız oturumlarda geçerlidir. Aynısı ChatGPT planındaki Codex için de geçerlidir; Codex yerel oturum geçmişi üzerinden gözlemlenir.',
       body2:
-        'Subscription kullanımı, faturalanan değil kota olarak etiketlenmiş API eşdeğeri liste fiyatı olarak gösterilir. Subscription kullanıcıları için değer; kota görünürlüğü, bir baseline raporu (`taksim report baseline`) ve tamamlanan Claude Code turları için judge kararlarıdır, bir tasarruf vaadi değil.',
+        'Subscription kullanımı, faturalanan değil kota olarak etiketlenmiş API eşdeğeri liste fiyatı olarak gösterilir. Subscription kullanıcıları için değer; kota görünürlüğü, bir baseline raporu (`taksim report baseline`) ve tamamlanan turlar için judge kararlarıdır, bir tasarruf vaadi değil.',
     },
     verification: {
       title: 'Doğrulama kanıta bağlıdır',
@@ -552,7 +623,7 @@ export const tr: Dictionary = {
           'Codex',
           'Mevcut',
           'Yalnızca API key, isteğe bağlı',
-          'Henüz değil',
+          'Mevcut',
           'API key’lerde Responses gateway; model yeniden yazımı yalnızca doğrulanmış model id’leri için; ChatGPT girişi gözlemlenir, asla yeniden yazılmaz',
         ],
         [
@@ -562,10 +633,26 @@ export const tr: Dictionary = {
           'Henüz değil',
           'Yerel Copilot CLI oturum deposundan kullanım içe aktarma; yalnızca başlangıç modeli seçimi',
         ],
+        ['Devin CLI', 'Mevcut', 'Mevcut değil', 'Henüz değil', 'Yalnızca geçmiş içe aktarma'],
+        [
+          'Devin Desktop',
+          'Mevcut',
+          'Mevcut değil',
+          'Mevcut',
+          'Eski adıyla Windsurf; yerel olay günlüğünden gözlemlenir, asla yönlendirilmez',
+        ],
+        [
+          'OpenCode, Kilo Code',
+          'Mevcut',
+          'Mevcut değil',
+          'Claude seviyesi modeller',
+          'Yerel oturum veritabanlarından geçmiş içe aktarma',
+        ],
+        ['Pi, Oh My Pi', 'Mevcut', 'Mevcut değil', 'Claude seviyesi modeller', 'Yerel oturum dosyalarından geçmiş içe aktarma'],
       ],
     },
     next: 'Sonraki',
-    nextLink: 'Taksim’i kurun',
+    nextLink: 'Kolay kurulum',
     toc: {
       label: 'Bu sayfada',
       how: 'Taksim nasıl çalışır',
@@ -577,13 +664,92 @@ export const tr: Dictionary = {
     },
   },
 
+  quickStart: {
+    eyebrow: 'Hızlı başlangıç',
+    title: 'Kolay kurulum',
+    lede: 'Üç adım, yaklaşık iki dakika. Hesap ya da yönetici yetkisi gerekmez. Şimdilik Windows x64.',
+    install: {
+      title: '1. Kurun',
+      body: '**PowerShell**’i açın (Başlat’a basın, PowerShell yazın, Enter’a basın), bu satırı yapıştırın ve Enter’a basın:',
+      after:
+        'En son Taksim sürümünü indirir, yayımlanmış checksum’larla doğrular, yalnızca kendi kullanıcınız için kurar ve `taksim` komutunu PATH’inize ekler. Bittiğinde 2. adımı sizin için başlatır.',
+      copy: 'Kopyala',
+      copied: 'Kopyalandı',
+    },
+    setup: {
+      title: '2. Setup’ı çalıştırın',
+      body: 'Setup kendiliğinden başlamadıysa yeni bir PowerShell penceresi açın ve şunu çalıştırın:',
+      seeTitle: 'Ne göreceksiniz',
+      see: [
+        '**Bulunan istemciler**: bu makinedeki kodlama ajanları; örneğin Claude Code, Codex, GitHub Copilot, OpenCode, Kilo Code ve Pi.',
+        '**Kimlik bilgisi modu**: subscription ile giriş yapılmış istemciler yalnızca gözlem (observe-only) olarak gösterilir. Taksim transkriptlerini ve hook’larını okur; hiçbir trafik Taksim’den geçmez.',
+        '**İçe aktarma ve fiyatlandırma**: bu istemcilerin zaten tuttuğu geçmiş içe aktarılır ve liste fiyatlarıyla fiyatlandırılır.',
+        '**Tek bir soru**: Claude masaüstü Stop hook’u (`Install it? [Y/n]`). Claude’un kendi tamamlanan turlarını değerlendirmesini sağlar. Kabul etmek için Enter’a basın, atlamak için `n` yazın.',
+        '**İlk raporunuz** ve deneyebileceğiniz sonraki komutlar. Setup’ı istediğiniz zaman yeniden çalıştırabilirsiniz.',
+      ],
+    },
+    dashboard: {
+      title: '3. Dashboard’u açın',
+      body: 'Setup bittiğinde dashboard’u açar. Daha sonra yeniden açmak için:',
+      after:
+        'Dashboard yalnızca sizin makinenizde (127.0.0.1) ve salt okunur çalışır: repo, model ve istemciye göre harcama, iki judge’ın uzlaştığı yerlerde daha ucuz bir modelin ne kadar tasarruf ettirebileceği, judge kapsamı ve cache verimliliği. Durdurmak için terminalde Ctrl+C’ye basın.',
+    },
+    doneTitle: 'Hepsi bu kadar',
+    doneBody:
+      'Kodlama ajanlarınızı her zamanki gibi kullanmaya devam edin; Taksim onların zaten diske yazdıklarını okur. Judge değerlendirmesi, bütçeler, Slack uyarıları ve ekip raporları için [sonraki adımlara](/docs/next-steps), tüm ayrıntılar için [ayrıntılı kurulum rehberine](/docs/getting-started) bakın.',
+    troubleshooting: {
+      title: 'Bir sorun çıkarsa',
+      items: [
+        {
+          q: 'Windows SmartScreen veya antivirüs `taksim.exe` dosyasını engelliyor',
+          a: 'Taksim binary’si henüz kod imzalı değil, bu yüzden Windows tanınmayan bir uygulama uyarısı gösterebilir. SmartScreen çıkarsa **Ek bilgi**’yi, ardından **Yine de çalıştır**’ı seçin. Windows dosyanın başka bir bilgisayardan geldiğini söylüyorsa kurulu kopyanın engelini kaldırın ve yeniden deneyin: `Unblock-File "$env:LOCALAPPDATA\\Taksim\\current\\taksim.exe"`',
+        },
+        {
+          q: 'PowerShell betik çalıştırmanın devre dışı olduğunu söylüyor',
+          a: 'Yalnızca bu PowerShell penceresi için `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` çalıştırın, ardından kurulum satırını yeniden yapıştırın. Makine genelindeki ayarı değiştirmeyin.',
+        },
+        {
+          q: 'PowerShell `taksim` komutunu bulamıyor',
+          a: 'Güncellenen PATH’in yüklenmesi için PowerShell’i kapatıp yeni bir pencere açın, ardından `taksim version` çalıştırın. Hâlâ bulunamıyorsa kurulum satırını yeniden çalıştırın; iki kez çalıştırmak güvenlidir.',
+        },
+        {
+          q: 'Başka bir şey yolunda gitmiyor',
+          a: '`taksim doctor` çalıştırın. Kurulumu, istemcilerinizi, kimlik bilgisi modunu ve kapsamı kontrol eder ve neyin düzeltilmesi gerektiğini söyler. Sorun devam ederse bu çıktıyı [destek ekibine](mailto:info@edgee.tech?subject=Taksim%20support) gönderin.',
+        },
+      ],
+    },
+    update: {
+      title: 'Güncelleme',
+      body: 'Yeni bir sürüm çıktığında `taksim doctor` size söyler. Kontrol etmek ve ardından kurmak için:',
+      after: 'Güncelleme verilerinizi ve ayarlarınızı korur. Kurulum satırını yeniden çalıştırmak da aynı işi yapar.',
+    },
+    uninstall: {
+      title: 'Kaldırma',
+      body: 'Henüz bir kaldırma komutu yok. Taksim’i tamamen kaldırmak için:',
+      steps: [
+        'Açtıysanız Taksim’in Claude Code ve Codex’e eklediği hook’ları ve kaydedilmiş Slack veya webhook adresini kaldırın: `taksim judge disable --user-settings`, `taksim judge disable --codex-settings`, `taksim cache-guard disable` ve `taksim notify clear`.',
+        'Program klasörünü (`%LOCALAPPDATA%\\Taksim`) silin ve `current` girdisini kullanıcı PATH’inizden kaldırın (Başlat, “ortam değişkenleri” yazın, Hesabınız için ortam değişkenlerini düzenleyin).',
+        'Yerel defterinizi ve raporlarınızı da silmek için `%USERPROFILE%\\.taksim` klasörünü silin. Bu işlem geri alınamaz.',
+      ],
+    },
+    toc: {
+      label: 'Bu sayfada',
+      install: 'Kurulum',
+      setup: 'Setup',
+      dashboard: 'Dashboard',
+      troubleshooting: 'Sorun giderme',
+      update: 'Güncelleme',
+      uninstall: 'Kaldırma',
+    },
+  },
+
   gettingStarted: {
     eyebrow: 'Hızlı başlangıç',
-    title: 'Taksim’i kurun',
-    lede: 'Taksim’i Windows’a kurun, yerel kurulumu kontrol edin ve dokümantasyondan ayrılmadan ilk yönetilen Claude Code veya Codex oturumunuzu başlatın.',
+    title: 'Kurulum rehberi',
+    lede: 'Taksim’i Windows’a kurmanın tüm ayrıntıları: kurulum aracının neyi kontrol ettiği, çalıştığını nasıl doğrulayacağınız ve ilk oturumunuzu nasıl başlatacağınız. Kısa sürüm için [kolay kurulumu](/docs/quick-start) kullanın.',
     noAccountTitle: 'Taksim hesabı gerekmez',
     noAccountBody:
-      'Kurun ve doğrudan `taksim claude` veya `taksim codex` çalıştırın. Taksim girişi isteğe bağlıdır ve varsayılan olarak kapalıdır; yalnızca bir operatör barındırılan özellikleri açarsa önem taşır. [İsteğe bağlı giriş rehberine](/docs/sign-in) bakın.',
+      'Taksim’i kurun ve doğrudan çalıştırın. Taksim girişi isteğe bağlıdır ve varsayılan olarak kapalıdır; yalnızca bir operatör barındırılan özellikleri açarsa önem taşır. [İsteğe bağlı giriş rehberine](/docs/sign-in) bakın.',
     plan: {
       title: '1. Planınızı doğrulayın',
       body: 'Taksim CLI, evde ya da işte, her bireysel geliştirici için ücretsizdir. Ekip toplu görünümü gibi Team özellikleri ücretlidir.',
@@ -594,35 +760,41 @@ export const tr: Dictionary = {
     },
     prerequisites: {
       title: '2. Ön koşulları kontrol edin',
-      body: 'Bir Windows bilgisayar, PowerShell ve oturum açılmış bir kodlama istemcisi gerekir. Taksim hesabı gerekmez. [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) veya [Codex](https://developers.openai.com/codex/cli/) istemcilerinden birini kurup oturum açın. Yalnızca birine ihtiyacınız var; hangisi olduğunu bu rehberin ilerleyen adımlarında seçeceksiniz.',
+      body: 'Windows PowerShell 5.1 veya PowerShell 7 bulunan bir Windows x64 bilgisayar gerekir. Yönetici yetkisi veya .NET SDK gerekmez. Taksim hesabı gerekmez. Taksim zaten kullandığınız kodlama istemcileriyle, örneğin [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) veya [Codex](https://developers.openai.com/codex/cli/) ile çalışır; en az birini kurup oturum açın.',
     },
     install: {
-      title: '3. İndirin ve kurun',
-      body: 'Geçici kurulum dosyasını tutmaktan rahatsız olmayacağınız bir klasörde PowerShell’i açın ve aşağıdaki iki komutu çalıştırın. Kurulum aracı seçilen sürümü HTTPS üzerinden indirir, yayımlanmış SHA-256 checksum’ını kontrol eder, binary’yi doğrular ve ancak bundan sonra yerel kurulumu o sürüme geçirir.',
+      title: '3. Tek satırla kurun',
+      body: 'PowerShell’i açın ve aşağıdaki komutu çalıştırın. En son sürümü HTTPS üzerinden indirir, Connector arşivini ve kurulum betiğini yayımlanmış `SHA256SUMS.txt` ile doğrular (bir şey eşleşmezse durur), `%LOCALAPPDATA%\\Taksim` altına kurar, kullanıcı PATH’inize ekler ve ardından `taksim setup` çalıştırır.',
+      pinnedTitle: 'Belirli bir sürümü kurun veya setup’ı atlayın',
+      pinnedBody: 'Belirli bir sürümü, ardından setup çalıştırmadan kurmak için:',
       note: 'Taksim, sürümlü binary’lerini `%LOCALAPPDATA%\\Taksim` altında, ayrı kullanıcı verilerini ise `%USERPROFILE%\\.taksim` altında tutar. Güncellenmiş bir sürümü kurmak bu kullanıcı verisi dizinini değiştirmez.',
     },
     verify: {
       title: '4. Kurulumu doğrulayın',
       body: 'Windows’un Taksim komutunu tanıyabilmesi için yeni bir PowerShell terminali açın ve şunu çalıştırın:',
       after:
-        'Üç komutun da başarıyla tamamlanması gerekir. `doctor` yerel ortamı kontrol eder; `install status` kurulu sürümü ve yolunu gösterir.',
+        'Üç komutun da başarıyla tamamlanması gerekir. `doctor` yerel ortamı kontrol eder ve güncelleme olduğunda söyler; `install status` kurulu sürümü ve yolunu gösterir.',
+    },
+    setup: {
+      title: '5. Setup’ı çalıştırın ve dashboard’u açın',
+      body: 'Kurulum aracı setup’ı sizin için çalıştırır. İstediğiniz zaman yeniden çalıştırabilirsiniz; tekrarlamak güvenlidir. İstemcilerinizi ve kimlik bilgisi modlarını bulur, geçmişlerini içe aktarıp fiyatlandırır, oturum içi judge değerlendirmesini açar ve ilk raporunuzu yazar. Ardından yerel dashboard’u açın:',
     },
     session: {
-      title: '5. İlk oturumunuzu başlatın',
-      body: 'Kurduğunuz kodlama istemcisi için tek bir komut çalıştırın. İki komutu birden çalıştırmayın. Yerel istemcinize yönelik argümanları seçtiğiniz komutun ardından ekleyebilirsiniz.',
+      title: '6. İsteğe bağlı: yönetilen bir oturum başlatın',
+      body: '`claude`, `codex` ve diğer istemcilerinizi eskisi gibi çalıştırmaya devam edebilirsiniz; Taksim geçmişlerini okur. Taksim’in Claude Code veya Codex’i kendi hook’ları ve status line’ı ile (API key trafiğinde isteğe bağlı yönlendirmeyle) başlatmasını istiyorsanız aşağıdakilerden birini çalıştırın. Yerel istemciye yönelik argümanlar komutun ardından gelebilir.',
       expectTitle: 'Ne beklemelisiniz',
       expectBody:
-        'Taksim yerel Connector’ını `127.0.0.1` üzerinde hazırlar, ardından seçtiğiniz yerel istemciyi açar. Yerel Taksim yolu kullanılamıyorsa istemci fail-open davranarak kendi yerel davranışına döner. Varsayılan olarak her şey yerelde çalışır; barındırılan özelliklere veya uzak bir judge’a açıkça izin vermediğiniz sürece hiçbir şey makineden çıkmaz.',
+        'Claude veya ChatGPT subscription’ında Taksim istemciyi yerel olarak başlatır ve gözlemler; hiçbir trafik Taksim’den geçmez. API key ile Taksim önce yerel gateway’ini `127.0.0.1` üzerinde hazırlar; yönetilen yol kullanılamazsa istemci kendi yerel davranışına döner. Varsayılan olarak her şey yerelde çalışır; barındırılan özelliklere veya uzak bir judge’a açıkça izin vermediğiniz sürece hiçbir şey makineden çıkmaz.',
     },
     inspect: {
-      title: '6. Son oturumu inceleyin',
+      title: '7. Son oturumu inceleyin',
       body: 'Yönetilen bir görevi tamamladıktan sonra, Taksim’in son gözlemlenen istek için kaydettiği doğrulama kanıtını inceleyin:',
       after:
         'Açıklama, eksik veya tamamlanmamış kanıtı açıkça belirtir; başarılı bir sağlayıcı yanıtı tek başına kanıt olarak sunulmaz.',
     },
     history: {
-      title: 'İsteğe bağlı: mevcut geçmişi içe aktarın',
-      body: 'İlk yönetilen oturumunuz için geçmiş içe aktarma gerekmez. Desteklenen istemcilerden birini zaten kullanıyorsanız, hazır olduğunuzda yerel geçmişini içe aktarın:',
+      title: 'İsteğe bağlı: geçmişi yeniden içe aktarın',
+      body: 'Setup bulduğu her istemciyi zaten içe aktarır. Daha sonra yeniden içe aktarmak veya setup’ın bulamadığı bir istemciyi eklemek için:',
     },
     troubleshooting: {
       title: 'Sorun giderme',
@@ -632,8 +804,8 @@ export const tr: Dictionary = {
           a: 'PowerShell’i kapatın, yeni bir terminal açın ve `taksim version` komutunu yeniden çalıştırın. Hâlâ bulunamıyorsa kurulum aracını yeniden çalıştırın ve ardından yerel kurulumu incelemek için `taksim doctor` kullanın.',
         },
         {
-          q: 'Claude Code veya Codex bulunamıyor',
-          a: 'Seçtiğiniz istemciyi yukarıdaki resmi rehberiyle kurun, o istemcide oturum açın, yeni bir PowerShell terminali açın ve ilgili `taksim claude` veya `taksim codex` komutunu yeniden çalıştırın.',
+          q: 'Windows SmartScreen `taksim.exe` dosyasını engelliyor',
+          a: 'Binary henüz kod imzalı değil. **Ek bilgi**’yi, ardından **Yine de çalıştır**’ı seçin ya da kurulu kopyanın engelini `Unblock-File "$env:LOCALAPPDATA\\Taksim\\current\\taksim.exe"` ile kaldırın.',
         },
         {
           q: 'Kurulum betiği engellendi',
@@ -649,12 +821,49 @@ export const tr: Dictionary = {
       label: 'Bu sayfada',
       plan: 'Planınızı doğrulayın',
       prerequisites: 'Ön koşullar',
-      install: 'İndirin ve kurun',
+      install: 'Kurulum',
       verify: 'Kurulumu doğrulayın',
-      session: 'Oturum başlatın',
+      setup: 'Setup ve dashboard',
+      session: 'Yönetilen oturum',
       inspect: 'Son oturumu inceleyin',
       history: 'Geçmişi içe aktarın',
       troubleshooting: 'Sorun giderme',
+    },
+  },
+
+  nextSteps: {
+    eyebrow: 'Sonraki adımlar',
+    title: 'Kurulumdan sonra',
+    lede: 'Çoğu kişinin sonra açtığı özellikler için kısa rehberler. Her şey sizin makinenizde çalışır.',
+    dashboard: {
+      title: 'Dashboard',
+      body: 'Tarayıcınızda yerel, salt okunur bir dashboard: Overview, Costs (repo, görev, istemci, model veya güne göre), Sessions, Judge ve Team sayfaları. **Share summary**, yalnızca repo takma adlarını içeren tek sayfalık bir yönetici özeti dışa aktarır; ikinci komut aynı özeti dosya olarak yazar.',
+    },
+    judging: {
+      title: 'Judge: daha ucuz model yeterli miydi?',
+      body: 'Setup, `taksim claude` ile başlattığınız oturumlar için oturum içi judge değerlendirmesini açar. Claude masaüstü ve düz `claude` oturumlarını ya da Codex oturumlarını da değerlendirmek için kullanıcı düzeyindeki Stop hook’larını ekleyin (Codex, hook’a bir kez `/hooks` içinde güvenmenizi ister):',
+      history:
+        'İçe aktardığınız geçmişi seçtiğiniz bir judge ile (yerel bir Ollama modeli veya kendi Anthropic key’iniz) değerlendirmek için, kaç turun değerlendirileceğini ve tahmini maliyeti gösteren bir deneme çalıştırmasıyla başlayın:',
+      after:
+        'Oturum içi judge, oturumun sonunda sorar ve reddedebilirsiniz. `judge status` kapsamı ve uzlaşmayı gösterir. “Tasarruf edilebilirdi” rakamına yalnızca, biri güçlü olmak üzere iki judge’ın uzlaştığı kararlar sayılır.',
+    },
+    budgets: {
+      title: 'Bütçeler, haftalık digest ve Slack uyarıları',
+      body: 'Bütçeler sınır değil, uyarıdır: kendiniz, bir repo veya ekip için API eşdeğeri dolar cinsinden günlük ya da aylık bir tutar belirleyin; Taksim bunu status line’da gösterir ve %75, %90 ve %100’de uyarır.',
+      digest: 'Digest, dosyaya yazılan tek sayfalık bir “ne kadar tasarruf edebilirdiniz” özetidir:',
+      notify:
+        'Digest’i ve bütçe uyarılarını Slack’te veya herhangi bir webhook’ta almak için adresi bir kez kaydedin (Windows Credential Manager’da saklanır ve yalnızca toplu değerler ile repo takma adları gönderilir), bir test gönderin, ardından digest’i paylaşın:',
+    },
+    team: {
+      title: 'Ekip toplu görünümü',
+      body: 'Her geliştirici ortak bir klasöre yalnızca metadata içeren bir export yazar ve paylaşmadan önce inceleyebilir; export’lar dosya yollarını değil, repo takma adlarını içerir. Ekip lideri bunları tek bir raporda birleştirir ya da dashboard’da açar. Ekip toplu görünümü [Team planının](/pricing) parçasıdır.',
+    },
+    toc: {
+      label: 'Bu sayfada',
+      dashboard: 'Dashboard',
+      judging: 'Judge',
+      budgets: 'Bütçeler ve uyarılar',
+      team: 'Ekip toplu görünümü',
     },
   },
 

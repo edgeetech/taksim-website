@@ -44,7 +44,7 @@ export function Header({ locale }: { locale: Locale }) {
           <Link className="text-action" href={href('/contact')}>
             {t.talkToUs}
           </Link>
-          <Link className="button button-small" href={href('/docs/getting-started')}>
+          <Link className="button button-small" href={href('/docs/quick-start')}>
             {t.install}
           </Link>
         </div>
@@ -58,7 +58,7 @@ export function Header({ locale }: { locale: Locale }) {
             <Link href={href('/pricing')}>{t.nav.pricing}</Link>
             <Link href={href('/docs')}>{t.nav.docs}</Link>
             <Link href={href('/contact')}>{t.talkToUs}</Link>
-            <Link href={href('/docs/getting-started')}>{t.install}</Link>
+            <Link href={href('/docs/quick-start')}>{t.install}</Link>
           </nav>
         </details>
       </div>
