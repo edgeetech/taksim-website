@@ -17,7 +17,8 @@ export type ClientRowId =
   | 'devinCli'
   | 'devinDesktop'
   | 'openCodeKilo'
-  | 'pi';
+  | 'pi'
+  | 'agentWorkstation';
 
 export type ClientSupportRow = {
   id: ClientRowId;
@@ -90,6 +91,12 @@ export const clientSupport: ClientSupportRow[] = [
     manifestClients: ['pi'],
     billing: 'own',
     cells: { observe: 'yes', judge: 'yes', route: 'no' },
+  },
+  {
+    id: 'agentWorkstation',
+    manifestClients: ['agentworkstation'],
+    billing: 'own',
+    cells: { observe: 'yes', judge: 'no', route: 'no' },
   },
 ];
 

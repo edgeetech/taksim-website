@@ -143,7 +143,7 @@ export const tr: Dictionary = {
     steps: [
       {
         title: 'İçe aktar',
-        body: 'Taksim; Claude Code, Claude masaüstü uygulaması, Codex, GitHub Copilot, Devin, OpenCode, Kilo Code ve Pi’nin yerel geçmişini ve hook’larını okur. Her tur bir defter satırına dönüşür: model, token, cache, liste fiyatı maliyeti.',
+        body: 'Taksim; Claude Code, Claude masaüstü uygulaması, Codex, GitHub Copilot, Devin, OpenCode, Kilo Code, Pi ve Agent Workstation’ın yerel geçmişini ve hook’larını okur. Her tur bir defter satırına dönüşür: model, token, cache, liste fiyatı maliyeti.',
         detail: 'taksim setup',
       },
       {
@@ -245,7 +245,7 @@ export const tr: Dictionary = {
       },
       {
         q: 'Taksim hangi turları değerlendirebilir?',
-        a: 'Claude Code, Codex, OpenCode, Kilo Code, Pi ve Devin Desktop turlarını. OpenCode, Kilo Code ve Pi turları, Claude seviyesindeki modellerle çalıştıklarında değerlendirilir. GitHub Copilot ve Devin CLI oturumları içe aktarılır ve fiyatlandırılır, ancak henüz değerlendirilmez.',
+        a: 'Claude Code, Codex, OpenCode, Kilo Code, Pi ve Devin Desktop turlarını. OpenCode, Kilo Code ve Pi turları, Claude seviyesindeki modellerle çalıştıklarında değerlendirilir. GitHub Copilot, Devin CLI ve Agent Workstation oturumları içe aktarılır ve fiyatlandırılır, ancak henüz değerlendirilmez.',
       },
     ],
     cta: {
@@ -285,7 +285,7 @@ export const tr: Dictionary = {
       price: 'Ücretsiz',
       sub: 'Evde ya da işte, her birey için ücretsiz.',
       features: [
-        'Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code ve Pi için geçmiş içe aktarma',
+        'Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code, Pi ve Agent Workstation için geçmiş içe aktarma',
         'Fiyatlandırılmış oturumlar, model dağılımı ve cache verimliliği',
         'Seçtiğiniz judge ile (oturum içi Claude veya Codex, Ollama, kendi API key’iniz) tur tur değerlendirme',
         'Yerel dashboard, haftalık rapor, digest ve status line',
@@ -428,6 +428,13 @@ export const tr: Dictionary = {
         judge: 'Claude seviyesindeki modellerle çalışan turlar.',
         route: 'Sunulmuyor.',
       },
+      agentWorkstation: {
+        client: 'Agent Workstation',
+        access: 'Kendi sağlayıcı ayarlarınız',
+        observe: 'Yerel kullanım defterinden kullanım içe aktarma.',
+        judge: 'Henüz değil.',
+        route: 'Sunulmuyor.',
+      },
     },
     footnote:
       'Anthropic’in Claude Code koşulları, subscription kimlik bilgilerinin yalnızca Claude Code’un kendisi tarafından kullanılmasını şart koşar; bu yüzden Taksim, Claude Code ile bir subscription hesabı arasına asla girmez.',
@@ -531,7 +538,7 @@ export const tr: Dictionary = {
       },
       {
         title: 'İstemci uyumluluğu',
-        copy: 'Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code ve Pi için destek sınırlarını tam olarak görün.',
+        copy: 'Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code, Pi ve Agent Workstation için destek sınırlarını tam olarak görün.',
         href: '#client-compatibility',
         keywords: 'history managed live observation import geçmiş uyumluluk istemci',
       },
@@ -641,6 +648,13 @@ export const tr: Dictionary = {
           'Yerel oturum veritabanlarından geçmiş içe aktarma',
         ],
         ['Pi, Oh My Pi', 'Mevcut', 'Mevcut değil', 'Claude seviyesi modeller', 'Yerel oturum dosyalarından geçmiş içe aktarma'],
+        [
+          'Agent Workstation',
+          'Mevcut',
+          'Mevcut değil',
+          'Henüz değil',
+          'Yerel kullanım defterinden kullanım içe aktarma; onaylar zayıf kalite kanıtı olarak saklanır',
+        ],
       ],
     },
     next: 'Sonraki',

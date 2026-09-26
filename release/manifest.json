@@ -211,6 +211,13 @@
       "route": "none"
     },
     {
+      "id": "agentworkstation",
+      "name": "Agent Workstation",
+      "observe": true,
+      "judge": false,
+      "route": "none"
+    },
+    {
       "id": "claude-usage-data",
       "name": "Claude usage data",
       "observe": true,

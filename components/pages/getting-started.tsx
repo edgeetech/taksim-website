@@ -19,6 +19,7 @@ const historyCommands = [
   ['OpenCode', 'taksim history import --client opencode'],
   ['Kilo Code', 'taksim history import --client kilo'],
   ['Pi / Oh My Pi', 'taksim history import --client pi'],
+  ['Agent Workstation', 'taksim history import --client agentworkstation'],
 ];
 
 export function GettingStartedPage({ locale }: { locale: Locale }) {
