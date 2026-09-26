@@ -19,7 +19,6 @@ export const localizedRoutes = [
   '/docs/quick-start/',
   '/docs/getting-started/',
   '/docs/next-steps/',
-  '/docs/sign-in/',
   '/privacy/',
   '/terms/',
   '/contact/',

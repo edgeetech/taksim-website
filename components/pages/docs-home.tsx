@@ -18,9 +18,9 @@ export function DocsHomePage({ locale }: { locale: Locale }) {
         </header>
         <DocsSearch t={{ ...dict.docsSearch, entries: searchEntries }} />
         <div className="docs-callout">
-          <strong>{t.signInTitle}</strong>
+          <strong>{t.accountTitle}</strong>
           <p>
-            <Rich text={t.signInBody} locale={locale} />
+            <Rich text={t.accountBody} locale={locale} />
           </p>
         </div>
         <section id="how-taksim-works">

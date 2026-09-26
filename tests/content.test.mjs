@@ -40,7 +40,6 @@ test('keeps the CLI free for individuals, including at work, and publishes Team 
     'lib/i18n/tr.ts',
     'components/pages/terms.tsx',
     'components/pages/getting-started.tsx',
-    'components/pages/sign-in.tsx',
     'public/llms.txt',
   ]) {
     assert.doesNotMatch(await source(path), /\bSolo\b/, path);
@@ -90,17 +89,17 @@ test('keeps first-time Windows installation self-contained in the docs', async (
   assert.match(copy, /claude code codex/);
 });
 
-test('keeps sign-in optional and off by default across the site', async () => {
+test('has no Taksim account, sign-in or hosted Taksim service anywhere on the site', async () => {
+  const { access } = await import('node:fs/promises');
   const copy = await source(copyPath);
-  const signIn = await source('components/pages/sign-in.tsx');
   const llms = await source('public/llms.txt');
   assert.match(copy, /No Taksim account is required/i);
-  assert.doesNotMatch(copy, /Coming next: Taksim account sign-in/);
-  assert.match(copy, /Sign-in is optional and off by default/i);
-  assert.doesNotMatch(copy, /Identity v1: account access before command startup/);
-  assert.match(signIn, /Identity__Enabled=true/);
-  assert.doesNotMatch(signIn, /requires a verified Taksim account/i);
-  assert.match(llms, /optional and off by default/i);
+  assert.match(llms, /no Taksim account, sign-in or server/i);
+  for (const path of ['lib/i18n/en.ts', 'lib/i18n/tr.ts', 'lib/i18n/config.ts', 'release/llms.template.txt']) {
+    const text = await source(path);
+    assert.doesNotMatch(text, /Identity__|\/docs\/sign-in|taksim log(?:in|out)|hosted (?:sign-in|features?)|Taksim-hosted/i, path);
+  }
+  await assert.rejects(access(new URL('../components/pages/sign-in.tsx', import.meta.url)));
 });
 
 test('states subscription traffic is observed, not rewritten', async () => {
@@ -171,7 +170,6 @@ const publicCopy = [
   'components/pages/next-steps.tsx',
   'components/pages/home.tsx',
   'components/pages/docs-home.tsx',
-  'components/pages/sign-in.tsx',
   'components/pages/terms.tsx',
   'components/pages/contact.tsx',
   'components/ledger-stream.tsx',

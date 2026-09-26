@@ -456,7 +456,6 @@ export const en = {
           ['Easy install', '/docs/quick-start'],
           ['Full install guide', '/docs/getting-started'],
           ['Next steps', '/docs/next-steps'],
-          ['Sign in (optional)', '/docs/sign-in'],
         ],
       },
       {
@@ -497,12 +496,6 @@ export const en = {
     placeholder: 'Search concepts, clients, or commands…',
     empty: 'No matching documentation yet.',
     entries: [
-      {
-        title: 'Sign in (optional)',
-        copy: 'Opt-in browser login for hosted features, remembered access and model displays.',
-        href: '/docs/sign-in',
-        keywords: 'identity google github login logout device credential model optional off by default terms',
-      },
       {
         title: 'Subscriptions & API keys',
         copy: 'Why Claude subscriptions are observed, not rewritten, and how API-key routing differs.',
@@ -560,9 +553,9 @@ export const en = {
     eyebrow: 'Introduction',
     title: 'Welcome to Taksim',
     lede: 'A local-first sufficiency ledger for AI coding: which model ran, what it cost, and whether a cheaper model would have been enough.',
-    signInTitle: 'Sign-in is optional and off by default',
-    signInBody:
-      'Install Taksim and run `taksim claude` or `taksim codex` without an account. Hosted sign-in only applies when an operator sets `Identity__Enabled=true`. See the [optional sign-in guide](/docs/sign-in).',
+    accountTitle: 'No account, no Taksim server',
+    accountBody:
+      'Install Taksim and use it without an account or sign-in. Taksim runs no server of its own: the ledger, the reports and the dashboard stay on your machine. Start with the [easy install](/docs/quick-start).',
     how: {
       title: 'How Taksim works',
       body: 'Taksim reads the local history and hooks your coding clients already write, prices each session by model, and records it in a local ledger. It stores metadata only: no prompts, responses, code, paths or credentials.',
@@ -592,7 +585,7 @@ export const en = {
       body: 'Optional live routing for API-key traffic uses a local gateway on 127.0.0.1. Telemetry, persistence, and remote advice do not get to hold a healthy provider request hostage.',
       calloutTitle: 'Native workflow stays available',
       calloutBody:
-        'If the managed path cannot start safely, Taksim preserves the native client invocation instead of blocking the developer. Raw prompt, response, and source content is not persisted by default, and nothing leaves the machine unless you opt in to hosted features or a remote judge.',
+        'If the managed path cannot start safely, Taksim preserves the native client invocation instead of blocking the developer. Raw prompt, response, and source content is not persisted by default, and nothing leaves the machine unless you opt in to a remote judge or another remote destination you configure.',
     },
     subscriptions: {
       title: 'Subscriptions are observed, not rewritten',
@@ -747,7 +740,7 @@ export const en = {
     lede: 'Every detail of installing Taksim on Windows: what the installer checks, how to confirm it worked, and how to start your first session. For the short version, use the [easy install](/docs/quick-start).',
     noAccountTitle: 'No Taksim account required',
     noAccountBody:
-      'Install and run Taksim directly. Taksim sign-in is opt-in and off by default; it only matters if an operator turns on hosted features. See the [optional sign-in guide](/docs/sign-in).',
+      'Install and run Taksim directly. There is no Taksim sign-in and no Taksim server; everything runs on your machine.',
     plan: {
       title: '1. Confirm your plan',
       body: 'The Taksim CLI is free for any individual developer, at home or at work. Team features such as the team roll-up are paid.',
@@ -782,7 +775,7 @@ export const en = {
       body: 'You can keep running `claude`, `codex` and your other clients exactly as before; Taksim reads their history. To let Taksim launch Claude Code or Codex with its hooks and status line (and optional routing on API-key traffic), run one of these. Arguments for the native client can follow the command.',
       expectTitle: 'What to expect',
       expectBody:
-        'On a Claude or ChatGPT subscription, Taksim starts the client natively and observes it; no traffic passes through Taksim. With an API key, Taksim prepares its local gateway on `127.0.0.1` first; if the managed path is unavailable, the client falls back to its native behaviour. Everything runs locally by default; nothing leaves the machine unless you explicitly opt in to hosted features or a remote judge.',
+        'On a Claude or ChatGPT subscription, Taksim starts the client natively and observes it; no traffic passes through Taksim. With an API key, Taksim prepares its local gateway on `127.0.0.1` first; if the managed path is unavailable, the client falls back to its native behaviour. Everything runs locally by default; nothing leaves the machine unless you explicitly opt in to a remote judge or another remote destination you configure.',
     },
     inspect: {
       title: '7. Inspect the latest session',
@@ -883,7 +876,7 @@ export const en = {
       },
       {
         title: 'Local and transient processing',
-        body: 'Taksim runs locally by default. There is no default hosted routing-advice service, and nothing leaves the machine unless you explicitly opt in to a hosted Taksim feature. This is a claim about Taksim’s own telemetry and hosted services, not about the native AI client you run through it. If you choose a remote judge (Anthropic or TypeSafe Jev, on your own key), that provider receives truncated excerpts of the turns it grades. If you sign in to Claude Code, Codex, or another provider-native client, that client still sends prompts and responses to its own provider under that provider’s terms, independent of Taksim. Some adapters may inspect native client data or request content transiently to derive content-blind classifications and structural facts. Product documentation for each client describes its exact boundary. Where an observed provider or model cannot be established, Taksim records it as unknown.',
+        body: 'Taksim runs locally by default. There is no default hosted routing-advice service, and nothing leaves the machine unless you explicitly opt in to a remote feature, such as a remote judge or a Slack or webhook destination you configure. Taksim runs no server of its own. This is a claim about Taksim’s own telemetry, not about the native AI client you run through it. If you choose a remote judge (Anthropic or TypeSafe Jev, on your own key), that provider receives truncated excerpts of the turns it grades. If you sign in to Claude Code, Codex, or another provider-native client, that client still sends prompts and responses to its own provider under that provider’s terms, independent of Taksim. Some adapters may inspect native client data or request content transiently to derive content-blind classifications and structural facts. Product documentation for each client describes its exact boundary. Where an observed provider or model cannot be established, Taksim records it as unknown.',
       },
       {
         title: 'Website data',

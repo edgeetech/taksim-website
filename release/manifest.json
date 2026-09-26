@@ -1,16 +1,17 @@
 {
   "schema": "taksim.release-manifest.v1",
-  "source": "snapshot",
   "repository": "edgeetech/taksim-releases",
   "version": "0.3.0",
   "tag": "v0.3.0",
-  "publishedAt": null,
-  "platforms": ["win-x64"],
+  "platforms": [
+    "win-x64"
+  ],
   "assets": [
-    "taksim-connector-win-x64.zip",
-    "SHA256SUMS.txt",
     "install-release.ps1",
-    "install.ps1"
+    "install.ps1",
+    "SHA256SUMS.txt",
+    "taksim-connector-win-x64.zip",
+    "taksim-release-manifest.json"
   ],
   "install": {
     "oneLine": "irm https://github.com/edgeetech/taksim-releases/releases/latest/download/install.ps1 | iex",
@@ -66,8 +67,6 @@
     "judge run",
     "judge status",
     "judge submit",
-    "login",
-    "logout",
     "memory",
     "memory explain",
     "memory forget",
@@ -175,7 +174,10 @@
     {
       "id": "devin_desktop",
       "name": "Devin Desktop",
-      "aliases": ["devin-desktop", "windsurf"],
+      "aliases": [
+        "devin-desktop",
+        "windsurf"
+      ],
       "observe": true,
       "judge": true,
       "route": "none"
@@ -215,5 +217,7 @@
       "judge": false,
       "route": "none"
     }
-  ]
+  ],
+  "source": "release-manifest",
+  "publishedAt": "2026-09-26T18:20:38Z"
 }

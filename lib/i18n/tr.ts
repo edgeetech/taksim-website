@@ -457,7 +457,6 @@ export const tr: Dictionary = {
           ['Kolay kurulum', '/docs/quick-start'],
           ['Ayrıntılı kurulum rehberi', '/docs/getting-started'],
           ['Sonraki adımlar', '/docs/next-steps'],
-          ['Giriş yapma (isteğe bağlı)', '/docs/sign-in'],
         ],
       },
       {
@@ -498,13 +497,6 @@ export const tr: Dictionary = {
     placeholder: 'Kavram, istemci veya komut arayın…',
     empty: 'Eşleşen doküman bulunamadı.',
     entries: [
-      {
-        title: 'Giriş yapma (isteğe bağlı)',
-        copy: 'Barındırılan özellikler için isteğe bağlı tarayıcı girişi, hatırlanan erişim ve model gösterimi.',
-        href: '/docs/sign-in',
-        keywords:
-          'identity google github login logout device credential model optional off by default terms giriş oturum açma kimlik isteğe bağlı',
-      },
       {
         title: 'Subscription ve API key',
         copy: 'Claude subscription’larının neden yeniden yazılmayıp yalnızca gözlemlendiği ve API key yönlendirmesinin nasıl farklılaştığı.',
@@ -562,9 +554,9 @@ export const tr: Dictionary = {
     eyebrow: 'Giriş',
     title: 'Taksim’e hoş geldiniz',
     lede: 'AI kodlama için yerel öncelikli bir yeterlilik defteri: hangi model çalıştı, maliyeti ne oldu ve daha ucuz bir model yeterli olur muydu.',
-    signInTitle: 'Giriş yapmak isteğe bağlıdır ve varsayılan olarak kapalıdır',
-    signInBody:
-      'Taksim’i kurun ve hesap olmadan `taksim claude` veya `taksim codex` çalıştırın. Barındırılan giriş yalnızca bir operatör `Identity__Enabled=true` ayarladığında devreye girer. [İsteğe bağlı giriş rehberine](/docs/sign-in) bakın.',
+    accountTitle: 'Hesap yok, Taksim sunucusu yok',
+    accountBody:
+      'Taksim’i kurun ve hesap ya da giriş olmadan kullanın. Taksim’in kendi sunucusu yoktur: defter, raporlar ve dashboard sizin makinenizde kalır. [Kolay kurulumla](/docs/quick-start) başlayın.',
     how: {
       title: 'Taksim nasıl çalışır',
       body: 'Taksim, kodlama istemcilerinizin zaten yazdığı yerel geçmişi ve hook’ları okur, her oturumu modele göre fiyatlandırır ve yerel bir deftere kaydeder. Yalnızca metadata saklar: prompt, yanıt, kod, dosya yolu ya da kimlik bilgisi saklamaz.',
@@ -594,7 +586,7 @@ export const tr: Dictionary = {
       body: 'API key trafiği için isteğe bağlı canlı yönlendirme, 127.0.0.1 üzerindeki yerel bir gateway’i kullanır. Telemetri, kalıcı kayıt ve uzak öneriler, sağlıklı bir sağlayıcı isteğini asla bekletemez.',
       calloutTitle: 'Yerel iş akışı her zaman kullanılabilir',
       calloutBody:
-        'Yönetilen yol güvenli şekilde başlatılamazsa Taksim, geliştiriciyi engellemek yerine istemcinin yerel çağrısını korur. Ham prompt, yanıt ve kaynak içerik varsayılan olarak kalıcı saklanmaz; barındırılan özelliklere veya uzak bir judge’a açıkça izin vermediğiniz sürece hiçbir şey makineden çıkmaz.',
+        'Yönetilen yol güvenli şekilde başlatılamazsa Taksim, geliştiriciyi engellemek yerine istemcinin yerel çağrısını korur. Ham prompt, yanıt ve kaynak içerik varsayılan olarak kalıcı saklanmaz; uzak bir judge’a veya yapılandırdığınız başka bir uzak hedefe açıkça izin vermediğiniz sürece hiçbir şey makineden çıkmaz.',
     },
     subscriptions: {
       title: 'Subscription’lar gözlemlenir, yeniden yazılmaz',
@@ -749,7 +741,7 @@ export const tr: Dictionary = {
     lede: 'Taksim’i Windows’a kurmanın tüm ayrıntıları: kurulum aracının neyi kontrol ettiği, çalıştığını nasıl doğrulayacağınız ve ilk oturumunuzu nasıl başlatacağınız. Kısa sürüm için [kolay kurulumu](/docs/quick-start) kullanın.',
     noAccountTitle: 'Taksim hesabı gerekmez',
     noAccountBody:
-      'Taksim’i kurun ve doğrudan çalıştırın. Taksim girişi isteğe bağlıdır ve varsayılan olarak kapalıdır; yalnızca bir operatör barındırılan özellikleri açarsa önem taşır. [İsteğe bağlı giriş rehberine](/docs/sign-in) bakın.',
+      'Taksim’i kurun ve doğrudan çalıştırın. Taksim girişi ve Taksim sunucusu yoktur; her şey sizin makinenizde çalışır.',
     plan: {
       title: '1. Planınızı doğrulayın',
       body: 'Taksim CLI, evde ya da işte, her bireysel geliştirici için ücretsizdir. Ekip toplu görünümü gibi Team özellikleri ücretlidir.',
@@ -784,7 +776,7 @@ export const tr: Dictionary = {
       body: '`claude`, `codex` ve diğer istemcilerinizi eskisi gibi çalıştırmaya devam edebilirsiniz; Taksim geçmişlerini okur. Taksim’in Claude Code veya Codex’i kendi hook’ları ve status line’ı ile (API key trafiğinde isteğe bağlı yönlendirmeyle) başlatmasını istiyorsanız aşağıdakilerden birini çalıştırın. Yerel istemciye yönelik argümanlar komutun ardından gelebilir.',
       expectTitle: 'Ne beklemelisiniz',
       expectBody:
-        'Claude veya ChatGPT subscription’ında Taksim istemciyi yerel olarak başlatır ve gözlemler; hiçbir trafik Taksim’den geçmez. API key ile Taksim önce yerel gateway’ini `127.0.0.1` üzerinde hazırlar; yönetilen yol kullanılamazsa istemci kendi yerel davranışına döner. Varsayılan olarak her şey yerelde çalışır; barındırılan özelliklere veya uzak bir judge’a açıkça izin vermediğiniz sürece hiçbir şey makineden çıkmaz.',
+        'Claude veya ChatGPT subscription’ında Taksim istemciyi yerel olarak başlatır ve gözlemler; hiçbir trafik Taksim’den geçmez. API key ile Taksim önce yerel gateway’ini `127.0.0.1` üzerinde hazırlar; yönetilen yol kullanılamazsa istemci kendi yerel davranışına döner. Varsayılan olarak her şey yerelde çalışır; uzak bir judge’a veya yapılandırdığınız başka bir uzak hedefe açıkça izin vermediğiniz sürece hiçbir şey makineden çıkmaz.',
     },
     inspect: {
       title: '7. Son oturumu inceleyin',
@@ -885,7 +877,7 @@ export const tr: Dictionary = {
       },
       {
         title: 'Yerel ve geçici işleme',
-        body: 'Taksim varsayılan olarak yerelde çalışır. Varsayılan olarak barındırılan bir yönlendirme önerisi servisi yoktur ve barındırılan bir Taksim özelliğine açıkça izin vermediğiniz sürece hiçbir şey makineden çıkmaz. Bu, Taksim’in kendi telemetrisi ve barındırılan servisleri hakkında bir beyandır; Taksim üzerinden çalıştırdığınız yerel AI istemcisi hakkında değil. Uzak bir judge (kendi key’inizle Anthropic veya TypeSafe Jev) seçerseniz, o sağlayıcı değerlendirdiği turların kısaltılmış alıntılarını alır. Claude Code, Codex veya başka bir sağlayıcıya ait istemcide oturum açarsanız, o istemci Taksim’den bağımsız olarak prompt’ları ve yanıtları o sağlayıcının koşulları altında kendi sağlayıcısına göndermeye devam eder. Bazı adaptörler, içerikten bağımsız sınıflandırmalar ve yapısal bilgiler türetmek için yerel istemci verilerini veya istek içeriğini geçici olarak inceleyebilir. Her istemcinin ürün dokümantasyonu kendi sınırını tam olarak açıklar. Gözlemlenen sağlayıcı veya model belirlenemediğinde Taksim bunu bilinmiyor olarak kaydeder.',
+        body: 'Taksim varsayılan olarak yerelde çalışır. Varsayılan olarak barındırılan bir yönlendirme önerisi servisi yoktur ve uzak bir judge ya da yapılandırdığınız bir Slack veya webhook hedefi gibi uzak bir özelliğe açıkça izin vermediğiniz sürece hiçbir şey makineden çıkmaz. Taksim’in kendi sunucusu yoktur. Bu, Taksim’in kendi telemetrisi hakkında bir beyandır; Taksim üzerinden çalıştırdığınız yerel AI istemcisi hakkında değil. Uzak bir judge (kendi key’inizle Anthropic veya TypeSafe Jev) seçerseniz, o sağlayıcı değerlendirdiği turların kısaltılmış alıntılarını alır. Claude Code, Codex veya başka bir sağlayıcıya ait istemcide oturum açarsanız, o istemci Taksim’den bağımsız olarak prompt’ları ve yanıtları o sağlayıcının koşulları altında kendi sağlayıcısına göndermeye devam eder. Bazı adaptörler, içerikten bağımsız sınıflandırmalar ve yapısal bilgiler türetmek için yerel istemci verilerini veya istek içeriğini geçici olarak inceleyebilir. Her istemcinin ürün dokümantasyonu kendi sınırını tam olarak açıklar. Gözlemlenen sağlayıcı veya model belirlenemediğinde Taksim bunu bilinmiyor olarak kaydeder.',
       },
       {
         title: 'Web sitesi verileri',
