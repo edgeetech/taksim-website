@@ -1,12 +1,12 @@
 import Link from 'next/link';
 
 const installerCommand = `Invoke-WebRequest \`
-  -Uri 'https://github.com/edgeetech/taksim-releases/releases/download/v0.1.1/install-release.ps1' \`
+  -Uri 'https://github.com/edgeetech/taksim-releases/releases/download/v0.2.0/install-release.ps1' \`
   -OutFile '.\\install-release.ps1'
 
 .\\install-release.ps1 \`
   -Repository edgeetech/taksim-releases \`
-  -Version 0.1.1`;
+  -Version 0.2.0`;
 
 const verificationCommand = `taksim version
 taksim doctor
@@ -25,16 +25,6 @@ export default function GettingStarted() {
             documentation.
           </p>
         </header>
-
-        <div className="docs-callout" id="preview-release">
-          <strong>Early preview release</strong>
-          <p>
-            The current public release (v0.1.1) is an early preview; judging
-            and reports described here ship in the next release. So do{' '}
-            <code>taksim setup</code> and the credential check that keeps
-            subscription sign-ins out of the local gateway.
-          </p>
-        </div>
 
         <div className="docs-callout">
           <strong>No Taksim account required</strong>

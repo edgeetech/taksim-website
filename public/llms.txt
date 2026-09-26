@@ -22,11 +22,11 @@ Usage and cost: API-key usage is shown in billed dollars; subscription usage is 
 
 Platforms: Windows only.
 
-Release status: the current public release (v0.1.1) is an early preview. Judging, reports, `taksim setup` and the credential check that keeps subscription sign-ins out of the local gateway ship in the next release.
+Current release: v0.2.0.
 
 Pricing: the CLI is free for any individual developer, at home or at work. Team is $8 per active developer per month, $99 per month minimum, 20% off with annual billing. The team roll-up is built from exports each developer creates and can inspect before sharing; exports carry repo aliases, never paths.
 
-Sign-in is optional and off by default: install Taksim and run `taksim claude` or `taksim codex` with no account. Hosted sign-in only activates when an operator sets `Identity__Enabled=true`, in which case it supports Google/GitHub browser sign-in and stores device credentials in Windows Credential Manager (up to 24 hours, no automatic refresh). The public installer remains v0.1.1, which predates this opt-in sign-in flow; it currently requires a source/development build.
+Sign-in is optional and off by default: install Taksim and run `taksim claude` or `taksim codex` with no account. Hosted sign-in only activates when an operator sets `Identity__Enabled=true`, in which case it supports Google/GitHub browser sign-in and stores device credentials in Windows Credential Manager (up to 24 hours, no automatic refresh). The v0.2.0 release includes this code; it stays off unless an operator enables it.
 
 Everything runs locally on 127.0.0.1 by default; nothing leaves the machine unless you opt in to a hosted Taksim feature or a remote judge on your own key (which receives truncated excerpts of the turns it grades). There is no default hosted routing-advice service. This does not describe the native AI client itself: Claude Code, Codex, and similar clients still send prompts and responses to their own provider under that provider's terms, independent of Taksim.
 

@@ -59,12 +59,12 @@ test('keeps first-time Windows installation self-contained in the docs', async (
   const search = await source('components/docs-search.tsx');
   assert.match(
     quickstart,
-    /https:\/\/github\.com\/edgeetech\/taksim-releases\/releases\/download\/v0\.1\.1\/install-release\.ps1/,
+    /https:\/\/github\.com\/edgeetech\/taksim-releases\/releases\/download\/v0\.2\.0\/install-release\.ps1/,
   );
   assert.match(quickstart, /Invoke-WebRequest \\`\r?\n\s+-Uri/);
   assert.match(quickstart, /install-release\.ps1 \\`\r?\n\s+-Repository/);
   assert.doesNotMatch(quickstart, /asozyurt\/taksim/);
-  assert.match(quickstart, /Version 0\.1\.1/);
+  assert.match(quickstart, /Version 0\.2\.0/);
   assert.match(quickstart, /taksim version/);
   assert.match(quickstart, /taksim doctor/);
   assert.match(quickstart, /taksim install status/);
@@ -205,12 +205,16 @@ test('labels subscription usage as quota and team exports as inspectable aliases
   assert.match(plans, /can inspect it before sharing; exports carry repo aliases, never paths/);
 });
 
-test('flags the public installer as an early preview until the next release', async () => {
+test('points every install and release reference at v0.2.0', async () => {
   const quickstart = await source('app/docs/getting-started/page.tsx');
   const llms = await source('public/llms.txt');
-  assert.match(quickstart, /is an early preview; judging\s+and reports described here ship in the next release/);
-  assert.match(llms, /early preview/);
+  assert.match(quickstart, /releases\/download\/v0\.2\.0\/install-release\.ps1/);
+  assert.match(llms, /Current release: v0\.2\.0/);
   assert.match(llms, /Windows only/);
+  for (const path of [...publicCopy, 'components/docs-search.tsx']) {
+    const text = await source(path);
+    assert.doesNotMatch(text, /0\.1\.1|early preview|source\/development build/i, path);
+  }
 });
 
 test('publishes discovery files for the canonical domain', async () => {

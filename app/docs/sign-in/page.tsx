@@ -12,8 +12,8 @@ export default function SignInGuide() {
         <section id="availability">
           <h2>Availability</h2>
           <p>By default, <code>taksim claude</code> and <code>taksim codex</code> start immediately with no account and no sign-in step. Hosted sign-in is disabled until an operator sets <code>Identity__Enabled=true</code> and configures <code>Identity__VerificationOrigin</code> with the trusted HTTPS identity service. Do not use someone else’s localhost address or share OAuth secrets in support messages.</p>
-          <p>This opt-in sign-in flow is a source/development-build capability. The public installer currently distributes v0.1.1, which predates it, so the packaged installer does not yet include hosted sign-in. A new packaged release is required before general availability.</p>
-          <p>For the default, account-free flow, follow the <Link href="/docs/getting-started">Windows installation guide</Link>. The rest of this page describes what happens once an operator opts in from a source/development build.</p>
+          <p>The public release (v0.2.0) includes this sign-in code, but it stays off unless an operator sets <code>Identity__Enabled=true</code> and points it at a trusted identity service.</p>
+          <p>For the default, account-free flow, follow the <Link href="/docs/getting-started">Windows installation guide</Link>. The rest of this page describes what happens once an operator opts in.</p>
         </section>
         <section id="first-session">
           <h2>Your first session when sign-in is enabled</h2>
