@@ -242,3 +242,53 @@ test('exports a platform-independent static site for GitHub Pages', async () => 
   assert.match(workflow, /retention-days: 1/);
   assert.doesNotMatch(vite, /openai|cloudflare|wrangler/i);
 });
+
+test('lists every observe-only history-import client from one shared source, so pages cannot drift apart', async () => {
+  const registry = await source('lib/history-import-clients.ts');
+  const home = await source('app/page.tsx');
+  const docs = await source('app/docs/page.tsx');
+  const quickstart = await source('app/docs/getting-started/page.tsx');
+  const llms = await source('public/llms.txt');
+
+  const names = [...registry.matchAll(/name:\s*'([^']+)'/g)].map((m) => m[1]);
+  const flags = [...registry.matchAll(/flag:\s*'([^']+)'/g)].map((m) => m[1]);
+
+  // Verified against edgeetech/taksim docs/CLIENTS.md and
+  // src/Taksim.Edge/HistoryCommands.cs: every client with a history importer
+  // but no managed-launch adapter, including Agent Workstation.
+  assert.deepEqual(names, [
+    'AgentBoard',
+    'Agent Workstation',
+    'Devin Desktop',
+    'Kilo Code',
+    'OpenCode',
+    'Pi / Oh My Pi',
+  ]);
+  assert.deepEqual(flags, [
+    'agentboard',
+    'agentworkstation',
+    'devin_desktop',
+    'kilo',
+    'opencode',
+    'pi',
+  ]);
+
+  // Every page renders the shared array instead of hardcoding its own copy.
+  for (const page of [home, docs, quickstart]) {
+    assert.match(page, /from '@\/lib\/history-import-clients'/);
+  }
+
+  // llms.txt is static and cannot import the module, so it is checked
+  // against the same ground truth instead.
+  for (const name of names) {
+    assert.ok(llms.includes(name), `llms.txt is missing history-import client: ${name}`);
+  }
+  for (const flag of flags) {
+    assert.ok(llms.includes(flag), `llms.txt is missing --client flag: ${flag}`);
+  }
+
+  // No page may claim a managed launch or routing for an import-only client.
+  for (const page of [home, docs, quickstart, llms]) {
+    assert.doesNotMatch(page, /taksim agentboard|taksim agentworkstation|taksim opencode|taksim kilo|taksim devin_desktop|taksim pi\b/);
+  }
+});
