@@ -108,7 +108,7 @@ export const en = {
     valueProps: [
       {
         title: 'Every session, priced.',
-        body: 'Taksim imports what your coding agents already write to disk and prices each session by model, repo and task, including cache reads and writes. API-key usage is shown in billed dollars; subscription usage is shown as API-equivalent list-price dollars, labelled as quota, not billed.',
+        body: 'Taksim imports what your coding agents already write to disk and prices each session by model, repo and task, including cache reads and writes, each write at the cache lifetime the client recorded (5 minutes or 1 hour). API-key usage is shown in billed dollars; subscription usage is shown as API-equivalent list-price dollars, labelled as quota, not billed.',
       },
       {
         title: 'Was the cheaper model enough?',
@@ -471,6 +471,7 @@ export const en = {
           ['Dashboard', '/docs/next-steps#dashboard'],
           ['Judging', '/docs/next-steps#judging'],
           ['Budgets, digest and alerts', '/docs/next-steps#budgets'],
+          ['Cache guard', '/docs/next-steps#cache'],
           ['Team roll-up', '/docs/next-steps#team'],
           ['Update and uninstall', '/docs/quick-start#update'],
         ],
@@ -859,6 +860,12 @@ export const en = {
       notify:
         'To receive the digest and budget alerts in Slack or any webhook, save the address once (it is stored in Windows Credential Manager, and only aggregates and repo aliases are sent), send a test, then post the digest:',
     },
+    cache: {
+      title: 'Cache guard and cache costs',
+      body: 'Cache guard adds informational Claude Code hooks. It tells you when a large session resumes after its prompt cache expired, with the tokens and cost to re-cache, and its context guard tells you once when a session grows past a size you choose (default: 200k tokens), with the per-turn cost of carrying it, so you can `/compact` or start fresh. Nothing is blocked and no request is sent.',
+      insights:
+        'Cache costs are priced at the lifetime each write recorded (5 minutes or 1 hour), including fast mode. The cache report shows that mix and which pauses really cost a re-cache:',
+    },
     team: {
       title: 'Team roll-up',
       body: 'Each developer writes a metadata-only export into a shared folder and can inspect it before sharing; exports carry repo aliases, never paths. The team lead combines them into one report, or opens them in the dashboard. The team roll-up is part of the [Team plan](/pricing).',
@@ -868,6 +875,7 @@ export const en = {
       dashboard: 'Dashboard',
       judging: 'Judging',
       budgets: 'Budgets and alerts',
+      cache: 'Cache guard',
       team: 'Team roll-up',
     },
   },

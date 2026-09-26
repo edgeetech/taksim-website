@@ -18,6 +18,11 @@ taksim digest --since 30d --format html`,
   notify: `taksim notify configure --slack-webhook <your-slack-webhook-url>
 taksim notify test
 taksim digest --to slack`,
+  cacheGuard: `taksim cache-guard enable
+taksim cache-guard enable --context-threshold 150000
+taksim cache-guard status`,
+  cacheInsights: `taksim insights cache
+taksim insights cache --advice`,
   team: `taksim report baseline --export <shared-folder> --label <your-alias>
 taksim report team --in <shared-folder> --html
 taksim dashboard --team <shared-folder>`,
@@ -70,6 +75,14 @@ export function NextStepsPage({ locale }: { locale: Locale }) {
           <Commands text={commands.notify} />
         </section>
 
+        <section id="cache">
+          <h2>{t.cache.title}</h2>
+          <p>{rich(t.cache.body)}</p>
+          <Commands text={commands.cacheGuard} />
+          <p>{rich(t.cache.insights)}</p>
+          <Commands text={commands.cacheInsights} />
+        </section>
+
         <section id="team">
           <h2>{t.team.title}</h2>
           <p>{rich(t.team.body)}</p>
@@ -81,6 +94,7 @@ export function NextStepsPage({ locale }: { locale: Locale }) {
         <Link href="#dashboard">{t.toc.dashboard}</Link>
         <Link href="#judging">{t.toc.judging}</Link>
         <Link href="#budgets">{t.toc.budgets}</Link>
+        <Link href="#cache">{t.toc.cache}</Link>
         <Link href="#team">{t.toc.team}</Link>
       </aside>
     </div>

@@ -30,6 +30,8 @@ Client boundary (Observe = history import and reports; Judge = LLM judge grades 
 
 A verdict counts toward the "could have saved" figure only when two judges agree and at least one is a strong judge. The figure is an estimate with its sample size shown, never a guarantee.
 
+Cache guard (`taksim cache-guard enable`): informational Claude Code hooks that say when a large session resumes after its prompt cache expired, with the tokens and cost to re-cache, and, through the context guard, once when a session passes a size threshold (default 200,000 tokens, `--context-threshold`), with the per-turn cost of carrying it. Never blocks, never sends a request. `taksim cache-guard status` shows the threshold. Cache writes are priced at the lifetime each one recorded (5 minutes or 1 hour), fast mode and web search included; `taksim insights cache` shows the TTL mix and which pauses cost a re-cache.
+
 Usage and cost: API-key usage is shown in billed dollars; subscription usage is shown as API-equivalent list-price dollars, labelled as quota, not billed. `taksim dashboard` is a local, read-only dashboard on 127.0.0.1. Reports are on demand: `taksim report weekly`, `taksim digest`, `taksim report summary`. Budgets (`taksim budget set`) are warnings only; nothing is blocked. The digest and budget alerts can be sent to Slack or a webhook you configure with `taksim notify configure`.
 
 Pricing: the CLI is free for any individual developer, at home or at work. Team is $8 per active developer per month, $99 per month minimum, 20% off with annual billing. The team roll-up is built from exports each developer creates and can inspect before sharing; exports carry repo aliases, never paths.
