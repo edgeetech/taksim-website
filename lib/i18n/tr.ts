@@ -108,7 +108,7 @@ export const tr: Dictionary = {
     valueProps: [
       {
         title: 'Her oturum, fiyatıyla.',
-        body: 'Taksim, kodlama ajanlarınızın zaten diske yazdığı verileri içe aktarır ve her oturumu model, repo ve göreve göre, cache okuma ve yazmaları dahil fiyatlandırır. API key kullanımı faturalanan dolar olarak gösterilir; subscription kullanımı ise API eşdeğeri liste fiyatı olarak, faturalanan değil kota olarak etiketlenip gösterilir.',
+        body: 'Taksim, kodlama ajanlarınızın zaten diske yazdığı verileri içe aktarır ve her oturumu model, repo ve göreve göre, cache okuma ve yazmaları dahil fiyatlandırır; her yazma, istemcinin kaydettiği cache ömrüyle (5 dakika veya 1 saat) fiyatlanır. API key kullanımı faturalanan dolar olarak gösterilir; subscription kullanımı ise API eşdeğeri liste fiyatı olarak, faturalanan değil kota olarak etiketlenip gösterilir.',
       },
       {
         title: 'Daha ucuz model yeterli miydi?',
@@ -472,6 +472,7 @@ export const tr: Dictionary = {
           ['Dashboard', '/docs/next-steps#dashboard'],
           ['Judge değerlendirmesi', '/docs/next-steps#judging'],
           ['Bütçeler, digest ve uyarılar', '/docs/next-steps#budgets'],
+          ['Cache guard', '/docs/next-steps#cache'],
           ['Ekip toplu görünümü', '/docs/next-steps#team'],
           ['Güncelleme ve kaldırma', '/docs/quick-start#update'],
         ],
@@ -860,6 +861,12 @@ export const tr: Dictionary = {
       notify:
         'Digest’i ve bütçe uyarılarını Slack’te veya herhangi bir webhook’ta almak için adresi bir kez kaydedin (Windows Credential Manager’da saklanır ve yalnızca toplu değerler ile repo takma adları gönderilir), bir test gönderin, ardından digest’i paylaşın:',
     },
+    cache: {
+      title: 'Cache guard ve cache maliyetleri',
+      body: 'Cache guard, bilgilendirme amaçlı Claude Code hook’ları ekler. Büyük bir oturum prompt cache’i sona erdikten sonra devam ettiğinde yeniden cache’lemenin token ve maliyetini söyler; context guard ise bir oturum seçtiğiniz boyutu (varsayılan: 200k token) aştığında, onu taşımanın tur başına maliyetiyle birlikte bir kez haber verir, böylece `/compact` yapabilir ya da yeni bir oturum açabilirsiniz. Hiçbir şey engellenmez ve hiçbir istek gönderilmez.',
+      insights:
+        'Cache maliyetleri, her yazmanın kaydettiği ömürle (5 dakika veya 1 saat), fast mode dahil fiyatlanır. Cache raporu bu dağılımı ve hangi duraklamaların gerçekten yeniden cache’lemeye mal olduğunu gösterir:',
+    },
     team: {
       title: 'Ekip toplu görünümü',
       body: 'Her geliştirici ortak bir klasöre yalnızca metadata içeren bir export yazar ve paylaşmadan önce inceleyebilir; export’lar dosya yollarını değil, repo takma adlarını içerir. Ekip lideri bunları tek bir raporda birleştirir ya da dashboard’da açar. Ekip toplu görünümü [Team planının](/pricing) parçasıdır.',
@@ -869,6 +876,7 @@ export const tr: Dictionary = {
       dashboard: 'Dashboard',
       judging: 'Judge',
       budgets: 'Bütçeler ve uyarılar',
+      cache: 'Cache guard',
       team: 'Ekip toplu görünümü',
     },
   },
