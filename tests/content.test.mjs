@@ -225,12 +225,19 @@ test('takes the release version and install command from the release manifest', 
 });
 
 test('publishes discovery files for the canonical domain', async () => {
-  const robots = await source('app/robots.ts');
+  // Static files in public/, because the static export does not emit app/sitemap.ts or app/robots.ts.
+  const robots = await source('public/robots.txt');
   const config = await source('lib/i18n/config.ts');
-  const sitemap = await source('app/sitemap.ts');
-  assert.match(robots, /taksim\.edgee\.tech/);
+  const sitemap = await source('public/sitemap.xml');
+  const { localizedRoutes, locales } = await import('../lib/i18n/config.ts');
   assert.match(config, /siteUrl = 'https:\/\/taksim\.edgee\.tech'/);
-  assert.match(sitemap, /siteUrl/);
+  assert.match(robots, /^Sitemap: https:\/\/taksim\.edgee\.tech\/sitemap\.xml$/m);
+  assert.match(sitemap, /^<\?xml version="1\.0" encoding="UTF-8"\?>/);
+  for (const route of localizedRoutes) {
+    assert.ok(sitemap.includes(`<loc>https://taksim.edgee.tech${route}</loc>`), route);
+    assert.ok(sitemap.includes(`<loc>https://taksim.edgee.tech/tr${route}</loc>`), `/tr${route}`);
+  }
+  assert.equal(sitemap.match(/<url>/g).length, localizedRoutes.length * locales.length);
 });
 
 test('exports a platform-independent static site for GitHub Pages', async () => {

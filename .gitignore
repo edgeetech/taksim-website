@@ -40,3 +40,7 @@ next-env.d.ts
 # generated from release/llms.template.txt by scripts/release.mjs
 /public/llms.txt
 tsconfig.tsbuildinfo
+
+# generated from lib/i18n/config.ts by scripts/discovery.mjs
+/public/sitemap.xml
+/public/robots.txt

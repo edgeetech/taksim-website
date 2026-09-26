@@ -1,6 +1,6 @@
 # Taksim
 
-Taksim is a local-first sufficiency ledger for AI coding. It reads the local history and hooks of coding agents (Claude Code, Codex, GitHub Copilot CLI, Devin, Devin Desktop, OpenCode, Kilo Code, Pi and Oh My Pi), prices every session, and grades finished turns with an LLM judge to show when a cheaper model would have been enough. It stores metadata only: no prompts, responses, code, paths or credentials.
+Taksim is a local-first sufficiency ledger for AI coding. It reads the local history and hooks of coding agents (Claude Code, Codex, GitHub Copilot CLI, Devin, Devin Desktop, OpenCode, Kilo Code, Pi and Oh My Pi, Agent Workstation), prices every session, and grades finished turns with an LLM judge to show when a cheaper model would have been enough. It stores metadata only: no prompts, responses, code, paths or credentials.
 
 Canonical site: https://taksim.edgee.tech
 Easy install (3 steps): https://taksim.edgee.tech/docs/quick-start
@@ -26,6 +26,7 @@ Client boundary (Observe = history import and reports; Judge = LLM judge grades 
 - Devin Desktop (formerly Windsurf): history import and judging. Observe-only; never routed.
 - OpenCode and Kilo Code: history import and judging (Claude-tier models). No routing.
 - Pi and Oh My Pi: history import and judging (Claude-tier models). No routing.
+- Agent Workstation: usage import from its local usage ledger (`aw-usage-YYYY-MM.jsonl`), reports; approvals are kept as weak quality evidence. Not judged; no routing.
 
 A verdict counts toward the "could have saved" figure only when two judges agree and at least one is a strong judge. The figure is an estimate with its sample size shown, never a guarantee.
 

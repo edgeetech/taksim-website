@@ -143,7 +143,7 @@ export const en = {
     steps: [
       {
         title: 'Import',
-        body: 'Taksim reads the local history and hooks of Claude Code, the Claude desktop app, Codex, GitHub Copilot, Devin, OpenCode, Kilo Code and Pi. Each turn becomes a ledger line: model, tokens, cache, list-price cost.',
+        body: 'Taksim reads the local history and hooks of Claude Code, the Claude desktop app, Codex, GitHub Copilot, Devin, OpenCode, Kilo Code, Pi and Agent Workstation. Each turn becomes a ledger line: model, tokens, cache, list-price cost.',
         detail: 'taksim setup',
       },
       {
@@ -245,7 +245,7 @@ export const en = {
       },
       {
         q: 'Which turns can Taksim judge?',
-        a: 'Claude Code, Codex, OpenCode, Kilo Code, Pi and Devin Desktop turns. OpenCode, Kilo Code and Pi turns are judged when they ran on Claude-tier models. GitHub Copilot and Devin CLI sessions are imported and priced, but not judged yet.',
+        a: 'Claude Code, Codex, OpenCode, Kilo Code, Pi and Devin Desktop turns. OpenCode, Kilo Code and Pi turns are judged when they ran on Claude-tier models. GitHub Copilot, Devin CLI and Agent Workstation sessions are imported and priced, but not judged yet.',
       },
     ],
     cta: {
@@ -285,7 +285,7 @@ export const en = {
       price: 'Free',
       sub: 'Free for any individual, at home or at work.',
       features: [
-        'History import for Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code and Pi',
+        'History import for Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code, Pi and Agent Workstation',
         'Priced sessions, model mix and cache efficiency',
         'Turn-by-turn judging with your choice of judge (in-session Claude or Codex, Ollama, your own API key)',
         'Local dashboard, weekly report, digest and status line',
@@ -427,6 +427,13 @@ export const en = {
         judge: 'Turns that ran on Claude-tier models.',
         route: 'Not offered.',
       },
+      agentWorkstation: {
+        client: 'Agent Workstation',
+        access: 'Your own provider settings',
+        observe: 'Usage import from the local usage ledger.',
+        judge: 'Not yet.',
+        route: 'Not offered.',
+      },
     },
     footnote:
       "Anthropic's Claude Code terms require that subscription credentials are used only by Claude Code itself, so Taksim never sits between Claude Code and a subscription account.",
@@ -530,7 +537,7 @@ export const en = {
       },
       {
         title: 'Client compatibility',
-        copy: 'See exact support boundaries for Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code and Pi.',
+        copy: 'See exact support boundaries for Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code, Pi and Agent Workstation.',
         href: '#client-compatibility',
         keywords: 'history managed live observation import',
       },
@@ -640,6 +647,13 @@ export const en = {
           'History import from local session databases',
         ],
         ['Pi, Oh My Pi', 'Available', 'Not available', 'Claude-tier models', 'History import from local session files'],
+        [
+          'Agent Workstation',
+          'Available',
+          'Not available',
+          'Not yet',
+          'Usage import from the local usage ledger; approvals kept as weak quality evidence',
+        ],
       ],
     },
     next: 'Next',
