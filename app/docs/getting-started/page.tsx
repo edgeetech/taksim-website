@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { historyImportOnlyClients } from '@/lib/history-import-clients';
 
 const installerCommand = `Invoke-WebRequest \`
   -Uri 'https://github.com/edgeetech/taksim-releases/releases/download/v0.1.1/install-release.ps1' \`
@@ -202,6 +203,20 @@ export default function GettingStarted() {
                 <code>taksim history import --client github_copilot</code>
               </pre>
             </details>
+          </div>
+          <p>
+            These clients support history import only; Taksim never launches
+            or routes them:
+          </p>
+          <div className="docs-command-list">
+            {historyImportOnlyClients.map(({ name, command }) => (
+              <details key={name}>
+                <summary>{name}</summary>
+                <pre>
+                  <code>{command}</code>
+                </pre>
+              </details>
+            ))}
           </div>
         </section>
 

@@ -9,11 +9,19 @@ Sign-in (optional): https://taksim.edgee.tech/docs/sign-in
 Pricing: https://taksim.edgee.tech/pricing
 Privacy: https://taksim.edgee.tech/privacy
 
-Current client boundary (verified 2026-09-08):
+Current client boundary (verified 2026-09-26):
 - Claude Code: managed sessions and historical import.
 - Codex: managed observation and historical import; native model selection in v0.
 - Devin: managed sessions and historical import.
 - GitHub Copilot Coding Agent: historical visibility only; no managed launch.
+
+History import only, no managed launch and no routing (`taksim history import --client <name>`):
+- AgentBoard (`agentboard`): history import only; no managed launch, no routing.
+- Agent Workstation (`agentworkstation`): history import only; no managed launch, no routing.
+- Devin Desktop (`devin_desktop`, formerly Windsurf): history import and judge backlog only; a subscription product Taksim never launches or routes.
+- Kilo Code (`kilo`): history import and judging only; managed launch and routing are deferred.
+- OpenCode (`opencode`): history import and judging only; managed launch and routing are deferred.
+- Pi / Oh My Pi (`pi`): history import and judging only; no managed launch or routing.
 
 Taksim governs policy, quality, privacy, budget, eligibility, evidence, direct resource selection, and approved provider-native delegation. It is not positioned as a proprietary request-level multi-model router.
 

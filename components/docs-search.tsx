@@ -37,6 +37,13 @@ const entries = [
     keywords: 'history managed live observation import',
   },
   {
+    title: 'History import only',
+    copy: 'AgentBoard, Agent Workstation, Devin Desktop, Kilo Code, OpenCode, and Pi / Oh My Pi: history import, no managed launch.',
+    href: '#history-import-only',
+    keywords:
+      'agentboard agent workstation devin desktop windsurf kilo code opencode pi oh my pi observe only no managed launch',
+  },
+  {
     title: 'Connector & availability',
     copy: 'Understand the local, fail-open managed path.',
     href: '#connector',
