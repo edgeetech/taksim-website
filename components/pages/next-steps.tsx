@@ -23,6 +23,10 @@ taksim cache-guard enable --context-threshold 150000
 taksim cache-guard status`,
   cacheInsights: `taksim insights cache
 taksim insights cache --advice`,
+  quota: `taksim insights quota
+taksim insights quota --since 30d`,
+  anomalies: `taksim insights anomalies
+taksim insights anomalies --since 7d`,
   team: `taksim report baseline --export <shared-folder> --label <your-alias>
 taksim report team --in <shared-folder> --html
 taksim dashboard --team <shared-folder>`,
@@ -83,6 +87,14 @@ export function NextStepsPage({ locale }: { locale: Locale }) {
           <Commands text={commands.cacheInsights} />
         </section>
 
+        <section id="insights">
+          <h2>{t.insights.title}</h2>
+          <p>{rich(t.insights.quota)}</p>
+          <Commands text={commands.quota} />
+          <p>{rich(t.insights.anomalies)}</p>
+          <Commands text={commands.anomalies} />
+        </section>
+
         <section id="team">
           <h2>{t.team.title}</h2>
           <p>{rich(t.team.body)}</p>
@@ -95,6 +107,7 @@ export function NextStepsPage({ locale }: { locale: Locale }) {
         <Link href="#judging">{t.toc.judging}</Link>
         <Link href="#budgets">{t.toc.budgets}</Link>
         <Link href="#cache">{t.toc.cache}</Link>
+        <Link href="#insights">{t.toc.insights}</Link>
         <Link href="#team">{t.toc.team}</Link>
       </aside>
     </div>

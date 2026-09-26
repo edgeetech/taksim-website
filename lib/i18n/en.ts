@@ -472,6 +472,7 @@ export const en = {
           ['Judging', '/docs/next-steps#judging'],
           ['Budgets, digest and alerts', '/docs/next-steps#budgets'],
           ['Cache guard', '/docs/next-steps#cache'],
+          ['Quota and anomalies', '/docs/next-steps#insights'],
           ['Team roll-up', '/docs/next-steps#team'],
           ['Update and uninstall', '/docs/quick-start#update'],
         ],
@@ -866,6 +867,13 @@ export const en = {
       insights:
         'Cache costs are priced at the lifetime each write recorded (5 minutes or 1 hour), including fast mode. The cache report shows that mix and which pauses really cost a re-cache:',
     },
+    insights: {
+      title: 'Subscription quota and spend anomalies',
+      quota:
+        'On a Claude Pro or Max plan, or Codex signed in with ChatGPT, `insights quota` shows how much of your 5-hour and weekly limits you used, how often you hit them, and which repos, models and sessions used the most, from the readings the clients already report. Taksim never reads subscription credentials and never calls a vendor usage endpoint. The status line adds a quota segment once a window passes 75%.',
+      anomalies:
+        '`insights anomalies` compares recent spend with the 28 days before it and lists what stands out, such as spend spikes, runaway sessions, a jump in Opus or fast-mode share, or a switch from subscription to API-key billing, each with the reason and a suggested action. It stays quiet until there is enough history.',
+    },
     team: {
       title: 'Team roll-up',
       body: 'Each developer writes a metadata-only export into a shared folder and can inspect it before sharing; exports carry repo aliases, never paths. The team lead combines them into one report, or opens them in the dashboard. The team roll-up is part of the [Team plan](/pricing).',
@@ -876,6 +884,7 @@ export const en = {
       judging: 'Judging',
       budgets: 'Budgets and alerts',
       cache: 'Cache guard',
+      insights: 'Quota and anomalies',
       team: 'Team roll-up',
     },
   },
