@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { DocsSearch } from '@/components/docs-search';
+import { historyImportAvailability, historyImportOnlyClients } from '@/lib/history-import-clients';
 
 export const metadata: Metadata = {
   title: 'Documentation',
@@ -111,7 +112,7 @@ export default function Docs() {
         </section>
         <section id="client-compatibility">
           <h2>Client compatibility</h2>
-          <p className="docs-updated">Last verified · 10 September 2026</p>
+          <p className="docs-updated">Last verified · 26 September 2026</p>
           <div className="compat-table-wrap">
             <table className="compat-table">
               <caption>Client compatibility</caption>
@@ -148,6 +149,34 @@ export default function Docs() {
                   <td>Not available</td>
                   <td>Historical visibility only</td>
                 </tr>
+              </tbody>
+            </table>
+          </div>
+          <h3 id="history-import-only">History import only</h3>
+          <p className="docs-updated">
+            No managed launch (<code>taksim &lt;client&gt;</code>) and no live
+            routing for these clients. {historyImportAvailability}
+          </p>
+          <div className="compat-table-wrap">
+            <table className="compat-table">
+              <caption>History import only</caption>
+              <thead>
+                <tr>
+                  <th>Client</th>
+                  <th>History (--client)</th>
+                  <th>Managed/live</th>
+                  <th>Boundary</th>
+                </tr>
+              </thead>
+              <tbody>
+                {historyImportOnlyClients.map(({ name, flag, note }) => (
+                  <tr key={name}>
+                    <th>{name}</th>
+                    <td>{flag}</td>
+                    <td>Not available</td>
+                    <td>{note}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
