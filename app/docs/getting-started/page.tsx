@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { historyImportOnlyClients } from '@/lib/history-import-clients';
+import { historyImportAvailability, historyImportOnlyClients } from '@/lib/history-import-clients';
 
 const installerCommand = `Invoke-WebRequest \`
   -Uri 'https://github.com/edgeetech/taksim-releases/releases/download/v0.1.1/install-release.ps1' \`
@@ -206,7 +206,7 @@ export default function GettingStarted() {
           </div>
           <p>
             These clients support history import only; Taksim never launches
-            or routes them:
+            or routes them. {historyImportAvailability}
           </p>
           <div className="docs-command-list">
             {historyImportOnlyClients.map(({ name, command }) => (

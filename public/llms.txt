@@ -15,7 +15,7 @@ Current client boundary (verified 2026-09-26):
 - Devin: managed sessions and historical import.
 - GitHub Copilot Coding Agent: historical visibility only; no managed launch.
 
-History import only, no managed launch and no routing (`taksim history import --client <name>`):
+History import only, no managed launch and no routing (`taksim history import --client <name>`). Not in the v0.1.1 release: available when you build Taksim from main, and in the next release.
 - AgentBoard (`agentboard`): history import only; no managed launch, no routing.
 - Agent Workstation (`agentworkstation`): history import only; no managed launch, no routing.
 - Devin Desktop (`devin_desktop`, formerly Windsurf): history import and judge backlog only; a subscription product Taksim never launches or routes.

@@ -6,7 +6,7 @@ import {
   ShieldCheck,
   Sparkles,
 } from 'lucide-react';
-import { historyImportOnlyClients } from '@/lib/history-import-clients';
+import { historyImportAvailability, historyImportOnlyClients } from '@/lib/history-import-clients';
 
 const clients = [
   ['Claude Code', 'Managed + history'],
@@ -294,7 +294,8 @@ export default function Home() {
                 {name}
                 {index < historyImportOnlyClients.length - 1 ? ', ' : '.'}
               </span>
-            ))}
+            ))}{' '}
+            {historyImportAvailability}
           </p>
           <Link
             className="inline-link light-link"

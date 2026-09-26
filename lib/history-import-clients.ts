@@ -19,6 +19,10 @@ export interface HistoryImportClient {
   note: string;
 }
 
+/** These importers landed after the latest published release (v0.1.1). */
+export const historyImportAvailability =
+  'Not in the v0.1.1 release: available when you build Taksim from main, and in the next release.';
+
 export const historyImportOnlyClients: HistoryImportClient[] = [
   {
     name: 'AgentBoard',
