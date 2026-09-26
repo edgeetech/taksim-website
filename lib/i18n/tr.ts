@@ -473,6 +473,7 @@ export const tr: Dictionary = {
           ['Judge değerlendirmesi', '/docs/next-steps#judging'],
           ['Bütçeler, digest ve uyarılar', '/docs/next-steps#budgets'],
           ['Cache guard', '/docs/next-steps#cache'],
+          ['Kota ve anomaliler', '/docs/next-steps#insights'],
           ['Ekip toplu görünümü', '/docs/next-steps#team'],
           ['Güncelleme ve kaldırma', '/docs/quick-start#update'],
         ],
@@ -867,6 +868,13 @@ export const tr: Dictionary = {
       insights:
         'Cache maliyetleri, her yazmanın kaydettiği ömürle (5 dakika veya 1 saat), fast mode dahil fiyatlanır. Cache raporu bu dağılımı ve hangi duraklamaların gerçekten yeniden cache’lemeye mal olduğunu gösterir:',
     },
+    insights: {
+      title: 'Subscription kotası ve harcama anomalileri',
+      quota:
+        'Claude Pro veya Max planında ya da ChatGPT ile giriş yapılmış Codex’te `insights quota`, 5 saatlik ve haftalık limitlerinizin ne kadarını kullandığınızı, bunlara ne sıklıkla ulaştığınızı ve en çok hangi repo, model ve oturumların kullandığını, istemcilerin zaten bildirdiği okumalardan gösterir. Taksim subscription kimlik bilgilerini asla okumaz ve hiçbir sağlayıcı kullanım uç noktasını çağırmaz. Bir pencere %75’i geçtiğinde status line’a bir kota bölümü eklenir.',
+      anomalies:
+        '`insights anomalies`, son harcamayı ondan önceki 28 günle karşılaştırır ve öne çıkanları listeler: harcama sıçramaları, kontrolden çıkan oturumlar, Opus veya fast mode payındaki artış ya da subscription’dan API key faturalamasına geçiş gibi; her biri nedeni ve önerilen bir eylemle birlikte. Yeterli geçmiş birikene kadar sessiz kalır.',
+    },
     team: {
       title: 'Ekip toplu görünümü',
       body: 'Her geliştirici ortak bir klasöre yalnızca metadata içeren bir export yazar ve paylaşmadan önce inceleyebilir; export’lar dosya yollarını değil, repo takma adlarını içerir. Ekip lideri bunları tek bir raporda birleştirir ya da dashboard’da açar. Ekip toplu görünümü [Team planının](/pricing) parçasıdır.',
@@ -877,6 +885,7 @@ export const tr: Dictionary = {
       judging: 'Judge',
       budgets: 'Bütçeler ve uyarılar',
       cache: 'Cache guard',
+      insights: 'Kota ve anomaliler',
       team: 'Ekip toplu görünümü',
     },
   },
