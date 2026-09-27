@@ -148,7 +148,7 @@ export const tr: Dictionary = {
       },
       {
         title: 'Değerlendir',
-        body: 'Bir LLM judge, tamamlanmış bir tura bakar ve yeterli olacak en ucuz seviyeyi belirler. Oturumunuzun içindeki Claude’u veya Codex’i, yerel bir Ollama modelini ya da kendi API key’inizle çalışan uzak bir judge’ı kullanabilirsiniz.',
+        body: 'Bir LLM judge, tamamlanmış bir turu inceler ve araştırılabilecek daha ucuz bir seviye önerir. Uzlaşma bir tahmindir; daha ucuz modelin aynı sonucu üreteceğinin kanıtı değildir. Oturumunuzun içindeki Claude’u veya Codex’i, yerel bir Ollama modelini ya da kendi API key’inizle çalışan uzak bir judge’ı kullanabilirsiniz.',
         detail: 'taksim judge enable --in-session',
       },
       {
@@ -210,7 +210,7 @@ export const tr: Dictionary = {
           name: 'Anthropic API key’iniz veya TypeSafe Jev',
           body: 'Yalnızca kendi key’inizle açıkça izin verdikten sonra kısaltılmış alıntılar alır.',
         },
-        { name: 'Ollama', body: 'Yerelde çalışır. Hiçbir şey makineden çıkmaz.' },
+        { name: 'Ollama', body: 'Yerel Ollama sunucusuyla değerlendirme içeriği makinenizde kalır.' },
       ],
       subscriptionTitle: 'Subscription’da Taksim yalnızca gözlemler',
       subscriptionBody:
@@ -241,7 +241,7 @@ export const tr: Dictionary = {
       },
       {
         q: 'Hangi platformlar destekleniyor?',
-        a: 'Şimdilik yalnızca Windows. Kolay kurulum üç adım sürer.',
+        a: 'Windows x64 ve macOS 14 veya üzeri. Apple Silicon’da kurulum ve kaldırma kullanıcı tarafından denendi; Intel paketi çapraz derlenmiş önizleme durumunda. Platform ayrıntıları için kolay kurulum rehberine bakın.',
       },
       {
         q: 'Taksim hangi turları değerlendirebilir?',
@@ -435,6 +435,27 @@ export const tr: Dictionary = {
         judge: 'Henüz değil.',
         route: 'Sunulmuyor.',
       },
+      gemini: {
+        client: 'Gemini CLI',
+        access: 'Google oturumu veya kendi API anahtarınız',
+        observe: 'Yerel JSON ve JSONL sohbet geçmişi; bilinmeyen fiyatlar bilinmeyen olarak kalır.',
+        judge: 'Model seviyesi tanınan, kaydedilmiş metin turları.',
+        route: 'Sunulmuyor; Google oturum trafiği istemcide kalır.',
+      },
+      cline: {
+        client: 'Cline',
+        access: 'Kendi sağlayıcı ayarlarınız',
+        observe: 'SDK v1 ve eski görev geçmişi. İstemcinin bildirdiği tutar liste fiyatı tahmininden ayrı tutulur.',
+        judge: 'Model seviyesi tanınan, yerel kaydedilmiş turlar.',
+        route: 'Sunulmuyor; eklenti ayarları değiştirilmez.',
+      },
+      qwen: {
+        client: 'Qwen Code',
+        access: 'İstemci oturumu veya kendi sağlayıcı ayarlarınız',
+        observe: 'Yerel JSONL sohbet geçmişi; bilinmeyen fiyatlar bilinmeyen olarak kalır.',
+        judge: 'Model seviyesi tanınan, kaydedilmiş metin turları.',
+        route: 'Sunulmuyor; oturum trafiği istemcide kalır.',
+      },
     },
     footnote:
       'Anthropic’in Claude Code koşulları, subscription kimlik bilgilerinin yalnızca Claude Code’un kendisi tarafından kullanılmasını şart koşar; bu yüzden Taksim, Claude Code ile bir subscription hesabı arasına asla girmez.',
@@ -578,7 +599,7 @@ export const tr: Dictionary = {
       items: [
         {
           term: 'Judge',
-          body: 'Bir LLM judge, tamamlanmış bir turu değerlendirir ve yeterli olacak en ucuz seviyeyi belirler: oturum içi Claude veya Codex, Anthropic API key’iniz, kendi key’inizle TypeSafe Jev ya da yerel bir Ollama modeli. Claude Code, Codex, OpenCode, Kilo Code, Pi ve Devin Desktop turları değerlendirilebilir; Copilot ve Devin CLI turları fiyatlandırılır ancak henüz değerlendirilmez.',
+          body: 'Bir LLM judge, tamamlanmış bir turu inceler ve yeterli olabilecek model seviyesini tahmin eder: oturum içi Claude veya Codex, Anthropic API key’iniz, kendi key’inizle TypeSafe Jev ya da yerel bir Ollama modeli. Bu, daha ucuz modelin aynı sonucu üreteceğini kanıtlamaz. Claude Code, Codex, OpenCode, Kilo Code, Pi ve Devin Desktop turları değerlendirilebilir; Copilot ve Devin CLI turları fiyatlandırılır ancak henüz değerlendirilmez.',
         },
         {
           term: 'Consensus',
@@ -595,7 +616,7 @@ export const tr: Dictionary = {
       body: 'API key trafiği için isteğe bağlı canlı yönlendirme, 127.0.0.1 üzerindeki yerel bir gateway’i kullanır. Telemetri, kalıcı kayıt ve uzak öneriler, sağlıklı bir sağlayıcı isteğini asla bekletemez.',
       calloutTitle: 'Yerel iş akışı her zaman kullanılabilir',
       calloutBody:
-        'Yönetilen yol güvenli şekilde başlatılamazsa Taksim, geliştiriciyi engellemek yerine istemcinin yerel çağrısını korur. Ham prompt, yanıt ve kaynak içerik varsayılan olarak kalıcı saklanmaz; uzak bir judge’a veya yapılandırdığınız başka bir uzak hedefe açıkça izin vermediğiniz sürece hiçbir şey makineden çıkmaz.',
+        'Yönetilen yol güvenli şekilde başlatılamazsa Taksim, geliştiriciyi engellemek yerine istemcinin yerel çağrısını korur. Ham prompt, yanıt ve kaynak içerik varsayılan olarak kalıcı saklanmaz. Güncelleme ve fiyat kontrolleri ağı kullanır; isteğe bağlı uzak judge’lar değerlendirme içeriğini, yapılandırılmış bildirim veya dışa aktarma hedefleri seçilen verileri alır. Kodlama istemciniz kendi sağlayıcısına bağlanmaya devam eder.',
     },
     subscriptions: {
       title: 'Subscription’lar gözlemlenir, yeniden yazılmaz',
@@ -675,7 +696,7 @@ export const tr: Dictionary = {
   quickStart: {
     eyebrow: 'Hızlı başlangıç',
     title: 'Kolay kurulum',
-    lede: 'Üç adım, yaklaşık iki dakika. Hesap ya da yönetici yetkisi gerekmez. Şimdilik Windows x64.',
+    lede: 'Kurun, setup’ı çalıştırın ve yerel dashboard’u açın. Hesap veya yönetici yetkisi gerekmez. Windows x64 ve macOS paketleri mevcuttur; aşağıdaki platform notlarını okuyun.',
     install: {
       title: '1. Kurun',
       body: '**PowerShell**’i açın (Başlat’a basın, PowerShell yazın, Enter’a basın), bu satırı yapıştırın ve Enter’a basın:',
@@ -686,7 +707,7 @@ export const tr: Dictionary = {
     },
     setup: {
       title: '2. Setup’ı çalıştırın',
-      body: 'Setup kendiliğinden başlamadıysa yeni bir PowerShell penceresi açın ve şunu çalıştırın:',
+      body: 'Setup kendiliğinden başlamadıysa yeni bir terminal (Windows’ta PowerShell) açın ve şunu çalıştırın:',
       seeTitle: 'Ne göreceksiniz',
       see: [
         '**Bulunan istemciler**: bu makinedeki kodlama ajanları; örneğin Claude Code, Codex, GitHub Copilot, OpenCode, Kilo Code ve Pi.',
@@ -733,11 +754,11 @@ export const tr: Dictionary = {
     },
     uninstall: {
       title: 'Kaldırma',
-      body: 'Henüz bir kaldırma komutu yok. Taksim’i tamamen kaldırmak için:',
+      body: 'Nelerin kaldırılacağını inceleyin, ardından Taksim’i kaldırın:',
       steps: [
-        'Açtıysanız Taksim’in Claude Code ve Codex’e eklediği hook’ları ve kaydedilmiş Slack veya webhook adresini kaldırın: `taksim judge disable --user-settings`, `taksim judge disable --codex-settings`, `taksim cache-guard disable` ve `taksim notify clear`.',
-        'Program klasörünü (`%LOCALAPPDATA%\\Taksim`) silin ve `current` girdisini kullanıcı PATH’inizden kaldırın (Başlat, “ortam değişkenleri” yazın, Hesabınız için ortam değişkenlerini düzenleyin).',
-        'Yerel defterinizi ve raporlarınızı da silmek için `%USERPROFILE%\\.taksim` klasörünü silin. Bu işlem geri alınamaz.',
+        'Önce değişiklikleri önizleyin: `taksim uninstall --dry-run`.',
+        'Taksim’i kaldırmak için `taksim uninstall` komutunu çalıştırın. Yerel defteriniz ve raporlarınız korunur.',
+        'Yerel verileri de kalıcı olarak silmek için `taksim uninstall --purge-data` komutunu çalıştırın. Bu işlem geri alınamaz.',
       ],
     },
     toc: {
@@ -754,7 +775,7 @@ export const tr: Dictionary = {
   gettingStarted: {
     eyebrow: 'Hızlı başlangıç',
     title: 'Kurulum rehberi',
-    lede: 'Taksim’i Windows’a kurmanın tüm ayrıntıları: kurulum aracının neyi kontrol ettiği, çalıştığını nasıl doğrulayacağınız ve ilk oturumunuzu nasıl başlatacağınız. Kısa sürüm için [kolay kurulumu](/docs/quick-start) kullanın.',
+    lede: 'Taksim’i Windows veya macOS’a kurun, çalıştığını doğrulayın ve ilk oturumunuzu başlatın. Önce Windows adımları, ardından macOS bölümü gelir. Kısa sürüm için [kolay kurulumu](/docs/quick-start) kullanın.',
     noAccountTitle: 'Taksim hesabı gerekmez',
     noAccountBody:
       'Taksim’i kurun ve doğrudan çalıştırın. Taksim girişi ve Taksim sunucusu yoktur; her şey sizin makinenizde çalışır.',
@@ -779,7 +800,7 @@ export const tr: Dictionary = {
     },
     verify: {
       title: '4. Kurulumu doğrulayın',
-      body: 'Windows’un Taksim komutunu tanıyabilmesi için yeni bir PowerShell terminali açın ve şunu çalıştırın:',
+      body: 'Taksim PATH’inizde olacak şekilde yeni bir terminal (Windows’ta PowerShell) açın ve şunu çalıştırın:',
       after:
         'Üç komutun da başarıyla tamamlanması gerekir. `doctor` yerel ortamı kontrol eder ve güncelleme olduğunda söyler; `install status` kurulu sürümü ve yolunu gösterir.',
     },
@@ -792,7 +813,7 @@ export const tr: Dictionary = {
       body: '`claude`, `codex` ve diğer istemcilerinizi eskisi gibi çalıştırmaya devam edebilirsiniz; Taksim geçmişlerini okur. Taksim’in Claude Code veya Codex’i kendi hook’ları ve status line’ı ile (API key trafiğinde isteğe bağlı yönlendirmeyle) başlatmasını istiyorsanız aşağıdakilerden birini çalıştırın. Yerel istemciye yönelik argümanlar komutun ardından gelebilir.',
       expectTitle: 'Ne beklemelisiniz',
       expectBody:
-        'Claude veya ChatGPT subscription’ında Taksim istemciyi yerel olarak başlatır ve gözlemler; hiçbir trafik Taksim’den geçmez. API key ile Taksim önce yerel gateway’ini `127.0.0.1` üzerinde hazırlar; yönetilen yol kullanılamazsa istemci kendi yerel davranışına döner. Varsayılan olarak her şey yerelde çalışır; uzak bir judge’a veya yapılandırdığınız başka bir uzak hedefe açıkça izin vermediğiniz sürece hiçbir şey makineden çıkmaz.',
+        'Claude veya ChatGPT subscription’ında Taksim istemciyi yerel olarak başlatır ve gözlemler; subscription trafiği Taksim’den geçmez. API key ile Taksim önce yerel gateway’ini `127.0.0.1` üzerinde hazırlar; yönetilen yol kullanılamazsa istemci kendi yerel davranışına döner. Defter yerelde kalır. Güncelleme ve fiyat kontrolleri ağı kullanır; isteğe bağlı uzak judge’lar ile yapılandırılmış bildirim veya dışa aktarma hedefleri seçilen verileri alır. Kodlama istemciniz kendi sağlayıcısına bağlanmaya devam eder.',
     },
     inspect: {
       title: '7. Son oturumu inceleyin',
@@ -908,7 +929,7 @@ export const tr: Dictionary = {
       },
       {
         title: 'Yerel ve geçici işleme',
-        body: 'Taksim varsayılan olarak yerelde çalışır. Varsayılan olarak barındırılan bir yönlendirme önerisi servisi yoktur ve uzak bir judge ya da yapılandırdığınız bir Slack veya webhook hedefi gibi uzak bir özelliğe açıkça izin vermediğiniz sürece hiçbir şey makineden çıkmaz. Taksim’in kendi sunucusu yoktur. Bu, Taksim’in kendi telemetrisi hakkında bir beyandır; Taksim üzerinden çalıştırdığınız yerel AI istemcisi hakkında değil. Uzak bir judge (kendi key’inizle Anthropic veya TypeSafe Jev) seçerseniz, o sağlayıcı değerlendirdiği turların kısaltılmış alıntılarını alır. Claude Code, Codex veya başka bir sağlayıcıya ait istemcide oturum açarsanız, o istemci Taksim’den bağımsız olarak prompt’ları ve yanıtları o sağlayıcının koşulları altında kendi sağlayıcısına göndermeye devam eder. Bazı adaptörler, içerikten bağımsız sınıflandırmalar ve yapısal bilgiler türetmek için yerel istemci verilerini veya istek içeriğini geçici olarak inceleyebilir. Her istemcinin ürün dokümantasyonu kendi sınırını tam olarak açıklar. Gözlemlenen sağlayıcı veya model belirlenemediğinde Taksim bunu bilinmiyor olarak kaydeder.',
+        body: 'Defter makinenizde kalır. Taksim’in varsayılan barındırılmış yönlendirme önerisi servisi veya kullanım defteri yoktur. Güncelleme ve fiyat kontrolleri dış ağ hizmetlerini kullanır. Uzak bir judge (kendi key’inizle Anthropic veya TypeSafe Jev) seçerseniz, sağlayıcı değerlendirdiği turların kısaltılmış alıntılarını alır. Yapılandırılmış Slack, webhook ve dışa aktarma hedefleri seçilen rapor verilerini alır. Kodlama istemciniz kendi sağlayıcısına, o sağlayıcının koşulları altında bağımsız olarak prompt ve yanıt göndermeye devam eder. Bazı adaptörler sınıflandırma ve yapısal bilgiler için istemci verilerini veya istek içeriğini geçici olarak inceler; ham içerik varsayılan olarak kalıcı saklanmaz. Her istemcinin belgesi kendi sınırını açıklar. Belirlenemeyen sağlayıcılar veya modeller bilinmiyor olarak kalır.',
       },
       {
         title: 'Web sitesi verileri',

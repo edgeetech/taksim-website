@@ -148,7 +148,7 @@ export const en = {
       },
       {
         title: 'Judge',
-        body: 'An LLM judge looks at a finished turn and names the cheapest tier that would have passed. Use Claude or Codex inside your session, a local Ollama model, or a remote judge on your own API key.',
+        body: 'An LLM judge reviews a finished turn and suggests a cheaper tier to investigate. Agreement is an estimate, not proof that a cheaper model would reproduce the result. Use Claude or Codex inside your session, a local Ollama model, or a remote judge on your own API key.',
         detail: 'taksim judge enable --in-session',
       },
       {
@@ -210,7 +210,7 @@ export const en = {
           name: 'Your Anthropic API key or TypeSafe Jev',
           body: 'Receive truncated excerpts, only after you opt in with your own key.',
         },
-        { name: 'Ollama', body: 'Runs locally. Nothing leaves the machine.' },
+        { name: 'Ollama', body: 'With a local Ollama server, evaluation content stays on your machine.' },
       ],
       subscriptionTitle: 'On a subscription, Taksim only observes',
       subscriptionBody:
@@ -241,7 +241,7 @@ export const en = {
       },
       {
         q: 'Which platforms are supported?',
-        a: 'Windows only, for now. The easy install takes three steps.',
+        a: 'Windows x64 and macOS 14 or later. Apple Silicon has user-tested installation and removal; Intel remains a cross-built preview. See the easy install guide for platform details.',
       },
       {
         q: 'Which turns can Taksim judge?',
@@ -434,6 +434,27 @@ export const en = {
         judge: 'Not yet.',
         route: 'Not offered.',
       },
+      gemini: {
+        client: 'Gemini CLI',
+        access: 'Native Google sign-in or your API key',
+        observe: 'Local JSON and JSONL chat history; unknown prices stay unknown.',
+        judge: 'Recorded text turns with a recognized model tier.',
+        route: 'Not offered; Google sign-in traffic stays native.',
+      },
+      cline: {
+        client: 'Cline',
+        access: 'Your own provider settings',
+        observe: 'SDK v1 and legacy task history. Client-reported cost is separate from list-price estimates.',
+        judge: 'Local recorded turns with a recognized model tier.',
+        route: 'Not offered; extension settings are not rewritten.',
+      },
+      qwen: {
+        client: 'Qwen Code',
+        access: 'Native sign-in or your provider settings',
+        observe: 'Local JSONL chat history; unknown prices stay unknown.',
+        judge: 'Recorded text turns with a recognized model tier.',
+        route: 'Not offered; sign-in traffic stays native.',
+      },
     },
     footnote:
       "Anthropic's Claude Code terms require that subscription credentials are used only by Claude Code itself, so Taksim never sits between Claude Code and a subscription account.",
@@ -577,7 +598,7 @@ export const en = {
       items: [
         {
           term: 'Judge',
-          body: 'An LLM judge grades a completed turn and names the cheapest tier that would have passed: in-session Claude or Codex, your Anthropic API key, TypeSafe Jev with your own key, or a local Ollama model. Claude Code, Codex, OpenCode, Kilo Code, Pi and Devin Desktop turns can be judged; Copilot and Devin CLI turns are priced but not yet judged.',
+          body: 'An LLM judge reviews a completed turn and estimates a sufficient model tier: in-session Claude or Codex, your Anthropic API key, TypeSafe Jev with your own key, or a local Ollama model. This does not prove a cheaper model would reproduce the result. Claude Code, Codex, OpenCode, Kilo Code, Pi and Devin Desktop turns can be judged; Copilot and Devin CLI turns are priced but not yet judged.',
         },
         {
           term: 'Consensus',
@@ -594,7 +615,7 @@ export const en = {
       body: 'Optional live routing for API-key traffic uses a local gateway on 127.0.0.1. Telemetry, persistence, and remote advice do not get to hold a healthy provider request hostage.',
       calloutTitle: 'Native workflow stays available',
       calloutBody:
-        'If the managed path cannot start safely, Taksim preserves the native client invocation instead of blocking the developer. Raw prompt, response, and source content is not persisted by default, and nothing leaves the machine unless you opt in to a remote judge or another remote destination you configure.',
+        'If the managed path cannot start safely, Taksim preserves the native client invocation instead of blocking the developer. Raw prompt, response, and source content is not persisted by default. Update and pricing checks use the network; optional remote judges receive evaluation content, and configured notifications or exports send their selected data. Your coding client still connects to its own provider.',
     },
     subscriptions: {
       title: 'Subscriptions are observed, not rewritten',
@@ -674,7 +695,7 @@ export const en = {
   quickStart: {
     eyebrow: 'Quickstart',
     title: 'Easy install',
-    lede: 'Three steps, about two minutes. No account and no administrator rights. Windows x64 for now.',
+    lede: 'Install, run setup, then open your local dashboard. No account or administrator rights required. Windows x64 and macOS packages are available; see the platform notes below.',
     install: {
       title: '1. Install',
       body: 'Open **PowerShell** (press Start, type PowerShell, press Enter), paste this line and press Enter:',
@@ -685,7 +706,7 @@ export const en = {
     },
     setup: {
       title: '2. Run setup',
-      body: 'If setup did not start on its own, open a new PowerShell window and run:',
+      body: 'If setup did not start on its own, open a new terminal (PowerShell on Windows) and run:',
       seeTitle: 'What you will see',
       see: [
         '**Detected clients**: the coding agents found on this machine, such as Claude Code, Codex, GitHub Copilot, OpenCode, Kilo Code and Pi.',
@@ -732,11 +753,11 @@ export const en = {
     },
     uninstall: {
       title: 'Uninstall',
-      body: 'There is no uninstall command yet. To remove Taksim completely:',
+      body: 'Review what will be removed, then uninstall Taksim:',
       steps: [
-        'If you turned them on, remove the hooks Taksim added to Claude Code and Codex, and the saved Slack or webhook address: `taksim judge disable --user-settings`, `taksim judge disable --codex-settings`, `taksim cache-guard disable` and `taksim notify clear`.',
-        'Delete the program folder `%LOCALAPPDATA%\\Taksim`, and remove its `current` entry from your user PATH (Start, type “environment variables”, Edit environment variables for your account).',
-        'To delete your local ledger and reports too, delete `%USERPROFILE%\\.taksim`. This cannot be undone.',
+        'Preview the changes first: `taksim uninstall --dry-run`.',
+        'Run `taksim uninstall` to remove Taksim. Your local ledger and reports are preserved.',
+        'To permanently delete local data too, run `taksim uninstall --purge-data`. This cannot be undone.',
       ],
     },
     toc: {
@@ -753,7 +774,7 @@ export const en = {
   gettingStarted: {
     eyebrow: 'Quickstart',
     title: 'Install guide',
-    lede: 'Every detail of installing Taksim on Windows: what the installer checks, how to confirm it worked, and how to start your first session. For the short version, use the [easy install](/docs/quick-start).',
+    lede: 'Install Taksim on Windows or macOS, confirm it worked, and start your first session. Windows instructions come first; the macOS section follows. For the short version, use the [easy install](/docs/quick-start).',
     noAccountTitle: 'No Taksim account required',
     noAccountBody:
       'Install and run Taksim directly. There is no Taksim sign-in and no Taksim server; everything runs on your machine.',
@@ -778,7 +799,7 @@ export const en = {
     },
     verify: {
       title: '4. Verify the installation',
-      body: 'Open a new PowerShell terminal so Windows can pick up the Taksim command, then run:',
+      body: 'Open a new terminal (PowerShell on Windows) with Taksim on your PATH and run:',
       after:
         'All three commands should complete successfully. `doctor` checks the local environment and says when an update is available; `install status` shows the installed version and path.',
     },
@@ -791,7 +812,7 @@ export const en = {
       body: 'You can keep running `claude`, `codex` and your other clients exactly as before; Taksim reads their history. To let Taksim launch Claude Code or Codex with its hooks and status line (and optional routing on API-key traffic), run one of these. Arguments for the native client can follow the command.',
       expectTitle: 'What to expect',
       expectBody:
-        'On a Claude or ChatGPT subscription, Taksim starts the client natively and observes it; no traffic passes through Taksim. With an API key, Taksim prepares its local gateway on `127.0.0.1` first; if the managed path is unavailable, the client falls back to its native behaviour. Everything runs locally by default; nothing leaves the machine unless you explicitly opt in to a remote judge or another remote destination you configure.',
+        'On a Claude or ChatGPT subscription, Taksim starts the client natively and observes it; no subscription traffic passes through Taksim. With an API key, Taksim prepares its local gateway on `127.0.0.1` first; if the managed path is unavailable, the client falls back to its native behaviour. The ledger stays local. Update and pricing checks use the network; optional remote judges and configured notifications or exports send selected data. Your coding client still connects to its own provider.',
     },
     inspect: {
       title: '7. Inspect the latest session',
@@ -907,7 +928,7 @@ export const en = {
       },
       {
         title: 'Local and transient processing',
-        body: 'Taksim runs locally by default. There is no default hosted routing-advice service, and nothing leaves the machine unless you explicitly opt in to a remote feature, such as a remote judge or a Slack or webhook destination you configure. Taksim runs no server of its own. This is a claim about Taksim’s own telemetry, not about the native AI client you run through it. If you choose a remote judge (Anthropic or TypeSafe Jev, on your own key), that provider receives truncated excerpts of the turns it grades. If you sign in to Claude Code, Codex, or another provider-native client, that client still sends prompts and responses to its own provider under that provider’s terms, independent of Taksim. Some adapters may inspect native client data or request content transiently to derive content-blind classifications and structural facts. Product documentation for each client describes its exact boundary. Where an observed provider or model cannot be established, Taksim records it as unknown.',
+        body: 'The ledger stays on your machine. Taksim has no default hosted routing-advice service or hosted usage ledger. Update and pricing checks use external network services. If you choose a remote judge (Anthropic or TypeSafe Jev, on your own key), that provider receives truncated excerpts of the turns it grades. Configured Slack, webhook and export destinations receive the selected report data. Your coding client independently sends prompts and responses to its own provider under that provider’s terms. Some adapters inspect native client data or request content transiently to derive classifications and structural facts; raw content is not persisted by default. Each client’s documentation describes its boundary. Unestablished providers or models remain unknown.',
       },
       {
         title: 'Website data',

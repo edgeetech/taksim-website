@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { Rich } from '@/components/rich';
 import { getDictionary, localePath, type Locale } from '@/lib/i18n';
 import { release } from '@/lib/release';
+import { MacInstall } from '@/components/mac-install';
+import { InstallTrust } from '@/components/install-trust';
 
 const verificationCommand = `taksim version
 taksim doctor
@@ -78,8 +80,10 @@ export function GettingStartedPage({ locale }: { locale: Locale }) {
             </details>
           </div>
           <p className="docs-note">{rich(t.install.note)}</p>
+          <InstallTrust locale={locale} />
         </section>
 
+        <MacInstall locale={locale} />
         <section id="verify-install">
           <h2>{t.verify.title}</h2>
           <p>{t.verify.body}</p>

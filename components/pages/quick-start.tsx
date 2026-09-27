@@ -3,9 +3,11 @@ import { CopyCommand } from '@/components/copy-command';
 import { Rich } from '@/components/rich';
 import { getDictionary, type Locale } from '@/lib/i18n';
 import { release } from '@/lib/release';
+import { MacInstall } from '@/components/mac-install';
+import { InstallTrust } from '@/components/install-trust';
 
 const updateCommands = `taksim update
-taksim update --apply`;
+taksim update --apply${release.unsignedInstall ? ' --allow-unsigned' : ''}`;
 
 export function QuickStartPage({ locale }: { locale: Locale }) {
   const t = getDictionary(locale).quickStart;
@@ -28,8 +30,10 @@ export function QuickStartPage({ locale }: { locale: Locale }) {
             copied={t.install.copied}
           />
           <p>{rich(t.install.after)}</p>
+          <InstallTrust locale={locale} />
         </section>
 
+        <MacInstall locale={locale} />
         <section id="setup">
           <h2>{t.setup.title}</h2>
           <p>{t.setup.body}</p>
