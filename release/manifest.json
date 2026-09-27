@@ -1,21 +1,27 @@
 {
   "schema": "taksim.release-manifest.v1",
   "repository": "edgeetech/taksim-releases",
-  "version": "0.3.4",
-  "tag": "v0.3.4",
+  "version": "0.3.5",
+  "tag": "v0.3.5",
+  "sourceCommit": "5050789d29e3c7fe4727dfdad2e06f7a79545a22",
   "platforms": [
-    "win-x64"
+    "win-x64",
+    "osx-arm64",
+    "osx-x64"
   ],
   "assets": [
     "install-release.ps1",
     "install.ps1",
+    "install.sh",
     "SHA256SUMS.txt",
+    "taksim-connector-osx-arm64.tar.gz",
+    "taksim-connector-osx-x64.tar.gz",
     "taksim-connector-win-x64.zip",
     "taksim-release-manifest.json"
   ],
   "install": {
-    "oneLine": "irm https://github.com/edgeetech/taksim-releases/releases/latest/download/install.ps1 | iex",
-    "pinned": "& ([scriptblock]::Create((irm https://github.com/edgeetech/taksim-releases/releases/latest/download/install.ps1))) -Version v0.3.4 -NoSetup"
+    "oneLine": "& ([scriptblock]::Create((irm https://github.com/edgeetech/taksim-releases/releases/latest/download/install.ps1))) -AllowUnsigned",
+    "pinned": "& ([scriptblock]::Create((irm https://github.com/edgeetech/taksim-releases/releases/latest/download/install.ps1))) -Version v0.3.5 -NoSetup -AllowUnsigned"
   },
   "commands": [
     "budget",
@@ -30,9 +36,11 @@
     "claude auto",
     "claude hooks",
     "claude judge-hook",
+    "claude otel",
     "codex",
     "codex judge-hook",
     "copilot",
+    "copilot otel",
     "copilot recommend",
     "copilot usage",
     "dashboard",
@@ -43,6 +51,11 @@
     "doctor",
     "edge",
     "edge run",
+    "export",
+    "export ndjson",
+    "export otlp",
+    "gemini",
+    "gemini otel",
     "history",
     "history backfill-attribution",
     "history backfill-models",
@@ -57,6 +70,7 @@
     "insights quota",
     "insights rework",
     "insights subagents",
+    "insights tools",
     "install",
     "install cleanup",
     "install status",
@@ -97,6 +111,7 @@
     "report baseline",
     "report cost",
     "report economics",
+    "report pr",
     "report summary",
     "report task-cost",
     "report team",
@@ -115,6 +130,7 @@
     "source-control",
     "source-control discover",
     "source-control pr-status",
+    "uninstall",
     "update",
     "validation",
     "validation claude-smoke",
@@ -128,6 +144,8 @@
     "cache-guard",
     "diagnostics",
     "edge",
+    "export",
+    "gemini",
     "history",
     "insights",
     "install",
@@ -225,8 +243,36 @@
       "observe": true,
       "judge": false,
       "route": "none"
+    },
+    {
+      "id": "gemini",
+      "name": "Gemini CLI",
+      "observe": true,
+      "judge": true,
+      "route": "none"
+    },
+    {
+      "id": "cline",
+      "name": "Cline",
+      "observe": true,
+      "judge": true,
+      "route": "none"
+    },
+    {
+      "id": "qwen",
+      "name": "Qwen Code",
+      "observe": true,
+      "judge": true,
+      "route": "none"
+    },
+    {
+      "id": "otel-file",
+      "name": "Local OpenTelemetry JSON observations",
+      "observe": true,
+      "judge": false,
+      "route": "none"
     }
   ],
   "source": "release-manifest",
-  "publishedAt": "2026-09-27T03:04:33Z"
+  "publishedAt": "2026-09-27T18:55:36Z"
 }

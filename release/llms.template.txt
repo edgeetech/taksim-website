@@ -11,7 +11,7 @@ Pricing: https://taksim.edgee.tech/pricing
 Privacy: https://taksim.edgee.tech/privacy
 Turkish: https://taksim.edgee.tech/tr/
 
-Current release: {{tag}}. Platforms: Windows x64 only (Windows PowerShell 5.1 or PowerShell 7, no administrator rights).
+Current release: {{tag}}. Platforms: {{platforms}}.
 
 Install (one line, PowerShell): {{installCommand}}
 The installer downloads the latest release over HTTPS, verifies it against SHA256SUMS.txt, installs into %LOCALAPPDATA%\Taksim, adds it to the user PATH and runs `taksim setup`. Then `taksim dashboard` opens the local results dashboard. `taksim update` checks for a newer release; `taksim update --apply` installs it. `taksim doctor` checks health and coverage.
@@ -40,6 +40,6 @@ Pricing: the CLI is free for any individual developer, at home or at work. Team 
 
 There is no Taksim account, sign-in or server: install Taksim and use it. Nothing is sent to a Taksim server; none exists.
 
-Everything runs locally on 127.0.0.1 by default; nothing leaves the machine unless you opt in to a remote judge on your own key (which receives truncated excerpts of the turns it grades), or a Slack/webhook destination you configure (which receives aggregates and repo aliases only). There is no default hosted routing-advice service. This does not describe the native AI client itself: Claude Code, Codex, and similar clients still send prompts and responses to their own provider under that provider's terms, independent of Taksim.
+The ledger and dashboard stay local. Update and pricing checks use external network services. An optional remote judge receives truncated excerpts of the turns it grades; configured Slack/webhook destinations receive aggregate reports and repo aliases. There is no default hosted routing-advice service. Claude Code, Codex, and similar clients independently send prompts and responses to their own provider under that provider's terms.
 
 Subscription traffic is observed, never proxied: when Claude Code runs on a Claude subscription (`Authorization: Bearer`), or Codex on a ChatGPT sign-in, `taksim claude` / `taksim codex` launch the client natively and observe it from local transcripts and hooks. There is no opt-in to change this. Model routing applies only to API-key traffic (`x-api-key`), and only in sessions launched through Taksim.

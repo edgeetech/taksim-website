@@ -11,6 +11,12 @@ const manifest = JSON.parse(
   await readFile(new URL('release/manifest.json', root), 'utf8'),
 );
 
+test('macOS availability requires its installer, archive and checksums', () => {
+  const broken = { ...manifest, platforms: ['osx-arm64'], assets: ['SHA256SUMS.txt'] };
+  assert.ok(validateManifest(broken).some((error) => error.includes('install.sh')));
+  assert.ok(validateManifest(broken).some((error) => error.includes('taksim-connector-osx-arm64.tar.gz')));
+});
+
 async function walk(dir, ext) {
   const out = [];
   for (const entry of await readdir(new URL(dir, root), {
@@ -120,9 +126,10 @@ const clientNames = {
   'Agent Workstation': 'agentworkstation',
   Cursor: null,
   Aider: null,
-  Cline: null,
+  Cline: 'cline',
+  'Qwen Code': 'qwen',
   'Roo Code': null,
-  'Gemini CLI': null,
+  'Gemini CLI': 'gemini',
   'Amazon Q': null,
   Goose: null,
 };

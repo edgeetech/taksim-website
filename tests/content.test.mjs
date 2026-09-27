@@ -67,7 +67,9 @@ test('keeps first-time Windows installation self-contained in the docs', async (
   assert.match(easy, /taksim update --apply/);
   assert.match(copy, /More info\*\*, then \*\*Run anyway/);
   assert.match(copy, /Unblock-File/);
-  assert.match(copy, /taksim notify clear/);
+  assert.match(copy, /taksim uninstall --dry-run/);
+  assert.match(copy, /taksim uninstall --purge-data/);
+  assert.match(copy, /Your local ledger and reports are preserved/);
   assert.match(copy, /\['Easy install', '\/docs\/quick-start'\]/);
   assert.match(quickstart, /history import --client opencode/);
   assert.match(quickstart, /history import --client devin_desktop/);
@@ -120,7 +122,9 @@ test('has no default hosted routing-advice service and stays local by default', 
   const copy = await source(copyPath);
   const llms = await source('public/llms.txt');
   assert.match(copy, /no default hosted\s+routing-advice service/i);
-  assert.match(copy, /nothing leaves the machine unless you\s+explicitly opt in/i);
+  assert.match(copy, /Update and pricing checks use external network services/);
+  assert.match(copy, /provider receives truncated excerpts/);
+  assert.doesNotMatch(copy, /nothing leaves the machine unless/i);
   assert.match(llms, /no default hosted routing-advice service/i);
 });
 
@@ -217,7 +221,7 @@ test('takes the release version and install command from the release manifest', 
   const llms = await source('public/llms.txt');
   assert.match(llms, new RegExp(`Current release: ${manifest.tag.replaceAll('.', '\\.')}\\.`));
   assert.ok(llms.includes(manifest.install.oneLine));
-  assert.match(llms, /Windows x64 only/);
+  assert.match(llms, manifest.platforms.includes('osx-arm64') ? /Windows x64 and macOS/ : /Windows x64 only/);
   for (const path of publicCopy) {
     const text = await source(path);
     assert.doesNotMatch(text, /0\.1\.1|early preview|source\/development build/i, path);

@@ -45,6 +45,13 @@ export function validateManifest(m) {
     errors.push(`bad version ${m.version}`);
   if (m.tag !== `v${m.version}`)
     errors.push(`tag ${m.tag} does not match version ${m.version}`);
+  if (!Array.isArray(m.platforms)) errors.push('platforms missing');
+  for (const rid of ['osx-arm64', 'osx-x64']) {
+    if (m.platforms?.includes(rid)) {
+      for (const name of ['install.sh', `taksim-connector-${rid}.tar.gz`, 'SHA256SUMS.txt'])
+        if (!m.assets?.includes(name)) errors.push(`platform ${rid} missing release asset ${name}`);
+    }
+  }
   if (!m.install?.oneLine?.includes('/releases/latest/download/install.ps1'))
     errors.push('install.oneLine missing');
   if (!Array.isArray(m.commands) || m.commands.length < 10)
@@ -73,6 +80,9 @@ function renderLlms(m) {
   return template
     .replaceAll('{{version}}', m.version)
     .replaceAll('{{tag}}', m.tag)
+    .replaceAll('{{platforms}}', m.platforms.includes('osx-arm64')
+      ? 'Windows x64 and macOS 14 or later (Apple Silicon; Intel cross-built preview). No administrator rights required'
+      : 'Windows x64 only (Windows PowerShell 5.1 or PowerShell 7, no administrator rights)')
     .replaceAll('{{installCommand}}', m.install.oneLine);
 }
 
@@ -201,6 +211,10 @@ async function fromBinary(release, snapshot, sums) {
   const env = {
     ...process.env,
     TAKSIM_HOME: join(dir, 'home'),
+    CODEX_HOME: join(dir, 'codex'),
+    CLAUDE_CONFIG_DIR: join(dir, 'claude'),
+    GEMINI_CLI_HOME: join(dir, 'gemini'),
+    TAKSIM_ENABLE_LIVE_VALIDATION: '0',
     TAKSIM_UPDATE_CHECK: '0',
     TAKSIM_NO_BROWSER: '1',
     CI: 'true',

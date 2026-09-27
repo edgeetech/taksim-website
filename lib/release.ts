@@ -16,6 +16,9 @@ export const release = {
   tag: manifest.tag,
   installCommand: manifest.install.oneLine,
   pinnedInstallCommand: manifest.install.pinned,
+  unsignedInstall: manifest.install.oneLine.includes('-AllowUnsigned'),
+  supportsMac: manifest.platforms.includes('osx-arm64'),
+  macInstallCommand: `(installer="$(mktemp)" && trap 'rm -f "$installer"' EXIT && curl -fsSL https://github.com/edgeetech/taksim-releases/releases/latest/download/install.sh -o "$installer" && bash "$installer")`,
   commands: manifest.commands as string[],
   clients: manifest.clients as ReleaseClient[],
 };
