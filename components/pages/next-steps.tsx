@@ -27,6 +27,10 @@ taksim insights cache --advice`,
 taksim insights quota --since 30d`,
   anomalies: `taksim insights anomalies
 taksim insights anomalies --since 7d`,
+  routingRecommend: `taksim routing recommend`,
+  routingAuto: `taksim routing auto on
+taksim routing auto status`,
+  downgrades: `taksim diagnostics downgrades`,
   team: `taksim report baseline --export <shared-folder> --label <your-alias>
 taksim report team --in <shared-folder> --html
 taksim dashboard --team <shared-folder>`,
@@ -95,6 +99,16 @@ export function NextStepsPage({ locale }: { locale: Locale }) {
           <Commands text={commands.anomalies} />
         </section>
 
+        <section id="routing">
+          <h2>{t.routing.title}</h2>
+          <p>{rich(t.routing.body)}</p>
+          <Commands text={commands.routingRecommend} />
+          <p>{rich(t.routing.auto)}</p>
+          <Commands text={commands.routingAuto} />
+          <p>{rich(t.routing.escalation)}</p>
+          <Commands text={commands.downgrades} />
+        </section>
+
         <section id="team">
           <h2>{t.team.title}</h2>
           <p>{rich(t.team.body)}</p>
@@ -108,6 +122,7 @@ export function NextStepsPage({ locale }: { locale: Locale }) {
         <Link href="#budgets">{t.toc.budgets}</Link>
         <Link href="#cache">{t.toc.cache}</Link>
         <Link href="#insights">{t.toc.insights}</Link>
+        <Link href="#routing">{t.toc.routing}</Link>
         <Link href="#team">{t.toc.team}</Link>
       </aside>
     </div>
