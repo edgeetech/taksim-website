@@ -1,9 +1,9 @@
 {
   "schema": "taksim.release-manifest.v1",
   "repository": "edgeetech/taksim-releases",
-  "version": "0.3.5",
-  "tag": "v0.3.5",
-  "sourceCommit": "5050789d29e3c7fe4727dfdad2e06f7a79545a22",
+  "version": "0.3.6",
+  "tag": "v0.3.6",
+  "sourceCommit": "09605fd2bd7d9e2cd51a5f76fc2b718a3b3c9499",
   "platforms": [
     "win-x64",
     "osx-arm64",
@@ -21,7 +21,7 @@
   ],
   "install": {
     "oneLine": "& ([scriptblock]::Create((irm https://github.com/edgeetech/taksim-releases/releases/latest/download/install.ps1))) -AllowUnsigned",
-    "pinned": "& ([scriptblock]::Create((irm https://github.com/edgeetech/taksim-releases/releases/latest/download/install.ps1))) -Version v0.3.5 -NoSetup -AllowUnsigned"
+    "pinned": "& ([scriptblock]::Create((irm https://github.com/edgeetech/taksim-releases/releases/latest/download/install.ps1))) -Version v0.3.6 -NoSetup -AllowUnsigned"
   },
   "commands": [
     "budget",
@@ -47,6 +47,9 @@
     "devin",
     "diagnostics",
     "diagnostics baseline",
+    "diagnostics benchmark",
+    "diagnostics downgrades",
+    "diagnostics performance",
     "digest",
     "doctor",
     "edge",
@@ -60,6 +63,7 @@
     "history backfill-attribution",
     "history backfill-models",
     "history import",
+    "history link-pr",
     "history preflight",
     "history recalculate",
     "insights",
@@ -112,6 +116,7 @@
     "report cost",
     "report economics",
     "report pr",
+    "report session",
     "report summary",
     "report task-cost",
     "report team",
@@ -120,9 +125,14 @@
     "research public-offline-calibration",
     "research trace-commons",
     "routing",
+    "routing auto",
+    "routing auto off",
+    "routing auto on",
+    "routing auto status",
     "routing discover-resources",
     "routing explain-latest",
     "routing promote",
+    "routing recommend",
     "routing resources",
     "set-judge",
     "set-router",
@@ -130,6 +140,11 @@
     "source-control",
     "source-control discover",
     "source-control pr-status",
+    "team",
+    "team import-vendor",
+    "team map-user",
+    "team vendor-key",
+    "team vendor-key set",
     "uninstall",
     "update",
     "validation",
@@ -158,7 +173,10 @@
     "report",
     "research",
     "routing",
+    "routing auto",
     "source-control",
+    "team",
+    "team vendor-key",
     "validation",
     "verification"
   ],
@@ -271,8 +289,36 @@
       "observe": true,
       "judge": false,
       "route": "none"
+    },
+    {
+      "id": "amp",
+      "name": "Amp",
+      "observe": true,
+      "judge": true,
+      "route": "none"
+    },
+    {
+      "id": "kimi",
+      "name": "Kimi",
+      "observe": true,
+      "judge": true,
+      "route": "none"
+    },
+    {
+      "id": "crush",
+      "name": "Crush",
+      "observe": true,
+      "judge": true,
+      "route": "none"
+    },
+    {
+      "id": "continue",
+      "name": "Continue",
+      "observe": true,
+      "judge": true,
+      "route": "none"
     }
   ],
   "source": "release-manifest",
-  "publishedAt": "2026-09-27T18:55:36Z"
+  "publishedAt": "2026-09-30T09:05:55Z"
 }
