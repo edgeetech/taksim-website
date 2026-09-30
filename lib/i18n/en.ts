@@ -494,6 +494,7 @@ export const en = {
           ['Budgets, digest and alerts', '/docs/next-steps#budgets'],
           ['Cache guard', '/docs/next-steps#cache'],
           ['Quota and anomalies', '/docs/next-steps#insights'],
+          ['Routing on your API key', '/docs/next-steps#routing'],
           ['Team roll-up', '/docs/next-steps#team'],
           ['Update and uninstall', '/docs/quick-start#update'],
         ],
@@ -607,6 +608,10 @@ export const en = {
         {
           term: 'Shadow policy',
           body: 'Taksim can suggest routing defaults from consensus verdicts and report what they would have changed. The shadow policy stays counterfactual; it never changes your model.',
+        },
+        {
+          term: 'Routing recommendations',
+          body: 'For API-key traffic, `routing recommend` turns consensus verdicts into a suggested default tier per repo, task class and client. Opt-in `routing auto` applies it to fresh contexts in `taksim claude` sessions and escalates back to your model on failure signals. Subscription plans are never routed.',
         },
       ],
     },
@@ -895,6 +900,14 @@ export const en = {
       anomalies:
         '`insights anomalies` compares recent spend with the 28 days before it and lists what stands out, such as spend spikes, runaway sessions, a jump in Opus or fast-mode share, or a switch from subscription to API-key billing, each with the reason and a suggested action. It stays quiet until there is enough history.',
     },
+    routing: {
+      title: 'Routing on your own API key',
+      body: 'If you pay per token with your own Anthropic API key, `routing recommend` suggests a default model tier per repo, task class and client from turns two judges agreed on. It shows the sample size, the confidence and the saving on the judged turns. Thin evidence, any verdict that the cheaper model fell short, or an earlier escalation keeps the current model. It only advises; nothing changes until you choose.',
+      auto:
+        '`routing auto on` (off by default) applies a recommended downgrade only when a fresh context starts in a session you launched with `taksim claude`, such as a new session or a subagent. It never switches a conversation that is already running, and your pins, budgets and native `/model` choices still win.',
+      escalation:
+        'When a downgraded turn shows signs of trouble (tool, test or build failures, a retry or correction, an upstream error), Taksim goes back to the model you asked for and stays there for that phase. A downgraded call that fails before any response reaches you is retried once on your model. `diagnostics downgrades` shows every downgrade and escalation. Claude and ChatGPT subscription plans are observed only and never routed.',
+    },
     team: {
       title: 'Team roll-up',
       body: 'Each developer writes a metadata-only export into a shared folder and can inspect it before sharing; exports carry repo aliases, never paths. The team lead combines them into one report, or opens them in the dashboard. The team roll-up is part of the [Team plan](/pricing).',
@@ -906,6 +919,7 @@ export const en = {
       budgets: 'Budgets and alerts',
       cache: 'Cache guard',
       insights: 'Quota and anomalies',
+      routing: 'Routing (API key)',
       team: 'Team roll-up',
     },
   },

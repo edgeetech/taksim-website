@@ -495,6 +495,7 @@ export const tr: Dictionary = {
           ['Bütçeler, digest ve uyarılar', '/docs/next-steps#budgets'],
           ['Cache guard', '/docs/next-steps#cache'],
           ['Kota ve anomaliler', '/docs/next-steps#insights'],
+          ['Kendi API key’inizle yönlendirme', '/docs/next-steps#routing'],
           ['Ekip toplu görünümü', '/docs/next-steps#team'],
           ['Güncelleme ve kaldırma', '/docs/quick-start#update'],
         ],
@@ -608,6 +609,10 @@ export const tr: Dictionary = {
         {
           term: 'Shadow policy',
           body: 'Taksim, consensus kararlarından yönlendirme varsayılanları önerebilir ve bunların neleri değiştireceğini raporlayabilir. Shadow policy karşı olgusal kalır; modelinizi asla değiştirmez.',
+        },
+        {
+          term: 'Yönlendirme önerileri',
+          body: 'API key trafiği için `routing recommend`, consensus kararlarını her repo, görev sınıfı ve istemci için önerilen bir varsayılan seviyeye dönüştürür. İsteğe bağlı `routing auto`, bunu `taksim claude` oturumlarındaki yeni context’lere uygular ve sorun işaretlerinde modelinize geri döner. Subscription planları asla yönlendirilmez.',
         },
       ],
     },
@@ -896,6 +901,14 @@ export const tr: Dictionary = {
       anomalies:
         '`insights anomalies`, son harcamayı ondan önceki 28 günle karşılaştırır ve öne çıkanları listeler: harcama sıçramaları, kontrolden çıkan oturumlar, Opus veya fast mode payındaki artış ya da subscription’dan API key faturalamasına geçiş gibi; her biri nedeni ve önerilen bir eylemle birlikte. Yeterli geçmiş birikene kadar sessiz kalır.',
     },
+    routing: {
+      title: 'Kendi API key’inizle yönlendirme',
+      body: 'Token başına kendi Anthropic API key’inizle ödüyorsanız, `routing recommend` iki judge’ın uzlaştığı turlara dayanarak her repo, görev sınıfı ve istemci için varsayılan bir model seviyesi önerir. Örneklem büyüklüğünü, güveni ve değerlendirilen turlardaki tasarrufu gösterir. Zayıf kanıt, daha ucuz modelin yetersiz kaldığını söyleyen herhangi bir karar ya da daha önceki bir escalation mevcut modeli korur. Yalnızca öneride bulunur; siz seçmeden hiçbir şey değişmez.',
+      auto:
+        '`routing auto on` (varsayılan olarak kapalı), önerilen bir düşürmeyi yalnızca `taksim claude` ile başlattığınız bir oturumda yeni bir context başladığında uygular: yeni bir oturum ya da bir subagent gibi. Zaten süren bir konuşmayı asla değiştirmez; sabitlemeleriniz, bütçeleriniz ve yerel `/model` seçimleriniz yine önceliklidir.',
+      escalation:
+        'Düşürülmüş bir turda sorun işaretleri görüldüğünde (tool, test veya build hataları, yeniden deneme ya da düzeltme, upstream hatası), Taksim istediğiniz modele geri döner ve o aşama boyunca orada kalır. Size herhangi bir yanıt ulaşmadan başarısız olan düşürülmüş bir çağrı, sizin modelinizle bir kez yeniden denenir. `diagnostics downgrades` her düşürmeyi ve escalation’ı gösterir. Claude ve ChatGPT subscription planları yalnızca gözlemlenir ve asla yönlendirilmez.',
+    },
     team: {
       title: 'Ekip toplu görünümü',
       body: 'Her geliştirici ortak bir klasöre yalnızca metadata içeren bir export yazar ve paylaşmadan önce inceleyebilir; export’lar dosya yollarını değil, repo takma adlarını içerir. Ekip lideri bunları tek bir raporda birleştirir ya da dashboard’da açar. Ekip toplu görünümü [Team planının](/pricing) parçasıdır.',
@@ -907,6 +920,7 @@ export const tr: Dictionary = {
       budgets: 'Bütçeler ve uyarılar',
       cache: 'Cache guard',
       insights: 'Kota ve anomaliler',
+      routing: 'Yönlendirme (API key)',
       team: 'Ekip toplu görünümü',
     },
   },
