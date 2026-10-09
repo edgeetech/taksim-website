@@ -42,7 +42,9 @@ test('Turkish keeps commands, code, links and numbers exactly as in English', ()
   const code = (s) => [...s.matchAll(/`([^`]+)`/g)].map((m) => m[1]).sort((x, y) => x.localeCompare(y));
   const links = (s) => [...s.matchAll(/\]\(([^)]+)\)/g)].map((m) => m[1]).sort((x, y) => x.localeCompare(y));
   const commands = (s) => [...s.matchAll(/taksim [a-z][\w-]*(?: [a-z][\w-]*)*(?: --[\w-]+)*/g)].map((m) => m[0]);
-  const numbers = (s) => (s.match(/\d+(?:[.,]\d+)*/g) ?? []).sort((x, y) => x.localeCompare(y));
+  // Decimal separators differ by locale (1.20 in English, 1,20 in Turkish); the digits must not.
+  const numbers = (s) =>
+    (s.match(/\d+(?:[.,]\d+)*/g) ?? []).map((n) => n.replaceAll(',', '.')).sort((x, y) => x.localeCompare(y));
   for (const [path, a, b] of all) {
     assert.deepEqual(code(b), code(a), `${path}: inline code must match`);
     assert.deepEqual(links(b), links(a), `${path}: link targets must match`);

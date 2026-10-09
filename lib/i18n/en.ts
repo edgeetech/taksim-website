@@ -43,6 +43,11 @@ export const en = {
         description:
           'After setup: the local dashboard, judging, budgets, the weekly digest, Slack and webhook alerts, and the team roll-up.',
       },
+      benchmark: {
+        title: 'Claude routing benchmark method',
+        description:
+          'How Taksim will measure Claude routing savings: three arms, frozen tasks, independent acceptance and all-in cost per accepted task. Results are pending.',
+      },
       contact: {
         title: 'Talk to Taksim — Team Assessment',
         description:
@@ -73,6 +78,7 @@ export const en = {
       legal: 'Legal',
       privacy: 'Privacy',
       terms: 'Terms',
+      benchmark: 'Benchmark method',
       company: 'EdgeeTech Ltd.',
     },
     language: {
@@ -1035,6 +1041,59 @@ export const en = {
       routing: 'Routing (API key)',
       team: 'Team roll-up',
     },
+  },
+
+  benchmark: {
+    eyebrow: 'Benchmark methodology',
+    title: 'How we will measure Claude routing savings.',
+    lede: 'This page sets out the method before any result exists. The pilot result will be published here, including if it misses its targets.',
+    statusLabel: 'Status: methodology only.',
+    status:
+      'No benchmark runs have been recorded for publication. This page contains no savings figures, and nothing on it is a measured result.',
+    sections: [
+      {
+        title: 'Three arms on the same tasks',
+        body: 'Each task runs in three arms. The baseline is the owner’s actual default model and effort, resolved from the current validated catalog. The fixed arm is one owner-reviewed sufficient alternative. The routed arm is the frozen pilot routing policy: catalog model and effort selection run by the pilot harness. Production routing is not on by default in the current release. For API-key runs, the routed arm uses the catalog Decision Engine selection through the pilot harness. For subscription runs, the current release does not route subscription traffic and its gateway only observes; the calibration selects model and effort at launch inside the harness, which is a harness-only selection, not a shipped feature. Model labels come from the catalog snapshot frozen for each batch, so the method does not assume any model generation. When the routing policy declines to change the model, the run is recorded as a suppressed decision, never as a saving.',
+      },
+      {
+        title: 'Frozen tasks and independent acceptance',
+        body: 'The tasks, acceptance checks, routing policy, catalog and prices are frozen before the first run. The pilot uses held-out tasks, the same number in each of five classes: bug repair, bounded feature, refactor, configuration or migration, and repository research or documentation. A run is accepted only when an independent evaluator confirms four checks: the intended behaviour works, nothing regresses, the change stays in scope, and the work is delivered. Passing CI, judge votes or an agent saying it is done do not count as acceptance on their own.',
+      },
+      {
+        title: 'All-in cost',
+        body: 'Cost covers every run, including failed, timed-out, aborted and unknown runs, child agents, router and judge calls, recovery work, and cache reads and writes. A missing cost is recorded as unknown, never as zero. Each arm is a separate real run: no saving is computed by repricing one transcript at another model’s prices.',
+      },
+      {
+        title: 'Cost per accepted task',
+        body: 'The main measure is all-in cost per accepted task, compared with both the baseline and the fixed alternative. If an arm has no accepted tasks, its cost per accepted task is shown as “No accepted tasks”, never as zero. The report also shows accepted/all, first-delivery acceptance, total spend, correction rate, active human minutes, median and tail elapsed time, and escalations.',
+      },
+      {
+        title: 'Quota and dollars stay separate',
+        body: 'API-key runs are reported in billed dollars. Subscription usage is reported as quota, labelled as quota, and never presented as a lower bill. Quota units that no authoritative source reports are shown as unknown. In the current release Taksim routes only API-key traffic; subscription traffic is observed, not routed, and the launch-time selection in subscription runs exists only inside the pilot harness.',
+      },
+      {
+        title: 'Uncertainty',
+        body: 'Savings are reported with paired intervals over task clusters, together with coverage and how the result moves if unknown costs turn out high or low. Small samples are labelled as small. Uncertainty is reported as it is; it is not a reason to keep running until a favourable result appears.',
+      },
+      {
+        title: 'Run plan',
+        body: 'A nine-run calibration comes first and is not part of the result. In the calibration every task block runs the baseline arm, then the fixed arm, then the routed arm, because the routed arm needs the earlier baseline and fixed runs; only the order of the task blocks is randomised. The pilot then uses 30 held-out tasks, six per class: 30 tasks × 3 arms × 2 repetitions = 180 runs, ordered within paired blocks under the same constraint. Thresholds are not tuned on these tasks; a revised policy needs a new labelled batch.',
+      },
+      {
+        title: 'Proposed targets and pause rule',
+        body: 'These targets are frozen before the runs. They are product hypotheses, not standards: at most 5 percentage points lower acceptance than the default, at most 1.20× the median and 1.50× the p90 elapsed time, at most a 10-point rise in correction rate, and at least 15% lower all-in cost per accepted task. The pilot pauses if the evaluator is tampered with, a safety or scope breach occurs, or routing fails 2 tasks that the default passed within the first 10 task blocks.',
+      },
+      {
+        title: 'Publication rule',
+        body: 'The result is published even if the targets are missed. A positive headline needs complete evidence, every guardrail met, and a paired savings interval whose lower bound is above zero. This is a single-user pilot: it does not claim that cheaper models match frontier quality in general.',
+      },
+      {
+        title: 'Where the protocol lives',
+        body: 'The run protocols and evaluator details are kept in the core Taksim repository, which is not public yet. The published result is planned to include a privacy-reviewed bundle of the task manifest, configuration and results.',
+      },
+    ],
+    resultsTitle: 'Results',
+    results: 'Pending the measured pilot (Taksim issue #232). No figures are shown until that pilot is complete.',
   },
 
   privacy: {

@@ -22,6 +22,7 @@ export const localizedRoutes = [
   '/privacy/',
   '/terms/',
   '/contact/',
+  '/benchmarks/claude-routing/',
 ] as const;
 
 /** Prefix an internal path with the locale. Leaves external links, mailto and in-page anchors untouched. */

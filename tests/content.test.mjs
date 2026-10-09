@@ -343,3 +343,92 @@ test('exports a platform-independent static site for GitHub Pages', async () => 
   assert.match(workflow, /retention-days: 1/);
   assert.doesNotMatch(vite, /openai|cloudflare|wrangler/i);
 });
+
+test('publishes the Claude routing benchmark method with no results and no private links', async () => {
+  const { en } = await import('../lib/i18n/en.ts');
+  const { tr } = await import('../lib/i18n/tr.ts');
+  const { localizedRoutes } = await import('../lib/i18n/config.ts');
+  const llms = await source('public/llms.txt');
+  assert.ok(localizedRoutes.includes('/benchmarks/claude-routing/'));
+  assert.match(await source('components/site-chrome.tsx'), /href\('\/benchmarks\/claude-routing'\)/);
+  const llmsLine = llms.split('\n').find((line) => line.includes('/benchmarks/claude-routing'));
+  assert.equal(
+    llmsLine,
+    'Claude routing benchmark methodology (results pending, no figures yet): https://taksim.edgee.tech/benchmarks/claude-routing',
+  );
+  assert.match(await source('components/pages/benchmark-methodology.tsx'), /id="results"/);
+
+  // Figures may appear only in the run plan and in the targets labelled as hypotheses; results cite only #232.
+  const runPlan = en.benchmark.sections.findIndex((s) => s.title === 'Run plan');
+  const targets = en.benchmark.sections.findIndex((s) => s.title === 'Proposed targets and pause rule');
+  assert.ok(runPlan >= 0 && targets >= 0);
+  const figure = /[\d%$]/;
+  for (const dict of [en, tr]) {
+    const t = dict.benchmark;
+    assert.match(t.sections[targets].body, /hypothes|hipotez/);
+    const scanned = {
+      eyebrow: t.eyebrow,
+      title: t.title,
+      lede: t.lede,
+      statusLabel: t.statusLabel,
+      status: t.status,
+      resultsTitle: t.resultsTitle,
+      metaTitle: dict.meta.pages.benchmark.title,
+      metaDescription: dict.meta.pages.benchmark.description,
+      footer: dict.chrome.footer.benchmark,
+      llms: llmsLine.replace(/https:\/\/\S+/, ''),
+    };
+    t.sections.forEach((s, i) => {
+      scanned[`sections[${i}].title`] = s.title;
+      if (i !== runPlan && i !== targets) scanned[`sections[${i}].body`] = s.body;
+    });
+    for (const [key, text] of Object.entries(scanned)) assert.doesNotMatch(text, figure, key);
+    assert.deepEqual(t.results.replace('#232', '').match(figure), null, 'results must hold no figures until #232 is measured');
+    assert.doesNotMatch(JSON.stringify(t), /asozyurt|github\.com|\]\(http/i);
+  }
+
+  const phrases = {
+    en: [
+      /no savings figures/,
+      /No accepted tasks/,
+      /never as zero/,
+      /suppressed decision, never as a saving/,
+      /owner’s actual default/,
+      /one owner-reviewed sufficient alternative/,
+      /frozen pilot routing policy/,
+      /Production routing is not on by default in the current release/,
+      /harness-only selection, not a shipped feature/,
+      /accepted\/all/,
+      /total spend/,
+      /Quota units that no authoritative source reports are shown as unknown/,
+      /baseline arm, then the fixed arm, then the routed arm/,
+      /product hypotheses, not standards/,
+      /published even if the targets are missed/,
+      /subscription traffic is observed, not routed/,
+    ],
+    tr: [
+      /tasarruf rakamı yoktur/,
+      /Kabul edilen görev yok/,
+      /sıfır olarak değil/,
+      /bastırılmış karar olarak kaydedilir, asla tasarruf olarak değil/,
+      /sahibin gerçek varsayılan/,
+      /sahibin incelediği yeterli bir alternatif/,
+      /dondurulmuş pilot yönlendirme politikası/,
+      /Üretim yönlendirmesi mevcut sürümde varsayılan olarak açık değildir/,
+      /yalnızca harness’a ait bir seçimdir, yayımlanmış bir özellik değildir/,
+      /kabul edilen\/tümü/,
+      /toplam harcama/,
+      /kota birimleri bilinmiyor olarak gösterilir/,
+      /önce baseline kolunu, sonra sabit kolu, sonra yönlendirilen kolu/,
+      /ürün hipotezleridir/,
+      /hedefler tutturulamasa bile yayımlanır/,
+      /subscription trafiği gözlemlenir, yönlendirilmez/,
+      /1,20× medyan ve 1,50× p90/,
+    ],
+  };
+  for (const [locale, list] of Object.entries(phrases)) {
+    const text = JSON.stringify({ en, tr }[locale].benchmark);
+    for (const phrase of list) assert.match(text, phrase, `${locale}: ${phrase}`);
+  }
+  assert.doesNotMatch(JSON.stringify(en.benchmark), /as it actually runs|catalog marks as sufficient/);
+});

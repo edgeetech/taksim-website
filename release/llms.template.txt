@@ -9,6 +9,7 @@ Next steps (dashboard, judging, budgets, digest, Slack, team): https://taksim.ed
 Documentation: https://taksim.edgee.tech/docs
 Pricing: https://taksim.edgee.tech/pricing
 Privacy: https://taksim.edgee.tech/privacy
+Claude routing benchmark methodology (results pending, no figures yet): https://taksim.edgee.tech/benchmarks/claude-routing
 Turkish: https://taksim.edgee.tech/tr/
 
 Current release: {{tag}}. Platforms: {{platforms}}.
