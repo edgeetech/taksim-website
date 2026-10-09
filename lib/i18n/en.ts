@@ -1053,11 +1053,11 @@ export const en = {
     sections: [
       {
         title: 'Three arms on the same tasks',
-        body: 'Each task runs in three arms: the default model and effort resolved from the model catalog, one fixed cheaper configuration that the catalog marks as sufficient, and Taksim routing as it actually runs. Model labels come from the catalog snapshot frozen for each batch, so the method does not assume any model generation. When Taksim declines to change the model, the run is recorded as a suppressed decision, never as a saving.',
+        body: 'Each task runs in three arms. The baseline is the owner’s actual default model and effort, resolved from the current validated catalog. The fixed arm is one owner-reviewed sufficient alternative. The routed arm is the frozen pilot routing policy: catalog model and effort selection run by the pilot harness. Production routing is not on by default in the current release. For API-key runs, the routed arm uses the catalog Decision Engine selection through the pilot harness. For subscription runs, the current release does not route subscription traffic and its gateway only observes; the calibration selects model and effort at launch inside the harness, which is a harness-only selection, not a shipped feature. Model labels come from the catalog snapshot frozen for each batch, so the method does not assume any model generation. When the routing policy declines to change the model, the run is recorded as a suppressed decision, never as a saving.',
       },
       {
         title: 'Frozen tasks and independent acceptance',
-        body: 'The tasks, acceptance checks, routing policy, catalog and prices are frozen before the first run. The pilot uses 30 held-out tasks, six in each of five classes: bug repair, bounded feature, refactor, configuration or migration, and repository research or documentation. A run is accepted only when an independent evaluator confirms four checks: the intended behaviour works, nothing regresses, the change stays in scope, and the work is delivered. Passing CI, judge votes or an agent saying it is done do not count as acceptance on their own.',
+        body: 'The tasks, acceptance checks, routing policy, catalog and prices are frozen before the first run. The pilot uses held-out tasks, the same number in each of five classes: bug repair, bounded feature, refactor, configuration or migration, and repository research or documentation. A run is accepted only when an independent evaluator confirms four checks: the intended behaviour works, nothing regresses, the change stays in scope, and the work is delivered. Passing CI, judge votes or an agent saying it is done do not count as acceptance on their own.',
       },
       {
         title: 'All-in cost',
@@ -1065,11 +1065,11 @@ export const en = {
       },
       {
         title: 'Cost per accepted task',
-        body: 'The main measure is all-in cost per accepted task, compared with both the catalog default and the fixed cheaper configuration. If an arm has no accepted tasks, its cost per accepted task is shown as “No accepted tasks”, never as zero. The report also shows the acceptance rate, first-delivery acceptance, correction rate, active human minutes, median and p90 elapsed time, and escalations.',
+        body: 'The main measure is all-in cost per accepted task, compared with both the baseline and the fixed alternative. If an arm has no accepted tasks, its cost per accepted task is shown as “No accepted tasks”, never as zero. The report also shows accepted/all, first-delivery acceptance, total spend, correction rate, active human minutes, median and tail elapsed time, and escalations.',
       },
       {
         title: 'Quota and dollars stay separate',
-        body: 'API-key runs are reported in billed dollars. Subscription usage is reported as quota, labelled as quota, and never presented as a lower bill. In the current release Taksim routes only API-key traffic; subscription traffic is observed, not routed.',
+        body: 'API-key runs are reported in billed dollars. Subscription usage is reported as quota, labelled as quota, and never presented as a lower bill. Quota units that no authoritative source reports are shown as unknown. In the current release Taksim routes only API-key traffic; subscription traffic is observed, not routed, and the launch-time selection in subscription runs exists only inside the pilot harness.',
       },
       {
         title: 'Uncertainty',
@@ -1077,7 +1077,7 @@ export const en = {
       },
       {
         title: 'Run plan',
-        body: 'A nine-run calibration comes first and is not part of the result. The pilot is then 30 tasks × 3 arms × 2 repetitions = 180 runs, randomised within paired blocks. Thresholds are not tuned on these tasks; a revised policy needs a new labelled batch.',
+        body: 'A nine-run calibration comes first and is not part of the result. In the calibration every task block runs the baseline arm, then the fixed arm, then the routed arm, because the routed arm needs the earlier baseline and fixed runs; only the order of the task blocks is randomised. The pilot then uses 30 held-out tasks, six per class: 30 tasks × 3 arms × 2 repetitions = 180 runs, ordered within paired blocks under the same constraint. Thresholds are not tuned on these tasks; a revised policy needs a new labelled batch.',
       },
       {
         title: 'Proposed targets and pause rule',

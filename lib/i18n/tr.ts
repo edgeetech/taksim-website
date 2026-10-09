@@ -1054,11 +1054,11 @@ export const tr: Dictionary = {
     sections: [
       {
         title: 'Aynı görevlerde üç kol',
-        body: 'Her görev üç kolda çalışır: model kataloğundan çözümlenen varsayılan model ve effort, kataloğun yeterli saydığı sabit ve daha ucuz bir yapılandırma, ve gerçekte çalıştığı haliyle Taksim yönlendirmesi. Model etiketleri her parti için dondurulan katalog anlık görüntüsünden gelir; yöntem belirli bir model kuşağını varsaymaz. Taksim modeli değiştirmemeye karar verdiğinde çalıştırma bastırılmış karar olarak kaydedilir, asla tasarruf olarak değil.',
+        body: 'Her görev üç kolda çalışır. Baseline, sahibin gerçek varsayılan model ve effort ayarıdır ve güncel doğrulanmış katalogdan çözümlenir. Sabit kol, sahibin incelediği yeterli bir alternatiftir. Yönlendirilen kol, dondurulmuş pilot yönlendirme politikasıdır: pilot harness tarafından çalıştırılan katalog model ve effort seçimi. Üretim yönlendirmesi mevcut sürümde varsayılan olarak açık değildir. API key çalıştırmalarında yönlendirilen kol, pilot harness üzerinden katalog Decision Engine seçimini kullanır. Subscription çalıştırmalarında mevcut sürüm subscription trafiğini yönlendirmez ve gateway yalnızca gözlemler; kalibrasyon model ve effort seçimini başlatmada harness içinde yapar. Bu yalnızca harness’a ait bir seçimdir, yayımlanmış bir özellik değildir. Model etiketleri her parti için dondurulan katalog anlık görüntüsünden gelir; yöntem belirli bir model kuşağını varsaymaz. Yönlendirme politikası modeli değiştirmemeye karar verdiğinde çalıştırma bastırılmış karar olarak kaydedilir, asla tasarruf olarak değil.',
       },
       {
         title: 'Dondurulmuş görevler ve bağımsız kabul',
-        body: 'Görevler, kabul kontrolleri, yönlendirme politikası, katalog ve fiyatlar ilk çalıştırmadan önce dondurulur. Pilot, beş sınıfın her birinden altı tane olmak üzere 30 ayrılmış (held-out) görev kullanır: hata düzeltme, sınırlı özellik, refactor, yapılandırma veya migration, ve repo araştırması veya dokümantasyon. Bir çalıştırma ancak bağımsız bir değerlendirici dört kontrolü onayladığında kabul edilir: hedeflenen davranış çalışır, hiçbir şey geriye gitmez, değişiklik kapsam içinde kalır ve iş teslim edilir. Geçen CI, judge oyları veya bir ajanın işi bitirdiğini söylemesi tek başına kabul sayılmaz.',
+        body: 'Görevler, kabul kontrolleri, yönlendirme politikası, katalog ve fiyatlar ilk çalıştırmadan önce dondurulur. Pilot, beş sınıfın her birinden eşit sayıda ayrılmış (held-out) görev kullanır: hata düzeltme, sınırlı özellik, refactor, yapılandırma veya migration, ve repo araştırması veya dokümantasyon. Bir çalıştırma ancak bağımsız bir değerlendirici dört kontrolü onayladığında kabul edilir: hedeflenen davranış çalışır, hiçbir şey geriye gitmez, değişiklik kapsam içinde kalır ve iş teslim edilir. Geçen CI, judge oyları veya bir ajanın işi bitirdiğini söylemesi tek başına kabul sayılmaz.',
       },
       {
         title: 'Tüm maliyet',
@@ -1066,11 +1066,11 @@ export const tr: Dictionary = {
       },
       {
         title: 'Kabul edilen görev başına maliyet',
-        body: 'Ana ölçü, kabul edilen görev başına tüm maliyettir ve hem katalog varsayılanıyla hem de sabit ucuz yapılandırmayla karşılaştırılır. Bir kolda kabul edilen görev yoksa, görev başına maliyeti sıfır olarak değil “Kabul edilen görev yok” olarak gösterilir. Rapor ayrıca kabul oranını, ilk teslimde kabulü, düzeltme oranını, aktif insan dakikalarını, medyan ve p90 geçen süreyi ve yükseltmeleri (escalation) gösterir.',
+        body: 'Ana ölçü, kabul edilen görev başına tüm maliyettir ve hem baseline ile hem de sabit alternatifle karşılaştırılır. Bir kolda kabul edilen görev yoksa, görev başına maliyeti sıfır olarak değil “Kabul edilen görev yok” olarak gösterilir. Rapor ayrıca kabul edilen/tümü oranını, ilk teslimde kabulü, toplam harcamayı, düzeltme oranını, aktif insan dakikalarını, medyan ve kuyruk geçen süreyi ve yükseltmeleri (escalation) gösterir.',
       },
       {
         title: 'Kota ve dolar ayrı tutulur',
-        body: 'API key çalıştırmaları faturalanan dolar olarak raporlanır. Subscription kullanımı kota olarak raporlanır, kota olarak etiketlenir ve asla daha düşük bir fatura gibi sunulmaz. Mevcut sürümde Taksim yalnızca API key trafiğini yönlendirir; subscription trafiği gözlemlenir, yönlendirilmez.',
+        body: 'API key çalıştırmaları faturalanan dolar olarak raporlanır. Subscription kullanımı kota olarak raporlanır, kota olarak etiketlenir ve asla daha düşük bir fatura gibi sunulmaz. Yetkili bir kaynağın bildirmediği kota birimleri bilinmiyor olarak gösterilir. Mevcut sürümde Taksim yalnızca API key trafiğini yönlendirir; subscription trafiği gözlemlenir, yönlendirilmez ve subscription çalıştırmalarındaki başlatma anı seçimi yalnızca pilot harness içinde vardır.',
       },
       {
         title: 'Belirsizlik',
@@ -1078,11 +1078,11 @@ export const tr: Dictionary = {
       },
       {
         title: 'Çalıştırma planı',
-        body: 'Önce dokuz çalıştırmalık bir kalibrasyon yapılır ve sonuca dahil edilmez. Ardından pilot 30 görev × 3 kol × 2 tekrar = 180 çalıştırmadır ve eşleştirilmiş bloklar içinde rastgele sıralanır. Eşikler bu görevler üzerinde ayarlanmaz; revize edilmiş bir politika yeni ve etiketlenmiş bir parti gerektirir.',
+        body: 'Önce dokuz çalıştırmalık bir kalibrasyon yapılır ve sonuca dahil edilmez. Kalibrasyonda her görev bloğu önce baseline kolunu, sonra sabit kolu, sonra yönlendirilen kolu çalıştırır, çünkü yönlendirilen kol önceki baseline ve sabit çalıştırmalarına ihtiyaç duyar; yalnızca görev bloklarının sırası rastgeledir. Ardından pilot, sınıf başına altı olmak üzere 30 ayrılmış görev kullanır: 30 görev × 3 kol × 2 tekrar = 180 çalıştırma, aynı kısıtla eşleştirilmiş bloklar içinde sıralanır. Eşikler bu görevler üzerinde ayarlanmaz; revize edilmiş bir politika yeni ve etiketlenmiş bir parti gerektirir.',
       },
       {
         title: 'Önerilen hedefler ve durdurma kuralı',
-        body: 'Bu hedefler çalıştırmalardan önce dondurulur. Bunlar standart değil, ürün hipotezleridir: varsayılana göre en fazla 5 yüzde puan daha düşük kabul, en fazla 1.20× medyan ve 1.50× p90 geçen süre, düzeltme oranında en fazla 10 puan artış ve kabul edilen görev başına en az %15 daha düşük tüm maliyet. Değerlendiriciye müdahale edilirse, bir güvenlik veya kapsam ihlali olursa ya da ilk 10 görev bloğunda yönlendirme varsayılanın geçtiği 2 görevde başarısız olursa pilot durdurulur.',
+        body: 'Bu hedefler çalıştırmalardan önce dondurulur. Bunlar standart değil, ürün hipotezleridir: varsayılana göre en fazla 5 yüzde puan daha düşük kabul, en fazla 1,20× medyan ve 1,50× p90 geçen süre, düzeltme oranında en fazla 10 puan artış ve kabul edilen görev başına en az %15 daha düşük tüm maliyet. Değerlendiriciye müdahale edilirse, bir güvenlik veya kapsam ihlali olursa ya da ilk 10 görev bloğunda yönlendirme varsayılanın geçtiği 2 görevde başarısız olursa pilot durdurulur.',
       },
       {
         title: 'Yayın kuralı',
