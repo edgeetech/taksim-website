@@ -4,6 +4,7 @@ import {
   classify,
   fetchReleases,
   formatReport,
+  MAX_PAGES,
   main,
   summarize,
 } from '../scripts/funnel-report.mjs';
@@ -60,6 +61,15 @@ test('classifies release assets by kind', () => {
   assert.equal(classify('SHA256SUMS.txt'), 'checksums');
   assert.equal(classify('taksim-release-manifest.json'), 'manifest');
   assert.equal(classify('notes.txt'), 'other');
+});
+
+test('classifies darwin assets as macOS, not Windows', () => {
+  assert.equal(classify('taksim-connector-darwin-arm64.tar.gz'), 'macos');
+  assert.equal(classify('taksim-connector-darwin-x64.zip'), 'macos');
+});
+
+test('classifies a Windows .tar.gz as a Windows binary', () => {
+  assert.equal(classify('taksim-connector-win-x64.tar.gz'), 'windows');
 });
 
 test('separates installs from checksum and manifest fetches', () => {
@@ -126,6 +136,51 @@ test('follows pagination and sends the token only when set', async () => {
   assert.ok(calls.every((c) => c.auth === undefined));
 });
 
+const API = 'https://api.github.com/repos/edgeetech/taksim-releases/releases';
+
+test('stops after the maximum page count', async () => {
+  let calls = 0;
+  const fakeFetch = async () => {
+    calls += 1;
+    return response([], `<${API}?per_page=100&page=${calls + 1}>; rel="next"`);
+  };
+  await assert.rejects(
+    fetchReleases({ fetch: fakeFetch }),
+    new RegExp(`Stopped after ${MAX_PAGES} pages`),
+  );
+  assert.equal(calls, MAX_PAGES);
+});
+
+test('stops when pagination repeats a URL', async () => {
+  let calls = 0;
+  const fakeFetch = async () => {
+    calls += 1;
+    return response([], `<${API}?per_page=100&page=2>; rel="next"`);
+  };
+  await assert.rejects(
+    fetchReleases({ fetch: fakeFetch }),
+    /Pagination repeated/,
+  );
+  assert.equal(calls, 2);
+});
+
+test('refuses a next URL outside api.github.com and never sends it the token', async () => {
+  const calls = [];
+  const fakeFetch = async (url, init) => {
+    calls.push({ url, auth: init.headers.Authorization });
+    return response(
+      [],
+      '<https://evil.example/repos/edgeetech/taksim-releases/releases?page=2>; rel="next"',
+    );
+  };
+  await assert.rejects(
+    fetchReleases({ fetch: fakeFetch, token: 'test-token' }),
+    /Refusing pagination URL outside https:\/\/api\.github\.com/,
+  );
+  assert.equal(calls.length, 1);
+  assert.ok(calls.every((c) => c.url.startsWith('https://api.github.com/')));
+});
+
 test('throws on an API error', async () => {
   const fakeFetch = async () => ({
     ok: false,
@@ -153,8 +208,14 @@ test('prints per-release counts and the funnel summary', async () => {
     /installer script: 43\n {4}install\.ps1: 42\n {4}install\.sh: 1/,
   );
   assert.match(text, /second-stage installer: 2/);
-  assert.match(text, /Install-script downloads: 52/);
-  assert.match(text, /Install-script downloads excluding website sync: 14/);
+  assert.match(
+    text,
+    /Install-script downloads \(new installs plus in-place updates\): 52/,
+  );
+  assert.match(
+    text,
+    /Install-script downloads excluding website sync \(new installs plus in-place updates\): 14/,
+  );
   assert.match(text, /Platform binary downloads: 8/);
   assert.match(text, /Binaries per install-script download: 15\.4%/);
   assert.match(text, /excluding website sync: 57\.1%/);

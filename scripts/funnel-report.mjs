@@ -5,6 +5,8 @@
 import { pathToFileURL } from 'node:url';
 
 export const REPOSITORY = 'edgeetech/taksim-releases';
+export const API_ORIGIN = 'https://api.github.com';
+export const MAX_PAGES = 20;
 
 export const KINDS = {
   installer: 'installer script',
@@ -30,8 +32,9 @@ export function classify(name, assetNames = []) {
   if (/^install.*\.(ps1|sh)$/.test(n)) return 'installer';
   if (/sha256sums|checksums|\.sha256$/.test(n)) return 'checksums';
   if (/manifest.*\.json$/.test(n)) return 'manifest';
-  if (/win/.test(n) && /\.(zip|exe|msi)$/.test(n)) return 'windows';
+  // macOS before Windows: "darwin" contains "win".
   if (/(osx|macos|darwin)/.test(n)) return 'macos';
+  if (/win/.test(n) && /\.(zip|exe|msi|tar\.gz|tgz)$/.test(n)) return 'windows';
   if (/linux/.test(n)) return 'linux';
   return 'other';
 }
@@ -53,7 +56,8 @@ export function summarize(releases) {
     });
     for (const k of Object.keys(byKind)) totals[k] += byKind[k];
     // The website's release sync fetches install.ps1, SHA256SUMS.txt and the manifest on every
-    // CI run; real installers never fetch the manifest, so its count estimates those fetches.
+    // CI run. New installs and `taksim update --apply` (install.ps1 or install.sh) never fetch the
+    // manifest, so its count estimates those sync fetches.
     installsExcludingSync += Math.max(0, byKind.installer - byKind.manifest);
     return {
       tag: release.tag_name,
@@ -89,11 +93,27 @@ export async function fetchReleases({
     'User-Agent': 'taksim-website-funnel-report',
     'X-GitHub-Api-Version': '2022-11-28',
   };
-  if (token) headers.Authorization = `Bearer ${token}`;
   const releases = [];
-  let url = `https://api.github.com/repos/${repository}/releases?per_page=100`;
+  const seen = new Set();
+  let url = `${API_ORIGIN}/repos/${repository}/releases?per_page=100`;
   while (url) {
-    const res = await fetchImpl(url, { headers });
+    if (seen.size >= MAX_PAGES)
+      throw new Error(`Stopped after ${MAX_PAGES} pages of releases`);
+    if (seen.has(url)) throw new Error(`Pagination repeated ${url}`);
+    seen.add(url);
+    let origin;
+    try {
+      origin = new URL(url).origin;
+    } catch {
+      origin = null;
+    }
+    if (origin !== API_ORIGIN)
+      throw new Error(`Refusing pagination URL outside ${API_ORIGIN}: ${url}`);
+    const res = await fetchImpl(url, {
+      headers: token
+        ? { ...headers, Authorization: `Bearer ${token}` }
+        : headers,
+    });
     if (!res.ok) throw new Error(`${res.status} ${res.statusText} for ${url}`);
     releases.push(...(await res.json()));
     const link = res.headers?.get?.('link') ?? '';
@@ -132,9 +152,9 @@ export function formatReport(
       .map((k) => `  ${KINDS[k]}: ${summary.totals[k]}`),
     '',
     'Funnel summary:',
-    `  Install-script downloads: ${f.installs}`,
+    `  Install-script downloads (new installs plus in-place updates): ${f.installs}`,
     `  Website release-sync fetches (manifest downloads): ${f.siteSyncFetches}`,
-    `  Install-script downloads excluding website sync: ${f.installsExcludingSync}`,
+    `  Install-script downloads excluding website sync (new installs plus in-place updates): ${f.installsExcludingSync}`,
     `  Platform binary downloads: ${f.binaries}`,
     `  Binaries per install-script download: ${pct(f.binariesPerInstall)}`,
     `  Binaries per install-script download excluding website sync: ${pct(f.binariesPerInstallExcludingSync)}`,

@@ -19,6 +19,7 @@ By owner decision on 2026-10-09 the site has no analytics. Nothing collects the 
 
 - Asset kinds: installer script (`install.ps1`, `install.sh`), second-stage installer (`install-release.ps1`, fetched by `install.ps1`; it counts as the installer only on old releases without `install.ps1`), Windows, macOS and Linux binaries, checksums (`SHA256SUMS.txt`) and manifest (`taksim-release-manifest.json`).
 - Checksum and manifest downloads are not installs. A Windows install fetches `install.ps1`, then `SHA256SUMS.txt`, the zip and `install-release.ps1`.
-- This site's own release sync (`scripts/release.mjs sync`, run by every Validate workflow run, including the 6-hourly schedule) downloads `install.ps1`, `SHA256SUMS.txt` and the manifest of the latest release. Installers never fetch the manifest, so the report subtracts manifest downloads from install-script downloads per release to estimate real install attempts.
+- `taksim update --apply` also downloads `install.ps1` (`install.sh` on macOS). Install-script downloads are therefore new installs plus in-place updates, not install attempts alone.
+- This site's own release sync (`scripts/release.mjs sync`, run by every Validate workflow run, including the 6-hourly schedule) downloads `install.ps1`, `SHA256SUMS.txt` and the manifest of the latest release. Installers never fetch the manifest, so the report subtracts manifest downloads from install-script downloads per release to estimate real new installs plus in-place updates.
 - Counts are cumulative, include retries and bots, and cannot be tied to a visitor or a site page.
 - Print the report only; do not commit counts or results.
