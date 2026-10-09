@@ -67,6 +67,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Validate
+        env:
+          # Comma-separated GHSA-id:YYYY-MM-DD advisory exceptions, each at most 30 days ahead; see AGENTS.md.
+          AUDIT_IGNORE_GHSA: ${{ vars.AUDIT_IGNORE_GHSA }}
         run: |
           jq -r '"Describing Taksim \(.tag) (source: \(.source))"' release/manifest.json
           npm run lint
