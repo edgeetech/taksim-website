@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { CopyCommand } from '@/components/copy-command';
 import { Rich } from '@/components/rich';
 import { getDictionary, type Locale } from '@/lib/i18n';
+import { funnel } from '@/lib/funnel';
 import { release } from '@/lib/release';
 import { MacInstall } from '@/components/mac-install';
 import { InstallTrust } from '@/components/install-trust';
@@ -28,6 +29,7 @@ export function QuickStartPage({ locale }: { locale: Locale }) {
             command={release.installCommand}
             copy={t.install.copy}
             copied={t.install.copied}
+            funnelStep={funnel.installCopy}
           />
           <p>{rich(t.install.after)}</p>
           <InstallTrust locale={locale} />
@@ -63,7 +65,7 @@ export function QuickStartPage({ locale }: { locale: Locale }) {
           <p>{t.dashboard.after}</p>
         </section>
 
-        <div className="docs-callout">
+        <div className="docs-callout" data-funnel={funnel.docsNext}>
           <strong>{t.doneTitle}</strong>
           <p>{rich(t.doneBody)}</p>
         </div>

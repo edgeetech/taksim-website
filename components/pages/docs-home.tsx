@@ -58,6 +58,9 @@ export function DocsHomePage({ locale }: { locale: Locale }) {
           <p>
             <Rich text={t.subscriptions.body2} locale={locale} />
           </p>
+          <p>
+            <Rich text={t.subscriptions.body3} locale={locale} />
+          </p>
         </section>
         <section id="verification">
           <h2>{t.verification.title}</h2>

@@ -18,7 +18,7 @@ function Cell({ state, note, label }: { state: SupportState; note: string; label
 export function ClientMatrix({ locale }: { locale: Locale }) {
   const t = getDictionary(locale).matrix;
   return (
-    <div className="matrix-wrap">
+    <section className="matrix-wrap" tabIndex={0} aria-label={t.regionLabel}>
       <table className="matrix">
         <caption className="sr-only">{t.caption}</caption>
         <thead>
@@ -70,6 +70,6 @@ export function ClientMatrix({ locale }: { locale: Locale }) {
         ))}
         .
       </p>
-    </div>
+    </section>
   );
 }

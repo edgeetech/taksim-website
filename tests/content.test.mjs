@@ -146,6 +146,15 @@ test('keeps the client matrix in one config with subscriptions observe-only', as
   assert.doesNotMatch(llms, /Devin: managed/i);
 });
 
+test('lets keyboard users scroll the client matrix', async () => {
+  const matrix = await source('components/client-matrix.tsx');
+  // A labelled <section> has the implicit region role; an explicit role would be redundant.
+  assert.match(matrix, /<section className="matrix-wrap" tabIndex=\{0\} aria-label=\{t\.regionLabel\}>/);
+  const { en } = await import('../lib/i18n/en.ts');
+  const { tr } = await import('../lib/i18n/tr.ts');
+  assert.ok(en.matrix.regionLabel && tr.matrix.regionLabel);
+});
+
 test('keeps the desktop docs navigation readable', async () => {
   const styles = await source('app/globals.css');
   const copy = await source(copyPath);
@@ -155,15 +164,96 @@ test('keeps the desktop docs navigation readable', async () => {
   assert.doesNotMatch(copy, /href: '#(?:concepts|clients)'/);
 });
 
-test('positions Taksim as a sufficiency ledger, not a control plane', async () => {
+test('positions Taksim as a control plane whose ledger proves the decisions', async () => {
+  const { en } = await import('../lib/i18n/en.ts');
   const copy = await source(copyPath);
   const llms = await source('public/llms.txt');
+  assert.match(en.home.hero.title, /Frontier intelligence, only when the work requires it/);
+  assert.match(en.home.hero.lede, /local control plane for your coding agents/);
   assert.match(copy, /when a cheaper model would have done the job/);
-  assert.match(llms, /sufficiency ledger/);
-  for (const text of [copy, llms]) {
-    assert.doesNotMatch(text, /control plane/i);
-    assert.doesNotMatch(text, /Selection and delegation governance/);
+  assert.match(llms, /control plane for AI coding agents, built around a sufficiency ledger/);
+  for (const text of [copy, llms]) assert.doesNotMatch(text, /Selection and delegation governance/);
+});
+
+test('makes Get Taksim free the primary CTA and sends it to the easy install', async () => {
+  const { en } = await import('../lib/i18n/en.ts');
+  const { tr } = await import('../lib/i18n/tr.ts');
+  assert.equal(en.chrome.install, 'Get Taksim free');
+  assert.equal(en.plans.developer.cta, en.chrome.install);
+  assert.match(tr.chrome.install, /ücretsiz/);
+  assert.equal(tr.plans.developer.cta, tr.chrome.install);
+  for (const path of ['components/site-chrome.tsx', 'components/pages/home.tsx', 'components/pricing-plans.tsx']) {
+    const text = await source(path);
+    assert.match(
+      text,
+      /href=\{(?:href|localePath)\((?:locale, )?'\/docs\/quick-start'\)\} data-funnel=\{funnel\.getFree\}/,
+      path,
+    );
   }
+  assert.match(en.home.hero.trust, /No Taksim account/);
+  assert.equal(en.home.hero.freeValue.length, 3);
+});
+
+test('shows a first-value path built only from released commands', async () => {
+  const { en } = await import('../lib/i18n/en.ts');
+  const manifest = JSON.parse(await source('release/manifest.json'));
+  const commands = new Set(manifest.commands);
+  const steps = en.home.firstValue.steps;
+  assert.equal(steps.length, 6);
+  for (const step of steps.filter((s) => s.detail)) {
+    const words = step.detail.replace(/^taksim /, '').split(' ').filter((w) => !w.startsWith('--'));
+    assert.ok(commands.has(words.join(' ')) || commands.has(words[0]), step.detail);
+  }
+  assert.match(steps[5].body, /add a second judge/);
+  assert.match(steps[5].body, /lone verdict stays single and is never counted/);
+  assert.deepEqual(
+    steps.map((s) => s.detail).filter(Boolean),
+    ['taksim setup', 'taksim history import', 'taksim dashboard', 'taksim report weekly', 'taksim judge enable --in-session'],
+  );
+});
+
+test('describes the subscription boundary as current release behaviour, not a permanent rule', async () => {
+  const { en } = await import('../lib/i18n/en.ts');
+  for (const path of [copyPath, 'lib/i18n/tr.ts', 'public/llms.txt', 'components/pages/terms.tsx']) {
+    const text = await source(path);
+    assert.doesNotMatch(text, /never sits between|used only by Claude Code itself|never passes through Taksim/i, path);
+    assert.doesNotMatch(text, /asla girmez/i, path);
+  }
+  assert.match(en.matrix.footnote, /describes the current release/);
+  for (const text of [en.matrix.footnote, en.docs.subscriptions.body3, en.home.modes.futureBody]) {
+    assert.match(text, /Legal and compliance page for Claude Code bars third-party developers from routing Free, Pro or Max credentials on behalf of their users/);
+  }
+  assert.match(en.docs.subscriptions.title, /current release/);
+  assert.match(en.home.modes.futureBody, /ship in a Taksim release before this site describes it/);
+  assert.match(await source('components/pages/terms.tsx'), /In the current release,\s+Taksim does not route or rewrite traffic/);
+});
+
+test('separates subscription, API-key and private economics without claiming private routing', async () => {
+  const { en } = await import('../lib/i18n/en.ts');
+  const [subscription, apiKey, privateMode] = en.home.modes.items;
+  assert.match(subscription.economics, /labelled as quota, never as billed dollars/);
+  assert.match(subscription.current, /changes no model, effort or context/);
+  assert.match(apiKey.economics, /billed dollars per token/);
+  assert.match(privateMode.current, /^Not a routing target in the current release/);
+  assert.match(await source('components/pages/pricing.tsx'), /<EconomicModes t=\{dict\.home\.modes\} \/>/);
+});
+
+test('marks funnel steps without loading any analytics', async () => {
+  const { funnel } = await import('../lib/funnel.ts');
+  assert.deepEqual(Object.keys(funnel).sort(), ['docsNext', 'getFree', 'installCopy', 'installGuide', 'seeHow', 'teamContact']);
+  const files = [
+    'components/site-chrome.tsx',
+    'components/pages/home.tsx',
+    'components/pricing-plans.tsx',
+    'components/pages/quick-start.tsx',
+    'components/copy-command.tsx',
+    'components/root-shell.tsx',
+  ];
+  for (const path of files) {
+    assert.doesNotMatch(await source(path), /gtag|googletagmanager|plausible|posthog|segment\.com|sendBeacon|analytics.js/i, path);
+  }
+  assert.match(await source('components/copy-command.tsx'), /data-funnel=\{funnelStep\}/);
+  assert.match(await source('lib/i18n/en.ts'), /does not load a third-party analytics tracker/);
 });
 
 const publicCopy = [

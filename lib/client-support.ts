@@ -1,9 +1,10 @@
 // Single source of truth for the client support matrix on the home page.
 // Keep conservative: only mark a capability "yes" once the release manifest (release/manifest.json)
-// says the shipped binary does it; tests/release.test.mjs enforces this.
+// says the shipped binary does it; tests/release.test.mjs enforces this. No released client has
+// context optimisation yet, and the gateway carries API-key traffic only.
 // Labels and notes live in lib/i18n (matrix.rows.<id>); this file holds the facts.
 
-export type Capability = 'observe' | 'judge' | 'route';
+export type Capability = 'observe' | 'judge' | 'gateway' | 'context' | 'route';
 
 export type SupportState = 'yes' | 'no' | 'unverified';
 
@@ -32,78 +33,78 @@ export type ClientSupportRow = {
   cells: Record<Capability, SupportState>;
 };
 
-export const capabilities: Capability[] = ['observe', 'judge', 'route'];
+export const capabilities: Capability[] = ['observe', 'judge', 'gateway', 'context', 'route'];
 
 export const clientSupport: ClientSupportRow[] = [
   {
     id: 'claudeCodePlan',
     manifestClients: ['claude'],
     billing: 'plan',
-    cells: { observe: 'yes', judge: 'yes', route: 'no' },
+    cells: { observe: 'yes', judge: 'yes', gateway: 'no', context: 'no', route: 'no' },
   },
   {
     id: 'claudeDesktop',
     manifestClients: ['claude'],
     billing: 'plan',
-    cells: { observe: 'yes', judge: 'yes', route: 'no' },
+    cells: { observe: 'yes', judge: 'yes', gateway: 'no', context: 'no', route: 'no' },
   },
   {
     id: 'claudeCodeApi',
     manifestClients: ['claude'],
     billing: 'apiKey',
-    cells: { observe: 'yes', judge: 'yes', route: 'yes' },
+    cells: { observe: 'yes', judge: 'yes', gateway: 'yes', context: 'no', route: 'yes' },
   },
   {
     id: 'codexPlan',
     manifestClients: ['codex'],
     billing: 'plan',
-    cells: { observe: 'yes', judge: 'yes', route: 'no' },
+    cells: { observe: 'yes', judge: 'yes', gateway: 'no', context: 'no', route: 'no' },
   },
   {
     id: 'codexApi',
     manifestClients: ['codex'],
     billing: 'apiKey',
-    cells: { observe: 'yes', judge: 'yes', route: 'yes' },
+    cells: { observe: 'yes', judge: 'yes', gateway: 'yes', context: 'no', route: 'yes' },
   },
   {
     id: 'copilotPlan',
     manifestClients: ['github_copilot'],
     billing: 'plan',
-    cells: { observe: 'yes', judge: 'no', route: 'no' },
+    cells: { observe: 'yes', judge: 'no', gateway: 'no', context: 'no', route: 'no' },
   },
   {
     id: 'devinCli',
     manifestClients: ['devin'],
     billing: 'plan',
-    cells: { observe: 'yes', judge: 'no', route: 'no' },
+    cells: { observe: 'yes', judge: 'no', gateway: 'no', context: 'no', route: 'no' },
   },
   {
     id: 'devinDesktop',
     manifestClients: ['devin_desktop'],
     billing: 'plan',
-    cells: { observe: 'yes', judge: 'yes', route: 'no' },
+    cells: { observe: 'yes', judge: 'yes', gateway: 'no', context: 'no', route: 'no' },
   },
   {
     id: 'openCodeKilo',
     manifestClients: ['opencode', 'kilo'],
     billing: 'own',
-    cells: { observe: 'yes', judge: 'yes', route: 'no' },
+    cells: { observe: 'yes', judge: 'yes', gateway: 'no', context: 'no', route: 'no' },
   },
   {
     id: 'pi',
     manifestClients: ['pi'],
     billing: 'own',
-    cells: { observe: 'yes', judge: 'yes', route: 'no' },
+    cells: { observe: 'yes', judge: 'yes', gateway: 'no', context: 'no', route: 'no' },
   },
   {
     id: 'agentWorkstation',
     manifestClients: ['agentworkstation'],
     billing: 'own',
-    cells: { observe: 'yes', judge: 'no', route: 'no' },
+    cells: { observe: 'yes', judge: 'no', gateway: 'no', context: 'no', route: 'no' },
   },
-  { id: 'gemini', manifestClients: ['gemini'], billing: 'own', cells: { observe: 'yes', judge: 'yes', route: 'no' } },
-  { id: 'cline', manifestClients: ['cline'], billing: 'own', cells: { observe: 'yes', judge: 'yes', route: 'no' } },
-  { id: 'qwen', manifestClients: ['qwen'], billing: 'own', cells: { observe: 'yes', judge: 'yes', route: 'no' } },
+  { id: 'gemini', manifestClients: ['gemini'], billing: 'own', cells: { observe: 'yes', judge: 'yes', gateway: 'no', context: 'no', route: 'no' } },
+  { id: 'cline', manifestClients: ['cline'], billing: 'own', cells: { observe: 'yes', judge: 'yes', gateway: 'no', context: 'no', route: 'no' } },
+  { id: 'qwen', manifestClients: ['qwen'], billing: 'own', cells: { observe: 'yes', judge: 'yes', gateway: 'no', context: 'no', route: 'no' } },
 ];
 
 export const clientSupportSources = [

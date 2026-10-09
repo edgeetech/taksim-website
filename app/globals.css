@@ -1401,6 +1401,47 @@ h3 {
   color: var(--muted);
   font-size: 0.88rem;
 }
+.hero-trust {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+.hero-free {
+  margin-top: 22px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--turquoise);
+  border-radius: 12px;
+  background: var(--surface);
+}
+.hero-free strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+}
+.hero-free ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.first-value .how-intro .btn {
+  margin-top: 18px;
+}
+.modes {
+  padding: 88px 0;
+}
+.modes-grid h3 {
+  margin-bottom: 12px;
+  font-size: 1.25rem;
+}
+.modes-grid .mode-current {
+  margin-top: 12px;
+  color: var(--ink);
+}
+.modes-future {
+  margin-top: 36px;
+}
 .hero-visual {
   perspective: 1800px;
 }
@@ -1942,6 +1983,10 @@ h3 {
 }
 
 /* Client matrix */
+.matrix-wrap:focus-visible {
+  outline: 2px solid var(--turquoise);
+  outline-offset: 2px;
+}
 .matrix-wrap {
   overflow-x: auto;
   border: 1px solid var(--line);
@@ -1950,7 +1995,7 @@ h3 {
 }
 .matrix {
   width: 100%;
-  min-width: 720px;
+  min-width: 980px;
   border-collapse: collapse;
 }
 .matrix th,
