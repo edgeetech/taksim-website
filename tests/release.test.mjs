@@ -182,6 +182,9 @@ test('the client matrix claims nothing the release does not do', async () => {
         'no',
         `${row.id}: only API-key traffic is routed`,
       );
+    if (row.cells.gateway === 'yes')
+      assert.equal(row.billing, 'apiKey', `${row.id}: the gateway carries API-key traffic only`);
+    assert.equal(row.cells.context, 'no', `${row.id}: no release ships context optimisation yet`);
   }
 });
 

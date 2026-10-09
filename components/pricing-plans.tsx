@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Check } from 'lucide-react';
+import { funnel } from '@/lib/funnel';
 import { getDictionary, localePath, type Locale } from '@/lib/i18n';
 
 function Features({ items }: { items: string[] }) {
@@ -24,9 +25,10 @@ export function PricingPlans({ locale }: { locale: Locale }) {
           <h3 id="plan-developer">{developer.name}</h3>
           <p className="plan-price">{developer.price}</p>
           <p className="plan-sub">{developer.sub}</p>
+          <p className="plan-sub">{developer.value}</p>
         </header>
         <Features items={developer.features} />
-        <Link className="btn btn-ghost" href={localePath(locale, '/docs/quick-start')}>
+        <Link className="btn btn-primary" href={localePath(locale, '/docs/quick-start')} data-funnel={funnel.getFree}>
           {developer.cta}
         </Link>
       </article>
@@ -40,7 +42,7 @@ export function PricingPlans({ locale }: { locale: Locale }) {
           <p className="plan-sub">{team.sub}</p>
         </header>
         <Features items={team.features} />
-        <Link className="btn btn-primary" href={localePath(locale, '/contact?intent=team')}>
+        <Link className="btn btn-ghost" href={localePath(locale, '/contact?intent=team')} data-funnel={funnel.teamContact}>
           {team.cta}
         </Link>
       </article>

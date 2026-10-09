@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { ArrowRight, Menu } from 'lucide-react';
 import { LanguageSwitcher } from '@/components/language-switcher';
 import { TrustStrip } from '@/components/trust-strip';
+import { funnel } from '@/lib/funnel';
 import { getDictionary, localePath, type Locale } from '@/lib/i18n';
 
 export function Brand({ locale }: { locale: Locale }) {
@@ -41,10 +42,10 @@ export function Header({ locale }: { locale: Locale }) {
           <Link href={href('/docs')}>{t.nav.docs}</Link>
         </nav>
         <div className="header-actions">
-          <Link className="text-action" href={href('/contact')}>
+          <Link className="text-action" href={href('/contact')} data-funnel={funnel.teamContact}>
             {t.talkToUs}
           </Link>
-          <Link className="button button-small" href={href('/docs/quick-start')}>
+          <Link className="button button-small" href={href('/docs/quick-start')} data-funnel={funnel.getFree}>
             {t.install}
           </Link>
         </div>
@@ -53,12 +54,16 @@ export function Header({ locale }: { locale: Locale }) {
             <Menu size={21} />
           </summary>
           <nav aria-label={t.mobileNav}>
+            <Link href={href('/docs/quick-start')} data-funnel={funnel.getFree}>
+              {t.install}
+            </Link>
             <Link href={href('/#how-it-works')}>{t.nav.how}</Link>
             <Link href={href('/#clients')}>{t.nav.clients}</Link>
             <Link href={href('/pricing')}>{t.nav.pricing}</Link>
             <Link href={href('/docs')}>{t.nav.docs}</Link>
-            <Link href={href('/contact')}>{t.talkToUs}</Link>
-            <Link href={href('/docs/quick-start')}>{t.install}</Link>
+            <Link href={href('/contact')} data-funnel={funnel.teamContact}>
+              {t.talkToUs}
+            </Link>
           </nav>
         </details>
       </div>

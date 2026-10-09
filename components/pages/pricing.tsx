@@ -1,8 +1,10 @@
+import { EconomicModes } from '@/components/economic-modes';
 import { PricingPlans } from '@/components/pricing-plans';
 import { getDictionary, type Locale } from '@/lib/i18n';
 
 export function PricingPage({ locale }: { locale: Locale }) {
-  const t = getDictionary(locale).pricing;
+  const dict = getDictionary(locale);
+  const t = dict.pricing;
   return (
     <main className="home">
       <section className="band page-lead" aria-labelledby="pricing-title">
@@ -12,6 +14,15 @@ export function PricingPage({ locale }: { locale: Locale }) {
             <p className="hero-lede">{t.lede}</p>
           </div>
           <PricingPlans locale={locale} />
+        </div>
+      </section>
+      <section className="band modes" aria-labelledby="pricing-modes-title">
+        <div className="shell">
+          <div className="section-lead">
+            <h2 id="pricing-modes-title">{t.modesTitle}</h2>
+            <p>{dict.home.modes.body}</p>
+          </div>
+          <EconomicModes t={dict.home.modes} />
         </div>
       </section>
       <section className="band faq" aria-labelledby="pricing-faq-title">

@@ -20,14 +20,17 @@ export function TermsPage() {
           </p>
           <h2>1. About Taksim</h2>
           <p>
-            Taksim is a local-first sufficiency ledger for AI coding developed by EdgeeTech Ltd.
-            It works with third-party coding agents, model providers, and
-            runtimes; it is not the underlying model provider.
+            Taksim is a local-first control plane for AI coding agents developed by EdgeeTech Ltd.
+            Its sufficiency ledger records which model ran, what it cost, and
+            whether a cheaper model would have been enough. It works with
+            third-party coding agents, model providers, and runtimes; it is not
+            the underlying model provider.
           </p>
           <h2>2. Developer use</h2>
           <p>
-            The Taksim CLI is free for any individual developer, including for
-            work performed for an employer or client.
+            The Taksim CLI (the Developer plan) is free for any individual
+            developer, including for work performed for an employer or client.
+            No Taksim account is required.
           </p>
           <h2>3. Team use</h2>
           <p>
@@ -47,7 +50,12 @@ export function TermsPage() {
             Availability and output from coding agents, model providers,
             source-control services, and provider-native planners remain subject
             to their own terms and technical behavior. Taksim does not control
-            or warrant those outputs.
+            or warrant those outputs. Provider entitlements, plan limits and
+            workspace policies remain authoritative. In the current release,
+            Taksim does not route or rewrite traffic authenticated with a Claude
+            or ChatGPT subscription; optional routing applies only to traffic
+            billed to your own API key. Any change to that boundary will be
+            described here only after it ships in a Taksim release.
           </p>
           <h2>6. Verification</h2>
           <p>

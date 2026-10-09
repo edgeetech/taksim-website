@@ -1,9 +1,11 @@
 import Link from 'next/link';
 import { ClientMatrix } from '@/components/client-matrix';
 import { CopyCommand } from '@/components/copy-command';
+import { EconomicModes } from '@/components/economic-modes';
 import { LedgerStream } from '@/components/ledger-stream';
 import { PricingPlans } from '@/components/pricing-plans';
 import { getDictionary, localePath, type Locale } from '@/lib/i18n';
+import { funnel } from '@/lib/funnel';
 import { release } from '@/lib/release';
 
 const tierMix = [
@@ -24,12 +26,21 @@ export function HomePage({ locale }: { locale: Locale }) {
             <h1 id="hero-title">{t.hero.title}</h1>
             <p className="hero-lede">{t.hero.lede}</p>
             <div className="hero-actions">
-              <Link className="btn btn-primary" href={href('/docs/quick-start')}>
+              <Link className="btn btn-primary" href={href('/docs/quick-start')} data-funnel={funnel.getFree}>
                 {dict.chrome.install}
               </Link>
-              <Link className="btn btn-ghost" href="#how-it-works">
+              <Link className="btn btn-ghost" href="#how-it-works" data-funnel={funnel.seeHow}>
                 {t.hero.seeHow}
               </Link>
+            </div>
+            <p className="hero-trust">{t.hero.trust}</p>
+            <div className="hero-free">
+              <strong>{t.hero.freeTitle}</strong>
+              <ul>
+                {t.hero.freeValue.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
             </div>
             <div className="hero-install">
               <span>{t.hero.installLabel}</span>
@@ -37,8 +48,9 @@ export function HomePage({ locale }: { locale: Locale }) {
                 command={release.installCommand}
                 copy={dict.quickStart.install.copy}
                 copied={dict.quickStart.install.copied}
+                funnelStep={funnel.installCopy}
               />
-              <Link className="text-link" href={href('/docs/quick-start')}>
+              <Link className="text-link" href={href('/docs/quick-start')} data-funnel={funnel.installGuide}>
                 {t.hero.installGuide} →
               </Link>
             </div>
@@ -58,6 +70,32 @@ export function HomePage({ locale }: { locale: Locale }) {
               <p>{v.body}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="band how first-value" id="first-value" aria-labelledby="first-value-title">
+        <div className="shell how-layout">
+          <div className="how-intro">
+            <h2 id="first-value-title">{t.firstValue.title}</h2>
+            <p>{t.firstValue.body}</p>
+            <Link className="btn btn-primary" href={href('/docs/quick-start')} data-funnel={funnel.getFree}>
+              {dict.chrome.install}
+            </Link>
+          </div>
+          <ol className="pipeline">
+            {t.firstValue.steps.map((step, index) => (
+              <li key={step.title} className="pipeline-step">
+                <span className="pipeline-index tabular" aria-hidden="true">
+                  {index + 1}
+                </span>
+                <div>
+                  <h3>{step.title}</h3>
+                  <p>{step.body}</p>
+                  {step.detail ? <code>{step.detail}</code> : null}
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
@@ -126,6 +164,16 @@ export function HomePage({ locale }: { locale: Locale }) {
               </li>
             ))}
           </ol>
+        </div>
+      </section>
+
+      <section className="band modes" id="modes" aria-labelledby="modes-title">
+        <div className="shell">
+          <div className="section-lead">
+            <h2 id="modes-title">{t.modes.title}</h2>
+            <p>{t.modes.body}</p>
+          </div>
+          <EconomicModes t={t.modes} />
         </div>
       </section>
 
@@ -284,13 +332,13 @@ export function HomePage({ locale }: { locale: Locale }) {
           <h2 id="cta-title">{t.cta.title}</h2>
           <p>{t.cta.body}</p>
           <div className="hero-actions">
-            <Link className="btn btn-primary" href={href('/docs/quick-start')}>
+            <Link className="btn btn-primary" href={href('/docs/quick-start')} data-funnel={funnel.getFree}>
               {dict.chrome.install}
             </Link>
             <Link className="btn btn-ghost" href={href('/docs')}>
               {t.cta.docs}
             </Link>
-            <Link className="btn btn-ghost" href={href('/contact')}>
+            <Link className="btn btn-ghost" href={href('/contact')} data-funnel={funnel.teamContact}>
               {dict.chrome.talkToUs}
             </Link>
           </div>

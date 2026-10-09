@@ -1,6 +1,6 @@
 # Taksim
 
-Taksim is a local-first sufficiency ledger for AI coding. It reads the local history and hooks of coding agents (Claude Code, Codex, GitHub Copilot CLI, Devin, Devin Desktop, OpenCode, Kilo Code, Pi and Oh My Pi, Agent Workstation), prices every session, and grades finished turns with an LLM judge to show when a cheaper model would have been enough. It stores metadata only: no prompts, responses, code, paths or credentials.
+Taksim is a local-first control plane for AI coding agents, built around a sufficiency ledger. It reads the local history and hooks of coding agents (Claude Code, Codex, GitHub Copilot CLI, Devin, Devin Desktop, OpenCode, Kilo Code, Pi and Oh My Pi, Agent Workstation), prices every session, and grades finished turns with an LLM judge to show when a cheaper model would have been enough. It stores metadata only: no prompts, responses, code, paths or credentials.
 
 Canonical site: https://taksim.edgee.tech
 Easy install (3 steps): https://taksim.edgee.tech/docs/quick-start
@@ -17,9 +17,9 @@ Install (one line, PowerShell): {{installCommand}}
 The installer downloads the latest release over HTTPS, verifies it against SHA256SUMS.txt, installs into %LOCALAPPDATA%\Taksim, adds it to the user PATH and runs `taksim setup`. Then `taksim dashboard` opens the local results dashboard. `taksim update` checks for a newer release; `taksim update --apply` installs it. `taksim doctor` checks health and coverage.
 
 Client boundary (Observe = history import and reports; Judge = LLM judge grades finished turns; Route = optional live model choice):
-- Claude Code on a Claude plan (Free, Pro, Max, Team, Enterprise): history import, hooks, status line, judging, reports. Observe-only: no proxy and no model changes.
+- Claude Code on a Claude plan (Free, Pro, Max, Team, Enterprise): history import, hooks, status line, judging, reports. Observe-only in the current release: no proxy and no model changes.
 - Claude Code on an Anthropic API key: all of the above, plus optional live routing through the local gateway in sessions launched with `taksim claude`.
-- Codex CLI on a ChatGPT plan: history import from `CODEX_HOME` sessions, judging (history judging and an in-session Stop hook), reports. Observe-only.
+- Codex CLI on a ChatGPT plan: history import from `CODEX_HOME` sessions, judging (history judging and an in-session Stop hook), reports. Observe-only in the current release.
 - Codex CLI on an OpenAI API key: all of the above, plus optional live routing through the local gateway in sessions launched with `taksim codex`.
 - GitHub Copilot CLI: usage import from the local Copilot CLI session store, reports. Not judged; no request-time routing.
 - Devin CLI: history import and reports. Not judged; no routing.
@@ -38,10 +38,12 @@ Routing on your own API key (pay-per-token only): `taksim routing recommend` sug
 
 Usage and cost: API-key usage is shown in billed dollars; subscription usage is shown as API-equivalent list-price dollars, labelled as quota, not billed. `taksim dashboard` is a local, read-only dashboard on 127.0.0.1. Reports are on demand: `taksim report weekly`, `taksim digest`, `taksim report summary`. Budgets (`taksim budget set`) are warnings only; nothing is blocked. The digest and budget alerts can be sent to Slack or a webhook you configure with `taksim notify configure`.
 
-Pricing: the CLI is free for any individual developer, at home or at work. Team is $8 per active developer per month, $99 per month minimum, 20% off with annual billing. The team roll-up is built from exports each developer creates and can inspect before sharing; exports carry repo aliases, never paths.
+Pricing: the Developer plan (the CLI) is free for any individual developer, at home or at work, with no account. It includes history import, the local dashboard and weekly report, spend and subscription quota visibility, judging with two-judge consensus, decision memory and verification evidence, and optional routing on your own API key. Team is $8 per active developer per month, $99 per month minimum, 20% off with annual billing. The team roll-up is built from exports each developer creates and can inspect before sharing; exports carry repo aliases, never paths.
 
 There is no Taksim account, sign-in or server: install Taksim and use it. Nothing is sent to a Taksim server; none exists.
 
 The ledger and dashboard stay local. Update and pricing checks use external network services. An optional remote judge receives truncated excerpts of the turns it grades; configured Slack/webhook destinations receive aggregate reports and repo aliases. There is no default hosted routing-advice service. Claude Code, Codex, and similar clients independently send prompts and responses to their own provider under that provider's terms.
 
-Subscription traffic is observed, never proxied: when Claude Code runs on a Claude subscription (`Authorization: Bearer`), or Codex on a ChatGPT sign-in, `taksim claude` / `taksim codex` launch the client natively and observe it from local transcripts and hooks. There is no opt-in to change this. Model routing applies only to API-key traffic (`x-api-key`), and only in sessions launched through Taksim.
+In the current release, subscription traffic is observed, not proxied: when Claude Code runs on a Claude subscription (`Authorization: Bearer`), or Codex on a ChatGPT sign-in, `taksim claude` / `taksim codex` launch the client natively and observe it from local transcripts and hooks. There is no opt-in to change this. Model routing applies only to API-key traffic (`x-api-key`), and only in sessions launched through Taksim. Why: Anthropic's current Claude Code legal page bars third-party developers from routing Free, Pro or Max credentials or intermediating Claude.ai credentials, and Taksim has not verified that OpenAI's proxy path for ChatGPT sign-in keeps plan, quota and workspace controls (both reviewed October 2026). Any change ships in a Taksim release first.
+
+Economic modes: subscription plans are included usage and quota (shown as API-equivalent list price, labelled as quota, never as billed dollars); API keys are billed dollars per token; private or local model capacity is not a routing target in the current release.

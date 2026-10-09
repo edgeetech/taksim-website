@@ -6,10 +6,12 @@ export function CopyCommand({
   command,
   copy,
   copied,
+  funnelStep,
 }: {
   command: string;
   copy: string;
   copied: string;
+  funnelStep?: string;
 }) {
   const [done, setDone] = useState(false);
   return (
@@ -19,6 +21,7 @@ export function CopyCommand({
       </pre>
       <button
         type="button"
+        data-funnel={funnelStep}
         onClick={() => {
           void navigator.clipboard?.writeText(command).then(() => {
             setDone(true);
