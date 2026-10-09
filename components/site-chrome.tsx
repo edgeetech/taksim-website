@@ -87,6 +87,7 @@ export function Footer({ locale }: { locale: Locale }) {
             <strong>Taksim</strong>
             <Link href={href('/pricing')}>{t.nav.pricing}</Link>
             <Link href={href('/docs')}>{t.nav.docs}</Link>
+            <Link href={href('/benchmarks/claude-routing')}>{t.footer.benchmark}</Link>
           </nav>
           <nav aria-label={t.footer.legalNav}>
             <strong>{t.footer.legal}</strong>

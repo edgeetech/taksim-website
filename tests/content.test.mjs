@@ -343,3 +343,26 @@ test('exports a platform-independent static site for GitHub Pages', async () => 
   assert.match(workflow, /retention-days: 1/);
   assert.doesNotMatch(vite, /openai|cloudflare|wrangler/i);
 });
+
+test('publishes the Claude routing benchmark method with no results and no private links', async () => {
+  const { en } = await import('../lib/i18n/en.ts');
+  const { tr } = await import('../lib/i18n/tr.ts');
+  const { localizedRoutes } = await import('../lib/i18n/config.ts');
+  assert.ok(localizedRoutes.includes('/benchmarks/claude-routing/'));
+  assert.match(await source('components/site-chrome.tsx'), /href\('\/benchmarks\/claude-routing'\)/);
+  assert.match(await source('public/llms.txt'), /methodology \(results pending, no figures yet\): https:\/\/taksim\.edgee\.tech\/benchmarks\/claude-routing\n/);
+  const page = await source('components/pages/benchmark-methodology.tsx');
+  assert.match(page, /id="results"/);
+  for (const t of [en.benchmark, tr.benchmark]) {
+    assert.deepEqual(t.results.match(/\d+/g), ['232'], 'results must hold no figures until #232 is measured');
+    assert.doesNotMatch(t.results, /%|\$/);
+    assert.doesNotMatch(JSON.stringify(t), /asozyurt|github\.com|\]\(http/i);
+  }
+  assert.match(en.benchmark.status, /no savings figures/);
+  assert.match(JSON.stringify(en.benchmark), /No accepted tasks/);
+  assert.match(JSON.stringify(en.benchmark), /never as zero/);
+  assert.match(JSON.stringify(en.benchmark), /suppressed decision, never as a saving/);
+  assert.match(JSON.stringify(en.benchmark), /product hypotheses, not standards/);
+  assert.match(JSON.stringify(en.benchmark), /published even if the targets are missed/);
+  assert.match(JSON.stringify(en.benchmark), /subscription traffic is observed, not routed/);
+});

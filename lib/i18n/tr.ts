@@ -43,6 +43,11 @@ export const tr: Dictionary = {
         description:
           'Kurulumdan sonra: yerel dashboard, judge değerlendirmesi, bütçeler, haftalık digest, Slack ve webhook uyarıları ve ekip toplu görünümü.',
       },
+      benchmark: {
+        title: 'Claude yönlendirme benchmark yöntemi',
+        description:
+          'Taksim, Claude yönlendirme tasarrufunu nasıl ölçecek: üç kol, dondurulmuş görevler, bağımsız kabul ve kabul edilen görev başına tüm maliyet. Sonuçlar bekleniyor.',
+      },
       contact: {
         title: 'Taksim ile görüşün — Team değerlendirmesi',
         description:
@@ -73,6 +78,7 @@ export const tr: Dictionary = {
       legal: 'Yasal',
       privacy: 'Gizlilik',
       terms: 'Koşullar',
+      benchmark: 'Benchmark yöntemi',
       company: 'EdgeeTech Ltd.',
     },
     language: {
@@ -1036,6 +1042,59 @@ export const tr: Dictionary = {
       routing: 'Yönlendirme (API key)',
       team: 'Ekip toplu görünümü',
     },
+  },
+
+  benchmark: {
+    eyebrow: 'Benchmark yöntemi',
+    title: 'Claude yönlendirme tasarrufunu nasıl ölçeceğiz.',
+    lede: 'Bu sayfa, henüz hiçbir sonuç yokken yöntemi ortaya koyar. Pilot sonucu, hedeflerini tutturamasa bile burada yayımlanacak.',
+    statusLabel: 'Durum: yalnızca yöntem.',
+    status:
+      'Yayımlanmak üzere kaydedilmiş bir benchmark çalıştırması yok. Bu sayfada tasarruf rakamı yoktur ve buradaki hiçbir şey ölçülmüş bir sonuç değildir.',
+    sections: [
+      {
+        title: 'Aynı görevlerde üç kol',
+        body: 'Her görev üç kolda çalışır: model kataloğundan çözümlenen varsayılan model ve effort, kataloğun yeterli saydığı sabit ve daha ucuz bir yapılandırma, ve gerçekte çalıştığı haliyle Taksim yönlendirmesi. Model etiketleri her parti için dondurulan katalog anlık görüntüsünden gelir; yöntem belirli bir model kuşağını varsaymaz. Taksim modeli değiştirmemeye karar verdiğinde çalıştırma bastırılmış karar olarak kaydedilir, asla tasarruf olarak değil.',
+      },
+      {
+        title: 'Dondurulmuş görevler ve bağımsız kabul',
+        body: 'Görevler, kabul kontrolleri, yönlendirme politikası, katalog ve fiyatlar ilk çalıştırmadan önce dondurulur. Pilot, beş sınıfın her birinden altı tane olmak üzere 30 ayrılmış (held-out) görev kullanır: hata düzeltme, sınırlı özellik, refactor, yapılandırma veya migration, ve repo araştırması veya dokümantasyon. Bir çalıştırma ancak bağımsız bir değerlendirici dört kontrolü onayladığında kabul edilir: hedeflenen davranış çalışır, hiçbir şey geriye gitmez, değişiklik kapsam içinde kalır ve iş teslim edilir. Geçen CI, judge oyları veya bir ajanın işi bitirdiğini söylemesi tek başına kabul sayılmaz.',
+      },
+      {
+        title: 'Tüm maliyet',
+        body: 'Maliyet her çalıştırmayı kapsar: başarısız, zaman aşımına uğrayan, iptal edilen ve bilinmeyen çalıştırmalar, alt ajanlar, router ve judge çağrıları, kurtarma işi, cache okuma ve yazmaları. Eksik maliyet sıfır olarak değil, bilinmiyor olarak kaydedilir. Her kol ayrı ve gerçek bir çalıştırmadır: hiçbir tasarruf, tek bir transcript’i başka bir modelin fiyatlarıyla yeniden fiyatlandırarak hesaplanmaz.',
+      },
+      {
+        title: 'Kabul edilen görev başına maliyet',
+        body: 'Ana ölçü, kabul edilen görev başına tüm maliyettir ve hem katalog varsayılanıyla hem de sabit ucuz yapılandırmayla karşılaştırılır. Bir kolda kabul edilen görev yoksa, görev başına maliyeti sıfır olarak değil “Kabul edilen görev yok” olarak gösterilir. Rapor ayrıca kabul oranını, ilk teslimde kabulü, düzeltme oranını, aktif insan dakikalarını, medyan ve p90 geçen süreyi ve yükseltmeleri (escalation) gösterir.',
+      },
+      {
+        title: 'Kota ve dolar ayrı tutulur',
+        body: 'API key çalıştırmaları faturalanan dolar olarak raporlanır. Subscription kullanımı kota olarak raporlanır, kota olarak etiketlenir ve asla daha düşük bir fatura gibi sunulmaz. Mevcut sürümde Taksim yalnızca API key trafiğini yönlendirir; subscription trafiği gözlemlenir, yönlendirilmez.',
+      },
+      {
+        title: 'Belirsizlik',
+        body: 'Tasarruf, görev kümeleri üzerinde eşleştirilmiş aralıklarla, kapsama oranıyla ve bilinmeyen maliyetler yüksek ya da düşük çıkarsa sonucun nasıl değiştiğiyle birlikte raporlanır. Küçük örneklemler küçük olarak etiketlenir. Belirsizlik olduğu gibi raporlanır; olumlu bir sonuç çıkana kadar çalıştırmaya devam etmek için bir gerekçe değildir.',
+      },
+      {
+        title: 'Çalıştırma planı',
+        body: 'Önce dokuz çalıştırmalık bir kalibrasyon yapılır ve sonuca dahil edilmez. Ardından pilot 30 görev × 3 kol × 2 tekrar = 180 çalıştırmadır ve eşleştirilmiş bloklar içinde rastgele sıralanır. Eşikler bu görevler üzerinde ayarlanmaz; revize edilmiş bir politika yeni ve etiketlenmiş bir parti gerektirir.',
+      },
+      {
+        title: 'Önerilen hedefler ve durdurma kuralı',
+        body: 'Bu hedefler çalıştırmalardan önce dondurulur. Bunlar standart değil, ürün hipotezleridir: varsayılana göre en fazla 5 yüzde puan daha düşük kabul, en fazla 1.20× medyan ve 1.50× p90 geçen süre, düzeltme oranında en fazla 10 puan artış ve kabul edilen görev başına en az %15 daha düşük tüm maliyet. Değerlendiriciye müdahale edilirse, bir güvenlik veya kapsam ihlali olursa ya da ilk 10 görev bloğunda yönlendirme varsayılanın geçtiği 2 görevde başarısız olursa pilot durdurulur.',
+      },
+      {
+        title: 'Yayın kuralı',
+        body: 'Sonuç, hedefler tutturulamasa bile yayımlanır. Olumlu bir başlık için eksiksiz kanıt, tüm korkulukların sağlanması ve alt sınırı sıfırın üzerinde olan eşleştirilmiş bir tasarruf aralığı gerekir. Bu tek kullanıcılı bir pilottur: daha ucuz modellerin genel olarak en üst düzey modellerle aynı kalitede olduğunu iddia etmez.',
+      },
+      {
+        title: 'Protokol nerede',
+        body: 'Çalıştırma protokolleri ve değerlendirici ayrıntıları, henüz herkese açık olmayan ana Taksim reposunda tutulur. Yayımlanan sonucun, görev listesi, yapılandırma ve sonuçlardan oluşan gizlilik incelemesinden geçmiş bir paket içermesi planlanmaktadır.',
+      },
+    ],
+    resultsTitle: 'Sonuçlar',
+    results: 'Ölçülen pilot bekleniyor (Taksim issue #232). Pilot tamamlanana kadar hiçbir rakam gösterilmez.',
   },
 
   privacy: {
