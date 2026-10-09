@@ -15,6 +15,7 @@
     "pretest": "node scripts/release.mjs render && node scripts/discovery.mjs",
     "test": "node --test tests/*.test.mjs",
     "audit": "node scripts/audit-gate.mjs",
+    "funnel": "node scripts/funnel-report.mjs",
     "release:sync": "node scripts/release.mjs sync",
     "deploy:local": "npm run lint && npm test && npm run audit && npm run build && wrangler deploy --config wrangler.static.jsonc"
   },
