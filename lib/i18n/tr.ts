@@ -99,7 +99,7 @@ export const tr: Dictionary = {
     hero: {
       title: 'En üst düzey zekâ, yalnızca iş gerektirdiğinde.',
       lede: 'Taksim, kodlama ajanlarınız için yerel bir kontrol düzlemidir. Claude Code, Codex, GitHub Copilot ve diğer ajanların zaten kaydettiklerini okur, her oturumu fiyatlandırır ve tamamlanan turları değerlendirir; böylece hangi işin en üst modele ihtiyaç duyduğunu ve daha ucuz bir modelin işi ne zaman görebileceğini görürsünüz. Kendi API key’inizde isteğe bağlı yönlendirme bu kanıta göre hareket edebilir.',
-      trust: 'Kendi makinenizde çalışır. Taksim hesabı gerekmez. EdgeeTech prompt’larınızı veya kodunuzu asla almaz.',
+      trust: 'Kendi makinenizde çalışır. Taksim hesabı gerekmez. EdgeeTech prompt’larınızı veya kodunuzu almaz; isteğe bağlı uzak bir judge, alıntıları yalnızca seçtiğiniz sağlayıcıya, kendi key’inizle gönderir.',
       freeTitle: 'Ücretsiz Developer planı',
       freeValue: [
         'Zaten sahip olduğunuz geçmişten harcama, kota ve model dağılımı',
@@ -152,12 +152,12 @@ export const tr: Dictionary = {
         },
         {
           title: 'Harcamayı, kotayı, model dağılımını ve kanıtı görün',
-          body: 'Repo, model ve istemciye göre harcama; 5 saatlik ve haftalık limitlerinize göre subscription kullanımı; cache verimliliği ve henüz fiyatlandırılmamış olanlar.',
-          detail: 'taksim insights quota',
+          body: 'Haftalık rapor harcamayı ve model dağılımını, cache verimliliğini, judge kapsamını ve henüz fiyatlandırılmamış olanları gösterir. Subscription planında taksim insights quota, 5 saatlik ve haftalık limitlerinizi ekler.',
+          detail: 'taksim report weekly',
         },
         {
           title: 'Kalite kanıtı toplamaya başlayın',
-          body: 'Oturum içi değerlendirmeyi açın. Bir karar yalnızca iki judge uzlaştığında sayılır; böylece kanıt, rakamları şişirmeden birikir.',
+          body: 'Oturum içi değerlendirmeyi açın, ardından ikinci bir judge ekleyin: yerel bir Ollama modeli ya da kendi Anthropic API key’iniz; geçmişiniz üzerinde taksim judge run ile çalışır. Tek başına bir karar tek judge olarak kalır ve asla sayılmaz; yalnızca biri güçlü olan iki judge’ın uzlaşması sayılır.',
           detail: 'taksim judge enable --in-session',
         },
       ],
@@ -227,7 +227,7 @@ export const tr: Dictionary = {
         },
       ],
       futureTitle: 'Ne değişebilir, ne değişmez',
-      futureBody: 'Anthropic ve OpenAI, subscription girişini koruyan gateway kurulumlarını belgeliyor. Taksim bunları Ekim 2026’da inceledi ve subscription oturumlarını yerel bıraktı: Anthropic’in güncel Claude Code koşulları, üçüncü taraf geliştiricilerin Free, Pro veya Max kimlik bilgilerini yönlendirmesini ya da Claude.ai kimlik bilgilerine aracılık etmesini yasaklıyor; OpenAI yolunun ise plan, kota ve workspace denetimlerini koruduğu gösterilmedi. Herhangi bir değişiklik, bu site onu anlatmadan önce bir Taksim sürümünde yayımlanır; sağlayıcı hakları ve workspace politikası belirleyici olmaya devam eder.',
+      futureBody: 'Anthropic ve OpenAI, subscription girişini koruyan gateway kurulumlarını belgeliyor. Taksim bunları Ekim 2026’da inceledi ve subscription oturumlarını yerel bıraktı: Anthropic’in Claude Code için güncel Legal and compliance sayfası, üçüncü taraf geliştiricilerin kullanıcıları adına Free, Pro veya Max kimlik bilgilerini yönlendirmesini ya da Claude.ai kimlik bilgilerine aracılık etmesini yasaklıyor; OpenAI yolunun ise plan, kota ve workspace denetimlerini koruduğu gösterilmedi. Herhangi bir değişiklik, bu site onu anlatmadan önce bir Taksim sürümünde yayımlanır; sağlayıcı hakları ve workspace politikası belirleyici olmaya devam eder.',
     },
     report: {
       title: 'Tek komut, tek haftalık rapor.',
@@ -406,6 +406,7 @@ export const tr: Dictionary = {
 
   matrix: {
     caption: 'Taksim her kodlama istemcisi için neler yapabilir',
+    regionLabel: 'İstemci destek tablosu, yatay kaydırılabilir',
     client: 'İstemci',
     states: {
       yes: 'Destekleniyor',
@@ -568,7 +569,7 @@ export const tr: Dictionary = {
       },
     },
     footnote:
-      'Bu tablo mevcut sürümü anlatır. Subscription oturumları yerel kalır: Anthropic’in güncel Claude Code yasal sayfası, üçüncü taraf geliştiricilerin kullanıcılar adına Free, Pro veya Max kimlik bilgilerini yönlendirmesini ya da Claude.ai kimlik bilgilerine aracılık etmesini yasaklıyor; OpenAI’ın ChatGPT girişi için sunduğu proxy yolunun plan ve workspace denetimlerini koruduğu ise Taksim tarafından doğrulanmadı. İkisi de Ekim 2026’da incelendi.',
+      'Bu tablo mevcut sürümü anlatır. Subscription oturumları yerel kalır: Anthropic’in Claude Code için güncel Legal and compliance sayfası, üçüncü taraf geliştiricilerin kullanıcıları adına Free, Pro veya Max kimlik bilgilerini yönlendirmesini ya da Claude.ai kimlik bilgilerine aracılık etmesini yasaklıyor; OpenAI’ın ChatGPT girişi için sunduğu proxy yolunun plan ve workspace denetimlerini koruduğu ise Taksim tarafından doğrulanmadı. İkisi de Ekim 2026’da incelendi.',
     sources: 'Kaynaklar:',
     and: 've',
     sourceLabels: {
@@ -739,7 +740,7 @@ export const tr: Dictionary = {
       body2:
         'Subscription kullanımı, faturalanan değil kota olarak etiketlenmiş API eşdeğeri liste fiyatı olarak gösterilir. Subscription kullanıcıları için değer; kota görünürlüğü, bir baseline raporu (`taksim report baseline`) ve tamamlanan turlar için judge kararlarıdır, bir tasarruf vaadi değil.',
       body3:
-        'Neden: Anthropic’in güncel Claude Code yasal sayfası, üçüncü taraf geliştiricilerin Free, Pro veya Max kimlik bilgilerini yönlendirmesini ya da Claude.ai kimlik bilgilerine aracılık etmesini yasaklıyor. OpenAI, ChatGPT girişi için bir proxy yolu belgeliyor; ancak Taksim bu yolda plan, kota ve workspace denetimlerinin korunduğunu doğrulamadı. İkisi de Ekim 2026’da incelendi. Herhangi bir değişiklik önce bir Taksim sürümünde yayımlanır; sağlayıcı hakları ve workspace politikası belirleyici olmaya devam eder.',
+        'Neden: Anthropic’in Claude Code için güncel Legal and compliance sayfası, üçüncü taraf geliştiricilerin kullanıcıları adına Free, Pro veya Max kimlik bilgilerini yönlendirmesini ya da Claude.ai kimlik bilgilerine aracılık etmesini yasaklıyor. OpenAI, ChatGPT girişi için bir proxy yolu belgeliyor; ancak Taksim bu yolda plan, kota ve workspace denetimlerinin korunduğunu doğrulamadı. İkisi de Ekim 2026’da incelendi. Herhangi bir değişiklik önce bir Taksim sürümünde yayımlanır; sağlayıcı hakları ve workspace politikası belirleyici olmaya devam eder.',
     },
     verification: {
       title: 'Doğrulama kanıta bağlıdır',

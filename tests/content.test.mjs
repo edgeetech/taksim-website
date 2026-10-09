@@ -146,6 +146,15 @@ test('keeps the client matrix in one config with subscriptions observe-only', as
   assert.doesNotMatch(llms, /Devin: managed/i);
 });
 
+test('lets keyboard users scroll the client matrix', async () => {
+  const matrix = await source('components/client-matrix.tsx');
+  // A labelled <section> has the implicit region role; an explicit role would be redundant.
+  assert.match(matrix, /<section className="matrix-wrap" tabIndex=\{0\} aria-label=\{t\.regionLabel\}>/);
+  const { en } = await import('../lib/i18n/en.ts');
+  const { tr } = await import('../lib/i18n/tr.ts');
+  assert.ok(en.matrix.regionLabel && tr.matrix.regionLabel);
+});
+
 test('keeps the desktop docs navigation readable', async () => {
   const styles = await source('app/globals.css');
   const copy = await source(copyPath);
@@ -195,9 +204,11 @@ test('shows a first-value path built only from released commands', async () => {
     const words = step.detail.replace(/^taksim /, '').split(' ').filter((w) => !w.startsWith('--'));
     assert.ok(commands.has(words.join(' ')) || commands.has(words[0]), step.detail);
   }
+  assert.match(steps[5].body, /add a second judge/);
+  assert.match(steps[5].body, /lone verdict stays single and is never counted/);
   assert.deepEqual(
     steps.map((s) => s.detail).filter(Boolean),
-    ['taksim setup', 'taksim history import', 'taksim dashboard', 'taksim insights quota', 'taksim judge enable --in-session'],
+    ['taksim setup', 'taksim history import', 'taksim dashboard', 'taksim report weekly', 'taksim judge enable --in-session'],
   );
 });
 
@@ -209,7 +220,9 @@ test('describes the subscription boundary as current release behaviour, not a pe
     assert.doesNotMatch(text, /asla girmez/i, path);
   }
   assert.match(en.matrix.footnote, /describes the current release/);
-  assert.match(en.matrix.footnote, /bars third-party developers from routing Free, Pro or Max credentials/);
+  for (const text of [en.matrix.footnote, en.docs.subscriptions.body3, en.home.modes.futureBody]) {
+    assert.match(text, /Legal and compliance page for Claude Code bars third-party developers from routing Free, Pro or Max credentials on behalf of their users/);
+  }
   assert.match(en.docs.subscriptions.title, /current release/);
   assert.match(en.home.modes.futureBody, /ship in a Taksim release before this site describes it/);
   assert.match(await source('components/pages/terms.tsx'), /In the current release,\s+Taksim does not route or rewrite traffic/);

@@ -1983,6 +1983,10 @@ h3 {
 }
 
 /* Client matrix */
+.matrix-wrap:focus-visible {
+  outline: 2px solid var(--turquoise);
+  outline-offset: 2px;
+}
 .matrix-wrap {
   overflow-x: auto;
   border: 1px solid var(--line);

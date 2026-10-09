@@ -99,7 +99,7 @@ export const en = {
     hero: {
       title: 'Frontier intelligence, only when the work requires it.',
       lede: 'Taksim is a local control plane for your coding agents. It reads what Claude Code, Codex, GitHub Copilot and other agents already record, prices every session and grades finished turns, so you can see which work needed the top model and when a cheaper model would have done the job. On your own API key, optional routing can act on that evidence.',
-      trust: 'Runs on your machine. No Taksim account. EdgeeTech never receives your prompts or code.',
+      trust: 'Runs on your machine. No Taksim account. EdgeeTech does not receive your prompts or code; an optional remote judge sends excerpts only to the provider you choose, on your own key.',
       freeTitle: 'Free Developer plan',
       freeValue: [
         'Spend, quota and model mix from the history you already have',
@@ -152,12 +152,12 @@ export const en = {
         },
         {
           title: 'See spend, quota, model mix and evidence',
-          body: 'Spend by repo, model and client; subscription usage against your 5-hour and weekly limits; cache efficiency and what is still unpriced.',
-          detail: 'taksim insights quota',
+          body: 'The weekly report shows spend and model mix, cache efficiency, judge coverage and what is still unpriced. On a subscription plan, taksim insights quota adds your 5-hour and weekly limits.',
+          detail: 'taksim report weekly',
         },
         {
           title: 'Start collecting quality evidence',
-          body: 'Turn on in-session judging. A verdict counts only when two judges agree, so the evidence grows without inflating the numbers.',
+          body: 'Turn on in-session judging, then add a second judge: a local Ollama model or your own Anthropic API key, run over your history with taksim judge run. A lone verdict stays single and is never counted; only agreement between two judges, one of them strong, counts.',
           detail: 'taksim judge enable --in-session',
         },
       ],
@@ -227,7 +227,7 @@ export const en = {
         },
       ],
       futureTitle: 'What may change, and what will not',
-      futureBody: 'Anthropic and OpenAI both document gateway setups that keep a subscription sign-in. Taksim reviewed them in October 2026 and kept subscription sessions native: Anthropic’s current Claude Code terms bar third-party developers from routing Free, Pro or Max credentials or intermediating Claude.ai credentials, and the OpenAI path has not been shown to keep plan, quota and workspace controls. Any change will ship in a Taksim release before this site describes it, and provider entitlements and workspace policy stay authoritative.',
+      futureBody: 'Anthropic and OpenAI both document gateway setups that keep a subscription sign-in. Taksim reviewed them in October 2026 and kept subscription sessions native: Anthropic’s current Legal and compliance page for Claude Code bars third-party developers from routing Free, Pro or Max credentials on behalf of their users or intermediating Claude.ai credentials, and the OpenAI path has not been shown to keep plan, quota and workspace controls. Any change will ship in a Taksim release before this site describes it, and provider entitlements and workspace policy stay authoritative.',
     },
     report: {
       title: 'One command, one weekly report.',
@@ -406,6 +406,7 @@ export const en = {
 
   matrix: {
     caption: 'What Taksim can do for each coding client',
+    regionLabel: 'Client support table, scrolls horizontally',
     client: 'Client',
     states: {
       yes: 'Supported',
@@ -567,7 +568,7 @@ export const en = {
       },
     },
     footnote:
-      'This table describes the current release. Subscription sessions stay native: Anthropic’s current Claude Code legal page bars third-party developers from routing Free, Pro or Max credentials on behalf of users or intermediating Claude.ai credentials, and OpenAI’s proxy path for ChatGPT sign-in has not been verified by Taksim to keep plan and workspace controls. Both were reviewed in October 2026.',
+      'This table describes the current release. Subscription sessions stay native: Anthropic’s current Legal and compliance page for Claude Code bars third-party developers from routing Free, Pro or Max credentials on behalf of their users or intermediating Claude.ai credentials, and OpenAI’s proxy path for ChatGPT sign-in has not been verified by Taksim to keep plan and workspace controls. Both were reviewed in October 2026.',
     sources: 'Sources:',
     and: 'and',
     sourceLabels: {
@@ -738,7 +739,7 @@ export const en = {
       body2:
         'Subscription usage is shown as API-equivalent list-price dollars, labelled as quota, not billed. For subscription users, the value is quota visibility, a baseline report (`taksim report baseline`) and judge verdicts on finished turns, not a savings promise.',
       body3:
-        'Why: Anthropic’s current Claude Code legal page bars third-party developers from routing Free, Pro or Max credentials or intermediating Claude.ai credentials. OpenAI documents a proxy path for ChatGPT sign-in, but Taksim has not verified that plan, quota and workspace controls survive it. Both were reviewed in October 2026. Any change will ship in a Taksim release first, and provider entitlements and workspace policy stay authoritative.',
+        'Why: Anthropic’s current Legal and compliance page for Claude Code bars third-party developers from routing Free, Pro or Max credentials on behalf of their users or intermediating Claude.ai credentials. OpenAI documents a proxy path for ChatGPT sign-in, but Taksim has not verified that plan, quota and workspace controls survive it. Both were reviewed in October 2026. Any change will ship in a Taksim release first, and provider entitlements and workspace policy stay authoritative.',
     },
     verification: {
       title: 'Verification is evidence-dependent',
