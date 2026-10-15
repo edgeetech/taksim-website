@@ -3,6 +3,7 @@ import { ClientMatrix } from '@/components/client-matrix';
 import { CopyCommand } from '@/components/copy-command';
 import { EconomicModes } from '@/components/economic-modes';
 import { LedgerStream } from '@/components/ledger-stream';
+import { PilotBenchmark } from '@/components/pilot-benchmark';
 import { PricingPlans } from '@/components/pricing-plans';
 import { getDictionary, localePath, type Locale } from '@/lib/i18n';
 import { funnel } from '@/lib/funnel';
@@ -72,6 +73,8 @@ export function HomePage({ locale }: { locale: Locale }) {
           ))}
         </div>
       </section>
+
+      <PilotBenchmark t={t.pilot} locale={locale} version={release.version} />
 
       <section className="band how first-value" id="first-value" aria-labelledby="first-value-title">
         <div className="shell how-layout">

@@ -126,6 +126,78 @@ export const en = {
         body: 'Taksim is a local binary. It stores metadata only: no prompts, responses, code, paths or credentials. Team reports are built from exports that each developer creates and can inspect before sharing.',
       },
     ],
+    pilot: {
+      tag: 'Internal pilot',
+      eyebrow: '15 coding tasks · 90 runs · our own Claude Team subscription',
+      title: '74% lower cost. More tasks accepted.',
+      lede: 'We ran the same coding tasks three ways: always Opus, always Sonnet, and Taksim choosing. Hidden automated checks graded every run.',
+      bigCaption: 'lower cost than always-Opus',
+      vs: 'vs',
+      kpiAccepted: 'Accepted with Taksim routing',
+      kpiAcceptedSub: 'Always-Opus: {n}',
+      kpiPerAccepted: 'Cost per accepted task',
+      chart: {
+        title: 'Three arms, 30 runs each',
+        subtitle:
+          'Accepted = scope, delivery, regression and behavior checks all pass',
+        arms: {
+          opus: 'Always Opus',
+          sonnet: 'Always Sonnet',
+          taksim: 'Taksim routed',
+        },
+        taksimModel: 'starts on Opus, Taksim chooses',
+        cost: 'Cost',
+        accepted: 'Accepted',
+        acceptedOf: '{n} of {total} runs accepted',
+        perAccepted: 'per accepted task',
+      },
+      mix: {
+        title: 'What Taksim served',
+        body: 'Sonnet on 28 of 30 runs. Opus kept on 2, both on the hardest documentation and permissions task, both accepted.',
+        label:
+          'Taksim runs: {sonnet} on Sonnet, {opus} on Opus, out of {total}.',
+      },
+      learn: {
+        tag: 'It learns from outcomes',
+        title: 'Rejected once, remembered.',
+        body: 'Taksim routes on what actually happened, not on a guess. Already in the current release.',
+        steps: [
+          {
+            title: 'Try cheaper first',
+            body: 'When the task fits, a cheaper model goes first. One tier at most: Opus to Sonnet.',
+          },
+          {
+            title: 'Catch the rejection',
+            body: 'Taksim records it. No command to remember.',
+          },
+          {
+            title: 'Keep the stronger model',
+            body: 'Next time the same task comes up, or a repo or task class with enough evidence, the stronger model stays.',
+          },
+          {
+            title: 'Weigh, then forget',
+            body: 'Three acceptances outweigh a rejection. Evidence older than 14 days ages out. Only a keyed hash of the task is stored, never prompt or response text.',
+          },
+        ],
+        signalsLabel: 'Rejection signals',
+        signals: ['CI', 'Evaluator', 'In-session judge'],
+        reply: '“No, that’s wrong”',
+        replySoon: 'Coming in the next release',
+        replyNew: 'New',
+        loopBack: 'Every outcome feeds the next choice.',
+      },
+      case: {
+        tag: 'From our tests',
+        title: 'A deduplication task',
+        fails: 'Sonnet failed 7 of 7 runs',
+        after: 'After one rejection',
+        reason: 'Taksim keeps it on Opus: `OUTCOME_LEARNED_KEEP_START`.',
+        verified:
+          'Live-verified 2026-10-15: a correction on resume was recorded automatically, and the next run of the same task stayed on Opus.',
+      },
+      footnote:
+        'Internal pilot, not an independent benchmark. Run 2026-10-15 on that day’s Taksim release, Claude Code CLI on one Claude Team subscription. 15 tasks in 5 categories (bounded feature, bug repair, configuration migration, refactor, research and documentation), easy to hard; 3 arms × 2 repetitions = 90 runs. Results hold for this pilot only; the second half of the task set, 14 more tasks, is still to run. Costs are API-equivalent at Anthropic list prices; on a subscription they are plan quota, not an invoice. Taksim only switches between Claude models.',
+    },
     firstValue: {
       title: 'From install to first evidence.',
       body: 'The free Developer plan starts from the history your coding agents already keep, so your first report covers work you have already done.',
