@@ -145,7 +145,7 @@ export const en = {
       kpiAccepted: 'Accepted with Taksim routing',
       kpiAcceptedSub: 'Always-Opus: {n}',
       kpiPerAccepted: 'Cost per accepted task',
-      coldStart: 'This was a cold start: no history, no feedback. Taksim learns from the tasks you correct.',
+      coldStart: 'Cold start: no history, no feedback. Taksim learns from the tasks you correct.',
       chart: {
         title: 'Three arms, 58 runs each',
         subtitle:
@@ -204,6 +204,18 @@ export const en = {
         reason: 'Taksim keeps it on Opus: `OUTCOME_LEARNED_KEEP_START`.',
         verified:
           'Live-verified 2026-10-15: a correction on resume was recorded automatically, and the next run of the same task stayed on Opus.',
+      },
+      warm: {
+        tag: 'Warm re-run',
+        title: 'Corrected tasks: 4 failures → 0',
+        cold: 'Cold start',
+        warm: 'After the corrections',
+        acceptedOf: '{n} of {total} accepted',
+        srSummary:
+          'On the 3 corrected tasks, {cold} of {total} runs were accepted at the cold start and {warm} of {total} after the corrections.',
+        overall:
+          'Overall still 54/58: Sonnet slipped on three other tasks that had passed before. Taksim learns those from the next correction.',
+        cost: 'Opus served 8 of 58 warm runs. Cost $4.98 (cold $4.65), still 72% below always-Opus.',
       },
       footnote:
         'Internal pilot, not an independent benchmark. Run 2026-10-15 in two halves, the first on that day’s earlier Taksim release and the second on the current one, with Claude Code CLI on one Claude Team subscription. Each half was a cold start, with no prior outcome history. 29 tasks in 5 categories (bounded feature, bug repair, configuration migration, refactor, research and documentation), easy to hard; 3 arms × 2 repetitions = 174 runs. One task of the 30-task pool was excluded as a test harness artifact. Results hold for this pilot only. Costs are API-equivalent at Anthropic list prices; on a subscription they are plan quota, not an invoice. Taksim only switches between Claude models.',
@@ -490,6 +502,18 @@ export const en = {
       {
         title: 'Where runs failed',
         body: 'Taksim routed failed 4 runs: the deduplication task twice (always Opus failed it once and always Sonnet twice), and the feature-flags and cron tasks once each.',
+      },
+      {
+        title: 'Warm re-run: setup',
+        body: 'After the cold runs, each routed run’s hidden-check result was reported to Taksim as a CI outcome (`taksim routing outcome record --source ci`), as CI does in real use. That gave 4 rejections on 3 tasks: feature-flags 1, cron 1, deduplication 2. Then only the routed arm re-ran all 29 tasks twice, 58 runs, in the same Taksim homes, now with that history.',
+      },
+      {
+        title: 'Warm re-run: results',
+        body: 'On the 3 corrected tasks, Taksim kept Opus every time (`OUTCOME_LEARNED_KEEP_START`, scope `TASK`) and all 6 runs passed: rejected runs on those tasks went from 4 cold to 0 warm. Overall the routed arm stayed at 54 of 58 accepted, because Sonnet missed 4 runs on 3 other tasks that had passed cold (resolver 2, shipping-registry 1, rename-kwarg 1). That is Sonnet’s run-to-run variance, and those misses would in turn be learned. Opus served 8 of 58 warm runs (2 cold). Cost was $4.98 (cold $4.65), still 72% below always-Opus at $17.63; $0.092 per accepted task.',
+      },
+      {
+        title: 'What learning does and does not do',
+        body: 'Learning keeps a corrected task on the stronger model. It does not make that model succeed more often: the ceiling for a corrected task is the stronger model’s own acceptance, and the overall gap does not close by itself. The warm re-run is part of the same internal pilot, not an independent benchmark.',
       },
       {
         title: 'Caveats',

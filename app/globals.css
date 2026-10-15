@@ -3113,6 +3113,14 @@ h3 {
   font-style: normal;
   font-weight: 800;
 }
+.case-marks i.ok {
+  background: var(--turquoise-soft);
+  color: var(--turquoise);
+}
+.pilot-warm {
+  margin-top: 24px;
+  border-color: rgba(68, 215, 198, 0.3);
+}
 .case-arrow {
   color: var(--turquoise);
   font-size: 1.6rem;

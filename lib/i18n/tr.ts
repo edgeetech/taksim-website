@@ -145,7 +145,7 @@ export const tr: Dictionary = {
       kpiAccepted: 'Taksim yönlendirmesiyle kabul',
       kpiAcceptedSub: 'Hep Opus: {n}',
       kpiPerAccepted: 'Kabul edilen görev başına maliyet',
-      coldStart: 'Bu bir soğuk başlangıçtı: geçmiş yok, geri bildirim yok. Taksim düzelttiğiniz görevlerden öğrenir.',
+      coldStart: 'Soğuk başlangıç: geçmiş yok, geri bildirim yok. Taksim düzelttiğiniz görevlerden öğrenir.',
       chart: {
         title: 'Üç kol, her biri 58 koşu',
         subtitle:
@@ -204,6 +204,18 @@ export const tr: Dictionary = {
         reason: 'Taksim görevi Opus’ta tutar: `OUTCOME_LEARNED_KEEP_START`.',
         verified:
           '2026-10-15’te canlı doğrulandı: resume sırasında yapılan düzeltme otomatik olarak kaydedildi ve aynı görevin sonraki koşusu Opus’ta kaldı.',
+      },
+      warm: {
+        tag: 'Sıcak tekrar koşusu',
+        title: 'Düzeltilen görevler: 4 hata → 0',
+        cold: 'Soğuk başlangıç',
+        warm: 'Düzeltmelerden sonra',
+        acceptedOf: '{total} koşudan {n} kabul',
+        srSummary:
+          'Düzeltilen 3 görevde soğuk başlangıçta {total} koşudan {cold} tanesi, düzeltmelerden sonra {total} koşudan {warm} tanesi kabul edildi.',
+        overall:
+          'Genel sonuç yine 54/58: Sonnet daha önce geçen üç başka görevde tökezledi. Taksim bunları da bir sonraki düzeltmeden öğrenir.',
+        cost: 'Sıcak koşuların 58’inin 8’inde Opus kullanıldı. Maliyet $4.98 (soğukta $4.65); hep Opus’a göre yine %72 daha düşük.',
       },
       footnote:
         'İç pilot; bağımsız bir benchmark değildir. 2026-10-15’te iki yarıda koşuldu: ilki o günün daha önceki Taksim sürümüyle, ikincisi mevcut sürümle; tek bir Claude Team aboneliğinde Claude Code CLI. Her yarı soğuk başladı, önceden kaydedilmiş hiçbir sonuç geçmişi yoktu. 5 kategoride 29 görev (sınırlı özellik, hata onarımı, yapılandırma geçişi, refactor, araştırma ve dokümantasyon), kolaydan zora; 3 kol × 2 tekrar = 174 koşu. 30 görevlik havuzdan bir görev, test düzeneğinden kaynaklandığı için dışarıda bırakıldı. Sonuçlar yalnızca bu pilot için geçerlidir. Maliyetler Anthropic liste fiyatlarıyla API eşdeğeridir; subscription’da bunlar fatura değil, plan kotasıdır. Taksim yalnızca Claude modelleri arasında geçiş yapar.',
@@ -490,6 +502,18 @@ export const tr: Dictionary = {
       {
         title: 'Başarısız koşular',
         body: 'Taksim yönlendirmesi 4 koşuda başarısız oldu: tekilleştirme görevinde iki kez (hep Opus bu görevde bir kez, hep Sonnet iki kez başarısız oldu), feature-flags ve cron görevlerinde birer kez.',
+      },
+      {
+        title: 'Sıcak tekrar koşusu: kurulum',
+        body: 'Soğuk koşulardan sonra, yönlendirilen her koşunun gizli kontrol sonucu Taksim’e bir CI sonucu olarak bildirildi (`taksim routing outcome record --source ci`); gerçek kullanımda CI’ın yaptığı gibi. Bu, 3 görevde 4 ret verdi: feature-flags 1, cron 1, tekilleştirme 2. Ardından yalnızca yönlendirme kolu 29 görevin hepsini iki kez, 58 koşu, aynı Taksim dizinlerinde, artık bu geçmişle yeniden koştu.',
+      },
+      {
+        title: 'Sıcak tekrar koşusu: sonuçlar',
+        body: 'Düzeltilen 3 görevde Taksim her seferinde Opus’u korudu (`OUTCOME_LEARNED_KEEP_START`, kapsam `TASK`) ve 6 koşunun hepsi geçti: bu görevlerdeki reddedilen koşular soğukta 4 iken sıcakta 0 oldu. Genelde yönlendirme kolu 58 koşudan 54 kabulde kaldı; çünkü Sonnet, soğukta geçen 3 başka görevde 4 koşuyu kaçırdı (resolver 2, shipping-registry 1, rename-kwarg 1). Bu, Sonnet’in koşudan koşuya değişkenliğidir ve bu hatalar da sırası gelince öğrenilir. Opus sıcak koşuların 58’inin 8’inde kullanıldı (soğukta 2). Maliyet $4.98 oldu (soğukta $4.65); hep Opus’un $17.63 maliyetine göre yine %72 daha düşük; kabul edilen görev başına $0.092.',
+      },
+      {
+        title: 'Öğrenme neyi yapar, neyi yapmaz',
+        body: 'Öğrenme, düzeltilen bir görevi güçlü modelde tutar. O modelin daha sık başarılı olmasını sağlamaz: düzeltilen bir görev için tavan, güçlü modelin kendi kabul düzeyidir ve genel fark kendiliğinden kapanmaz. Sıcak tekrar koşusu aynı iç pilotun parçasıdır; bağımsız bir benchmark değildir.',
       },
       {
         title: 'Sınırlar',

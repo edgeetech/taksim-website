@@ -290,6 +290,9 @@ test('shows the internal pilot benchmark high on the home page with exact, quali
     'const costSaving = 74;',
     'const perAcceptedSaving = 75;',
     'const servedSonnet = 56;',
+    'const correctedRuns = 6;',
+    'const correctedColdAccepted = 2;',
+    'const correctedWarmAccepted = 6;',
     'const userReplyRelease = [0, 3, 11];',
   ]) {
     assert.ok(flat.includes(figure), figure);
@@ -308,6 +311,20 @@ test('shows the internal pilot benchmark high on the home page with exact, quali
   assert.match(en.home.pilot.footnote, /cold start, with no prior outcome history/);
   assert.doesNotMatch(en.home.pilot.footnote, /still to run/);
   for (const dict of [en, tr]) assert.ok(dict.home.pilot.coldStart);
+  assert.equal(en.home.pilot.warm.title, 'Corrected tasks: 4 failures → 0');
+  assert.equal(tr.home.pilot.warm.title, 'Düzeltilen görevler: 4 hata → 0');
+  // Learning keeps corrected tasks on the stronger model; it must not read as closing the overall gap.
+  assert.match(en.home.pilot.warm.overall, /^Overall still 54\/58/);
+  assert.match(tr.home.pilot.warm.overall, /^Genel sonuç yine 54\/58/);
+  assert.ok(en.home.pilot.warm.cost.includes('$4.98 (cold $4.65), still 72% below always-Opus'));
+  const warmPage = en.benchmark.sections.map((s) => s.body).join(' ');
+  assert.match(warmPage, /stayed at 54 of 58 accepted/);
+  assert.match(warmPage, /overall gap does not close by itself/);
+  assert.match(warmPage, /internal pilot, not an independent benchmark/);
+  for (const dict of [en, tr]) {
+    const text = JSON.stringify(dict.home.pilot.warm) + JSON.stringify(dict.benchmark);
+    assert.doesNotMatch(text, /58\/58|100%|%100|closes the gap|gap closes|fark kapanır/i);
+  }
   assert.match(en.home.pilot.note, /^Internal pilot, not an independent benchmark/);
   assert.match(tr.home.pilot.note, /^İç pilot; bağımsız bir benchmark değildir/);
   assert.ok(pilot.includes('{t.note}'), 'the pilot label stays visible on the home page');

@@ -35,6 +35,12 @@ const costSaving = 74;
 const perAcceptedSaving = 75;
 const servedSonnet = 56;
 
+// Warm re-run: only the routed arm, after the cold results were reported as CI outcomes.
+// The 3 tasks with rejections (feature-flags, cron, dedupe) ran 2 times each.
+const correctedRuns = 6;
+const correctedColdAccepted = 2;
+const correctedWarmAccepted = 6;
+
 // First release that reads the user's correction. A tuple, because site copy may only name the
 // current release (tests/release.test.mjs); the badge reads "coming" until the manifest reaches it.
 const userReplyRelease = [0, 3, 11];
@@ -296,6 +302,65 @@ export function PilotBenchmark({
               <Rich text={t.case.reason} locale={locale} />
             </p>
             <p className="case-verified">{t.case.verified}</p>
+          </figure>
+
+          <figure className="pilot-case pilot-warm">
+            <figcaption>
+              <span className="pilot-tag is-purple">{t.warm.tag}</span>
+              <strong>{t.warm.title}</strong>
+            </figcaption>
+            <p className="sr-only">
+              {fill(t.warm.srSummary, {
+                cold: correctedColdAccepted,
+                warm: correctedWarmAccepted,
+                total: correctedRuns,
+              })}
+            </p>
+            <div className="case-flow" aria-hidden="true">
+              <div className="case-fails">
+                <span className="case-label">
+                  {t.warm.cold} ·{' '}
+                  {fill(t.warm.acceptedOf, {
+                    n: correctedColdAccepted,
+                    total: correctedRuns,
+                  })}
+                </span>
+                <div className="case-marks">
+                  {Array.from({ length: correctedRuns }, (_, i) =>
+                    i < correctedColdAccepted ? (
+                      <i key={i} className="ok">
+                        ✓
+                      </i>
+                    ) : (
+                      <i key={i}>×</i>
+                    ),
+                  )}
+                </div>
+              </div>
+              <span className="case-arrow">→</span>
+              <div className="case-kept">
+                <span className="case-label">
+                  {t.warm.warm} ·{' '}
+                  {fill(t.warm.acceptedOf, {
+                    n: correctedWarmAccepted,
+                    total: correctedRuns,
+                  })}
+                </span>
+                <div className="case-marks">
+                  {Array.from({ length: correctedRuns }, (_, i) =>
+                    i < correctedWarmAccepted ? (
+                      <i key={i} className="ok">
+                        ✓
+                      </i>
+                    ) : (
+                      <i key={i}>×</i>
+                    ),
+                  )}
+                </div>
+              </div>
+            </div>
+            <p className="case-reason">{t.warm.overall}</p>
+            <p className="case-verified">{t.warm.cost}</p>
           </figure>
         </section>
 
