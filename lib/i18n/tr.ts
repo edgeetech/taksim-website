@@ -126,6 +126,78 @@ export const tr: Dictionary = {
         body: 'Taksim yerel bir binary’dir. Yalnızca metadata saklar: prompt, yanıt, kod, dosya yolu ya da kimlik bilgisi saklamaz. Ekip raporları, her geliştiricinin kendi oluşturduğu ve paylaşmadan önce inceleyebildiği export’lardan üretilir.',
       },
     ],
+    pilot: {
+      tag: 'İç pilot',
+      eyebrow: '15 kodlama görevi · 90 koşu · kendi Claude Team aboneliğimiz',
+      title: '%74 daha düşük maliyet. Daha çok kabul edilen görev.',
+      lede: 'Aynı kodlama görevlerini üç şekilde koştuk: hep Opus, hep Sonnet ve seçimi Taksim’e bırakarak. Her koşuyu gizli otomatik kontroller notladı.',
+      bigCaption: 'hep Opus’a göre daha düşük maliyet',
+      vs: 'vs',
+      kpiAccepted: 'Taksim yönlendirmesiyle kabul',
+      kpiAcceptedSub: 'Hep Opus: {n}',
+      kpiPerAccepted: 'Kabul edilen görev başına maliyet',
+      chart: {
+        title: 'Üç kol, her biri 30 koşu',
+        subtitle:
+          'Kabul = kapsam, teslim, regresyon ve davranış kontrollerinin hepsi geçti',
+        arms: {
+          opus: 'Hep Opus',
+          sonnet: 'Hep Sonnet',
+          taksim: 'Taksim yönlendirmesi',
+        },
+        taksimModel: 'Opus’tan başlar, Taksim seçer',
+        cost: 'Maliyet',
+        accepted: 'Kabul',
+        acceptedOf: '{total} koşunun {n} tanesi kabul edildi',
+        perAccepted: 'kabul edilen görev başına',
+      },
+      mix: {
+        title: 'Taksim neyi seçti',
+        body: '30 koşunun 28’inde Sonnet. Opus yalnızca 2 koşuda kaldı; ikisi de en zor dokümantasyon ve izin görevindeydi, ikisi de kabul edildi.',
+        label:
+          'Taksim koşuları: {total} koşudan {sonnet} tanesi Sonnet, {opus} tanesi Opus.',
+      },
+      learn: {
+        tag: 'Sonuçlardan öğrenir',
+        title: 'Bir kez reddedildi, unutulmadı.',
+        body: 'Taksim tahmine göre değil, gerçekte ne olduğuna göre yönlendirir. Mevcut sürümde zaten var.',
+        steps: [
+          {
+            title: 'Önce ucuzu dene',
+            body: 'Görev uygunsa önce daha ucuz model denenir. En fazla bir kademe: Opus’tan Sonnet’e.',
+          },
+          {
+            title: 'Reddi yakala',
+            body: 'Taksim bunu kaydeder. Hatırlamanız gereken bir komut yok.',
+          },
+          {
+            title: 'Güçlü modeli koru',
+            body: 'Aynı görev yeniden geldiğinde, ya da yeterli kanıtı olan bir repo veya görev sınıfında, güçlü model kalır.',
+          },
+          {
+            title: 'Tart, sonra unut',
+            body: 'Üç kabul bir redden ağır basar. 14 günden eski kanıt düşer. Görevden yalnızca anahtarlı bir hash saklanır; prompt ya da yanıt metni asla.',
+          },
+        ],
+        signalsLabel: 'Ret sinyalleri',
+        signals: ['CI', 'Evaluator', 'Oturum içi judge'],
+        reply: '“Hayır, yanlış olmuş”',
+        replySoon: 'Bir sonraki sürümde',
+        replyNew: 'Yeni',
+        loopBack: 'Her sonuç bir sonraki seçimi besler.',
+      },
+      case: {
+        tag: 'Testlerimizden',
+        title: 'Bir tekilleştirme görevi',
+        fails: 'Sonnet 7 koşunun 7’sinde başarısız',
+        after: 'Tek bir retten sonra',
+        reason: 'Taksim görevi Opus’ta tutar: `OUTCOME_LEARNED_KEEP_START`.',
+        verified:
+          '2026-10-15’te canlı doğrulandı: resume sırasında yapılan düzeltme otomatik olarak kaydedildi ve aynı görevin sonraki koşusu Opus’ta kaldı.',
+      },
+      footnote:
+        'İç pilot; bağımsız bir benchmark değildir. 2026-10-15’te o günkü Taksim sürümüyle, tek bir Claude Team aboneliğinde Claude Code CLI. 5 kategoride 15 görev (sınırlı özellik, hata onarımı, yapılandırma geçişi, refactor, araştırma ve dokümantasyon), kolaydan zora; 3 kol × 2 tekrar = 90 koşu. Sonuçlar yalnızca bu pilot için geçerlidir; görev setinin ikinci yarısı, 14 görev daha, henüz koşulmadı. Maliyetler Anthropic liste fiyatlarıyla API eşdeğeridir; subscription’da bunlar fatura değil, plan kotasıdır. Taksim yalnızca Claude modelleri arasında geçiş yapar.',
+    },
     firstValue: {
       title: 'Kurulumdan ilk kanıta.',
       body: 'Ücretsiz Developer planı, kodlama ajanlarınızın zaten tuttuğu geçmişten başlar; böylece ilk raporunuz daha önce yaptığınız işi kapsar.',
@@ -1021,7 +1093,7 @@ export const tr: Dictionary = {
       auto:
         '`routing auto on` (varsayılan olarak kapalı), önerilen bir düşürmeyi yalnızca `taksim claude` ile başlattığınız bir oturumda yeni bir context başladığında uygular: yeni bir oturum ya da bir subagent gibi. Zaten süren bir konuşmayı asla değiştirmez; sabitlemeleriniz, bütçeleriniz ve yerel `/model` seçimleriniz yine önceliklidir.',
       escalation:
-        'Düşürülmüş bir turda sorun işaretleri görüldüğünde (tool, test veya build hataları, yeniden deneme ya da düzeltme, upstream hatası), Taksim istediğiniz modele geri döner ve o aşama boyunca orada kalır. Size herhangi bir yanıt ulaşmadan başarısız olan düşürülmüş bir çağrı, sizin modelinizle bir kez yeniden denenir. `diagnostics downgrades` her düşürmeyi ve escalation’ı gösterir. Claude subscription yönlendirmesi ayrı bir isteğe bağlı ayardır (`taksim routing subscription on`); ChatGPT planları yalnızca gözlemlenir. Yönlendirme bildirilen sonuçlardan da öğrenir: bir aşağı geçişi `taksim routing outcome record --session <id> --result rejected` ile reddedilmiş olarak bildirirseniz (oturum içi bir judge kararı da sayılır), Taksim aynı türden bir görev bir sonraki sefer başladığında başlangıç modelini korur. Yalnızca anahtarlı bir görev parmak izi saklanır, `taksim routing outcome list` kaydedilenleri gösterir ve `taksim memory forget` bunu temizler.',
+        'Düşürülmüş bir turda sorun işaretleri görüldüğünde (tool, test veya build hataları, yeniden deneme ya da düzeltme, upstream hatası), Taksim istediğiniz modele geri döner ve o aşama boyunca orada kalır. Size herhangi bir yanıt ulaşmadan başarısız olan düşürülmüş bir çağrı, sizin modelinizle bir kez yeniden denenir. `diagnostics downgrades` her düşürmeyi ve escalation’ı gösterir. Claude subscription yönlendirmesi ayrı bir isteğe bağlı ayardır (`taksim routing subscription on`); ChatGPT planları yalnızca gözlemlenir. Yönlendirme sonuçlardan da öğrenir. Aşağı geçilen bir tura “Hayır, yanlış olmuş” gibi bir düzeltmeyle cevap verirseniz (Türkçe ya da İngilizce), Taksim başlangıç modeline döner ve reddi kendisi kaydeder; `taksim routing outcome record --session <id> --result rejected` ile bildirim ya da oturum içi bir judge kararı da sayılır. Ardından Taksim aynı türden bir görev bir sonraki sefer başladığında başlangıç modelini korur. Yalnızca anahtarlı bir görev parmak izi saklanır, `taksim routing outcome list` kaydedilenleri gösterir ve `taksim memory forget` bunu temizler.',
     },
     team: {
       title: 'Ekip toplu görünümü',
