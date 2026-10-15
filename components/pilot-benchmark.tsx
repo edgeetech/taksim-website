@@ -1,37 +1,45 @@
+import Link from 'next/link';
 import { Rich } from '@/components/rich';
-import type { Dictionary, Locale } from '@/lib/i18n';
+import { localePath, type Dictionary, type Locale } from '@/lib/i18n';
 
 type PilotCopy = Dictionary['home']['pilot'];
 
-// Internal pilot run on 2026-10-15: 15 tasks, 3 arms x 2 repetitions, 30 runs per arm.
-const runsPerArm = 30;
+// Internal pilot run on 2026-10-15, cold start: 29 tasks, 3 arms x 2 repetitions, 58 runs per arm.
+const runsPerArm = 58;
 const arms = [
   {
     key: 'opus',
     model: 'claude-opus-5-5',
-    accepted: 25,
-    cost: '8.96',
-    perAccepted: '0.358',
+    accepted: 52,
+    cost: '17.63',
+    perAccepted: '0.339',
   },
   {
     key: 'sonnet',
     model: 'claude-sonnet-5-5',
-    accepted: 27,
-    cost: '1.99',
-    perAccepted: '0.074',
+    accepted: 53,
+    cost: '4.19',
+    perAccepted: '0.079',
   },
   {
     key: 'taksim',
     model: null,
-    accepted: 29,
-    cost: '2.33',
-    perAccepted: '0.080',
+    accepted: 54,
+    cost: '4.65',
+    perAccepted: '0.086',
   },
 ] as const;
-const maxCost = 8.96;
+const [opusArm, , taksimArm] = arms;
+const maxCost = Number(opusArm.cost);
 const costSaving = 74;
-const perAcceptedSaving = 78;
-const servedSonnet = 28;
+const perAcceptedSaving = 75;
+const servedSonnet = 56;
+
+// Warm re-run: only the routed arm, after the cold results were reported as CI outcomes.
+// The 3 tasks with rejections (feature-flags, cron, dedupe) ran 2 times each.
+const correctedRuns = 6;
+const correctedColdAccepted = 2;
+const correctedWarmAccepted = 6;
 
 // First release that reads the user's correction. A tuple, because site copy may only name the
 // current release (tests/release.test.mjs); the badge reads "coming" until the manifest reaches it.
@@ -99,9 +107,9 @@ export function PilotBenchmark({
             <p className="pilot-big tabular">−{percent(costSaving)}</p>
             <p className="pilot-big-caption">{t.bigCaption}</p>
             <p className="pilot-big-compare tabular">
-              <span className="is-taksim">$2.33</span>
+              <span className="is-taksim">${taksimArm.cost}</span>
               <span className="vs">{t.vs}</span>
-              <span className="is-opus">$8.96</span>
+              <span className="is-opus">${opusArm.cost}</span>
             </p>
             <div className="pilot-duel" aria-hidden="true">
               <div className="duel-row is-opus">
@@ -110,25 +118,29 @@ export function PilotBenchmark({
               </div>
               <div className="duel-row is-taksim">
                 <span>{t.chart.arms.taksim}</span>
-                <i style={{ width: `${(2.33 / maxCost) * 100}%` }} />
+                <i style={{ width: `${(Number(taksimArm.cost) / maxCost) * 100}%` }} />
               </div>
             </div>
             <dl className="pilot-kpis">
               <div>
                 <dt>{t.kpiAccepted}</dt>
                 <dd className="tabular">
-                  29<span>/30</span>
+                  {taksimArm.accepted}
+                  <span>/{runsPerArm}</span>
                 </dd>
                 <dd className="pilot-kpi-sub">
-                  {fill(t.kpiAcceptedSub, { n: '25/30' })}
+                  {fill(t.kpiAcceptedSub, { n: `${opusArm.accepted}/${runsPerArm}` })}
                 </dd>
               </div>
               <div>
                 <dt>{t.kpiPerAccepted}</dt>
                 <dd className="tabular">−{percent(perAcceptedSaving)}</dd>
-                <dd className="pilot-kpi-sub tabular">$0.080 {t.vs} $0.358</dd>
+                <dd className="pilot-kpi-sub tabular">
+                  ${taksimArm.perAccepted} {t.vs} ${opusArm.perAccepted}
+                </dd>
               </div>
             </dl>
+            <p className="pilot-cold">{t.coldStart}</p>
           </div>
 
           <figure className="pilot-chart">
@@ -291,9 +303,73 @@ export function PilotBenchmark({
             </p>
             <p className="case-verified">{t.case.verified}</p>
           </figure>
+
+          <figure className="pilot-case pilot-warm">
+            <figcaption>
+              <span className="pilot-tag is-purple">{t.warm.tag}</span>
+              <strong>{t.warm.title}</strong>
+            </figcaption>
+            <p className="sr-only">
+              {fill(t.warm.srSummary, {
+                cold: correctedColdAccepted,
+                warm: correctedWarmAccepted,
+                total: correctedRuns,
+              })}
+            </p>
+            <div className="case-flow" aria-hidden="true">
+              <div className="case-fails">
+                <span className="case-label">
+                  {t.warm.cold} ·{' '}
+                  {fill(t.warm.acceptedOf, {
+                    n: correctedColdAccepted,
+                    total: correctedRuns,
+                  })}
+                </span>
+                <div className="case-marks">
+                  {Array.from({ length: correctedRuns }, (_, i) =>
+                    i < correctedColdAccepted ? (
+                      <i key={i} className="ok">
+                        ✓
+                      </i>
+                    ) : (
+                      <i key={i}>×</i>
+                    ),
+                  )}
+                </div>
+              </div>
+              <span className="case-arrow">→</span>
+              <div className="case-kept">
+                <span className="case-label">
+                  {t.warm.warm} ·{' '}
+                  {fill(t.warm.acceptedOf, {
+                    n: correctedWarmAccepted,
+                    total: correctedRuns,
+                  })}
+                </span>
+                <div className="case-marks">
+                  {Array.from({ length: correctedRuns }, (_, i) =>
+                    i < correctedWarmAccepted ? (
+                      <i key={i} className="ok">
+                        ✓
+                      </i>
+                    ) : (
+                      <i key={i}>×</i>
+                    ),
+                  )}
+                </div>
+              </div>
+            </div>
+            <p className="case-reason">{t.warm.overall}</p>
+            <p className="case-verified">{t.warm.cost}</p>
+          </figure>
         </section>
 
-        <p className="pilot-footnote">{t.footnote}</p>
+        <p className="pilot-footnote">
+          {t.note}{' '}
+          <Link className="text-link" href={localePath(locale, '/benchmark')}>
+            {t.methodLink} →
+          </Link>
+        </p>
       </div>
     </section>
   );

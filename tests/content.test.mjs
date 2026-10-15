@@ -191,14 +191,13 @@ test('makes Get Taksim free the primary CTA and sends it to the easy install', a
     );
   }
   assert.match(en.home.hero.trust, /No Taksim account/);
-  assert.equal(en.home.hero.freeValue.length, 3);
 });
 
 test('shows a first-value path built only from released commands', async () => {
   const { en } = await import('../lib/i18n/en.ts');
   const manifest = JSON.parse(await source('release/manifest.json'));
   const commands = new Set(manifest.commands);
-  const steps = en.home.firstValue.steps;
+  const steps = en.howItWorks.firstValue.steps;
   assert.equal(steps.length, 6);
   for (const step of steps.filter((s) => s.detail)) {
     const words = step.detail.replace(/^taksim /, '').split(' ').filter((w) => !w.startsWith('--'));
@@ -210,6 +209,10 @@ test('shows a first-value path built only from released commands', async () => {
     steps.map((s) => s.detail).filter(Boolean),
     ['taksim setup', 'taksim history import', 'taksim dashboard', 'taksim report weekly', 'taksim judge enable --in-session'],
   );
+  for (const step of en.home.how.steps) {
+    const words = step.detail.replace(/^taksim /, '').split(' ').filter((w) => !w.startsWith('--'));
+    assert.ok(commands.has(words.join(' ')) || commands.has(words[0]), step.detail);
+  }
 });
 
 test('describes the subscription boundary as current release behaviour, not a permanent rule', async () => {
@@ -275,17 +278,21 @@ test('shows the internal pilot benchmark high on the home page with exact, quali
     'after the values band',
   );
   assert.ok(
-    home.indexOf('<PilotBenchmark') < home.indexOf('first-value'),
-    'before first value',
+    home.indexOf('<PilotBenchmark') < home.indexOf('id="how-it-works"'),
+    'before how it works',
   );
   const flat = pilot.replace(/\s+/g, ' ');
   for (const figure of [
-    "accepted: 25, cost: '8.96', perAccepted: '0.358'",
-    "accepted: 27, cost: '1.99', perAccepted: '0.074'",
-    "accepted: 29, cost: '2.33', perAccepted: '0.080'",
+    'const runsPerArm = 58;',
+    "accepted: 52, cost: '17.63', perAccepted: '0.339'",
+    "accepted: 53, cost: '4.19', perAccepted: '0.079'",
+    "accepted: 54, cost: '4.65', perAccepted: '0.086'",
     'const costSaving = 74;',
-    'const perAcceptedSaving = 78;',
-    'const servedSonnet = 28;',
+    'const perAcceptedSaving = 75;',
+    'const servedSonnet = 56;',
+    'const correctedRuns = 6;',
+    'const correctedColdAccepted = 2;',
+    'const correctedWarmAccepted = 6;',
     'const userReplyRelease = [0, 3, 11];',
   ]) {
     assert.ok(flat.includes(figure), figure);
@@ -301,7 +308,27 @@ test('shows the internal pilot benchmark high on the home page with exact, quali
     /İç pilot; bağımsız bir benchmark değildir/,
   );
   assert.match(en.home.pilot.footnote, /plan quota, not an invoice/);
-  assert.match(en.home.pilot.footnote, /14 more tasks, is still to run/);
+  assert.match(en.home.pilot.footnote, /cold start, with no prior outcome history/);
+  assert.doesNotMatch(en.home.pilot.footnote, /still to run/);
+  for (const dict of [en, tr]) assert.ok(dict.home.pilot.coldStart);
+  assert.equal(en.home.pilot.warm.title, 'Corrected tasks: 4 failures → 0');
+  assert.equal(tr.home.pilot.warm.title, 'Düzeltilen görevler: 4 hata → 0');
+  // Learning keeps corrected tasks on the stronger model; it must not read as closing the overall gap.
+  assert.match(en.home.pilot.warm.overall, /^Overall still 54\/58/);
+  assert.match(tr.home.pilot.warm.overall, /^Genel sonuç yine 54\/58/);
+  assert.ok(en.home.pilot.warm.cost.includes('$4.98 (cold $4.65), still 72% below always-Opus'));
+  const warmPage = en.benchmark.sections.map((s) => s.body).join(' ');
+  assert.match(warmPage, /stayed at 54 of 58 accepted/);
+  assert.match(warmPage, /overall gap does not close by itself/);
+  assert.match(warmPage, /internal pilot, not an independent benchmark/);
+  for (const dict of [en, tr]) {
+    const text = JSON.stringify(dict.home.pilot.warm) + JSON.stringify(dict.benchmark);
+    assert.doesNotMatch(text, /58\/58|100%|%100|closes the gap|gap closes|fark kapanır/i);
+  }
+  assert.match(en.home.pilot.note, /^Internal pilot, not an independent benchmark/);
+  assert.match(tr.home.pilot.note, /^İç pilot; bağımsız bir benchmark değildir/);
+  assert.ok(pilot.includes('{t.note}'), 'the pilot label stays visible on the home page');
+  assert.ok(pilot.includes("localePath(locale, '/benchmark')"), 'links to the method page');
   assert.match(en.home.pilot.footnote, /only switches between Claude models/);
   assert.equal(en.home.pilot.learn.steps.length, 4);
   for (const dict of [en, tr])

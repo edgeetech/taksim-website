@@ -16,7 +16,7 @@ export function PricingPage({ locale }: { locale: Locale }) {
           <PricingPlans locale={locale} />
         </div>
       </section>
-      <section className="band modes" aria-labelledby="pricing-modes-title">
+      <section className="band modes" id="billing-modes" aria-labelledby="pricing-modes-title">
         <div className="shell">
           <div className="section-lead">
             <h2 id="pricing-modes-title">{t.modesTitle}</h2>

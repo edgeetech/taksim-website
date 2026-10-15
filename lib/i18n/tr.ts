@@ -43,6 +43,21 @@ export const tr: Dictionary = {
         description:
           'Kurulumdan sonra: yerel dashboard, judge değerlendirmesi, bütçeler, haftalık digest, Slack ve webhook uyarıları ve ekip toplu görünümü.',
       },
+      howItWorks: {
+        title: 'Nasıl çalışır',
+        description:
+          'Taksim kurulumdan ilk kanıta nasıl gider: oturumları içe aktarıp fiyatlandırır, tamamlanan turları değerlendirir, yalnızca iki judge’ın uzlaşmasını sayar ve raporlar. Neler saklanır, neler asla saklanmaz.',
+      },
+      clients: {
+        title: 'İstemciler',
+        description:
+          'Taksim her kodlama istemcisiyle ne yapar: Claude Code, Codex, GitHub Copilot, Devin, OpenCode, Kilo Code, Pi ve diğerleri için gözlem, değerlendirme, gateway ve model yönlendirme.',
+      },
+      benchmark: {
+        title: 'Pilot benchmark',
+        description:
+          'Taksim iç pilotunun yöntemi ve sınırları: görev seti, üç kol, gizli kabul kontrolleri, maliyet temeli ve yönlendirmenin sonuçlardan nasıl öğrendiği.',
+      },
       contact: {
         title: 'Taksim ile görüşün — Team değerlendirmesi',
         description:
@@ -63,6 +78,7 @@ export const tr: Dictionary = {
       clients: 'İstemciler',
       pricing: 'Fiyatlandırma',
       docs: 'Dokümanlar',
+      benchmark: 'Pilot benchmark',
     },
     talkToUs: 'Bize ulaşın',
     install: 'Taksim’i ücretsiz edinin',
@@ -98,37 +114,30 @@ export const tr: Dictionary = {
   home: {
     hero: {
       title: 'En üst düzey zekâ, yalnızca iş gerektirdiğinde.',
-      lede: 'Taksim, kodlama ajanlarınız için yerel bir kontrol düzlemidir. Claude Code, Codex, GitHub Copilot ve diğer ajanların zaten kaydettiklerini okur, her oturumu fiyatlandırır ve tamamlanan turları değerlendirir; böylece hangi işin en üst modele ihtiyaç duyduğunu ve daha ucuz bir modelin işi ne zaman görebileceğini görürsünüz. Kendi API key’inizde isteğe bağlı yönlendirme bu kanıta göre hareket edebilir.',
-      trust: 'Kendi makinenizde çalışır. Taksim hesabı gerekmez. EdgeeTech prompt’larınızı veya kodunuzu almaz; isteğe bağlı uzak bir judge, alıntıları yalnızca seçtiğiniz sağlayıcıya, kendi key’inizle gönderir.',
-      freeTitle: 'Ücretsiz Developer planı',
-      freeValue: [
-        'Zaten sahip olduğunuz geçmişten harcama, kota ve model dağılımı',
-        'Değerlendirilmiş turlar: hangisi en üst modele ihtiyaç duydu, hangisi duymadı',
-        'Yerel dashboard ve haftalık rapor',
-      ],
+      lede: 'Taksim, kodlama ajanlarınız için yerel bir kontrol düzlemidir. Her oturumu fiyatlandırır; hangi işin en üst modele ihtiyaç duyduğunu ve daha ucuz bir modelin işi ne zaman görebileceğini gösterir.',
+      trust: 'Kendi makinenizde çalışır. Taksim hesabı gerekmez. EdgeeTech prompt’larınızı veya kodunuzu almaz.',
       seeHow: 'Nasıl çalıştığını görün',
       installLabel: 'Windows’a tek satır PowerShell ile kurun',
       installGuide: '3 adımda kolay kurulum',
-      footnote: 'Evde ya da işte, her bireysel geliştirici için ücretsiz. Ekipler toplu görünüm (roll-up) için ödeme yapar.',
     },
     valuesLabel: 'Taksim ne yapar',
     valueProps: [
       {
         title: 'Her oturum, fiyatıyla.',
-        body: 'Taksim, kodlama ajanlarınızın zaten diske yazdığı verileri içe aktarır ve her oturumu model, repo ve göreve göre, cache okuma ve yazmaları dahil fiyatlandırır; her yazma, istemcinin kaydettiği cache ömrüyle (5 dakika veya 1 saat) fiyatlanır. API key kullanımı faturalanan dolar olarak gösterilir; subscription kullanımı ise API eşdeğeri liste fiyatı olarak, faturalanan değil kota olarak etiketlenip gösterilir.',
+        body: 'Model, repo ve göreve göre, cache dahil. API key’de faturalanan dolar; subscription’da faturalanmayan, liste fiyatıyla kota.',
       },
       {
         title: 'Daha ucuz model yeterli miydi?',
-        body: 'Bir LLM judge, tamamlanan turları sonradan değerlendirir. “Tasarruf edilebilirdi” rakamına yalnızca, biri güçlü olmak üzere iki judge’ın uzlaştığı kararlar sayılır; böylece rakam temkinli kalır.',
+        body: 'Bir LLM judge tamamlanan turları değerlendirir. Yalnızca biri güçlü iki judge’ın uzlaştığı kararlar sayılır.',
       },
       {
         title: 'Tasarımı gereği gizli.',
-        body: 'Taksim yerel bir binary’dir. Yalnızca metadata saklar: prompt, yanıt, kod, dosya yolu ya da kimlik bilgisi saklamaz. Ekip raporları, her geliştiricinin kendi oluşturduğu ve paylaşmadan önce inceleyebildiği export’lardan üretilir.',
+        body: 'Yalnızca metadata saklayan yerel bir binary: prompt, yanıt, kod, dosya yolu ya da kimlik bilgisi yok.',
       },
     ],
     pilot: {
       tag: 'İç pilot',
-      eyebrow: '15 kodlama görevi · 90 koşu · kendi Claude Team aboneliğimiz',
+      eyebrow: '29 kodlama görevi · 174 koşu · kendi Claude Team aboneliğimiz',
       title: '%74 daha düşük maliyet. Daha çok kabul edilen görev.',
       lede: 'Aynı kodlama görevlerini üç şekilde koştuk: hep Opus, hep Sonnet ve seçimi Taksim’e bırakarak. Her koşuyu gizli otomatik kontroller notladı.',
       bigCaption: 'hep Opus’a göre daha düşük maliyet',
@@ -136,8 +145,9 @@ export const tr: Dictionary = {
       kpiAccepted: 'Taksim yönlendirmesiyle kabul',
       kpiAcceptedSub: 'Hep Opus: {n}',
       kpiPerAccepted: 'Kabul edilen görev başına maliyet',
+      coldStart: 'Soğuk başlangıç: geçmiş yok, geri bildirim yok. Taksim düzelttiğiniz görevlerden öğrenir.',
       chart: {
-        title: 'Üç kol, her biri 30 koşu',
+        title: 'Üç kol, her biri 58 koşu',
         subtitle:
           'Kabul = kapsam, teslim, regresyon ve davranış kontrollerinin hepsi geçti',
         arms: {
@@ -153,7 +163,7 @@ export const tr: Dictionary = {
       },
       mix: {
         title: 'Taksim neyi seçti',
-        body: '30 koşunun 28’inde Sonnet. Opus yalnızca 2 koşuda kaldı; ikisi de en zor dokümantasyon ve izin görevindeydi, ikisi de kabul edildi.',
+        body: '58 koşunun 56’sında Sonnet. Opus yalnızca 2 koşuda kaldı; ikisi de en zor dokümantasyon ve izin görevindeydi, ikisi de kabul edildi.',
         label:
           'Taksim koşuları: {total} koşudan {sonnet} tanesi Sonnet, {opus} tanesi Opus.',
       },
@@ -195,9 +205,124 @@ export const tr: Dictionary = {
         verified:
           '2026-10-15’te canlı doğrulandı: resume sırasında yapılan düzeltme otomatik olarak kaydedildi ve aynı görevin sonraki koşusu Opus’ta kaldı.',
       },
+      warm: {
+        tag: 'Sıcak tekrar koşusu',
+        title: 'Düzeltilen görevler: 4 hata → 0',
+        cold: 'Soğuk başlangıç',
+        warm: 'Düzeltmelerden sonra',
+        acceptedOf: '{total} koşudan {n} kabul',
+        srSummary:
+          'Düzeltilen 3 görevde soğuk başlangıçta {total} koşudan {cold} tanesi, düzeltmelerden sonra {total} koşudan {warm} tanesi kabul edildi.',
+        overall:
+          'Genel sonuç yine 54/58: Sonnet daha önce geçen üç başka görevde tökezledi. Taksim bunları da bir sonraki düzeltmeden öğrenir.',
+        cost: 'Sıcak koşuların 58’inin 8’inde Opus kullanıldı. Maliyet $4.98 (soğukta $4.65); hep Opus’a göre yine %72 daha düşük.',
+      },
       footnote:
-        'İç pilot; bağımsız bir benchmark değildir. 2026-10-15’te o günkü Taksim sürümüyle, tek bir Claude Team aboneliğinde Claude Code CLI. 5 kategoride 15 görev (sınırlı özellik, hata onarımı, yapılandırma geçişi, refactor, araştırma ve dokümantasyon), kolaydan zora; 3 kol × 2 tekrar = 90 koşu. Sonuçlar yalnızca bu pilot için geçerlidir; görev setinin ikinci yarısı, 14 görev daha, henüz koşulmadı. Maliyetler Anthropic liste fiyatlarıyla API eşdeğeridir; subscription’da bunlar fatura değil, plan kotasıdır. Taksim yalnızca Claude modelleri arasında geçiş yapar.',
+        'İç pilot; bağımsız bir benchmark değildir. 2026-10-15’te iki yarıda koşuldu: ilki o günün daha önceki Taksim sürümüyle, ikincisi mevcut sürümle; tek bir Claude Team aboneliğinde Claude Code CLI. Her yarı soğuk başladı, önceden kaydedilmiş hiçbir sonuç geçmişi yoktu. 5 kategoride 29 görev (sınırlı özellik, hata onarımı, yapılandırma geçişi, refactor, araştırma ve dokümantasyon), kolaydan zora; 3 kol × 2 tekrar = 174 koşu. 30 görevlik havuzdan bir görev, test düzeneğinden kaynaklandığı için dışarıda bırakıldı. Sonuçlar yalnızca bu pilot için geçerlidir. Maliyetler Anthropic liste fiyatlarıyla API eşdeğeridir; subscription’da bunlar fatura değil, plan kotasıdır. Taksim yalnızca Claude modelleri arasında geçiş yapar.',
+      note: 'İç pilot; bağımsız bir benchmark değildir. Maliyetler API eşdeğeri liste fiyatlarıdır; Taksim yalnızca Claude modelleri arasında geçiş yapar.',
+      methodLink: 'Yöntem, görev seti ve sınırlar',
     },
+    how: {
+      title: 'Üç adımda nasıl çalışır.',
+      body: 'Kodlama ajanlarınızı bugün nasıl kullanıyorsanız öyle kullanmaya devam edin. Taksim, onların zaten diske yazdıklarıyla çalışır.',
+      steps: [
+        {
+          title: 'Kurun ve içe aktarın',
+          body: 'Tek satır, Taksim’i yalnızca sizin kullanıcınız için kurar. Setup kodlama ajanlarınızı bulur; zaten tuttukları geçmişi içe aktarır ve fiyatlandırır.',
+          detail: 'taksim setup',
+        },
+        {
+          title: 'Değerlendirin',
+          body: 'Bir LLM judge tamamlanan turları değerlendirir. Bir karar yalnızca iki judge uzlaştığında ve en az biri güçlü olduğunda sayılır.',
+          detail: 'taksim judge enable --in-session',
+        },
+        {
+          title: 'Kanıtı görün',
+          body: 'Yerel bir dashboard ve haftalık rapor: harcama, kota, model dağılımı ve daha ucuz bir modelin ne kadar tasarruf ettirebileceği. Taksim modelinizi asla sessizce değiştirmez.',
+          detail: 'taksim dashboard',
+        },
+      ],
+      more: 'Adım adım tüm akış',
+    },
+    modes: {
+      title: 'Subscription, API key, özel: farklı ekonomiler.',
+      body: 'Taksim bu üçünü ayrı tutar; çünkü neyin optimize edilebileceği, işi kimin faturaladığına ve istek üzerinde ne kadar yetkiniz olduğuna bağlıdır.',
+      currentLabel: 'Mevcut sürüm',
+      items: [
+        {
+          name: 'Subscription planları',
+          economics: 'Claude ve ChatGPT planları: dahil kullanım ve kota pencereleri. API eşdeğeri liste fiyatı olarak, faturalanan dolar değil kota olarak etiketlenip gösterilir.',
+          current: 'Yerel geçmiş ve hook’lar üzerinden; kota okumaları ve değerlendirmeyle gözlemlenir. Pro, Max veya Team girişiyle Claude Code için yalnızca Claude modelleri arasında geçiş isteğe bağlı açılabilir (`taksim routing subscription on`); aksi halde istekler istemcinizden doğrudan sağlayıcıya gider ve Taksim modeli, eforu veya context’i değiştirmez.',
+        },
+        {
+          name: 'Kendi API key’iniz',
+          economics: 'Anthropic ve OpenAI API key’leri: token başına faturalanan dolar.',
+          current: 'Yukarıdakilerin tümü; ayrıca taksim claude veya taksim codex ile başlattığınız oturumlarda isteğe bağlı yerel gateway, consensus kararlarından yönlendirme önerileri ve taksim claude oturumları için modelinize geri dönen, isteğe bağlı otomatik yönlendirme.',
+        },
+        {
+          name: 'Özel ve yerel modeller',
+          economics: 'Kendi donanımınız veya ayrılmış kapasite: token başına fiyat değil, işlem gücü ve kapasite.',
+          current: 'Mevcut sürümde bir yönlendirme hedefi değil. Yerel bir Ollama modeli judge olarak kullanılabilir; OpenCode, Kilo Code, Pi ve Cline oturumları hangi sağlayıcıyı kullanırlarsa kullansınlar gözlemlenir.',
+        },
+      ],
+      futureTitle: 'Ne değişebilir, ne değişmez',
+      futureBody: 'Subscription yönlendirmesi isteğe bağlıdır, varsayılan olarak kapalıdır ve yalnızca kendi claude.ai girişinizdeki Claude Code ile sınırlıdır. Taksim yalnızca base URL’yi ayarlar, girişinizi okumadan, kopyalamadan ve loglamadan değiştirmeden iletir ve yalnızca Claude modelleri arasında geçiş yapar; üçüncü taraf modellere asla. EdgeeTech, Anthropic koşullarını Claude modelleri arasında seçime izin veren ve üçüncü taraf modelleri yasaklayan şekilde okur; bu, Anthropic onayı değildir. Anthropic’in Claude Code için Legal and compliance sayfası, Claude.ai kimlik bilgilerine üçüncü taraf aracılığını kısıtlıyor; bu yüzden açıp açmamaya siz karar verirsiniz. ChatGPT planındaki Codex yalnızca gözlemlenir; çünkü OpenAI proxy yolunun plan, kota ve workspace denetimlerini koruduğu gösterilmedi. Sağlayıcı hakları ve workspace politikası belirleyici olmaya devam eder.',
+      summary: [
+        'Faturalanan dolar değil, kota olarak gösterilir. Varsayılan olarak gözlemlenir; yalnızca-Claude yönlendirmesi isteğe bağlıdır.',
+        'Token başına faturalanır. Taksim üzerinden başlattığınız oturumlarda isteğe bağlı yerel gateway ve yönlendirme.',
+        'Mevcut sürümde bir yönlendirme hedefi değil. Yerel bir Ollama modeli judge olabilir.',
+      ],
+      more: 'Faturalama modları ayrıntılı',
+    },
+    clients: {
+      title: 'Taksim her istemciyle ne yapar',
+      body: 'Taksim her sağlayıcının koşulları dahilinde çalışır. Claude subscription’ındaki Claude Code, yalnızca-Claude yönlendirmesini siz açmadıkça yalnızca gözlemlenir; ChatGPT planındaki Codex her zaman yalnızca gözlemlenir. Diğer canlı yönlendirme, kendi API key’inize faturalanan trafikle sınırlıdır.',
+      listLabel: 'Desteklenen kodlama istemcileri',
+      more: 'Tüm istemci tablosunu görün',
+    },
+    privacy: {
+      title: 'İşinizin şeklini saklar, kelimelerini asla.',
+      points: [
+        'Saklananlar: istemci, model, token, maliyet ve judge kararları.',
+        'Asla saklanmayanlar: prompt’lar, yanıtlar, kaynak kod, kimlik bilgileri ve yerel dosya yolları.',
+        'Kendi key’inizle çalışan uzak bir judge, yalnızca siz izin verdikten sonra kısaltılmış alıntılar alır. Ollama ile değerlendirme makinenizde kalır.',
+      ],
+      link: 'Gizlilik modelini okuyun',
+      more: 'Neler saklanır, ayrıntılı',
+    },
+    pricingTitle: 'Geliştiricilere ücretsiz. Ekiplere ücretli.',
+    pricingMore: 'Planları karşılaştırın',
+    faqTitle: 'Sorular',
+    faqMore: 'Diğer sorular',
+    faq: [
+      {
+        q: 'Taksim, Claude veya ChatGPT subscription’ımda modelimi değiştirir mi?',
+        a: 'Varsayılan olarak hayır. Claude Pro, Max veya Team girişinde `taksim routing subscription on` ile isteğe bağlı açabilirsiniz; bu durumda `taksim claude` yalnızca Claude modelleri arasında, kuruluşunuzun izin verdiği modeller içinde geçiş yapar ve --model ile /model seçimlerinizi başlangıç modelinden uzak tutar. Kimlik bilgisi girişiniz olarak kalır, kullanım subscription’da kalır. Ayar kapalıyken ve ChatGPT planındaki Codex için her zaman Taksim yalnızca gözlemler. Taksim’in Opus’a çıkardığı istekler plan kotasını daha hızlı tüketir.',
+      },
+      {
+        q: 'Ücretsiz sürümü işte kullanabilir miyim?',
+        a: 'Evet. CLI her birey için ücretsizdir. Şirketlerin ödeme yaptığı şey Team özellikleridir.',
+      },
+      {
+        q: 'Makinemden dışarı bir şey çıkıyor mu?',
+        a: 'Uzakta çalışan bir judge (kendi API key’iniz veya Jev) seçmediğiniz ya da bir ekip export’u paylaşmadığınız sürece hayır. Uzak judge’lar yalnızca değerlendirdikleri turların kısaltılmış alıntılarını alır. Export’lar yalnızca metadata içerir.',
+      },
+      {
+        q: '“Tasarruf edilebilirdi” rakamı garantili mi?',
+        a: 'Hayır. Bu bir tahmindir: iki judge’ın daha ucuz bir seviyenin yeterli olduğunda uzlaştığı turları sayar ve her rapor örneklem büyüklüğünü gösterir.',
+      },
+    ],
+    cta: {
+      title: 'Geçen haftanızın gerçekte neye ihtiyaç duyduğunu öğrenin.',
+      body: 'taksim setup, istemcilerinizin zaten tuttuğu geçmişi içe aktarır ve ilk raporunuzu tek komutla yazar.',
+      docs: 'Dokümanları okuyun',
+    },
+  },
+
+  howItWorks: {
+    eyebrow: 'Nasıl çalışır',
+    title: 'Transkriptten karara, adım adım.',
+    lede: 'Taksim’in yaptığı her şey, kodlama ajanlarınızın zaten tuttuğu geçmişten, sizin makinenizde çalışır. Bu sayfa ilk kanıtı, judge’ı, haftalık raporu ve Taksim’in neyi sakladığını anlatır.',
     firstValue: {
       title: 'Kurulumdan ilk kanıta.',
       body: 'Ücretsiz Developer planı, kodlama ajanlarınızın zaten tuttuğu geçmişten başlar; böylece ilk raporunuz daha önce yaptığınız işi kapsar.',
@@ -277,30 +402,6 @@ export const tr: Dictionary = {
         detail: 'taksim dashboard',
       },
     ],
-    modes: {
-      title: 'Subscription, API key, özel: farklı ekonomiler.',
-      body: 'Taksim bu üçünü ayrı tutar; çünkü neyin optimize edilebileceği, işi kimin faturaladığına ve istek üzerinde ne kadar yetkiniz olduğuna bağlıdır.',
-      currentLabel: 'Mevcut sürüm',
-      items: [
-        {
-          name: 'Subscription planları',
-          economics: 'Claude ve ChatGPT planları: dahil kullanım ve kota pencereleri. API eşdeğeri liste fiyatı olarak, faturalanan dolar değil kota olarak etiketlenip gösterilir.',
-          current: 'Yerel geçmiş ve hook’lar üzerinden; kota okumaları ve değerlendirmeyle gözlemlenir. Pro, Max veya Team girişiyle Claude Code için yalnızca Claude modelleri arasında geçiş isteğe bağlı açılabilir (`taksim routing subscription on`); aksi halde istekler istemcinizden doğrudan sağlayıcıya gider ve Taksim modeli, eforu veya context’i değiştirmez.',
-        },
-        {
-          name: 'Kendi API key’iniz',
-          economics: 'Anthropic ve OpenAI API key’leri: token başına faturalanan dolar.',
-          current: 'Yukarıdakilerin tümü; ayrıca taksim claude veya taksim codex ile başlattığınız oturumlarda isteğe bağlı yerel gateway, consensus kararlarından yönlendirme önerileri ve taksim claude oturumları için modelinize geri dönen, isteğe bağlı otomatik yönlendirme.',
-        },
-        {
-          name: 'Özel ve yerel modeller',
-          economics: 'Kendi donanımınız veya ayrılmış kapasite: token başına fiyat değil, işlem gücü ve kapasite.',
-          current: 'Mevcut sürümde bir yönlendirme hedefi değil. Yerel bir Ollama modeli judge olarak kullanılabilir; OpenCode, Kilo Code, Pi ve Cline oturumları hangi sağlayıcıyı kullanırlarsa kullansınlar gözlemlenir.',
-        },
-      ],
-      futureTitle: 'Ne değişebilir, ne değişmez',
-      futureBody: 'Subscription yönlendirmesi isteğe bağlıdır, varsayılan olarak kapalıdır ve yalnızca kendi claude.ai girişinizdeki Claude Code ile sınırlıdır. Taksim yalnızca base URL’yi ayarlar, girişinizi okumadan, kopyalamadan ve loglamadan değiştirmeden iletir ve yalnızca Claude modelleri arasında geçiş yapar; üçüncü taraf modellere asla. EdgeeTech, Anthropic koşullarını Claude modelleri arasında seçime izin veren ve üçüncü taraf modelleri yasaklayan şekilde okur; bu, Anthropic onayı değildir. Anthropic’in Claude Code için Legal and compliance sayfası, Claude.ai kimlik bilgilerine üçüncü taraf aracılığını kısıtlıyor; bu yüzden açıp açmamaya siz karar verirsiniz. ChatGPT planındaki Codex yalnızca gözlemlenir; çünkü OpenAI proxy yolunun plan, kota ve workspace denetimlerini koruduğu gösterilmedi. Sağlayıcı hakları ve workspace politikası belirleyici olmaya devam eder.',
-    },
     report: {
       title: 'Tek komut, tek haftalık rapor.',
       body: 'Yerelde incelemek için taksim dashboard, tek başına çalışan bir HTML dosyası için taksim report weekly --html, ne kadar tasarruf edebileceğinizin tek sayfalık özeti için taksim digest komutunu çalıştırın. Raporun yapısı aşağıda, örnek rakamlarla.',
@@ -322,10 +423,6 @@ export const tr: Dictionary = {
       nextActions: 'Sonraki adımlar',
       unpriced: 'Turların %3’ü fiyatlandırılmadı',
       reviewShadow: 'Shadow policy’nin neleri değiştireceğini inceleyin',
-    },
-    clients: {
-      title: 'Taksim her istemciyle ne yapar',
-      body: 'Taksim her sağlayıcının koşulları dahilinde çalışır. Claude subscription’ındaki Claude Code, yalnızca-Claude yönlendirmesini siz açmadıkça yalnızca gözlemlenir; ChatGPT planındaki Codex her zaman yalnızca gözlemlenir. Diğer canlı yönlendirme, kendi API key’inize faturalanan trafikle sınırlıdır.',
     },
     privacy: {
       title: 'İşinizin şeklini saklar, kelimelerini asla.',
@@ -355,25 +452,8 @@ export const tr: Dictionary = {
       subscriptionBody:
         'Varsayılan olarak Taksim, Claude ve ChatGPT planlarında yerel geçmişi ve hook’ları okur, modeli değiştirmez. `taksim routing subscription on` ile açarsanız, Pro, Max veya Team girişindeki `taksim claude` yerel gateway üzerinden geçer. Yalnızca base URL ayarlanır; kimlik bilgisi girişiniz olarak kalır, Taksim onu asla okumaz, kopyalamaz veya loglamaz ve kullanım subscription’da kalır. Taksim yalnızca Claude modelleri arasında geçiş yapar ve yalnızca Taksim üzerinden başlattığınız oturumlarda. ChatGPT planındaki Codex yalnızca gözlemlenir.',
     },
-    pricingTitle: 'Geliştiricilere ücretsiz. Ekiplere ücretli.',
-    faqTitle: 'Sorular',
+    faqTitle: 'Diğer sorular',
     faq: [
-      {
-        q: 'Taksim, Claude veya ChatGPT subscription’ımda modelimi değiştirir mi?',
-        a: 'Varsayılan olarak hayır. Claude Pro, Max veya Team girişinde `taksim routing subscription on` ile isteğe bağlı açabilirsiniz; bu durumda `taksim claude` yalnızca Claude modelleri arasında, kuruluşunuzun izin verdiği modeller içinde geçiş yapar ve --model ile /model seçimlerinizi başlangıç modelinden uzak tutar. Kimlik bilgisi girişiniz olarak kalır, kullanım subscription’da kalır. Ayar kapalıyken ve ChatGPT planındaki Codex için her zaman Taksim yalnızca gözlemler. Taksim’in Opus’a çıkardığı istekler plan kotasını daha hızlı tüketir.',
-      },
-      {
-        q: 'Ücretsiz sürümü işte kullanabilir miyim?',
-        a: 'Evet. CLI her birey için ücretsizdir. Şirketlerin ödeme yaptığı şey Team özellikleridir.',
-      },
-      {
-        q: 'Makinemden dışarı bir şey çıkıyor mu?',
-        a: 'Uzakta çalışan bir judge (kendi API key’iniz veya Jev) seçmediğiniz ya da bir ekip export’u paylaşmadığınız sürece hayır. Uzak judge’lar yalnızca değerlendirdikleri turların kısaltılmış alıntılarını alır. Export’lar yalnızca metadata içerir.',
-      },
-      {
-        q: '“Tasarruf edilebilirdi” rakamı garantili mi?',
-        a: 'Hayır. Bu bir tahmindir: iki judge’ın daha ucuz bir seviyenin yeterli olduğunda uzlaştığı turları sayar ve her rapor örneklem büyüklüğünü gösterir.',
-      },
       {
         q: 'Fiyatlandırma ne kadar eksiksiz?',
         a: 'Taksim kaydedilen kullanımı, Claude Opus 5.5 ve Fable 5.1 dahil, yayımlanmış liste fiyatlarıyla fiyatlandırır. Liste fiyatı olmayan modeller hariç tutulur, asla ücretsiz sayılmaz ve her rapor fiyatlandırma kapsamını gösterir.',
@@ -387,11 +467,72 @@ export const tr: Dictionary = {
         a: 'Claude Code, Codex, OpenCode, Kilo Code, Pi ve Devin Desktop turlarını. OpenCode, Kilo Code ve Pi turları, Claude seviyesindeki modellerle çalıştıklarında değerlendirilir. GitHub Copilot, Devin CLI ve Agent Workstation oturumları içe aktarılır ve fiyatlandırılır, ancak henüz değerlendirilmez.',
       },
     ],
-    cta: {
-      title: 'Geçen haftanızın gerçekte neye ihtiyaç duyduğunu öğrenin.',
-      body: 'taksim setup, istemcilerinizin zaten tuttuğu geçmişi içe aktarır ve ilk raporunuzu tek komutla yazar.',
-      docs: 'Dokümanları okuyun',
+  },
+
+  benchmark: {
+    eyebrow: 'Pilot benchmark',
+    title: 'Pilotu nasıl koştuk.',
+    lede: 'Ana sayfadaki pilot sonuçlarının arkasındaki yöntem, kontroller ve sınırlar.',
+    summaryLabel: 'Kısaca.',
+    sections: [
+      {
+        title: 'Görev seti',
+        body: '5 kategoride 29 kodlama görevi: sınırlı özellik, hata onarımı, yapılandırma geçişi, refactor ve araştırma ile dokümantasyon; kolaydan zora. Havuzda 30 görev vardı; biri (`ho-ref-split-package`), başarısızlıkları modelden değil test düzeneğinden kaynaklandığı için dışarıda bırakıldı.',
+      },
+      {
+        title: 'Üç kol',
+        body: 'Her görev üç şekilde koşuldu: hep Opus (`claude-opus-5-5`), hep Sonnet (`claude-sonnet-5-5`) ve Opus’tan başlayıp seçimi Taksim’e bırakan Taksim yönlendirmesi. Her kol her görevi iki kez koştu: 3 kol × 2 tekrar = 174 koşu, kol başına 58.',
+      },
+      {
+        title: 'Kabul kontrolleri',
+        body: 'Her koşuyu gizli otomatik kontroller notladı. Bir koşu yalnızca kapsam, teslim, regresyon ve davranış kontrollerinin hepsi geçtiğinde kabul edilir.',
+      },
+      {
+        title: 'Maliyet temeli',
+        body: 'Maliyetler Anthropic liste fiyatlarıyla API eşdeğeridir. Koşular bir Claude Team aboneliğinde yapıldı; yani fatura değil, plan kotası tükettiler. Kabul edilen görev başına maliyet, bir kolun toplam maliyetinin kabul edilen koşu sayısına bölümüdür.',
+      },
+      {
+        title: 'Ortam: soğuk başlangıç',
+        body: '2026-10-15’te iki yarıda koşuldu: ilki o günün daha önceki Taksim sürümüyle, ikincisi mevcut sürümle. Her yarı, önceden sonuç geçmişi olmayan yeni bir `TAKSIM_HOME` içinde çalıştı; yani Taksim’in öğrenebileceği bir şey yoktu. Tek bir Claude Team aboneliğinde Claude Code CLI.',
+      },
+      {
+        title: 'Sonuçlar',
+        body: 'Hep Opus: 58 koşunun 52’si kabul, toplam $17.63, kabul edilen görev başına $0.339. Hep Sonnet: 58’de 53, $4.19, $0.079. Taksim yönlendirmesi: 58’de 54, $4.65, $0.086. Taksim 56 koşuda Sonnet’i seçti, 2 koşuda Opus’u korudu; ikisi de en zor dokümantasyon ve izin görevindeydi, ikisi de kabul edildi.',
+      },
+      {
+        title: 'Başarısız koşular',
+        body: 'Taksim yönlendirmesi 4 koşuda başarısız oldu: tekilleştirme görevinde iki kez (hep Opus bu görevde bir kez, hep Sonnet iki kez başarısız oldu), feature-flags ve cron görevlerinde birer kez.',
+      },
+      {
+        title: 'Sıcak tekrar koşusu: kurulum',
+        body: 'Soğuk koşulardan sonra, yönlendirilen her koşunun gizli kontrol sonucu Taksim’e bir CI sonucu olarak bildirildi (`taksim routing outcome record --source ci`); gerçek kullanımda CI’ın yaptığı gibi. Bu, 3 görevde 4 ret verdi: feature-flags 1, cron 1, tekilleştirme 2. Ardından yalnızca yönlendirme kolu 29 görevin hepsini iki kez, 58 koşu, aynı Taksim dizinlerinde, artık bu geçmişle yeniden koştu.',
+      },
+      {
+        title: 'Sıcak tekrar koşusu: sonuçlar',
+        body: 'Düzeltilen 3 görevde Taksim her seferinde Opus’u korudu (`OUTCOME_LEARNED_KEEP_START`, kapsam `TASK`) ve 6 koşunun hepsi geçti: bu görevlerdeki reddedilen koşular soğukta 4 iken sıcakta 0 oldu. Genelde yönlendirme kolu 58 koşudan 54 kabulde kaldı; çünkü Sonnet, soğukta geçen 3 başka görevde 4 koşuyu kaçırdı (resolver 2, shipping-registry 1, rename-kwarg 1). Bu, Sonnet’in koşudan koşuya değişkenliğidir ve bu hatalar da sırası gelince öğrenilir. Opus sıcak koşuların 58’inin 8’inde kullanıldı (soğukta 2). Maliyet $4.98 oldu (soğukta $4.65); hep Opus’un $17.63 maliyetine göre yine %72 daha düşük; kabul edilen görev başına $0.092.',
+      },
+      {
+        title: 'Öğrenme neyi yapar, neyi yapmaz',
+        body: 'Öğrenme, düzeltilen bir görevi güçlü modelde tutar. O modelin daha sık başarılı olmasını sağlamaz: düzeltilen bir görev için tavan, güçlü modelin kendi kabul düzeyidir ve genel fark kendiliğinden kapanmaz. Sıcak tekrar koşusu aynı iç pilotun parçasıdır; bağımsız bir benchmark değildir.',
+      },
+      {
+        title: 'Sınırlar',
+        body: 'İç pilot; bağımsız bir benchmark değildir. Sonuçlar yalnızca bu pilot için geçerlidir. Taksim yalnızca Claude modelleri arasında geçiş yapar; üçüncü taraf modellere asla.',
+      },
+    ],
+    learn: {
+      title: 'Yönlendirme sonuçlardan nasıl öğrenir',
+      body: 'Ana sayfadaki öğrenme döngüsü, daha ayrıntılı.',
+      items: [
+        'En fazla bir kademe: görev uygunsa ilk gerçek istek Opus’tan Sonnet’e iner; değilse başlangıç modeli kalır.',
+        'Retler komut gerekmeden kaydedilir: başarısız bir CI koşusu, bir evaluator, oturum içi judge kararı ya da “Hayır, yanlış olmuş” gibi bir düzeltme yanıtı (Türkçe veya İngilizce). Bir reddi `taksim routing outcome record --session <id> --result rejected` ile kendiniz de bildirebilirsiniz.',
+        'Bir retten sonra Taksim, aynı görev yeniden başladığında başlangıç modelini korur; yeterli kanıt olduğunda bir repo veya görev sınıfı için de.',
+        'Üç kabul bir redden ağır basar. 14 günden eski kanıt düşer.',
+        'Yalnızca anahtarlı bir görev parmak izi saklanır; prompt ya da yanıt metni asla. `taksim routing outcome list` kaydedilenleri gösterir, `taksim memory forget` siler.',
+        'Öğrenme yalnızca Taksim’in yönlendirdiği yerde geçerlidir: kendi API key’inizdeki `taksim claude` oturumları ya da `taksim routing subscription on` ile açtıktan sonra Claude subscription’ı.',
+      ],
     },
+    back: 'Sonuçlara dön',
   },
 
   ledger: {
@@ -661,6 +802,8 @@ export const tr: Dictionary = {
         links: [
           ['Taksim’e hoş geldiniz', '/docs'],
           ['Taksim nasıl çalışır', '/docs#how-taksim-works'],
+          ['Adım adım', '/how-it-works'],
+          ['Pilot benchmark', '/benchmark'],
         ],
       },
       {
@@ -697,6 +840,7 @@ export const tr: Dictionary = {
       {
         title: 'İstemciler',
         links: [
+          ['Tüm istemci tablosu', '/clients'],
           ['Claude Code', '/docs#client-compatibility'],
           ['Codex', '/docs#client-compatibility'],
           ['GitHub Copilot', '/docs#client-compatibility'],

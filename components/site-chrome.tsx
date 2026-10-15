@@ -36,8 +36,8 @@ export function Header({ locale }: { locale: Locale }) {
       <div className="shell header-inner">
         <Brand locale={locale} />
         <nav className="main-nav" aria-label={t.primaryNav}>
-          <Link href={href('/#how-it-works')}>{t.nav.how}</Link>
-          <Link href={href('/#clients')}>{t.nav.clients}</Link>
+          <Link href={href('/how-it-works')}>{t.nav.how}</Link>
+          <Link href={href('/clients')}>{t.nav.clients}</Link>
           <Link href={href('/pricing')}>{t.nav.pricing}</Link>
           <Link href={href('/docs')}>{t.nav.docs}</Link>
         </nav>
@@ -57,8 +57,8 @@ export function Header({ locale }: { locale: Locale }) {
             <Link href={href('/docs/quick-start')} data-funnel={funnel.getFree}>
               {t.install}
             </Link>
-            <Link href={href('/#how-it-works')}>{t.nav.how}</Link>
-            <Link href={href('/#clients')}>{t.nav.clients}</Link>
+            <Link href={href('/how-it-works')}>{t.nav.how}</Link>
+            <Link href={href('/clients')}>{t.nav.clients}</Link>
             <Link href={href('/pricing')}>{t.nav.pricing}</Link>
             <Link href={href('/docs')}>{t.nav.docs}</Link>
             <Link href={href('/contact')} data-funnel={funnel.teamContact}>
@@ -85,6 +85,9 @@ export function Footer({ locale }: { locale: Locale }) {
           </div>
           <nav aria-label={t.footer.productNav}>
             <strong>Taksim</strong>
+            <Link href={href('/how-it-works')}>{t.nav.how}</Link>
+            <Link href={href('/clients')}>{t.nav.clients}</Link>
+            <Link href={href('/benchmark')}>{t.nav.benchmark}</Link>
             <Link href={href('/pricing')}>{t.nav.pricing}</Link>
             <Link href={href('/docs')}>{t.nav.docs}</Link>
           </nav>

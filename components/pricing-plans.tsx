@@ -16,7 +16,7 @@ function Features({ items }: { items: string[] }) {
   );
 }
 
-export function PricingPlans({ locale }: { locale: Locale }) {
+export function PricingPlans({ locale, compact = false }: { locale: Locale; compact?: boolean }) {
   const { developer, team } = getDictionary(locale).plans;
   return (
     <div className="plans">
@@ -25,9 +25,9 @@ export function PricingPlans({ locale }: { locale: Locale }) {
           <h3 id="plan-developer">{developer.name}</h3>
           <p className="plan-price">{developer.price}</p>
           <p className="plan-sub">{developer.sub}</p>
-          <p className="plan-sub">{developer.value}</p>
+          {compact ? null : <p className="plan-sub">{developer.value}</p>}
         </header>
-        <Features items={developer.features} />
+        {compact ? null : <Features items={developer.features} />}
         <Link className="btn btn-primary" href={localePath(locale, '/docs/quick-start')} data-funnel={funnel.getFree}>
           {developer.cta}
         </Link>
@@ -41,7 +41,7 @@ export function PricingPlans({ locale }: { locale: Locale }) {
           </p>
           <p className="plan-sub">{team.sub}</p>
         </header>
-        <Features items={team.features} />
+        {compact ? null : <Features items={team.features} />}
         <Link className="btn btn-ghost" href={localePath(locale, '/contact?intent=team')} data-funnel={funnel.teamContact}>
           {team.cta}
         </Link>

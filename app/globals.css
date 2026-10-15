@@ -1396,37 +1396,40 @@ h3 {
   gap: 12px;
   margin-top: 36px;
 }
-.hero-footnote {
-  margin: 22px 0 0;
-  color: var(--muted);
-  font-size: 0.88rem;
-}
 .hero-trust {
   margin: 18px 0 0;
   color: var(--muted);
   font-size: 0.92rem;
 }
-.hero-free {
-  margin-top: 22px;
-  padding: 16px 18px;
-  border: 1px solid var(--line);
-  border-left: 2px solid var(--turquoise);
-  border-radius: 12px;
-  background: var(--surface);
-}
-.hero-free strong {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 0.95rem;
-}
-.hero-free ul {
-  margin: 0;
-  padding-left: 18px;
-  color: var(--muted);
-  font-size: 0.9rem;
-}
 .first-value .how-intro .btn {
   margin-top: 18px;
+}
+.section-more {
+  margin: 28px 0 0;
+}
+.section-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+.how-intro .text-link {
+  display: inline-block;
+  margin-top: 14px;
+}
+.client-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.client-strip li {
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 0.92rem;
 }
 .modes {
   padding: 88px 0;
@@ -2724,6 +2727,15 @@ h3 {
   color: var(--muted);
   font-size: 0.6em;
 }
+.pilot-cold {
+  margin: 20px 0 0;
+  padding: 12px 14px;
+  border-left: 2px solid var(--purple);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
 .pilot-kpis .pilot-kpi-sub {
   margin-top: 8px;
   color: var(--muted);
@@ -2825,7 +2837,8 @@ h3 {
 }
 .arm-dots {
   display: grid;
-  grid-template-columns: repeat(30, minmax(0, 1fr));
+  /* 58 runs per arm: two rows of 29 */
+  grid-template-columns: repeat(29, minmax(0, 1fr));
   gap: 2px;
 }
 .arm-dots i {
@@ -2854,7 +2867,7 @@ h3 {
 }
 .mix-strip {
   display: flex;
-  gap: 4px;
+  gap: 2px;
   height: 34px;
 }
 .mix-strip i {
@@ -3100,6 +3113,14 @@ h3 {
   font-style: normal;
   font-weight: 800;
 }
+.case-marks i.ok {
+  background: var(--turquoise-soft);
+  color: var(--turquoise);
+}
+.pilot-warm {
+  margin-top: 24px;
+  border-color: rgba(68, 215, 198, 0.3);
+}
 .case-arrow {
   color: var(--turquoise);
   font-size: 1.6rem;
@@ -3221,7 +3242,7 @@ h3 {
     grid-row: 2;
   }
   .mix-strip {
-    gap: 2px;
+    gap: 1px;
     height: 28px;
   }
   .loop {

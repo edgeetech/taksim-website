@@ -6,6 +6,9 @@ Canonical site: https://taksim.edgee.tech
 Easy install (3 steps): https://taksim.edgee.tech/docs/quick-start
 Full install guide: https://taksim.edgee.tech/docs/getting-started
 Next steps (dashboard, judging, budgets, digest, Slack, team): https://taksim.edgee.tech/docs/next-steps
+How it works (first evidence, judging, weekly report, what is stored): https://taksim.edgee.tech/how-it-works
+Client support table: https://taksim.edgee.tech/clients
+Internal pilot benchmark (method and caveats): https://taksim.edgee.tech/benchmark
 Documentation: https://taksim.edgee.tech/docs
 Pricing: https://taksim.edgee.tech/pricing
 Privacy: https://taksim.edgee.tech/privacy

@@ -43,6 +43,21 @@ export const en = {
         description:
           'After setup: the local dashboard, judging, budgets, the weekly digest, Slack and webhook alerts, and the team roll-up.',
       },
+      howItWorks: {
+        title: 'How it works',
+        description:
+          'How Taksim goes from install to first evidence: import and price sessions, judge finished turns, count only two-judge consensus, and report. What is stored and what never is.',
+      },
+      clients: {
+        title: 'Clients',
+        description:
+          'What Taksim does with each coding client: observe, judge, gateway and model routing for Claude Code, Codex, GitHub Copilot, Devin, OpenCode, Kilo Code, Pi and more.',
+      },
+      benchmark: {
+        title: 'Pilot benchmark',
+        description:
+          'Method and caveats of the internal Taksim pilot: task set, the three arms, hidden acceptance checks, cost basis, and how routing learns from outcomes.',
+      },
       contact: {
         title: 'Talk to Taksim — Team Assessment',
         description:
@@ -63,6 +78,7 @@ export const en = {
       clients: 'Clients',
       pricing: 'Pricing',
       docs: 'Docs',
+      benchmark: 'Pilot benchmark',
     },
     talkToUs: 'Talk to us',
     install: 'Get Taksim free',
@@ -98,37 +114,30 @@ export const en = {
   home: {
     hero: {
       title: 'Frontier intelligence, only when the work requires it.',
-      lede: 'Taksim is a local control plane for your coding agents. It reads what Claude Code, Codex, GitHub Copilot and other agents already record, prices every session and grades finished turns, so you can see which work needed the top model and when a cheaper model would have done the job. On your own API key, optional routing can act on that evidence.',
-      trust: 'Runs on your machine. No Taksim account. EdgeeTech does not receive your prompts or code; an optional remote judge sends excerpts only to the provider you choose, on your own key.',
-      freeTitle: 'Free Developer plan',
-      freeValue: [
-        'Spend, quota and model mix from the history you already have',
-        'Judged turns: what needed the top model, and what did not',
-        'Local dashboard and weekly report',
-      ],
+      lede: 'Taksim is a local control plane for your coding agents. It prices every session and shows which work needed the top model, and when a cheaper model would have done the job.',
+      trust: 'Runs on your machine. No Taksim account. EdgeeTech does not receive your prompts or code.',
       seeHow: 'See how it works',
       installLabel: 'Install on Windows with one PowerShell line',
       installGuide: 'Easy install in 3 steps',
-      footnote: 'Free for any individual developer, at home or at work. Teams pay for the roll-up.',
     },
     valuesLabel: 'What Taksim does',
     valueProps: [
       {
         title: 'Every session, priced.',
-        body: 'Taksim imports what your coding agents already write to disk and prices each session by model, repo and task, including cache reads and writes, each write at the cache lifetime the client recorded (5 minutes or 1 hour). API-key usage is shown in billed dollars; subscription usage is shown as API-equivalent list-price dollars, labelled as quota, not billed.',
+        body: 'By model, repo and task, cache included. API keys show billed dollars; subscriptions show list-price quota, not billed.',
       },
       {
         title: 'Was the cheaper model enough?',
-        body: 'An LLM judge grades completed turns after the fact. Only verdicts where two judges agree, one of them strong, count toward the “could have saved” number, so the figure stays conservative.',
+        body: 'An LLM judge grades finished turns. Only verdicts where two judges agree, one of them strong, count.',
       },
       {
         title: 'Private by design.',
-        body: 'Taksim is a local binary. It stores metadata only: no prompts, responses, code, paths or credentials. Team reports are built from exports that each developer creates and can inspect before sharing.',
+        body: 'A local binary that stores metadata only: no prompts, responses, code, paths or credentials.',
       },
     ],
     pilot: {
       tag: 'Internal pilot',
-      eyebrow: '15 coding tasks · 90 runs · our own Claude Team subscription',
+      eyebrow: '29 coding tasks · 174 runs · our own Claude Team subscription',
       title: '74% lower cost. More tasks accepted.',
       lede: 'We ran the same coding tasks three ways: always Opus, always Sonnet, and Taksim choosing. Hidden automated checks graded every run.',
       bigCaption: 'lower cost than always-Opus',
@@ -136,8 +145,9 @@ export const en = {
       kpiAccepted: 'Accepted with Taksim routing',
       kpiAcceptedSub: 'Always-Opus: {n}',
       kpiPerAccepted: 'Cost per accepted task',
+      coldStart: 'Cold start: no history, no feedback. Taksim learns from the tasks you correct.',
       chart: {
-        title: 'Three arms, 30 runs each',
+        title: 'Three arms, 58 runs each',
         subtitle:
           'Accepted = scope, delivery, regression and behavior checks all pass',
         arms: {
@@ -153,7 +163,7 @@ export const en = {
       },
       mix: {
         title: 'What Taksim served',
-        body: 'Sonnet on 28 of 30 runs. Opus kept on 2, both on the hardest documentation and permissions task, both accepted.',
+        body: 'Sonnet on 56 of 58 runs. Opus kept on 2, both on the hardest documentation and permissions task, both accepted.',
         label:
           'Taksim runs: {sonnet} on Sonnet, {opus} on Opus, out of {total}.',
       },
@@ -195,9 +205,124 @@ export const en = {
         verified:
           'Live-verified 2026-10-15: a correction on resume was recorded automatically, and the next run of the same task stayed on Opus.',
       },
+      warm: {
+        tag: 'Warm re-run',
+        title: 'Corrected tasks: 4 failures → 0',
+        cold: 'Cold start',
+        warm: 'After the corrections',
+        acceptedOf: '{n} of {total} accepted',
+        srSummary:
+          'On the 3 corrected tasks, {cold} of {total} runs were accepted at the cold start and {warm} of {total} after the corrections.',
+        overall:
+          'Overall still 54/58: Sonnet slipped on three other tasks that had passed before. Taksim learns those from the next correction.',
+        cost: 'Opus served 8 of 58 warm runs. Cost $4.98 (cold $4.65), still 72% below always-Opus.',
+      },
       footnote:
-        'Internal pilot, not an independent benchmark. Run 2026-10-15 on that day’s Taksim release, Claude Code CLI on one Claude Team subscription. 15 tasks in 5 categories (bounded feature, bug repair, configuration migration, refactor, research and documentation), easy to hard; 3 arms × 2 repetitions = 90 runs. Results hold for this pilot only; the second half of the task set, 14 more tasks, is still to run. Costs are API-equivalent at Anthropic list prices; on a subscription they are plan quota, not an invoice. Taksim only switches between Claude models.',
+        'Internal pilot, not an independent benchmark. Run 2026-10-15 in two halves, the first on that day’s earlier Taksim release and the second on the current one, with Claude Code CLI on one Claude Team subscription. Each half was a cold start, with no prior outcome history. 29 tasks in 5 categories (bounded feature, bug repair, configuration migration, refactor, research and documentation), easy to hard; 3 arms × 2 repetitions = 174 runs. One task of the 30-task pool was excluded as a test harness artifact. Results hold for this pilot only. Costs are API-equivalent at Anthropic list prices; on a subscription they are plan quota, not an invoice. Taksim only switches between Claude models.',
+      note: 'Internal pilot, not an independent benchmark. Costs are API-equivalent list prices; Taksim only switches between Claude models.',
+      methodLink: 'Method, task set and caveats',
     },
+    how: {
+      title: 'How it works, in three steps.',
+      body: 'Keep using your coding agents as you do today. Taksim works from what they already write to disk.',
+      steps: [
+        {
+          title: 'Install and import',
+          body: 'One line installs Taksim for your user. Setup finds your coding agents, then imports and prices the history they already keep.',
+          detail: 'taksim setup',
+        },
+        {
+          title: 'Judge',
+          body: 'An LLM judge grades finished turns. A verdict counts only when two judges agree and at least one is strong.',
+          detail: 'taksim judge enable --in-session',
+        },
+        {
+          title: 'See the evidence',
+          body: 'A local dashboard and weekly report: spend, quota, model mix and what a cheaper model could have saved. Taksim never silently changes your model.',
+          detail: 'taksim dashboard',
+        },
+      ],
+      more: 'The full walkthrough',
+    },
+    modes: {
+      title: 'Subscription, API key, private: different economics.',
+      body: 'Taksim keeps the three apart, because what can be optimised depends on who bills the work and what authority you have over the request.',
+      currentLabel: 'Current release',
+      items: [
+        {
+          name: 'Subscription plans',
+          economics: 'Claude and ChatGPT plans: included usage and quota windows. Shown as API-equivalent list price, labelled as quota, never as billed dollars.',
+          current: 'Observed from local history and hooks, with quota readings and judging. Claude Code on a Pro, Max or Team login can opt in to Claude-only model switching (`taksim routing subscription on`); otherwise requests go straight from your client to the provider and Taksim changes no model, effort or context.',
+        },
+        {
+          name: 'Your own API key',
+          economics: 'Anthropic and OpenAI API keys: billed dollars per token.',
+          current: 'Everything above, plus an optional local gateway in sessions you launch with taksim claude or taksim codex, routing recommendations from consensus verdicts, and opt-in automatic routing for taksim claude sessions that escalates back to your model.',
+        },
+        {
+          name: 'Private and local models',
+          economics: 'Your own hardware or reserved capacity: compute and capacity, not per-token prices.',
+          current: 'Not a routing target in the current release. A local Ollama model can act as a judge, and OpenCode, Kilo Code, Pi and Cline sessions are observed whichever provider they use.',
+        },
+      ],
+      futureTitle: 'What may change, and what will not',
+      futureBody: 'Subscription routing is opt-in, off by default and limited to Claude Code on your own claude.ai login. Taksim only sets the base URL, forwards your login unchanged without reading, copying or logging it, and switches only among Claude models, never third-party ones. EdgeeTech reads Anthropic’s terms as allowing a choice among Claude models and forbidding third-party models; this is not an endorsement by Anthropic. Anthropic’s Legal and compliance page for Claude Code restricts third-party intermediation of Claude.ai credentials, so you decide whether to turn it on. Codex on a ChatGPT plan stays observe-only, because the OpenAI proxy path has not been shown to keep plan, quota and workspace controls. Provider entitlements and workspace policy stay authoritative.',
+      summary: [
+        'Shown as quota, not billed dollars. Observed by default; Claude-only routing is opt-in.',
+        'Billed per token. Optional local gateway and opt-in routing in sessions you launch through Taksim.',
+        'Not a routing target in the current release. A local Ollama model can judge.',
+      ],
+      more: 'Billing modes in detail',
+    },
+    clients: {
+      title: 'What Taksim does with each client',
+      body: 'Taksim works inside each vendor’s terms. Claude Code on a Claude subscription is observed unless you opt in to Claude-only routing; Codex on a ChatGPT plan is only observed. Other live routing is limited to traffic billed to your own API key.',
+      listLabel: 'Supported coding clients',
+      more: 'See the full client table',
+    },
+    privacy: {
+      title: 'It stores the shape of your work, never the words.',
+      points: [
+        'Stored: client, model, tokens, cost and judge verdicts.',
+        'Never stored: prompts, responses, source code, credentials or local paths.',
+        'A remote judge on your own key receives truncated excerpts, only after you opt in. With Ollama, judging stays on your machine.',
+      ],
+      link: 'Read the privacy model',
+      more: 'What is stored, in detail',
+    },
+    pricingTitle: 'Free for developers. Paid for teams.',
+    pricingMore: 'Compare plans',
+    faqTitle: 'Questions',
+    faqMore: 'More questions',
+    faq: [
+      {
+        q: 'Does Taksim change my model on a Claude or ChatGPT subscription?',
+        a: 'Not by default. On a Claude Pro, Max or Team login you can opt in with `taksim routing subscription on`; then `taksim claude` can switch among Claude models only, within your organisation’s available models, and keeps --model and /model switches away from the start model. Your login stays the credential and usage stays on the subscription. With the setting off, and always for Codex on a ChatGPT plan, Taksim only observes. Requests Taksim raises to Opus use plan quota faster.',
+      },
+      {
+        q: 'Can I use the free version at work?',
+        a: 'Yes. The CLI is free for any individual. Team features are what companies pay for.',
+      },
+      {
+        q: 'Does anything leave my machine?',
+        a: 'Not unless you choose a judge that runs remotely (your own API key or Jev) or share a team export. Remote judges receive truncated excerpts of the turns they grade. Exports contain metadata only.',
+      },
+      {
+        q: 'Is the “could have saved” number guaranteed?',
+        a: 'No. It is an estimate: it counts turns where two judges agreed a cheaper tier was sufficient, and every report shows the sample size.',
+      },
+    ],
+    cta: {
+      title: 'Find out what your last week actually needed.',
+      body: 'taksim setup imports the history your clients already keep and writes your first report in one command.',
+      docs: 'Read the docs',
+    },
+  },
+
+  howItWorks: {
+    eyebrow: 'How it works',
+    title: 'From transcript to verdict, step by step.',
+    lede: 'Everything Taksim does runs on your machine, from the history your coding agents already keep. This page walks through the first evidence, the judge, the weekly report and what Taksim stores.',
     firstValue: {
       title: 'From install to first evidence.',
       body: 'The free Developer plan starts from the history your coding agents already keep, so your first report covers work you have already done.',
@@ -277,30 +402,6 @@ export const en = {
         detail: 'taksim dashboard',
       },
     ],
-    modes: {
-      title: 'Subscription, API key, private: different economics.',
-      body: 'Taksim keeps the three apart, because what can be optimised depends on who bills the work and what authority you have over the request.',
-      currentLabel: 'Current release',
-      items: [
-        {
-          name: 'Subscription plans',
-          economics: 'Claude and ChatGPT plans: included usage and quota windows. Shown as API-equivalent list price, labelled as quota, never as billed dollars.',
-          current: 'Observed from local history and hooks, with quota readings and judging. Claude Code on a Pro, Max or Team login can opt in to Claude-only model switching (`taksim routing subscription on`); otherwise requests go straight from your client to the provider and Taksim changes no model, effort or context.',
-        },
-        {
-          name: 'Your own API key',
-          economics: 'Anthropic and OpenAI API keys: billed dollars per token.',
-          current: 'Everything above, plus an optional local gateway in sessions you launch with taksim claude or taksim codex, routing recommendations from consensus verdicts, and opt-in automatic routing for taksim claude sessions that escalates back to your model.',
-        },
-        {
-          name: 'Private and local models',
-          economics: 'Your own hardware or reserved capacity: compute and capacity, not per-token prices.',
-          current: 'Not a routing target in the current release. A local Ollama model can act as a judge, and OpenCode, Kilo Code, Pi and Cline sessions are observed whichever provider they use.',
-        },
-      ],
-      futureTitle: 'What may change, and what will not',
-      futureBody: 'Subscription routing is opt-in, off by default and limited to Claude Code on your own claude.ai login. Taksim only sets the base URL, forwards your login unchanged without reading, copying or logging it, and switches only among Claude models, never third-party ones. EdgeeTech reads Anthropic’s terms as allowing a choice among Claude models and forbidding third-party models; this is not an endorsement by Anthropic. Anthropic’s Legal and compliance page for Claude Code restricts third-party intermediation of Claude.ai credentials, so you decide whether to turn it on. Codex on a ChatGPT plan stays observe-only, because the OpenAI proxy path has not been shown to keep plan, quota and workspace controls. Provider entitlements and workspace policy stay authoritative.',
-    },
     report: {
       title: 'One command, one weekly report.',
       body: 'Run taksim dashboard to browse it locally, taksim report weekly --html for a single self-contained HTML file, or taksim digest for a one-page summary of what you could have saved. Here is the shape of the report, with sample figures.',
@@ -322,10 +423,6 @@ export const en = {
       nextActions: 'Next actions',
       unpriced: '3% of turns are unpriced',
       reviewShadow: 'Review what the shadow policy would change',
-    },
-    clients: {
-      title: 'What Taksim does with each client',
-      body: 'Taksim works inside each vendor’s terms. Claude Code on a Claude subscription is observed unless you opt in to Claude-only routing; Codex on a ChatGPT plan is only observed. Other live routing is limited to traffic billed to your own API key.',
     },
     privacy: {
       title: 'It stores the shape of your work, never the words.',
@@ -355,25 +452,8 @@ export const en = {
       subscriptionBody:
         'By default Taksim reads local history and hooks on Claude and ChatGPT plans and changes no model. Turn on `taksim routing subscription on` and `taksim claude` on a Pro, Max or Team login routes through the local gateway. Only the base URL is set; your login stays the credential, Taksim never reads, copies or logs it, and usage stays on the subscription. Taksim switches only among Claude models, and only in sessions you launch through Taksim. Codex on a ChatGPT plan is only observed.',
     },
-    pricingTitle: 'Free for developers. Paid for teams.',
-    faqTitle: 'Questions',
+    faqTitle: 'More questions',
     faq: [
-      {
-        q: 'Does Taksim change my model on a Claude or ChatGPT subscription?',
-        a: 'Not by default. On a Claude Pro, Max or Team login you can opt in with `taksim routing subscription on`; then `taksim claude` can switch among Claude models only, within your organisation’s available models, and keeps --model and /model switches away from the start model. Your login stays the credential and usage stays on the subscription. With the setting off, and always for Codex on a ChatGPT plan, Taksim only observes. Requests Taksim raises to Opus use plan quota faster.',
-      },
-      {
-        q: 'Can I use the free version at work?',
-        a: 'Yes. The CLI is free for any individual. Team features are what companies pay for.',
-      },
-      {
-        q: 'Does anything leave my machine?',
-        a: 'Not unless you choose a judge that runs remotely (your own API key or Jev) or share a team export. Remote judges receive truncated excerpts of the turns they grade. Exports contain metadata only.',
-      },
-      {
-        q: 'Is the “could have saved” number guaranteed?',
-        a: 'No. It is an estimate: it counts turns where two judges agreed a cheaper tier was sufficient, and every report shows the sample size.',
-      },
       {
         q: 'How complete is the pricing?',
         a: 'Taksim prices recorded usage at published list rates, including Claude Opus 5.5 and Fable 5.1. Models without a list price are excluded, never counted as free, and every report shows its priced coverage.',
@@ -387,11 +467,72 @@ export const en = {
         a: 'Claude Code, Codex, OpenCode, Kilo Code, Pi and Devin Desktop turns. OpenCode, Kilo Code and Pi turns are judged when they ran on Claude-tier models. GitHub Copilot, Devin CLI and Agent Workstation sessions are imported and priced, but not judged yet.',
       },
     ],
-    cta: {
-      title: 'Find out what your last week actually needed.',
-      body: 'taksim setup imports the history your clients already keep and writes your first report in one command.',
-      docs: 'Read the docs',
+  },
+
+  benchmark: {
+    eyebrow: 'Pilot benchmark',
+    title: 'How we ran the pilot.',
+    lede: 'The method, checks and caveats behind the pilot results on the home page.',
+    summaryLabel: 'In short.',
+    sections: [
+      {
+        title: 'Task set',
+        body: '29 coding tasks in 5 categories: bounded feature, bug repair, configuration migration, refactor, and research and documentation, from easy to hard. The pool had 30 tasks; one (`ho-ref-split-package`) was excluded because its failures came from the test harness, not the model.',
+      },
+      {
+        title: 'Three arms',
+        body: 'Every task ran three ways: always Opus (`claude-opus-5-5`), always Sonnet (`claude-sonnet-5-5`), and Taksim routed, which starts on Opus and lets Taksim choose. Each arm ran each task twice: 3 arms × 2 repetitions = 174 runs, 58 per arm.',
+      },
+      {
+        title: 'Acceptance checks',
+        body: 'Hidden automated checks graded every run. A run is accepted only when the scope, delivery, regression and behavior checks all pass.',
+      },
+      {
+        title: 'Cost basis',
+        body: 'Costs are API-equivalent at Anthropic list prices. The runs used a Claude Team subscription, so they consumed plan quota, not an invoice. Cost per accepted task is an arm’s total cost divided by its accepted runs.',
+      },
+      {
+        title: 'Setup: a cold start',
+        body: 'Run 2026-10-15 in two halves: the first on that day’s earlier Taksim release, the second on the current one. Each half ran in a fresh `TAKSIM_HOME` with no prior outcome history, so Taksim had nothing to learn from. Claude Code CLI on one Claude Team subscription.',
+      },
+      {
+        title: 'Results',
+        body: 'Always Opus: 52 of 58 runs accepted, $17.63 in total, $0.339 per accepted task. Always Sonnet: 53 of 58, $4.19, $0.079. Taksim routed: 54 of 58, $4.65, $0.086. Taksim served Sonnet on 56 runs and kept Opus on 2, both on the hardest documentation and permissions task, both accepted.',
+      },
+      {
+        title: 'Where runs failed',
+        body: 'Taksim routed failed 4 runs: the deduplication task twice (always Opus failed it once and always Sonnet twice), and the feature-flags and cron tasks once each.',
+      },
+      {
+        title: 'Warm re-run: setup',
+        body: 'After the cold runs, each routed run’s hidden-check result was reported to Taksim as a CI outcome (`taksim routing outcome record --source ci`), as CI does in real use. That gave 4 rejections on 3 tasks: feature-flags 1, cron 1, deduplication 2. Then only the routed arm re-ran all 29 tasks twice, 58 runs, in the same Taksim homes, now with that history.',
+      },
+      {
+        title: 'Warm re-run: results',
+        body: 'On the 3 corrected tasks, Taksim kept Opus every time (`OUTCOME_LEARNED_KEEP_START`, scope `TASK`) and all 6 runs passed: rejected runs on those tasks went from 4 cold to 0 warm. Overall the routed arm stayed at 54 of 58 accepted, because Sonnet missed 4 runs on 3 other tasks that had passed cold (resolver 2, shipping-registry 1, rename-kwarg 1). That is Sonnet’s run-to-run variance, and those misses would in turn be learned. Opus served 8 of 58 warm runs (2 cold). Cost was $4.98 (cold $4.65), still 72% below always-Opus at $17.63; $0.092 per accepted task.',
+      },
+      {
+        title: 'What learning does and does not do',
+        body: 'Learning keeps a corrected task on the stronger model. It does not make that model succeed more often: the ceiling for a corrected task is the stronger model’s own acceptance, and the overall gap does not close by itself. The warm re-run is part of the same internal pilot, not an independent benchmark.',
+      },
+      {
+        title: 'Caveats',
+        body: 'Internal pilot, not an independent benchmark. Results hold for this pilot only. Taksim only switches between Claude models, never to third-party models.',
+      },
+    ],
+    learn: {
+      title: 'How routing learns from outcomes',
+      body: 'The learning loop on the home page, in more detail.',
+      items: [
+        'One tier at most: when the task fits, the first real request steps down from Opus to Sonnet; otherwise the start model stays.',
+        'Rejections are recorded without a command: a failing CI run, an evaluator, an in-session judge verdict, or a correction reply such as “No, that’s wrong” (Turkish or English). You can also report one with `taksim routing outcome record --session <id> --result rejected`.',
+        'After a rejection, Taksim keeps the start model the next time the same task starts, and for a repo or task class once there is enough evidence.',
+        'Three acceptances outweigh one rejection. Evidence older than 14 days ages out.',
+        'Only a keyed task fingerprint is stored, never prompt or response text. `taksim routing outcome list` shows what was recorded and `taksim memory forget` clears it.',
+        'Learning applies only where Taksim routes: `taksim claude` sessions on your own API key, or on a Claude subscription after you opt in with `taksim routing subscription on`.',
+      ],
     },
+    back: 'Back to the results',
   },
 
   ledger: {
@@ -660,6 +801,8 @@ export const en = {
         links: [
           ['Welcome to Taksim', '/docs'],
           ['How Taksim works', '/docs#how-taksim-works'],
+          ['Step by step', '/how-it-works'],
+          ['Pilot benchmark', '/benchmark'],
         ],
       },
       {
@@ -696,6 +839,7 @@ export const en = {
       {
         title: 'Clients',
         links: [
+          ['Full client table', '/clients'],
           ['Claude Code', '/docs#client-compatibility'],
           ['Codex', '/docs#client-compatibility'],
           ['GitHub Copilot', '/docs#client-compatibility'],
