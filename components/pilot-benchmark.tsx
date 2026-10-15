@@ -1,5 +1,6 @@
+import Link from 'next/link';
 import { Rich } from '@/components/rich';
-import type { Dictionary, Locale } from '@/lib/i18n';
+import { localePath, type Dictionary, type Locale } from '@/lib/i18n';
 
 type PilotCopy = Dictionary['home']['pilot'];
 
@@ -293,7 +294,12 @@ export function PilotBenchmark({
           </figure>
         </section>
 
-        <p className="pilot-footnote">{t.footnote}</p>
+        <p className="pilot-footnote">
+          {t.note}{' '}
+          <Link className="text-link" href={localePath(locale, '/benchmark')}>
+            {t.methodLink} →
+          </Link>
+        </p>
       </div>
     </section>
   );

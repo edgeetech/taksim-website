@@ -1396,37 +1396,40 @@ h3 {
   gap: 12px;
   margin-top: 36px;
 }
-.hero-footnote {
-  margin: 22px 0 0;
-  color: var(--muted);
-  font-size: 0.88rem;
-}
 .hero-trust {
   margin: 18px 0 0;
   color: var(--muted);
   font-size: 0.92rem;
 }
-.hero-free {
-  margin-top: 22px;
-  padding: 16px 18px;
-  border: 1px solid var(--line);
-  border-left: 2px solid var(--turquoise);
-  border-radius: 12px;
-  background: var(--surface);
-}
-.hero-free strong {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 0.95rem;
-}
-.hero-free ul {
-  margin: 0;
-  padding-left: 18px;
-  color: var(--muted);
-  font-size: 0.9rem;
-}
 .first-value .how-intro .btn {
   margin-top: 18px;
+}
+.section-more {
+  margin: 28px 0 0;
+}
+.section-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+.how-intro .text-link {
+  display: inline-block;
+  margin-top: 14px;
+}
+.client-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.client-strip li {
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 0.92rem;
 }
 .modes {
   padding: 88px 0;

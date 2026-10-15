@@ -191,14 +191,13 @@ test('makes Get Taksim free the primary CTA and sends it to the easy install', a
     );
   }
   assert.match(en.home.hero.trust, /No Taksim account/);
-  assert.equal(en.home.hero.freeValue.length, 3);
 });
 
 test('shows a first-value path built only from released commands', async () => {
   const { en } = await import('../lib/i18n/en.ts');
   const manifest = JSON.parse(await source('release/manifest.json'));
   const commands = new Set(manifest.commands);
-  const steps = en.home.firstValue.steps;
+  const steps = en.howItWorks.firstValue.steps;
   assert.equal(steps.length, 6);
   for (const step of steps.filter((s) => s.detail)) {
     const words = step.detail.replace(/^taksim /, '').split(' ').filter((w) => !w.startsWith('--'));
@@ -210,6 +209,10 @@ test('shows a first-value path built only from released commands', async () => {
     steps.map((s) => s.detail).filter(Boolean),
     ['taksim setup', 'taksim history import', 'taksim dashboard', 'taksim report weekly', 'taksim judge enable --in-session'],
   );
+  for (const step of en.home.how.steps) {
+    const words = step.detail.replace(/^taksim /, '').split(' ').filter((w) => !w.startsWith('--'));
+    assert.ok(commands.has(words.join(' ')) || commands.has(words[0]), step.detail);
+  }
 });
 
 test('describes the subscription boundary as current release behaviour, not a permanent rule', async () => {
@@ -275,8 +278,8 @@ test('shows the internal pilot benchmark high on the home page with exact, quali
     'after the values band',
   );
   assert.ok(
-    home.indexOf('<PilotBenchmark') < home.indexOf('first-value'),
-    'before first value',
+    home.indexOf('<PilotBenchmark') < home.indexOf('id="how-it-works"'),
+    'before how it works',
   );
   const flat = pilot.replace(/\s+/g, ' ');
   for (const figure of [
