@@ -163,7 +163,7 @@ test('the client matrix claims nothing the release does not do', async () => {
           client.judge,
           `${row.id}: ${id} is not judged in ${manifest.tag}`,
         );
-      if (row.cells.route === 'yes') {
+      if ((row.cells.route === 'yes' || row.cells.route === 'optIn')) {
         assert.equal(
           client.route,
           'api-key',

@@ -111,7 +111,7 @@ test('states subscription traffic is observed by default and Claude routing is o
   assert.match(copy, /Does Taksim change my model on a Claude or ChatGPT subscription\?/);
   assert.match(copy, /routing subscription on/);
   assert.match(copy, /Claude models only/);
-  assert.match(llms, /`Authorization` is forwarded unchanged/);
+  assert.match(llms, /forwards `Authorization` unchanged and never reads, copies or logs it/);
   for (const text of [copy, await source('lib/i18n/tr.ts'), llms]) {
     assert.doesNotMatch(text, /TAKSIM_ALLOW_SUBSCRIPTION_REWRITE/);
     assert.doesNotMatch(text, /power users/i);
@@ -227,7 +227,8 @@ test('describes the subscription boundary as current release behaviour, not a pe
   assert.match(en.docs.subscriptions.title, /opt-in/);
   assert.match(en.docs.subscriptions.body, /Only `ANTHROPIC_BASE_URL` is set/);
   assert.match(en.docs.subscriptions.body, /never reads, copies or logs it/);
-  assert.match(en.docs.subscriptions.body2, /not invoice dollars/);
+  assert.match(en.docs.subscriptions.body2, /reported as plan quota/);
+  assert.match(en.docs.subscriptions.body3, /restricts third-party intermediation of Claude.ai credentials/);
   assert.match(await source('components/pages/terms.tsx'), /routing is opt-in and off by\s+default/);
 });
 

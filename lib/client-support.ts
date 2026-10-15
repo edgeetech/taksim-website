@@ -6,7 +6,7 @@
 
 export type Capability = 'observe' | 'judge' | 'gateway' | 'context' | 'route';
 
-export type SupportState = 'yes' | 'no' | 'unverified';
+export type SupportState = 'yes' | 'no' | 'unverified' | 'optIn';
 
 export type ClientRowId =
   | 'claudeCodePlan'
@@ -40,7 +40,7 @@ export const clientSupport: ClientSupportRow[] = [
     id: 'claudeCodePlan',
     manifestClients: ['claude'],
     billing: 'plan',
-    cells: { observe: 'yes', judge: 'yes', gateway: 'yes', context: 'no', route: 'yes' },
+    cells: { observe: 'yes', judge: 'yes', gateway: 'optIn', context: 'no', route: 'optIn' },
   },
   {
     id: 'claudeDesktop',
