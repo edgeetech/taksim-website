@@ -213,7 +213,7 @@ export const en = {
         {
           name: 'Subscription plans',
           economics: 'Claude and ChatGPT plans: included usage and quota windows. Shown as API-equivalent list price, labelled as quota, never as billed dollars.',
-          current: 'Observed from local history and hooks, with quota readings and judging. Claude Code on a Pro, Max or Team login can opt in to Claude-only model switching (`routing subscription on`); otherwise requests go straight from your client to the provider and Taksim changes no model, effort or context.',
+          current: 'Observed from local history and hooks, with quota readings and judging. Claude Code on a Pro, Max or Team login can opt in to Claude-only model switching (`taksim routing subscription on`); otherwise requests go straight from your client to the provider and Taksim changes no model, effort or context.',
         },
         {
           name: 'Your own API key',
@@ -281,14 +281,14 @@ export const en = {
       ],
       subscriptionTitle: 'On a Claude subscription, routing is opt-in',
       subscriptionBody:
-        'By default Taksim reads local history and hooks on Claude and ChatGPT plans and changes no model. Turn on `routing subscription on` and `taksim claude` on a Pro, Max or Team login routes through the local gateway. Only the base URL is set; your login stays the credential, Taksim never reads, copies or logs it, and usage stays on the subscription. Taksim switches only among Claude models, and only in sessions you launch through Taksim. Codex on a ChatGPT plan is only observed.',
+        'By default Taksim reads local history and hooks on Claude and ChatGPT plans and changes no model. Turn on `taksim routing subscription on` and `taksim claude` on a Pro, Max or Team login routes through the local gateway. Only the base URL is set; your login stays the credential, Taksim never reads, copies or logs it, and usage stays on the subscription. Taksim switches only among Claude models, and only in sessions you launch through Taksim. Codex on a ChatGPT plan is only observed.',
     },
     pricingTitle: 'Free for developers. Paid for teams.',
     faqTitle: 'Questions',
     faq: [
       {
         q: 'Does Taksim change my model on a Claude or ChatGPT subscription?',
-        a: 'Not by default. On a Claude Pro, Max or Team login you can opt in with `routing subscription on`; then `taksim claude` can switch among Claude models only, within your organisation’s available models, and keeps any model you pick with --model or /model. Your login stays the credential and usage stays on the subscription. With the setting off, and always for Codex on a ChatGPT plan, Taksim only observes. Requests Taksim raises to Opus use plan quota faster.',
+        a: 'Not by default. On a Claude Pro, Max or Team login you can opt in with `taksim routing subscription on`; then `taksim claude` can switch among Claude models only, within your organisation’s available models, and keeps any model you pick with --model or /model. Your login stays the credential and usage stays on the subscription. With the setting off, and always for Codex on a ChatGPT plan, Taksim only observes. Requests Taksim raises to Opus use plan quota faster.',
       },
       {
         q: 'Can I use the free version at work?',
@@ -391,7 +391,7 @@ export const en = {
       },
       {
         q: 'Does Taksim change my model on a Claude or ChatGPT subscription?',
-        a: 'Not by default. On a Claude Pro, Max or Team login you can opt in with `routing subscription on`; then `taksim claude` can switch among Claude models only, within your organisation’s available models, and keeps any model you pick with --model or /model. Your login stays the credential and usage stays on the subscription. With the setting off, and always for Codex on a ChatGPT plan, Taksim only observes. Requests Taksim raises to Opus use plan quota faster.',
+        a: 'Not by default. On a Claude Pro, Max or Team login you can opt in with `taksim routing subscription on`; then `taksim claude` can switch among Claude models only, within your organisation’s available models, and keeps any model you pick with --model or /model. Your login stays the credential and usage stays on the subscription. With the setting off, and always for Codex on a ChatGPT plan, Taksim only observes. Requests Taksim raises to Opus use plan quota faster.',
       },
       {
         q: 'Is the “could have saved” number guaranteed?',
@@ -445,7 +445,7 @@ export const en = {
         access: 'Free, Pro, Max, Team or Enterprise plan',
         observe: 'History import, hooks and status line.',
         judge: '',
-        gateway: 'Opt-in (`routing subscription on`) on a Pro, Max or Team login; off by default, otherwise launched natively.',
+        gateway: 'Opt-in (`taksim routing subscription on`) on a Pro, Max or Team login; off by default, otherwise launched natively.',
         context: '',
         route: 'Opt-in, Claude models only; your login stays the credential.',
       },
@@ -722,7 +722,7 @@ export const en = {
         },
         {
           term: 'Routing recommendations',
-          body: 'For API-key traffic, `routing recommend` turns consensus verdicts into a suggested default tier per repo, task class and client. Opt-in `routing auto` applies it to fresh contexts in `taksim claude` sessions and escalates back to your model on failure signals. On a Claude subscription, routing is a separate opt-in (`routing subscription on`). Codex plans are not routed.',
+          body: 'For API-key traffic, `routing recommend` turns consensus verdicts into a suggested default tier per repo, task class and client. Opt-in `routing auto` applies it to fresh contexts in `taksim claude` sessions and escalates back to your model on failure signals. On a Claude subscription, routing is a separate opt-in (`taksim routing subscription on`). Codex plans are not routed.',
         },
       ],
     },
@@ -735,7 +735,7 @@ export const en = {
     },
     subscriptions: {
       title: 'Subscriptions: observed by default, Claude routing is opt-in',
-      body: 'By default, if Claude Code is authenticated with a Claude subscription, Taksim does not rewrite the model: `taksim claude` launches Claude Code natively and observes it from local transcripts and hooks. Turn on `routing subscription on` (off by default) and `taksim claude` on a claude.ai login (Pro, Max or Team) routes through the local gateway. Only `ANTHROPIC_BASE_URL` is set, your login stays the credential, Taksim never reads, copies or logs it, `Authorization` is forwarded unchanged, and usage stays on the subscription as quota, not invoiced. Taksim switches only among Claude models, within your organisation’s `availableModels`, keeps any model you choose with `--model` or `/model`, and falls back to the original request if anything is unsafe. Codex on a ChatGPT plan stays observed from its local session history.',
+      body: 'By default, if Claude Code is authenticated with a Claude subscription, Taksim does not rewrite the model: `taksim claude` launches Claude Code natively and observes it from local transcripts and hooks. Turn on `taksim routing subscription on` (off by default) and `taksim claude` on a claude.ai login (Pro, Max or Team) routes through the local gateway. Only `ANTHROPIC_BASE_URL` is set, your login stays the credential, Taksim never reads, copies or logs it, `Authorization` is forwarded unchanged, and usage stays on the subscription as quota, not invoiced. Taksim switches only among Claude models, within your organisation’s `availableModels`, keeps any model you choose with `--model` or `/model`, and falls back to the original request if anything is unsafe. Codex on a ChatGPT plan stays observed from its local session history.',
       body2:
         'Subscription usage is shown as API-equivalent list-price dollars, labelled as quota, not billed. With routing on, the first real request of a session is chosen by task fit, so an Opus default can step down to Sonnet for work Sonnet handles, and it escalates on failure evidence; warm-cache sessions stay sticky. For subscription users the benefit is quota and limits, not invoice dollars, and requests Taksim raises to Opus use plan quota faster. The baseline report (`taksim report baseline`) and judge verdicts on finished turns remain available either way.',
       body3:
@@ -930,7 +930,7 @@ export const en = {
       body: 'You can keep running `claude`, `codex` and your other clients exactly as before; Taksim reads their history. To let Taksim launch Claude Code or Codex with its hooks and status line (and optional routing), run one of these. Arguments for the native client can follow the command.',
       expectTitle: 'What to expect',
       expectBody:
-        'On a Claude or ChatGPT subscription, Taksim starts the client natively and observes it; Claude Code subscription traffic passes through Taksim only if you opt in with `routing subscription on`. With an API key, Taksim prepares its local gateway on `127.0.0.1` first; if the managed path is unavailable, the client falls back to its native behaviour. The ledger stays local. Update and pricing checks use the network; optional remote judges and configured notifications or exports send selected data. Your coding client still connects to its own provider.',
+        'On a Claude or ChatGPT subscription, Taksim starts the client natively and observes it; Claude Code subscription traffic passes through Taksim only if you opt in with `taksim routing subscription on`. With an API key, Taksim prepares its local gateway on `127.0.0.1` first; if the managed path is unavailable, the client falls back to its native behaviour. The ledger stays local. Update and pricing checks use the network; optional remote judges and configured notifications or exports send selected data. Your coding client still connects to its own provider.',
     },
     inspect: {
       title: '7. Inspect the latest session',
@@ -1019,7 +1019,7 @@ export const en = {
       auto:
         '`routing auto on` (off by default) applies a recommended downgrade only when a fresh context starts in a session you launched with `taksim claude`, such as a new session or a subagent. It never switches a conversation that is already running, and your pins, budgets and native `/model` choices still win.',
       escalation:
-        'When a downgraded turn shows signs of trouble (tool, test or build failures, a retry or correction, an upstream error), Taksim goes back to the model you asked for and stays there for that phase. A downgraded call that fails before any response reaches you is retried once on your model. `diagnostics downgrades` shows every downgrade and escalation. Claude subscription routing is a separate opt-in (`routing subscription on`); ChatGPT plans are observed only.',
+        'When a downgraded turn shows signs of trouble (tool, test or build failures, a retry or correction, an upstream error), Taksim goes back to the model you asked for and stays there for that phase. A downgraded call that fails before any response reaches you is retried once on your model. `diagnostics downgrades` shows every downgrade and escalation. Claude subscription routing is a separate opt-in (`taksim routing subscription on`); ChatGPT plans are observed only.',
     },
     team: {
       title: 'Team roll-up',
