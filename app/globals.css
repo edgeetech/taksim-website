@@ -2727,6 +2727,15 @@ h3 {
   color: var(--muted);
   font-size: 0.6em;
 }
+.pilot-cold {
+  margin: 20px 0 0;
+  padding: 12px 14px;
+  border-left: 2px solid var(--purple);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
 .pilot-kpis .pilot-kpi-sub {
   margin-top: 8px;
   color: var(--muted);
@@ -2828,7 +2837,8 @@ h3 {
 }
 .arm-dots {
   display: grid;
-  grid-template-columns: repeat(30, minmax(0, 1fr));
+  /* 58 runs per arm: two rows of 29 */
+  grid-template-columns: repeat(29, minmax(0, 1fr));
   gap: 2px;
 }
 .arm-dots i {
@@ -2857,7 +2867,7 @@ h3 {
 }
 .mix-strip {
   display: flex;
-  gap: 4px;
+  gap: 2px;
   height: 34px;
 }
 .mix-strip i {
@@ -3224,7 +3234,7 @@ h3 {
     grid-row: 2;
   }
   .mix-strip {
-    gap: 2px;
+    gap: 1px;
     height: 28px;
   }
   .loop {

@@ -137,7 +137,7 @@ export const en = {
     ],
     pilot: {
       tag: 'Internal pilot',
-      eyebrow: '15 coding tasks · 90 runs · our own Claude Team subscription',
+      eyebrow: '29 coding tasks · 174 runs · our own Claude Team subscription',
       title: '74% lower cost. More tasks accepted.',
       lede: 'We ran the same coding tasks three ways: always Opus, always Sonnet, and Taksim choosing. Hidden automated checks graded every run.',
       bigCaption: 'lower cost than always-Opus',
@@ -145,8 +145,9 @@ export const en = {
       kpiAccepted: 'Accepted with Taksim routing',
       kpiAcceptedSub: 'Always-Opus: {n}',
       kpiPerAccepted: 'Cost per accepted task',
+      coldStart: 'This was a cold start: no history, no feedback. Taksim learns from the tasks you correct.',
       chart: {
-        title: 'Three arms, 30 runs each',
+        title: 'Three arms, 58 runs each',
         subtitle:
           'Accepted = scope, delivery, regression and behavior checks all pass',
         arms: {
@@ -162,7 +163,7 @@ export const en = {
       },
       mix: {
         title: 'What Taksim served',
-        body: 'Sonnet on 28 of 30 runs. Opus kept on 2, both on the hardest documentation and permissions task, both accepted.',
+        body: 'Sonnet on 56 of 58 runs. Opus kept on 2, both on the hardest documentation and permissions task, both accepted.',
         label:
           'Taksim runs: {sonnet} on Sonnet, {opus} on Opus, out of {total}.',
       },
@@ -205,7 +206,7 @@ export const en = {
           'Live-verified 2026-10-15: a correction on resume was recorded automatically, and the next run of the same task stayed on Opus.',
       },
       footnote:
-        'Internal pilot, not an independent benchmark. Run 2026-10-15 on that day’s Taksim release, Claude Code CLI on one Claude Team subscription. 15 tasks in 5 categories (bounded feature, bug repair, configuration migration, refactor, research and documentation), easy to hard; 3 arms × 2 repetitions = 90 runs. Results hold for this pilot only; the second half of the task set, 14 more tasks, is still to run. Costs are API-equivalent at Anthropic list prices; on a subscription they are plan quota, not an invoice. Taksim only switches between Claude models.',
+        'Internal pilot, not an independent benchmark. Run 2026-10-15 in two halves, the first on that day’s earlier Taksim release and the second on the current one, with Claude Code CLI on one Claude Team subscription. Each half was a cold start, with no prior outcome history. 29 tasks in 5 categories (bounded feature, bug repair, configuration migration, refactor, research and documentation), easy to hard; 3 arms × 2 repetitions = 174 runs. One task of the 30-task pool was excluded as a test harness artifact. Results hold for this pilot only. Costs are API-equivalent at Anthropic list prices; on a subscription they are plan quota, not an invoice. Taksim only switches between Claude models.',
       note: 'Internal pilot, not an independent benchmark. Costs are API-equivalent list prices; Taksim only switches between Claude models.',
       methodLink: 'Method, task set and caveats',
     },
@@ -464,11 +465,11 @@ export const en = {
     sections: [
       {
         title: 'Task set',
-        body: '15 coding tasks in 5 categories: bounded feature, bug repair, configuration migration, refactor, and research and documentation, from easy to hard. The second half of the task set, 14 more tasks, is still to run.',
+        body: '29 coding tasks in 5 categories: bounded feature, bug repair, configuration migration, refactor, and research and documentation, from easy to hard. The pool had 30 tasks; one (`ho-ref-split-package`) was excluded because its failures came from the test harness, not the model.',
       },
       {
         title: 'Three arms',
-        body: 'Every task ran three ways: always Opus (`claude-opus-5-5`), always Sonnet (`claude-sonnet-5-5`), and Taksim routed, which starts on Opus and lets Taksim choose. Each arm ran each task twice: 3 arms × 2 repetitions = 90 runs, 30 per arm.',
+        body: 'Every task ran three ways: always Opus (`claude-opus-5-5`), always Sonnet (`claude-sonnet-5-5`), and Taksim routed, which starts on Opus and lets Taksim choose. Each arm ran each task twice: 3 arms × 2 repetitions = 174 runs, 58 per arm.',
       },
       {
         title: 'Acceptance checks',
@@ -479,8 +480,16 @@ export const en = {
         body: 'Costs are API-equivalent at Anthropic list prices. The runs used a Claude Team subscription, so they consumed plan quota, not an invoice. Cost per accepted task is an arm’s total cost divided by its accepted runs.',
       },
       {
-        title: 'Setup',
-        body: 'Run 2026-10-15 on that day’s Taksim release, with Claude Code CLI on one Claude Team subscription.',
+        title: 'Setup: a cold start',
+        body: 'Run 2026-10-15 in two halves: the first on that day’s earlier Taksim release, the second on the current one. Each half ran in a fresh `TAKSIM_HOME` with no prior outcome history, so Taksim had nothing to learn from. Claude Code CLI on one Claude Team subscription.',
+      },
+      {
+        title: 'Results',
+        body: 'Always Opus: 52 of 58 runs accepted, $17.63 in total, $0.339 per accepted task. Always Sonnet: 53 of 58, $4.19, $0.079. Taksim routed: 54 of 58, $4.65, $0.086. Taksim served Sonnet on 56 runs and kept Opus on 2, both on the hardest documentation and permissions task, both accepted.',
+      },
+      {
+        title: 'Where runs failed',
+        body: 'Taksim routed failed 4 runs: the deduplication task twice (always Opus failed it once and always Sonnet twice), and the feature-flags and cron tasks once each.',
       },
       {
         title: 'Caveats',

@@ -283,12 +283,13 @@ test('shows the internal pilot benchmark high on the home page with exact, quali
   );
   const flat = pilot.replace(/\s+/g, ' ');
   for (const figure of [
-    "accepted: 25, cost: '8.96', perAccepted: '0.358'",
-    "accepted: 27, cost: '1.99', perAccepted: '0.074'",
-    "accepted: 29, cost: '2.33', perAccepted: '0.080'",
+    'const runsPerArm = 58;',
+    "accepted: 52, cost: '17.63', perAccepted: '0.339'",
+    "accepted: 53, cost: '4.19', perAccepted: '0.079'",
+    "accepted: 54, cost: '4.65', perAccepted: '0.086'",
     'const costSaving = 74;',
-    'const perAcceptedSaving = 78;',
-    'const servedSonnet = 28;',
+    'const perAcceptedSaving = 75;',
+    'const servedSonnet = 56;',
     'const userReplyRelease = [0, 3, 11];',
   ]) {
     assert.ok(flat.includes(figure), figure);
@@ -304,7 +305,13 @@ test('shows the internal pilot benchmark high on the home page with exact, quali
     /İç pilot; bağımsız bir benchmark değildir/,
   );
   assert.match(en.home.pilot.footnote, /plan quota, not an invoice/);
-  assert.match(en.home.pilot.footnote, /14 more tasks, is still to run/);
+  assert.match(en.home.pilot.footnote, /cold start, with no prior outcome history/);
+  assert.doesNotMatch(en.home.pilot.footnote, /still to run/);
+  for (const dict of [en, tr]) assert.ok(dict.home.pilot.coldStart);
+  assert.match(en.home.pilot.note, /^Internal pilot, not an independent benchmark/);
+  assert.match(tr.home.pilot.note, /^İç pilot; bağımsız bir benchmark değildir/);
+  assert.ok(pilot.includes('{t.note}'), 'the pilot label stays visible on the home page');
+  assert.ok(pilot.includes("localePath(locale, '/benchmark')"), 'links to the method page');
   assert.match(en.home.pilot.footnote, /only switches between Claude models/);
   assert.equal(en.home.pilot.learn.steps.length, 4);
   for (const dict of [en, tr])

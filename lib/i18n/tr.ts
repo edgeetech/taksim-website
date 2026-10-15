@@ -137,7 +137,7 @@ export const tr: Dictionary = {
     ],
     pilot: {
       tag: 'İç pilot',
-      eyebrow: '15 kodlama görevi · 90 koşu · kendi Claude Team aboneliğimiz',
+      eyebrow: '29 kodlama görevi · 174 koşu · kendi Claude Team aboneliğimiz',
       title: '%74 daha düşük maliyet. Daha çok kabul edilen görev.',
       lede: 'Aynı kodlama görevlerini üç şekilde koştuk: hep Opus, hep Sonnet ve seçimi Taksim’e bırakarak. Her koşuyu gizli otomatik kontroller notladı.',
       bigCaption: 'hep Opus’a göre daha düşük maliyet',
@@ -145,8 +145,9 @@ export const tr: Dictionary = {
       kpiAccepted: 'Taksim yönlendirmesiyle kabul',
       kpiAcceptedSub: 'Hep Opus: {n}',
       kpiPerAccepted: 'Kabul edilen görev başına maliyet',
+      coldStart: 'Bu bir soğuk başlangıçtı: geçmiş yok, geri bildirim yok. Taksim düzelttiğiniz görevlerden öğrenir.',
       chart: {
-        title: 'Üç kol, her biri 30 koşu',
+        title: 'Üç kol, her biri 58 koşu',
         subtitle:
           'Kabul = kapsam, teslim, regresyon ve davranış kontrollerinin hepsi geçti',
         arms: {
@@ -162,7 +163,7 @@ export const tr: Dictionary = {
       },
       mix: {
         title: 'Taksim neyi seçti',
-        body: '30 koşunun 28’inde Sonnet. Opus yalnızca 2 koşuda kaldı; ikisi de en zor dokümantasyon ve izin görevindeydi, ikisi de kabul edildi.',
+        body: '58 koşunun 56’sında Sonnet. Opus yalnızca 2 koşuda kaldı; ikisi de en zor dokümantasyon ve izin görevindeydi, ikisi de kabul edildi.',
         label:
           'Taksim koşuları: {total} koşudan {sonnet} tanesi Sonnet, {opus} tanesi Opus.',
       },
@@ -205,7 +206,7 @@ export const tr: Dictionary = {
           '2026-10-15’te canlı doğrulandı: resume sırasında yapılan düzeltme otomatik olarak kaydedildi ve aynı görevin sonraki koşusu Opus’ta kaldı.',
       },
       footnote:
-        'İç pilot; bağımsız bir benchmark değildir. 2026-10-15’te o günkü Taksim sürümüyle, tek bir Claude Team aboneliğinde Claude Code CLI. 5 kategoride 15 görev (sınırlı özellik, hata onarımı, yapılandırma geçişi, refactor, araştırma ve dokümantasyon), kolaydan zora; 3 kol × 2 tekrar = 90 koşu. Sonuçlar yalnızca bu pilot için geçerlidir; görev setinin ikinci yarısı, 14 görev daha, henüz koşulmadı. Maliyetler Anthropic liste fiyatlarıyla API eşdeğeridir; subscription’da bunlar fatura değil, plan kotasıdır. Taksim yalnızca Claude modelleri arasında geçiş yapar.',
+        'İç pilot; bağımsız bir benchmark değildir. 2026-10-15’te iki yarıda koşuldu: ilki o günün daha önceki Taksim sürümüyle, ikincisi mevcut sürümle; tek bir Claude Team aboneliğinde Claude Code CLI. Her yarı soğuk başladı, önceden kaydedilmiş hiçbir sonuç geçmişi yoktu. 5 kategoride 29 görev (sınırlı özellik, hata onarımı, yapılandırma geçişi, refactor, araştırma ve dokümantasyon), kolaydan zora; 3 kol × 2 tekrar = 174 koşu. 30 görevlik havuzdan bir görev, test düzeneğinden kaynaklandığı için dışarıda bırakıldı. Sonuçlar yalnızca bu pilot için geçerlidir. Maliyetler Anthropic liste fiyatlarıyla API eşdeğeridir; subscription’da bunlar fatura değil, plan kotasıdır. Taksim yalnızca Claude modelleri arasında geçiş yapar.',
       note: 'İç pilot; bağımsız bir benchmark değildir. Maliyetler API eşdeğeri liste fiyatlarıdır; Taksim yalnızca Claude modelleri arasında geçiş yapar.',
       methodLink: 'Yöntem, görev seti ve sınırlar',
     },
@@ -464,11 +465,11 @@ export const tr: Dictionary = {
     sections: [
       {
         title: 'Görev seti',
-        body: '5 kategoride 15 kodlama görevi: sınırlı özellik, hata onarımı, yapılandırma geçişi, refactor ve araştırma ile dokümantasyon; kolaydan zora. Görev setinin ikinci yarısı, 14 görev daha, henüz koşulmadı.',
+        body: '5 kategoride 29 kodlama görevi: sınırlı özellik, hata onarımı, yapılandırma geçişi, refactor ve araştırma ile dokümantasyon; kolaydan zora. Havuzda 30 görev vardı; biri (`ho-ref-split-package`), başarısızlıkları modelden değil test düzeneğinden kaynaklandığı için dışarıda bırakıldı.',
       },
       {
         title: 'Üç kol',
-        body: 'Her görev üç şekilde koşuldu: hep Opus (`claude-opus-5-5`), hep Sonnet (`claude-sonnet-5-5`) ve Opus’tan başlayıp seçimi Taksim’e bırakan Taksim yönlendirmesi. Her kol her görevi iki kez koştu: 3 kol × 2 tekrar = 90 koşu, kol başına 30.',
+        body: 'Her görev üç şekilde koşuldu: hep Opus (`claude-opus-5-5`), hep Sonnet (`claude-sonnet-5-5`) ve Opus’tan başlayıp seçimi Taksim’e bırakan Taksim yönlendirmesi. Her kol her görevi iki kez koştu: 3 kol × 2 tekrar = 174 koşu, kol başına 58.',
       },
       {
         title: 'Kabul kontrolleri',
@@ -479,8 +480,16 @@ export const tr: Dictionary = {
         body: 'Maliyetler Anthropic liste fiyatlarıyla API eşdeğeridir. Koşular bir Claude Team aboneliğinde yapıldı; yani fatura değil, plan kotası tükettiler. Kabul edilen görev başına maliyet, bir kolun toplam maliyetinin kabul edilen koşu sayısına bölümüdür.',
       },
       {
-        title: 'Ortam',
-        body: '2026-10-15’te o günkü Taksim sürümüyle, tek bir Claude Team aboneliğinde Claude Code CLI ile koşuldu.',
+        title: 'Ortam: soğuk başlangıç',
+        body: '2026-10-15’te iki yarıda koşuldu: ilki o günün daha önceki Taksim sürümüyle, ikincisi mevcut sürümle. Her yarı, önceden sonuç geçmişi olmayan yeni bir `TAKSIM_HOME` içinde çalıştı; yani Taksim’in öğrenebileceği bir şey yoktu. Tek bir Claude Team aboneliğinde Claude Code CLI.',
+      },
+      {
+        title: 'Sonuçlar',
+        body: 'Hep Opus: 58 koşunun 52’si kabul, toplam $17.63, kabul edilen görev başına $0.339. Hep Sonnet: 58’de 53, $4.19, $0.079. Taksim yönlendirmesi: 58’de 54, $4.65, $0.086. Taksim 56 koşuda Sonnet’i seçti, 2 koşuda Opus’u korudu; ikisi de en zor dokümantasyon ve izin görevindeydi, ikisi de kabul edildi.',
+      },
+      {
+        title: 'Başarısız koşular',
+        body: 'Taksim yönlendirmesi 4 koşuda başarısız oldu: tekilleştirme görevinde iki kez (hep Opus bu görevde bir kez, hep Sonnet iki kez başarısız oldu), feature-flags ve cron görevlerinde birer kez.',
       },
       {
         title: 'Sınırlar',
