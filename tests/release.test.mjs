@@ -169,21 +169,23 @@ test('the client matrix claims nothing the release does not do', async () => {
           'api-key',
           `${row.id}: ${id} is not routed in ${manifest.tag}`,
         );
-        assert.equal(
-          row.billing,
-          'apiKey',
-          `${row.id}: routing is only for API-key traffic`,
+        assert.ok(
+          row.billing === 'apiKey' || row.id === 'claudeCodePlan',
+          `${row.id}: routing is only for API-key traffic and opt-in Claude Code subscription routing`,
         );
       }
     }
-    if (row.billing !== 'apiKey')
+    if (row.billing !== 'apiKey' && row.id !== 'claudeCodePlan')
       assert.equal(
         row.cells.route,
         'no',
-        `${row.id}: only API-key traffic is routed`,
+        `${row.id}: only API-key traffic and opt-in Claude Code subscription traffic is routed`,
       );
     if (row.cells.gateway === 'yes')
-      assert.equal(row.billing, 'apiKey', `${row.id}: the gateway carries API-key traffic only`);
+      assert.ok(
+        row.billing === 'apiKey' || row.id === 'claudeCodePlan',
+        `${row.id}: the gateway carries API-key and opt-in Claude subscription traffic only`,
+      );
     assert.equal(row.cells.context, 'no', `${row.id}: no release ships context optimisation yet`);
   }
 });

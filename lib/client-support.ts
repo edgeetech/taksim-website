@@ -1,7 +1,7 @@
 // Single source of truth for the client support matrix on the home page.
 // Keep conservative: only mark a capability "yes" once the release manifest (release/manifest.json)
 // says the shipped binary does it; tests/release.test.mjs enforces this. No released client has
-// context optimisation yet, and the gateway carries API-key traffic only.
+// context optimisation yet, and the gateway carries API-key traffic, plus opt-in Claude subscription traffic (routing.subscription).
 // Labels and notes live in lib/i18n (matrix.rows.<id>); this file holds the facts.
 
 export type Capability = 'observe' | 'judge' | 'gateway' | 'context' | 'route';
@@ -28,7 +28,7 @@ export type ClientSupportRow = {
   id: ClientRowId;
   /** `history import --client` ids from the release manifest this row describes. */
   manifestClients: string[];
-  /** plan: vendor subscription sign-in (observe-only); apiKey: your own key; own: whichever provider you configure. */
+  /** plan: vendor subscription sign-in (observe-only, except opt-in Claude Code routing); apiKey: your own key; own: whichever provider you configure. */
   billing: 'plan' | 'apiKey' | 'own';
   cells: Record<Capability, SupportState>;
 };
@@ -40,7 +40,7 @@ export const clientSupport: ClientSupportRow[] = [
     id: 'claudeCodePlan',
     manifestClients: ['claude'],
     billing: 'plan',
-    cells: { observe: 'yes', judge: 'yes', gateway: 'no', context: 'no', route: 'no' },
+    cells: { observe: 'yes', judge: 'yes', gateway: 'yes', context: 'no', route: 'yes' },
   },
   {
     id: 'claudeDesktop',
