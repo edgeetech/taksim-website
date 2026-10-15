@@ -2049,7 +2049,8 @@ h3 {
 .matrix-cell.is-no .matrix-state {
   color: var(--muted);
 }
-.matrix-cell.is-unverified .matrix-state {
+.matrix-cell.is-unverified .matrix-state,
+.matrix-cell.is-optIn .matrix-state {
   color: var(--purple);
 }
 .matrix-legend {

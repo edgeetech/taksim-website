@@ -3,7 +3,7 @@ import { capabilities, clientSupport, clientSupportSources, type SupportState } 
 import { getDictionary, type Locale } from '@/lib/i18n';
 
 function Cell({ state, note, label }: { state: SupportState; note: string; label: string }) {
-  const Icon = state === 'yes' ? Check : state === 'unverified' ? CircleDashed : Minus;
+  const Icon = state === 'yes' ? Check : state === 'unverified' || state === 'optIn' ? CircleDashed : Minus;
   return (
     <td className={`matrix-cell is-${state}`}>
       <span className="matrix-state">

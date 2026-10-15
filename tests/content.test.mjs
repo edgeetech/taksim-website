@@ -104,14 +104,14 @@ test('has no Taksim account, sign-in or hosted Taksim service anywhere on the si
   await assert.rejects(access(new URL('../components/pages/sign-in.tsx', import.meta.url)));
 });
 
-test('states subscription traffic is observed, not rewritten', async () => {
+test('states subscription traffic is observed by default and Claude routing is opt-in', async () => {
   const copy = await source(copyPath);
   const llms = await source('public/llms.txt');
   assert.match(copy, /does not rewrite the model/i);
   assert.match(copy, /Does Taksim change my model on a Claude or ChatGPT subscription\?/);
-  assert.match(copy, /only on traffic billed to your own API key/i);
-  assert.match(copy, /On a subscription plan, Taksim only observes/);
-  assert.match(llms, /Authorization: Bearer/);
+  assert.match(copy, /routing subscription on/);
+  assert.match(copy, /Claude models only/);
+  assert.match(llms, /forwards `Authorization` unchanged and never reads, copies or logs it/);
   for (const text of [copy, await source('lib/i18n/tr.ts'), llms]) {
     assert.doesNotMatch(text, /TAKSIM_ALLOW_SUBSCRIPTION_REWRITE/);
     assert.doesNotMatch(text, /power users/i);
@@ -137,7 +137,7 @@ test('keeps the client matrix in one config with subscriptions observe-only', as
   for (const row of clientSupport) {
     const access = en.matrix.rows[row.id].access;
     assert.equal(row.billing === 'plan', /plan/i.test(access), access);
-    if (row.billing === 'plan') assert.equal(row.cells.route, 'no', access);
+    if (row.billing === 'plan' && row.id !== 'claudeCodePlan') assert.equal(row.cells.route, 'no', access);
   }
   const anthropic = clientSupport.find((row) => en.matrix.rows[row.id].access === 'Anthropic API key');
   assert.equal(anthropic?.cells.route, 'yes');
@@ -221,18 +221,22 @@ test('describes the subscription boundary as current release behaviour, not a pe
   }
   assert.match(en.matrix.footnote, /describes the current release/);
   for (const text of [en.matrix.footnote, en.docs.subscriptions.body3, en.home.modes.futureBody]) {
-    assert.match(text, /Legal and compliance page for Claude Code bars third-party developers from routing Free, Pro or Max credentials on behalf of their users/);
+    assert.match(text, /not an endorsement by Anthropic|does not imply Anthropic endorsement/);
+    assert.doesNotMatch(text, /bars third-party developers/);
   }
-  assert.match(en.docs.subscriptions.title, /current release/);
-  assert.match(en.home.modes.futureBody, /ship in a Taksim release before this site describes it/);
-  assert.match(await source('components/pages/terms.tsx'), /In the current release,\s+Taksim does not route or rewrite traffic/);
+  assert.match(en.docs.subscriptions.title, /opt-in/);
+  assert.match(en.docs.subscriptions.body, /Only `ANTHROPIC_BASE_URL` is set/);
+  assert.match(en.docs.subscriptions.body, /never reads, copies or logs it/);
+  assert.match(en.docs.subscriptions.body2, /reported as plan quota/);
+  assert.match(en.docs.subscriptions.body3, /restricts third-party intermediation of Claude.ai credentials/);
+  assert.match(await source('components/pages/terms.tsx'), /routing is opt-in and off by\s+default/);
 });
 
 test('separates subscription, API-key and private economics without claiming private routing', async () => {
   const { en } = await import('../lib/i18n/en.ts');
   const [subscription, apiKey, privateMode] = en.home.modes.items;
   assert.match(subscription.economics, /labelled as quota, never as billed dollars/);
-  assert.match(subscription.current, /changes no model, effort or context/);
+  assert.match(subscription.current, /Claude-only model switching/);
   assert.match(apiKey.economics, /billed dollars per token/);
   assert.match(privateMode.current, /^Not a routing target in the current release/);
   assert.match(await source('components/pages/pricing.tsx'), /<EconomicModes t=\{dict\.home\.modes\} \/>/);

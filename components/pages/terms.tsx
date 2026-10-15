@@ -51,11 +51,14 @@ export function TermsPage() {
             source-control services, and provider-native planners remain subject
             to their own terms and technical behavior. Taksim does not control
             or warrant those outputs. Provider entitlements, plan limits and
-            workspace policies remain authoritative. In the current release,
-            Taksim does not route or rewrite traffic authenticated with a Claude
-            or ChatGPT subscription; optional routing applies only to traffic
-            billed to your own API key. Any change to that boundary will be
-            described here only after it ships in a Taksim release.
+            workspace policies remain authoritative. Taksim does not route or
+            rewrite traffic authenticated with a ChatGPT subscription. For
+            Claude Code on your own Claude login, routing is opt-in and off by
+            default; when you turn it on, Taksim leaves your login as the
+            credential, never reads or copies it, and switches only among
+            Claude models. This describes Taksim&rsquo;s behaviour and is not
+            an endorsement by Anthropic. Optional routing on your own API key
+            is separate.
           </p>
           <h2>6. Verification</h2>
           <p>
