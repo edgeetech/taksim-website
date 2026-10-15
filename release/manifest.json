@@ -1,9 +1,9 @@
 {
   "schema": "taksim.release-manifest.v1",
   "repository": "edgeetech/taksim-releases",
-  "version": "0.3.8",
-  "tag": "v0.3.8",
-  "sourceCommit": "4b3c86fad3214de4d80345486fa0c914a839e17c",
+  "version": "0.3.9",
+  "tag": "v0.3.9",
+  "sourceCommit": "5754b684ac679bcc72aec7dd039f0538cb3ff751",
   "platforms": [
     "win-x64",
     "osx-arm64",
@@ -21,7 +21,7 @@
   ],
   "install": {
     "oneLine": "& ([scriptblock]::Create((irm https://github.com/edgeetech/taksim-releases/releases/latest/download/install.ps1))) -AllowUnsigned",
-    "pinned": "& ([scriptblock]::Create((irm https://github.com/edgeetech/taksim-releases/releases/latest/download/install.ps1))) -Version v0.3.8 -NoSetup -AllowUnsigned"
+    "pinned": "& ([scriptblock]::Create((irm https://github.com/edgeetech/taksim-releases/releases/latest/download/install.ps1))) -Version v0.3.9 -NoSetup -AllowUnsigned"
   },
   "commands": [
     "budget",
@@ -152,6 +152,9 @@
     "routing auto status",
     "routing discover-resources",
     "routing explain-latest",
+    "routing outcome",
+    "routing outcome list",
+    "routing outcome record",
     "routing promote",
     "routing recommend",
     "routing resources",
@@ -218,6 +221,7 @@
     "research",
     "routing",
     "routing auto",
+    "routing outcome",
     "routing subscription",
     "source-control",
     "task",
@@ -387,5 +391,5 @@
     }
   ],
   "source": "release-manifest",
-  "publishedAt": "2026-10-15T10:27:22Z"
+  "publishedAt": "2026-10-15T12:55:12Z"
 }
