@@ -229,6 +229,8 @@ export function HowItWorksPage({ locale }: { locale: Locale }) {
             <div className="privacy-card privacy-wide compliance">
               <h3>{t.privacy.subscriptionTitle}</h3>
               <p>{t.privacy.subscriptionBody}</p>
+              <h3>{t.privacy.desktopTitle}</h3>
+              <p>{t.privacy.desktopBody}</p>
             </div>
           </div>
         </div>

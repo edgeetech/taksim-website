@@ -299,7 +299,7 @@ export const en = {
     faq: [
       {
         q: 'Does Taksim change my model on a Claude or ChatGPT subscription?',
-        a: 'Not by default. On a Claude Pro, Max or Team login you can opt in with `taksim routing subscription on`; then `taksim claude` can switch among Claude models only, within your organisation’s available models, and keeps --model and /model switches away from the start model. Your login stays the credential and usage stays on the subscription. With the setting off, and always for Codex on a ChatGPT plan, Taksim only observes. Requests Taksim raises to Opus use plan quota faster.',
+        a: 'Not by default. On a Claude Pro, Max or Team login you can opt in with `taksim routing subscription on`; then `taksim claude` can switch among Claude models only, within your organisation’s available models, and keeps --model and /model switches away from the start model. Your login stays the credential and usage stays on the subscription. With the setting off, and always for Codex on a ChatGPT plan, Taksim only observes. Requests Taksim raises to Opus use plan quota faster. The Claude desktop app (Code tab) is routed only after you run `taksim desktop on`.',
       },
       {
         q: 'Can I use the free version at work?',
@@ -453,6 +453,9 @@ export const en = {
       subscriptionTitle: 'On a Claude subscription, routing is opt-in',
       subscriptionBody:
         'By default Taksim reads local history and hooks on Claude and ChatGPT plans and changes no model. Turn on `taksim routing subscription on` and `taksim claude` on a Pro, Max or Team login routes through the local gateway. Only the base URL is set; your login stays the credential, Taksim never reads, copies or logs it, and usage stays on the subscription. Taksim switches only among Claude models, and only in sessions you launch through Taksim. Codex on a ChatGPT plan is only observed.',
+      desktopTitle: 'Claude desktop app routing is opt-in too',
+      desktopBody:
+        'Run `taksim desktop on` once to route Claude desktop app (Code tab) sessions through the local gateway; `taksim desktop off` turns it off. It is off by default and tested on Windows only. One gateway runs per Windows logon session. If it is unavailable, sessions go straight to Anthropic. Only Claude models are used, and your organisation’s `availableModels`, --model and /model are respected. Your login is forwarded unchanged, never read or stored.',
     },
     faqTitle: 'More questions',
     faq: [
@@ -626,7 +629,7 @@ export const en = {
       },
       {
         q: 'Does Taksim change my model on a Claude or ChatGPT subscription?',
-        a: 'Not by default. On a Claude Pro, Max or Team login you can opt in with `taksim routing subscription on`; then `taksim claude` can switch among Claude models only, within your organisation’s available models, and keeps --model and /model switches away from the start model. Your login stays the credential and usage stays on the subscription. With the setting off, and always for Codex on a ChatGPT plan, Taksim only observes. Requests Taksim raises to Opus use plan quota faster.',
+        a: 'Not by default. On a Claude Pro, Max or Team login you can opt in with `taksim routing subscription on`; then `taksim claude` can switch among Claude models only, within your organisation’s available models, and keeps --model and /model switches away from the start model. Your login stays the credential and usage stays on the subscription. With the setting off, and always for Codex on a ChatGPT plan, Taksim only observes. Requests Taksim raises to Opus use plan quota faster. The Claude desktop app (Code tab) is routed only after you run `taksim desktop on`.',
       },
       {
         q: 'Is the “could have saved” number guaranteed?',
@@ -690,9 +693,9 @@ export const en = {
         access: 'Claude plan',
         observe: 'Local transcripts via a user-level hook.',
         judge: '',
-        gateway: 'Current release: requests do not pass through Taksim.',
+        gateway: 'Optional: run taksim desktop on once to route Code tab sessions (tested on Windows).',
         context: '',
-        route: 'No model changes in the current release.',
+        route: 'Optional, Claude models only; your login stays the credential.',
       },
       claudeCodeApi: {
         client: 'Claude Code',
@@ -979,6 +982,8 @@ export const en = {
         'Subscription usage is shown as API-equivalent list-price dollars, labelled as quota, not billed. With routing on, the first real request of a session is chosen by task fit, so an Opus default can step down one tier when the task fits, and it escalates on failure evidence; warm-cache sessions stay sticky. Usage is reported as plan quota, and requests Taksim raises to Opus use plan quota faster. The baseline report (`taksim report baseline`) and judge verdicts on finished turns remain available either way.',
       body3:
         'Why it is opt-in and Claude-only: Taksim never routes a subscription turn to a third-party model, and the gateway never reads, copies or logs your login. EdgeeTech reads Anthropic’s terms as allowing a choice among Claude models and forbidding third-party models; this is not an endorsement by Anthropic. Anthropic’s Legal and compliance page for Claude Code restricts third-party intermediation of Claude.ai credentials (it names Free, Pro and Max; Team and Enterprise are not clearly addressed), which is why `routing.subscription` is off by default and you decide whether to turn it on. OpenAI documents a proxy path for ChatGPT sign-in, but Taksim has not verified that plan, quota and workspace controls survive it, so Codex plans stay observe-only. Provider entitlements and workspace policy stay authoritative.',
+      body4:
+        'Claude desktop app (Code tab) sessions are routed only after you run `taksim desktop on` once; `taksim desktop off` turns it off, and it is off by default. It builds on `routing.subscription`, so the same Claude-only allowlist, `availableModels`, --model and /model rules apply, and the login is forwarded unchanged, never read or stored. One gateway runs per Windows logon session. If it is unavailable, sessions go straight to Anthropic (fail open). Tested on Windows; macOS is untested for this feature.',
     },
     verification: {
       title: 'Verification is evidence-dependent',
@@ -1260,6 +1265,10 @@ export const en = {
       escalation:
         'When a downgraded turn shows signs of trouble (tool, test or build failures, a retry or correction, an upstream error), Taksim goes back to the model you asked for and stays there for that phase. A downgraded call that fails before any response reaches you is retried once on your model. `diagnostics downgrades` shows every downgrade and escalation. Claude subscription routing is a separate opt-in (`taksim routing subscription on`); ChatGPT plans are observed only. Routing also learns from outcomes. If you reply to a stepped-down turn with a correction such as “No, that’s wrong” (Turkish or English), Taksim moves back to the start model and records the rejection itself; a `taksim routing outcome record --session <id> --result rejected` report or an in-session judge verdict counts too. Taksim then keeps the start model the next time the same kind of task starts. It stores only a keyed task fingerprint, `taksim routing outcome list` shows what was recorded, and `taksim memory forget` clears it.',
     },
+    desktop: {
+      title: 'Routing the Claude desktop app',
+      body: 'Claude desktop app (Code tab) sessions are observed by default. To route them through the local gateway, run this once; it is opt-in, off by default and tested on Windows only. Only Claude models are used, within your organisation’s `availableModels`, and --model and /model are respected. One gateway runs per Windows logon session; if it is unavailable, sessions go straight to Anthropic. Your login is forwarded unchanged, never read or stored. `taksim desktop off` turns it off.',
+    },
     team: {
       title: 'Team roll-up',
       body: 'Each developer writes a metadata-only export into a shared folder and can inspect it before sharing; exports carry repo aliases, never paths. The team lead combines them into one report, or opens them in the dashboard. The team roll-up is part of the [Team plan](/pricing).',
@@ -1272,6 +1281,7 @@ export const en = {
       cache: 'Cache guard',
       insights: 'Quota and anomalies',
       routing: 'Routing (API key)',
+      desktop: 'Routing (Claude desktop app)',
       team: 'Team roll-up',
     },
   },
