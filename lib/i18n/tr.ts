@@ -137,8 +137,8 @@ export const tr: Dictionary = {
     ],
     pilot: {
       tag: 'İç pilot',
-      eyebrow: '29 kodlama görevi · 174 koşu · kendi Claude Team aboneliğimiz',
-      title: '%74 daha düşük maliyet. Daha çok kabul edilen görev.',
+      eyebrow: '{tasks} kodlama görevi · {totalRuns} koşu · kendi Claude Team aboneliğimiz',
+      title: '{costSavingPct} daha düşük maliyet. Daha çok kabul edilen görev.',
       lede: 'Aynı kodlama görevlerini üç şekilde koştuk: hep Opus, hep Sonnet ve seçimi Taksim’e bırakarak. Her koşuyu gizli otomatik kontroller notladı.',
       bigCaption: 'hep Opus’a göre daha düşük maliyet',
       vs: 'vs',
@@ -147,7 +147,7 @@ export const tr: Dictionary = {
       kpiPerAccepted: 'Kabul edilen görev başına maliyet',
       coldStart: 'Soğuk başlangıç: geçmiş yok, geri bildirim yok. Taksim düzelttiğiniz görevlerden öğrenir.',
       chart: {
-        title: 'Üç kol, her biri 58 koşu',
+        title: 'Üç kol, her biri {runsPerArm} koşu',
         subtitle:
           'Kabul = kapsam, teslim, regresyon ve davranış kontrollerinin hepsi geçti',
         arms: {
@@ -163,7 +163,7 @@ export const tr: Dictionary = {
       },
       mix: {
         title: 'Taksim neyi seçti',
-        body: '58 koşunun 56’sında Sonnet. Opus yalnızca 2 koşuda kaldı; ikisi de en zor dokümantasyon ve izin görevindeydi, ikisi de kabul edildi.',
+        body: '{runsPerArm} koşunun {servedSonnet}’sında Sonnet. Opus yalnızca {servedOpus} koşuda kaldı; ikisi de en zor dokümantasyon ve izin görevindeydi, ikisi de kabul edildi.',
         label:
           'Taksim koşuları: {total} koşudan {sonnet} tanesi Sonnet, {opus} tanesi Opus.',
       },
@@ -207,19 +207,21 @@ export const tr: Dictionary = {
       },
       warm: {
         tag: 'Sıcak tekrar koşusu',
-        title: 'Düzeltilen görevler: 4 hata → 0',
+        title: 'Düzeltilen görevler: {correctedColdRejected} hata → {correctedWarmRejected}',
         cold: 'Soğuk başlangıç',
         warm: 'Düzeltmelerden sonra',
         acceptedOf: '{total} koşudan {n} kabul',
         srSummary:
-          'Düzeltilen 3 görevde soğuk başlangıçta {total} koşudan {cold} tanesi, düzeltmelerden sonra {total} koşudan {warm} tanesi kabul edildi.',
+          'Düzeltilen {correctedTasks} görevde soğuk başlangıçta {total} koşudan {cold} tanesi, düzeltmelerden sonra {total} koşudan {warm} tanesi kabul edildi.',
         overall:
-          'Genel sonuç yine 54/58: Sonnet daha önce geçen üç başka görevde tökezledi. Taksim bunları da bir sonraki düzeltmeden öğrenir.',
-        cost: 'Sıcak koşuların 58’inin 8’inde Opus kullanıldı. Maliyet $4.98 (soğukta $4.65); hep Opus’a göre yine %72 daha düşük.',
+          'Genel sonuç yine {warmAccepted}/{warmRuns}: Sonnet daha önce geçen üç başka görevde tökezledi. Taksim bunları da bir sonraki düzeltmeden öğrenir.',
+        cost: 'Sıcak koşuların {warmRuns}’inin {warmServedOpus}’inde Opus kullanıldı. Maliyet {warmCost} (soğukta {taksimCost}); hep Opus’a göre yine {warmSavingPct} daha düşük.',
       },
       footnote:
-        'İç pilot; bağımsız bir benchmark değildir. 2026-10-15’te iki yarıda koşuldu: ilki o günün daha önceki Taksim sürümüyle, ikincisi mevcut sürümle; tek bir Claude Team aboneliğinde Claude Code CLI. Her yarı soğuk başladı, önceden kaydedilmiş hiçbir sonuç geçmişi yoktu. 5 kategoride 29 görev (sınırlı özellik, hata onarımı, yapılandırma geçişi, refactor, araştırma ve dokümantasyon), kolaydan zora; 3 kol × 2 tekrar = 174 koşu. 30 görevlik havuzdan bir görev, test düzeneğinden kaynaklandığı için dışarıda bırakıldı. Sonuçlar yalnızca bu pilot için geçerlidir. Maliyetler Anthropic liste fiyatlarıyla API eşdeğeridir; subscription’da bunlar fatura değil, plan kotasıdır. Taksim yalnızca Claude modelleri arasında geçiş yapar.',
+        'İç pilot; bağımsız bir benchmark değildir. 2026-10-15’te iki yarıda koşuldu: ilki o günün daha önceki Taksim sürümüyle, ikincisi mevcut sürümle; tek bir Claude Team aboneliğinde Claude Code CLI. Her yarı soğuk başladı, önceden kaydedilmiş hiçbir sonuç geçmişi yoktu. 5 kategoride {tasks} görev (sınırlı özellik, hata onarımı, yapılandırma geçişi, refactor, araştırma ve dokümantasyon), kolaydan zora; 3 kol × {repetitions} tekrar = {totalRuns} koşu. 30 görevlik havuzdan bir görev, test düzeneğinden kaynaklandığı için dışarıda bırakıldı. Sonuçlar yalnızca bu pilot için geçerlidir. Maliyetler Anthropic liste fiyatlarıyla API eşdeğeridir; subscription’da bunlar fatura değil, plan kotasıdır. Taksim yalnızca Claude modelleri arasında geçiş yapar.',
       note: 'İç pilot; bağımsız bir benchmark değildir. Maliyetler API eşdeğeri liste fiyatlarıdır; Taksim yalnızca Claude modelleri arasında geçiş yapar.',
+      notMeasured: 'ölçülmedi',
+      undefinedPerAccepted: 'tanımsız (kabul edilen koşu yok)',
       methodLink: 'Yöntem, görev seti ve sınırlar',
     },
     how: {
@@ -477,11 +479,11 @@ export const tr: Dictionary = {
     sections: [
       {
         title: 'Görev seti',
-        body: '5 kategoride 29 kodlama görevi: sınırlı özellik, hata onarımı, yapılandırma geçişi, refactor ve araştırma ile dokümantasyon; kolaydan zora. Havuzda 30 görev vardı; biri (`ho-ref-split-package`), başarısızlıkları modelden değil test düzeneğinden kaynaklandığı için dışarıda bırakıldı.',
+        body: '5 kategoride {tasks} kodlama görevi: sınırlı özellik, hata onarımı, yapılandırma geçişi, refactor ve araştırma ile dokümantasyon; kolaydan zora. Havuzda 30 görev vardı; biri (`ho-ref-split-package`), başarısızlıkları modelden değil test düzeneğinden kaynaklandığı için dışarıda bırakıldı.',
       },
       {
         title: 'Üç kol',
-        body: 'Her görev üç şekilde koşuldu: hep Opus (`claude-opus-5-5`), hep Sonnet (`claude-sonnet-5-5`) ve Opus’tan başlayıp seçimi Taksim’e bırakan Taksim yönlendirmesi. Her kol her görevi iki kez koştu: 3 kol × 2 tekrar = 174 koşu, kol başına 58.',
+        body: 'Her görev üç şekilde koşuldu: hep Opus (`claude-opus-5-5`), hep Sonnet (`claude-sonnet-5-5`) ve Opus’tan başlayıp seçimi Taksim’e bırakan Taksim yönlendirmesi. Her kol her görevi iki kez koştu: 3 kol × {repetitions} tekrar = {totalRuns} koşu, kol başına {runsPerArm}.',
       },
       {
         title: 'Kabul kontrolleri',
@@ -497,19 +499,19 @@ export const tr: Dictionary = {
       },
       {
         title: 'Sonuçlar',
-        body: 'Hep Opus: 58 koşunun 52’si kabul, toplam $17.63, kabul edilen görev başına $0.339. Hep Sonnet: 58’de 53, $4.19, $0.079. Taksim yönlendirmesi: 58’de 54, $4.65, $0.086. Taksim 56 koşuda Sonnet’i seçti, 2 koşuda Opus’u korudu; ikisi de en zor dokümantasyon ve izin görevindeydi, ikisi de kabul edildi.',
+        body: 'Hep Opus: {runsPerArm} koşunun {opusAccepted}’si kabul, toplam {opusCost}, kabul edilen görev başına {opusPerAccepted}. Hep Sonnet: {runsPerArm}’de {sonnetAccepted}, {sonnetCost}, {sonnetPerAccepted}. Taksim yönlendirmesi: {runsPerArm}’de {taksimAccepted}, {taksimCost}, {taksimPerAccepted}. Taksim {servedSonnet} koşuda Sonnet’i seçti, {servedOpus} koşuda Opus’u korudu; ikisi de en zor dokümantasyon ve izin görevindeydi, ikisi de kabul edildi.',
       },
       {
         title: 'Başarısız koşular',
-        body: 'Taksim yönlendirmesi 4 koşuda başarısız oldu: tekilleştirme görevinde iki kez (hep Opus bu görevde bir kez, hep Sonnet iki kez başarısız oldu), feature-flags ve cron görevlerinde birer kez.',
+        body: 'Taksim yönlendirmesi {taksimRejected} koşuda başarısız oldu: tekilleştirme görevinde iki kez (hep Opus bu görevde bir kez, hep Sonnet iki kez başarısız oldu), feature-flags ve cron görevlerinde birer kez.',
       },
       {
         title: 'Sıcak tekrar koşusu: kurulum',
-        body: 'Soğuk koşulardan sonra, yönlendirilen her koşunun gizli kontrol sonucu Taksim’e bir CI sonucu olarak bildirildi (`taksim routing outcome record --source ci`); gerçek kullanımda CI’ın yaptığı gibi. Bu, 3 görevde 4 ret verdi: feature-flags 1, cron 1, tekilleştirme 2. Ardından yalnızca yönlendirme kolu 29 görevin hepsini iki kez, 58 koşu, aynı Taksim dizinlerinde, artık bu geçmişle yeniden koştu.',
+        body: 'Soğuk koşulardan sonra, yönlendirilen her koşunun gizli kontrol sonucu Taksim’e bir CI sonucu olarak bildirildi (`taksim routing outcome record --source ci`); gerçek kullanımda CI’ın yaptığı gibi. Bu, {correctedTasks} görevde {taksimRejected} ret verdi: feature-flags 1, cron 1, tekilleştirme 2. Ardından yalnızca yönlendirme kolu {tasks} görevin hepsini iki kez, {warmRuns} koşu, aynı Taksim dizinlerinde, artık bu geçmişle yeniden koştu.',
       },
       {
         title: 'Sıcak tekrar koşusu: sonuçlar',
-        body: 'Düzeltilen 3 görevde Taksim her seferinde Opus’u korudu (`OUTCOME_LEARNED_KEEP_START`, kapsam `TASK`) ve 6 koşunun hepsi geçti: bu görevlerdeki reddedilen koşular soğukta 4 iken sıcakta 0 oldu. Genelde yönlendirme kolu 58 koşudan 54 kabulde kaldı; çünkü Sonnet, soğukta geçen 3 başka görevde 4 koşuyu kaçırdı (resolver 2, shipping-registry 1, rename-kwarg 1). Bu, Sonnet’in koşudan koşuya değişkenliğidir ve bu hatalar da sırası gelince öğrenilir. Opus sıcak koşuların 58’inin 8’inde kullanıldı (soğukta 2). Maliyet $4.98 oldu (soğukta $4.65); hep Opus’un $17.63 maliyetine göre yine %72 daha düşük; kabul edilen görev başına $0.092.',
+        body: 'Düzeltilen {correctedTasks} görevde Taksim her seferinde Opus’u korudu (`OUTCOME_LEARNED_KEEP_START`, kapsam `TASK`) ve {correctedRuns} koşunun hepsi geçti: bu görevlerdeki reddedilen koşular soğukta {correctedColdRejected} iken sıcakta {correctedWarmRejected} oldu. Genelde yönlendirme kolu {warmRuns} koşudan {warmAccepted} kabulde kaldı; çünkü Sonnet, soğukta geçen {warmMissTasks} başka görevde {warmMisses} koşuyu kaçırdı (resolver 2, shipping-registry 1, rename-kwarg 1). Bu, Sonnet’in koşudan koşuya değişkenliğidir ve bu hatalar da sırası gelince öğrenilir. Opus sıcak koşuların {warmRuns}’inin {warmServedOpus}’inde kullanıldı (soğukta {servedOpus}). Maliyet {warmCost} oldu (soğukta {taksimCost}); hep Opus’un {opusCost} maliyetine göre yine {warmSavingPct} daha düşük; kabul edilen görev başına {warmPerAccepted}.',
       },
       {
         title: 'Öğrenme neyi yapar, neyi yapmaz',
@@ -531,6 +533,26 @@ export const tr: Dictionary = {
         'Yalnızca anahtarlı bir görev parmak izi saklanır; prompt ya da yanıt metni asla. `taksim routing outcome list` kaydedilenleri gösterir, `taksim memory forget` siler.',
         'Öğrenme yalnızca Taksim’in yönlendirdiği yerde geçerlidir: kendi API key’inizdeki `taksim claude` oturumları ya da `taksim routing subscription on` ile açtıktan sonra Claude subscription’ı.',
       ],
+    },
+    data: {
+      title: 'Rakamların dayandığı veri',
+      body: 'Ana sayfadaki ve bu sayfadaki her rakam, sayfaya elle yazılmış değil, pilot sonuçlarının tek bir kısaltılmış (redacted) anlık görüntüsünden hesaplanır.',
+      snapshot: 'Anlık görüntü',
+      dates: 'Koşu tarihi',
+      catalog: 'Katalog',
+      accounting: 'Muhasebe',
+      effort: 'Çaba düzeyi',
+      sources: 'Kaynak raporlar (SHA-256)',
+      modelsTitle: 'Modeller',
+      notAcceptedTitle: 'Kabul edilmeyen koşular',
+      runsTitle: 'Her koşu',
+      runsBody: 'Kabul edilmeyenler dahil tüm koşular listelenir. Kaydedilmemiş bir maliyet $0 değil, ölçülmedi olarak gösterilir.',
+      accepted: 'kabul',
+      notAccepted: 'kabul edilmedi',
+      cols: { phase: 'Aşama', task: 'Görev', arm: 'Kol', status: 'Durum', result: 'Sonuç', served: 'Sunulan', turns: 'Tur', cost: 'Maliyet' },
+      phases: { cold: 'Soğuk', warm: 'Sıcak' },
+      arms: { baseline: 'Hep Opus', fixed: 'Hep Sonnet', routed: 'Taksim yönlendirmesi' },
+      routedModel: 'Taksim seçer',
     },
     back: 'Sonuçlara dön',
   },
