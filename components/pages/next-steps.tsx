@@ -31,6 +31,9 @@ taksim insights anomalies --since 7d`,
   routingAuto: `taksim routing auto on
 taksim routing auto status`,
   downgrades: `taksim diagnostics downgrades`,
+  desktop: `taksim desktop on
+taksim desktop status
+taksim desktop off`,
   team: `taksim report baseline --export <shared-folder> --label <your-alias>
 taksim report team --in <shared-folder> --html
 taksim dashboard --team <shared-folder>`,
@@ -109,6 +112,12 @@ export function NextStepsPage({ locale }: { locale: Locale }) {
           <Commands text={commands.downgrades} />
         </section>
 
+        <section id="desktop">
+          <h2>{t.desktop.title}</h2>
+          <p>{rich(t.desktop.body)}</p>
+          <Commands text={commands.desktop} />
+        </section>
+
         <section id="team">
           <h2>{t.team.title}</h2>
           <p>{rich(t.team.body)}</p>
@@ -123,6 +132,7 @@ export function NextStepsPage({ locale }: { locale: Locale }) {
         <Link href="#cache">{t.toc.cache}</Link>
         <Link href="#insights">{t.toc.insights}</Link>
         <Link href="#routing">{t.toc.routing}</Link>
+        <Link href="#desktop">{t.toc.desktop}</Link>
         <Link href="#team">{t.toc.team}</Link>
       </aside>
     </div>

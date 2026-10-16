@@ -1,9 +1,9 @@
 {
   "schema": "taksim.release-manifest.v1",
   "repository": "edgeetech/taksim-releases",
-  "version": "0.3.11",
-  "tag": "v0.3.11",
-  "sourceCommit": "6c531eac8e740560dda5640faf75993786c44667",
+  "version": "0.3.12",
+  "tag": "v0.3.12",
+  "sourceCommit": "3f1d5031d73392572cfc00062b0f9d79e75aef73",
   "platforms": [
     "win-x64",
     "osx-arm64",
@@ -21,7 +21,7 @@
   ],
   "install": {
     "oneLine": "& ([scriptblock]::Create((irm https://github.com/edgeetech/taksim-releases/releases/latest/download/install.ps1))) -AllowUnsigned",
-    "pinned": "& ([scriptblock]::Create((irm https://github.com/edgeetech/taksim-releases/releases/latest/download/install.ps1))) -Version v0.3.11 -NoSetup -AllowUnsigned"
+    "pinned": "& ([scriptblock]::Create((irm https://github.com/edgeetech/taksim-releases/releases/latest/download/install.ps1))) -Version v0.3.12 -NoSetup -AllowUnsigned"
   },
   "commands": [
     "budget",
@@ -62,6 +62,10 @@
     "cursor hooks",
     "cursor usage",
     "dashboard",
+    "desktop",
+    "desktop off",
+    "desktop on",
+    "desktop status",
     "devin",
     "diagnostics",
     "diagnostics baseline",
@@ -77,6 +81,11 @@
     "export otlp",
     "fabric",
     "fabric probe",
+    "gateway",
+    "gateway ensure",
+    "gateway idle-shutdown",
+    "gateway status",
+    "gateway stop",
     "gemini",
     "gemini otel",
     "history",
@@ -204,10 +213,12 @@
     "context archive",
     "context-benchmark",
     "cursor",
+    "desktop",
     "diagnostics",
     "edge",
     "export",
     "fabric",
+    "gateway",
     "history",
     "insights",
     "install",
@@ -391,5 +402,5 @@
     }
   ],
   "source": "release-manifest",
-  "publishedAt": "2026-10-15T19:43:08Z"
+  "publishedAt": "2026-10-16T21:31:05Z"
 }
