@@ -1,45 +1,34 @@
 import Link from 'next/link';
 import { Rich } from '@/components/rich';
+import {
+  copyTokens,
+  fillKnown,
+  formatPercent,
+  formatUsd,
+  report,
+  type Metric,
+} from '@/lib/benchmark/report';
 import { localePath, type Dictionary, type Locale } from '@/lib/i18n';
 
 type PilotCopy = Dictionary['home']['pilot'];
 
-// Internal pilot run on 2026-10-15, cold start: 29 tasks, 3 arms x 2 repetitions, 58 runs per arm.
-const runsPerArm = 58;
-const arms = [
-  {
-    key: 'opus',
-    model: 'claude-opus-5-5',
-    accepted: 52,
-    cost: '17.63',
-    perAccepted: '0.339',
-  },
-  {
-    key: 'sonnet',
-    model: 'claude-sonnet-5-5',
-    accepted: 53,
-    cost: '4.19',
-    perAccepted: '0.079',
-  },
-  {
-    key: 'taksim',
-    model: null,
-    accepted: 54,
-    cost: '4.65',
-    perAccepted: '0.086',
-  },
-] as const;
+// Every number comes from the redacted snapshot (data/benchmark) through lib/benchmark/report.ts.
+const armKeys = ['opus', 'sonnet', 'taksim'] as const;
+const { cold, corrected, catalog } = {
+  ...report,
+  catalog: report.snapshot.catalog,
+};
+const runsPerArm = report.runsPerArm;
+const arms = armKeys.map((key) => ({
+  key,
+  model: catalog.arms.find((a) => a.key === key)?.model ?? null,
+  ...cold[key],
+}));
 const [opusArm, , taksimArm] = arms;
-const maxCost = Number(opusArm.cost);
-const costSaving = 74;
-const perAcceptedSaving = 75;
-const servedSonnet = 56;
-
-// Warm re-run: only the routed arm, after the cold results were reported as CI outcomes.
-// The 3 tasks with rejections (feature-flags, cron, dedupe) ran 2 times each.
-const correctedRuns = 6;
-const correctedColdAccepted = 2;
-const correctedWarmAccepted = 6;
+const bar = (m: Metric, max: Metric) =>
+  m.state === 'value' && max.state === 'value' && max.value > 0
+    ? `${(Number(m.value.toFixed(2)) / Number(max.value.toFixed(2))) * 100}%`
+    : '0%';
 
 // First release that reads the user's correction. A tuple, because site copy may only name the
 // current release (tests/release.test.mjs); the badge reads "coming" until the manifest reaches it.
@@ -77,7 +66,7 @@ const stepIcons = [
 ];
 
 export function PilotBenchmark({
-  t,
+  t: rawT,
   locale,
   version,
 }: {
@@ -85,7 +74,14 @@ export function PilotBenchmark({
   locale: Locale;
   version: string;
 }) {
-  const percent = (n: number) => (locale === 'tr' ? `%${n}` : `${n}%`);
+  const labels = {
+    notMeasured: rawT.notMeasured,
+    undefinedPerAccepted: rawT.undefinedPerAccepted,
+  };
+  const t = fillKnown(rawT, copyTokens(report, locale, labels));
+  const usd = (m: Metric, digits: number) => formatUsd(m, digits, labels);
+  const percent = (m: Metric) => formatPercent(m, locale, labels);
+  const minus = (m: Metric) => (m.state === 'value' ? `−${percent(m)}` : percent(m));
   const replyBadge = versionBefore(version, userReplyRelease)
     ? t.learn.replySoon
     : t.learn.replyNew;
@@ -104,12 +100,12 @@ export function PilotBenchmark({
 
         <div className="pilot-grid">
           <div className="pilot-hero">
-            <p className="pilot-big tabular">−{percent(costSaving)}</p>
+            <p className="pilot-big tabular">{minus(report.costSaving)}</p>
             <p className="pilot-big-caption">{t.bigCaption}</p>
             <p className="pilot-big-compare tabular">
-              <span className="is-taksim">${taksimArm.cost}</span>
+              <span className="is-taksim">{usd(taksimArm.totalUsd, 2)}</span>
               <span className="vs">{t.vs}</span>
-              <span className="is-opus">${opusArm.cost}</span>
+              <span className="is-opus">{usd(opusArm.totalUsd, 2)}</span>
             </p>
             <div className="pilot-duel" aria-hidden="true">
               <div className="duel-row is-opus">
@@ -118,7 +114,7 @@ export function PilotBenchmark({
               </div>
               <div className="duel-row is-taksim">
                 <span>{t.chart.arms.taksim}</span>
-                <i style={{ width: `${(Number(taksimArm.cost) / maxCost) * 100}%` }} />
+                <i style={{ width: bar(taksimArm.totalUsd, opusArm.totalUsd) }} />
               </div>
             </div>
             <dl className="pilot-kpis">
@@ -126,17 +122,17 @@ export function PilotBenchmark({
                 <dt>{t.kpiAccepted}</dt>
                 <dd className="tabular">
                   {taksimArm.accepted}
-                  <span>/{runsPerArm}</span>
+                  <span>/{taksimArm.runs}</span>
                 </dd>
                 <dd className="pilot-kpi-sub">
-                  {fill(t.kpiAcceptedSub, { n: `${opusArm.accepted}/${runsPerArm}` })}
+                  {fill(t.kpiAcceptedSub, { n: `${opusArm.accepted}/${opusArm.runs}` })}
                 </dd>
               </div>
               <div>
                 <dt>{t.kpiPerAccepted}</dt>
-                <dd className="tabular">−{percent(perAcceptedSaving)}</dd>
+                <dd className="tabular">{minus(report.perAcceptedSaving)}</dd>
                 <dd className="pilot-kpi-sub tabular">
-                  ${taksimArm.perAccepted} {t.vs} ${opusArm.perAccepted}
+                  {usd(taksimArm.perAccepted, 3)} {t.vs} {usd(opusArm.perAccepted, 3)}
                 </dd>
               </div>
             </dl>
@@ -160,31 +156,31 @@ export function PilotBenchmark({
                     <div className="arm-bar" aria-hidden="true">
                       <span
                         style={{
-                          width: `${(Number(arm.cost) / maxCost) * 100}%`,
+                          width: bar(arm.totalUsd, opusArm.totalUsd),
                         }}
                       />
                     </div>
-                    <span className="arm-value tabular">${arm.cost}</span>
+                    <span className="arm-value tabular">{usd(arm.totalUsd, 2)}</span>
                   </div>
                   <div className="arm-metric">
                     <span className="arm-label">{t.chart.accepted}</span>
                     <div className="arm-dots" aria-hidden="true">
-                      {Array.from({ length: runsPerArm }, (_, i) => (
+                      {Array.from({ length: arm.runs }, (_, i) => (
                         <i key={i} className={i < arm.accepted ? 'ok' : 'no'} />
                       ))}
                     </div>
                     <span className="arm-value tabular" aria-hidden="true">
-                      {arm.accepted}/{runsPerArm}
+                      {arm.accepted}/{arm.runs}
                     </span>
                     <span className="sr-only">
                       {fill(t.chart.acceptedOf, {
                         n: arm.accepted,
-                        total: runsPerArm,
+                        total: arm.runs,
                       })}
                     </span>
                   </div>
                   <p className="arm-per tabular">
-                    ${arm.perAccepted} <span>{t.chart.perAccepted}</span>
+                    {usd(arm.perAccepted, 3)} <span>{t.chart.perAccepted}</span>
                   </p>
                 </li>
               ))}
@@ -199,24 +195,24 @@ export function PilotBenchmark({
           </figcaption>
           <p className="sr-only">
             {fill(t.mix.label, {
-              sonnet: servedSonnet,
-              opus: runsPerArm - servedSonnet,
+              sonnet: report.servedSonnet,
+              opus: report.servedOpus,
               total: runsPerArm,
             })}
           </p>
           <div className="mix-strip" aria-hidden="true">
             {Array.from({ length: runsPerArm }, (_, i) => (
-              <i key={i} className={i < servedSonnet ? 'sonnet' : 'opus'} />
+              <i key={i} className={i < report.servedSonnet ? 'sonnet' : 'opus'} />
             ))}
           </div>
           <ul className="mix-legend" aria-hidden="true">
             <li>
               <i className="sonnet" />
-              Sonnet · {servedSonnet}
+              Sonnet · {report.servedSonnet}
             </li>
             <li>
               <i className="opus" />
-              Opus · {runsPerArm - servedSonnet}
+              Opus · {report.servedOpus}
             </li>
           </ul>
         </figure>
@@ -311,9 +307,9 @@ export function PilotBenchmark({
             </figcaption>
             <p className="sr-only">
               {fill(t.warm.srSummary, {
-                cold: correctedColdAccepted,
-                warm: correctedWarmAccepted,
-                total: correctedRuns,
+                cold: corrected.coldAccepted,
+                warm: corrected.warmAccepted,
+                total: corrected.runs,
               })}
             </p>
             <div className="case-flow" aria-hidden="true">
@@ -321,13 +317,13 @@ export function PilotBenchmark({
                 <span className="case-label">
                   {t.warm.cold} ·{' '}
                   {fill(t.warm.acceptedOf, {
-                    n: correctedColdAccepted,
-                    total: correctedRuns,
+                    n: corrected.coldAccepted,
+                    total: corrected.runs,
                   })}
                 </span>
                 <div className="case-marks">
-                  {Array.from({ length: correctedRuns }, (_, i) =>
-                    i < correctedColdAccepted ? (
+                  {Array.from({ length: corrected.runs }, (_, i) =>
+                    i < corrected.coldAccepted ? (
                       <i key={i} className="ok">
                         ✓
                       </i>
@@ -342,13 +338,13 @@ export function PilotBenchmark({
                 <span className="case-label">
                   {t.warm.warm} ·{' '}
                   {fill(t.warm.acceptedOf, {
-                    n: correctedWarmAccepted,
-                    total: correctedRuns,
+                    n: corrected.warmAccepted,
+                    total: corrected.runs,
                   })}
                 </span>
                 <div className="case-marks">
-                  {Array.from({ length: correctedRuns }, (_, i) =>
-                    i < correctedWarmAccepted ? (
+                  {Array.from({ length: corrected.runs }, (_, i) =>
+                    i < corrected.warmAccepted ? (
                       <i key={i} className="ok">
                         ✓
                       </i>

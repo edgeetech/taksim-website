@@ -137,8 +137,8 @@ export const en = {
     ],
     pilot: {
       tag: 'Internal pilot',
-      eyebrow: '29 coding tasks · 174 runs · our own Claude Team subscription',
-      title: '74% lower cost. More tasks accepted.',
+      eyebrow: '{tasks} coding tasks · {totalRuns} runs · our own Claude Team subscription',
+      title: '{costSavingPct} lower cost. More tasks accepted.',
       lede: 'We ran the same coding tasks three ways: always Opus, always Sonnet, and Taksim choosing. Hidden automated checks graded every run.',
       bigCaption: 'lower cost than always-Opus',
       vs: 'vs',
@@ -147,7 +147,7 @@ export const en = {
       kpiPerAccepted: 'Cost per accepted task',
       coldStart: 'Cold start: no history, no feedback. Taksim learns from the tasks you correct.',
       chart: {
-        title: 'Three arms, 58 runs each',
+        title: 'Three arms, {runsPerArm} runs each',
         subtitle:
           'Accepted = scope, delivery, regression and behavior checks all pass',
         arms: {
@@ -163,7 +163,7 @@ export const en = {
       },
       mix: {
         title: 'What Taksim served',
-        body: 'Sonnet on 56 of 58 runs. Opus kept on 2, both on the hardest documentation and permissions task, both accepted.',
+        body: 'Sonnet on {servedSonnet} of {runsPerArm} runs. Opus kept on {servedOpus}, both on the hardest documentation and permissions task, both accepted.',
         label:
           'Taksim runs: {sonnet} on Sonnet, {opus} on Opus, out of {total}.',
       },
@@ -207,20 +207,22 @@ export const en = {
       },
       warm: {
         tag: 'Warm re-run',
-        title: 'Corrected tasks: 4 failures → 0',
+        title: 'Corrected tasks: {correctedColdRejected} failures → {correctedWarmRejected}',
         cold: 'Cold start',
         warm: 'After the corrections',
         acceptedOf: '{n} of {total} accepted',
         srSummary:
-          'On the 3 corrected tasks, {cold} of {total} runs were accepted at the cold start and {warm} of {total} after the corrections.',
+          'On the {correctedTasks} corrected tasks, {cold} of {total} runs were accepted at the cold start and {warm} of {total} after the corrections.',
         overall:
-          'Overall still 54/58: Sonnet slipped on three other tasks that had passed before. Taksim learns those from the next correction.',
-        cost: 'Opus served 8 of 58 warm runs. Cost $4.98 (cold $4.65), still 72% below always-Opus.',
+          'Overall still {warmAccepted}/{warmRuns}: Sonnet slipped on three other tasks that had passed before. Taksim learns those from the next correction.',
+        cost: 'Opus served {warmServedOpus} of {warmRuns} warm runs. Cost {warmCost} (cold {taksimCost}), still {warmSavingPct} below always-Opus.',
       },
       footnote:
-        'Internal pilot, not an independent benchmark. Run 2026-10-15 in two halves, the first on that day’s earlier Taksim release and the second on the current one, with Claude Code CLI on one Claude Team subscription. Each half was a cold start, with no prior outcome history. 29 tasks in 5 categories (bounded feature, bug repair, configuration migration, refactor, research and documentation), easy to hard; 3 arms × 2 repetitions = 174 runs. One task of the 30-task pool was excluded as a test harness artifact. Results hold for this pilot only. Costs are API-equivalent at Anthropic list prices; on a subscription they are plan quota, not an invoice. Taksim only switches between Claude models.',
+        'Internal pilot, not an independent benchmark. Run 2026-10-15 in two halves, the first on that day’s earlier Taksim release and the second on the current one, with Claude Code CLI on one Claude Team subscription. Each half was a cold start, with no prior outcome history. {tasks} tasks in 5 categories (bounded feature, bug repair, configuration migration, refactor, research and documentation), easy to hard; 3 arms × {repetitions} repetitions = {totalRuns} runs. One task of the 30-task pool was excluded as a test harness artifact. Results hold for this pilot only. Costs are API-equivalent at Anthropic list prices; on a subscription they are plan quota, not an invoice. Taksim only switches between Claude models.',
       note: 'Internal pilot, not an independent benchmark. Costs are API-equivalent list prices; Taksim only switches between Claude models.',
       methodLink: 'Method, task set and caveats',
+      notMeasured: 'not measured',
+      undefinedPerAccepted: 'undefined (no accepted runs)',
     },
     how: {
       title: 'How it works, in three steps.',
@@ -477,11 +479,11 @@ export const en = {
     sections: [
       {
         title: 'Task set',
-        body: '29 coding tasks in 5 categories: bounded feature, bug repair, configuration migration, refactor, and research and documentation, from easy to hard. The pool had 30 tasks; one (`ho-ref-split-package`) was excluded because its failures came from the test harness, not the model.',
+        body: '{tasks} coding tasks in 5 categories: bounded feature, bug repair, configuration migration, refactor, and research and documentation, from easy to hard. The pool had 30 tasks; one (`ho-ref-split-package`) was excluded because its failures came from the test harness, not the model.',
       },
       {
         title: 'Three arms',
-        body: 'Every task ran three ways: always Opus (`claude-opus-5-5`), always Sonnet (`claude-sonnet-5-5`), and Taksim routed, which starts on Opus and lets Taksim choose. Each arm ran each task twice: 3 arms × 2 repetitions = 174 runs, 58 per arm.',
+        body: 'Every task ran three ways: always Opus (`claude-opus-5-5`), always Sonnet (`claude-sonnet-5-5`), and Taksim routed, which starts on Opus and lets Taksim choose. Each arm ran each task twice: 3 arms × {repetitions} repetitions = {totalRuns} runs, {runsPerArm} per arm.',
       },
       {
         title: 'Acceptance checks',
@@ -497,19 +499,19 @@ export const en = {
       },
       {
         title: 'Results',
-        body: 'Always Opus: 52 of 58 runs accepted, $17.63 in total, $0.339 per accepted task. Always Sonnet: 53 of 58, $4.19, $0.079. Taksim routed: 54 of 58, $4.65, $0.086. Taksim served Sonnet on 56 runs and kept Opus on 2, both on the hardest documentation and permissions task, both accepted.',
+        body: 'Always Opus: {opusAccepted} of {runsPerArm} runs accepted, {opusCost} in total, {opusPerAccepted} per accepted task. Always Sonnet: {sonnetAccepted} of {runsPerArm}, {sonnetCost}, {sonnetPerAccepted}. Taksim routed: {taksimAccepted} of {runsPerArm}, {taksimCost}, {taksimPerAccepted}. Taksim served Sonnet on {servedSonnet} runs and kept Opus on {servedOpus}, both on the hardest documentation and permissions task, both accepted.',
       },
       {
         title: 'Where runs failed',
-        body: 'Taksim routed failed 4 runs: the deduplication task twice (always Opus failed it once and always Sonnet twice), and the feature-flags and cron tasks once each.',
+        body: 'Taksim routed failed {taksimRejected} runs: the deduplication task twice (always Opus failed it once and always Sonnet twice), and the feature-flags and cron tasks once each.',
       },
       {
         title: 'Warm re-run: setup',
-        body: 'After the cold runs, each routed run’s hidden-check result was reported to Taksim as a CI outcome (`taksim routing outcome record --source ci`), as CI does in real use. That gave 4 rejections on 3 tasks: feature-flags 1, cron 1, deduplication 2. Then only the routed arm re-ran all 29 tasks twice, 58 runs, in the same Taksim homes, now with that history.',
+        body: 'After the cold runs, each routed run’s hidden-check result was reported to Taksim as a CI outcome (`taksim routing outcome record --source ci`), as CI does in real use. That gave {taksimRejected} rejections on {correctedTasks} tasks: feature-flags 1, cron 1, deduplication 2. Then only the routed arm re-ran all {tasks} tasks twice, {warmRuns} runs, in the same Taksim homes, now with that history.',
       },
       {
         title: 'Warm re-run: results',
-        body: 'On the 3 corrected tasks, Taksim kept Opus every time (`OUTCOME_LEARNED_KEEP_START`, scope `TASK`) and all 6 runs passed: rejected runs on those tasks went from 4 cold to 0 warm. Overall the routed arm stayed at 54 of 58 accepted, because Sonnet missed 4 runs on 3 other tasks that had passed cold (resolver 2, shipping-registry 1, rename-kwarg 1). That is Sonnet’s run-to-run variance, and those misses would in turn be learned. Opus served 8 of 58 warm runs (2 cold). Cost was $4.98 (cold $4.65), still 72% below always-Opus at $17.63; $0.092 per accepted task.',
+        body: 'On the {correctedTasks} corrected tasks, Taksim kept Opus every time (`OUTCOME_LEARNED_KEEP_START`, scope `TASK`) and all {correctedRuns} runs passed: rejected runs on those tasks went from {correctedColdRejected} cold to {correctedWarmRejected} warm. Overall the routed arm stayed at {warmAccepted} of {warmRuns} accepted, because Sonnet missed {warmMisses} runs on {warmMissTasks} other tasks that had passed cold (resolver 2, shipping-registry 1, rename-kwarg 1). That is Sonnet’s run-to-run variance, and those misses would in turn be learned. Opus served {warmServedOpus} of {warmRuns} warm runs ({servedOpus} cold). Cost was {warmCost} (cold {taksimCost}), still {warmSavingPct} below always-Opus at {opusCost}; {warmPerAccepted} per accepted task.',
       },
       {
         title: 'What learning does and does not do',
@@ -531,6 +533,26 @@ export const en = {
         'Only a keyed task fingerprint is stored, never prompt or response text. `taksim routing outcome list` shows what was recorded and `taksim memory forget` clears it.',
         'Learning applies only where Taksim routes: `taksim claude` sessions on your own API key, or on a Claude subscription after you opt in with `taksim routing subscription on`.',
       ],
+    },
+    data: {
+      title: 'Data behind the numbers',
+      body: 'Every figure on the home page and on this page is computed from one redacted snapshot of the pilot results, not typed into the page.',
+      snapshot: 'Snapshot',
+      dates: 'Run date',
+      catalog: 'Catalog',
+      accounting: 'Accounting',
+      effort: 'Effort',
+      sources: 'Source reports (SHA-256)',
+      modelsTitle: 'Models',
+      notAcceptedTitle: 'Runs not accepted',
+      runsTitle: 'Every run',
+      runsBody: 'All runs are listed, including those not accepted. A cost that was not recorded is shown as not measured, never as $0.',
+      accepted: 'accepted',
+      notAccepted: 'not accepted',
+      cols: { phase: 'Phase', task: 'Task', arm: 'Arm', status: 'Status', result: 'Result', served: 'Served', turns: 'Turns', cost: 'Cost' },
+      phases: { cold: 'Cold', warm: 'Warm' },
+      arms: { baseline: 'Always Opus', fixed: 'Always Sonnet', routed: 'Taksim routed' },
+      routedModel: 'Taksim chooses',
     },
     back: 'Back to the results',
   },

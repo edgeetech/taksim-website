@@ -282,23 +282,18 @@ test('shows the internal pilot benchmark high on the home page with exact, quali
     'before how it works',
   );
   const flat = pilot.replace(/\s+/g, ' ');
-  for (const figure of [
-    'const runsPerArm = 58;',
-    "accepted: 52, cost: '17.63', perAccepted: '0.339'",
-    "accepted: 53, cost: '4.19', perAccepted: '0.079'",
-    "accepted: 54, cost: '4.65', perAccepted: '0.086'",
-    'const costSaving = 74;',
-    'const perAcceptedSaving = 75;',
-    'const servedSonnet = 56;',
-    'const correctedRuns = 6;',
-    'const correctedColdAccepted = 2;',
-    'const correctedWarmAccepted = 6;',
-    'const userReplyRelease = [0, 3, 11];',
-  ]) {
-    assert.ok(flat.includes(figure), figure);
-  }
-  assert.equal(en.home.pilot.title, '74% lower cost. More tasks accepted.');
-  assert.match(tr.home.pilot.title, /^%74 daha düşük maliyet/);
+  assert.ok(flat.includes('const userReplyRelease = [0, 3, 11];'));
+  // The figures live in data/benchmark and are derived by lib/benchmark/report.ts (tests/benchmark.test.mjs).
+  assert.doesNotMatch(pilot, /17\.63|runsPerArm = 58|costSaving = 74/);
+  const { report, copyTokens, fillKnown } = await import('../lib/benchmark/report.ts');
+  const labelsOf = (dict) => ({
+    notMeasured: dict.home.pilot.notMeasured,
+    undefinedPerAccepted: dict.home.pilot.undefinedPerAccepted,
+  });
+  const enPilot = fillKnown(en.home.pilot, copyTokens(report, 'en', labelsOf(en)));
+  const trPilot = fillKnown(tr.home.pilot, copyTokens(report, 'tr', labelsOf(tr)));
+  assert.equal(enPilot.title, '74% lower cost. More tasks accepted.');
+  assert.match(trPilot.title, /^%74 daha düşük maliyet/);
   assert.match(
     en.home.pilot.footnote,
     /Internal pilot, not an independent benchmark/,
@@ -311,18 +306,20 @@ test('shows the internal pilot benchmark high on the home page with exact, quali
   assert.match(en.home.pilot.footnote, /cold start, with no prior outcome history/);
   assert.doesNotMatch(en.home.pilot.footnote, /still to run/);
   for (const dict of [en, tr]) assert.ok(dict.home.pilot.coldStart);
-  assert.equal(en.home.pilot.warm.title, 'Corrected tasks: 4 failures → 0');
-  assert.equal(tr.home.pilot.warm.title, 'Düzeltilen görevler: 4 hata → 0');
+  assert.equal(enPilot.warm.title, 'Corrected tasks: 4 failures → 0');
+  assert.equal(trPilot.warm.title, 'Düzeltilen görevler: 4 hata → 0');
   // Learning keeps corrected tasks on the stronger model; it must not read as closing the overall gap.
-  assert.match(en.home.pilot.warm.overall, /^Overall still 54\/58/);
-  assert.match(tr.home.pilot.warm.overall, /^Genel sonuç yine 54\/58/);
-  assert.ok(en.home.pilot.warm.cost.includes('$4.98 (cold $4.65), still 72% below always-Opus'));
-  const warmPage = en.benchmark.sections.map((s) => s.body).join(' ');
+  assert.match(enPilot.warm.overall, /^Overall still 54\/58/);
+  assert.match(trPilot.warm.overall, /^Genel sonuç yine 54\/58/);
+  assert.ok(enPilot.warm.cost.includes('$4.98 (cold $4.65), still 72% below always-Opus'));
+  const enBenchmark = fillKnown(en.benchmark, copyTokens(report, 'en', labelsOf(en)));
+  const warmPage = enBenchmark.sections.map((s) => s.body).join(' ');
   assert.match(warmPage, /stayed at 54 of 58 accepted/);
   assert.match(warmPage, /overall gap does not close by itself/);
   assert.match(warmPage, /internal pilot, not an independent benchmark/);
   for (const dict of [en, tr]) {
-    const text = JSON.stringify(dict.home.pilot.warm) + JSON.stringify(dict.benchmark);
+    const rendered = dict === en ? enPilot : trPilot;
+    const text = JSON.stringify(rendered.warm) + JSON.stringify(dict.benchmark);
     assert.doesNotMatch(text, /58\/58|100%|%100|closes the gap|gap closes|fark kapanır/i);
   }
   assert.match(en.home.pilot.note, /^Internal pilot, not an independent benchmark/);
