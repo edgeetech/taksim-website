@@ -299,7 +299,7 @@ export const tr: Dictionary = {
     faq: [
       {
         q: 'Taksim, Claude veya ChatGPT subscription’ımda modelimi değiştirir mi?',
-        a: 'Varsayılan olarak hayır. Claude Pro, Max veya Team girişinde `taksim routing subscription on` ile isteğe bağlı açabilirsiniz; bu durumda `taksim claude` yalnızca Claude modelleri arasında, kuruluşunuzun izin verdiği modeller içinde geçiş yapar ve --model ile /model seçimlerinizi başlangıç modelinden uzak tutar. Kimlik bilgisi girişiniz olarak kalır, kullanım subscription’da kalır. Ayar kapalıyken ve ChatGPT planındaki Codex için her zaman Taksim yalnızca gözlemler. Taksim’in Opus’a çıkardığı istekler plan kotasını daha hızlı tüketir. Claude masaüstü uygulaması (Code sekmesi) yalnızca `taksim desktop on` çalıştırdıktan sonra yönlendirilir.',
+        a: 'Varsayılan olarak hayır. Claude Pro, Max veya Team girişinde `taksim routing subscription on` ile isteğe bağlı açabilirsiniz; bu durumda `taksim claude` yalnızca Claude modelleri arasında, kuruluşunuzun izin verdiği modeller içinde geçiş yapar ve --model ile /model seçimlerinizi başlangıç modelinden uzak tutar. Kimlik bilgisi girişiniz olarak kalır, kullanım subscription’da kalır. Ayar kapalıyken ve ChatGPT planındaki Codex için her zaman Taksim yalnızca gözlemler. Taksim’in Opus’a çıkardığı istekler plan kotasını daha hızlı tüketir. Claude masaüstü uygulaması (Code sekmesi) gözlemlenir, yönlendirilmez: uygulama her oturum için kendi API uç noktasını belirler. `taksim desktop on`, terminalden başlatılan düz `claude` CLI oturumlarını yönlendirir.',
       },
       {
         q: 'Ücretsiz sürümü işte kullanabilir miyim?',
@@ -453,9 +453,9 @@ export const tr: Dictionary = {
       subscriptionTitle: 'Claude subscription’ında yönlendirme isteğe bağlıdır',
       subscriptionBody:
         'Varsayılan olarak Taksim, Claude ve ChatGPT planlarında yerel geçmişi ve hook’ları okur, modeli değiştirmez. `taksim routing subscription on` ile açarsanız, Pro, Max veya Team girişindeki `taksim claude` yerel gateway üzerinden geçer. Yalnızca base URL ayarlanır; kimlik bilgisi girişiniz olarak kalır, Taksim onu asla okumaz, kopyalamaz veya loglamaz ve kullanım subscription’da kalır. Taksim yalnızca Claude modelleri arasında geçiş yapar ve yalnızca Taksim üzerinden başlattığınız oturumlarda. ChatGPT planındaki Codex yalnızca gözlemlenir.',
-      desktopTitle: 'Claude masaüstü uygulaması yönlendirmesi de isteğe bağlıdır',
+      desktopTitle: 'Claude masaüstü uygulaması gözlemlenir, yönlendirilmez',
       desktopBody:
-        'Claude masaüstü uygulamasının (Code sekmesi) oturumlarını yerel gateway üzerinden yönlendirmek için bir kez `taksim desktop on` çalıştırın; `taksim desktop off` kapatır. Varsayılan olarak kapalıdır ve yalnızca Windows’ta test edilmiştir. Her Windows oturumunda tek bir gateway çalışır. Gateway kullanılamıyorsa oturumlar doğrudan Anthropic’e gider. Yalnızca Claude modelleri kullanılır; kuruluşunuzun `availableModels` ayarı, --model ve /model dikkate alınır. Girişiniz değiştirilmeden iletilir, okunmaz ve saklanmaz.',
+        'Claude masaüstü uygulamasının Code sekmesi gözlemlenir (maliyet raporları, oturum içi judge), yönlendirilmez. Uygulama her oturum için kendi API uç noktasını belirlediğinden yönlendirme henüz mümkün değil; bu oturumlar doğrudan Anthropic’e gider. `taksim desktop on`, o profilde terminalden başlatılan düz `claude` CLI oturumlarını yönlendirir; `taksim desktop off` kapatır, `taksim desktop status` durumu gösterir. Varsayılan olarak kapalıdır ve yalnızca Windows’ta test edilmiştir. Her Windows oturumunda tek bir gateway çalışır. Gateway kullanılamıyorsa oturumlar doğrudan Anthropic’e gider. Yalnızca Claude modelleri kullanılır; kuruluşunuzun `availableModels` ayarı, --model ve /model dikkate alınır. Girişiniz değiştirilmeden iletilir, okunmaz ve saklanmaz.',
     },
     faqTitle: 'Diğer sorular',
     faq: [
@@ -629,7 +629,7 @@ export const tr: Dictionary = {
       },
       {
         q: 'Taksim, Claude veya ChatGPT subscription’ımda modelimi değiştirir mi?',
-        a: 'Varsayılan olarak hayır. Claude Pro, Max veya Team girişinde `taksim routing subscription on` ile isteğe bağlı açabilirsiniz; bu durumda `taksim claude` yalnızca Claude modelleri arasında, kuruluşunuzun izin verdiği modeller içinde geçiş yapar ve --model ile /model seçimlerinizi başlangıç modelinden uzak tutar. Kimlik bilgisi girişiniz olarak kalır, kullanım subscription’da kalır. Ayar kapalıyken ve ChatGPT planındaki Codex için her zaman Taksim yalnızca gözlemler. Taksim’in Opus’a çıkardığı istekler plan kotasını daha hızlı tüketir. Claude masaüstü uygulaması (Code sekmesi) yalnızca `taksim desktop on` çalıştırdıktan sonra yönlendirilir.',
+        a: 'Varsayılan olarak hayır. Claude Pro, Max veya Team girişinde `taksim routing subscription on` ile isteğe bağlı açabilirsiniz; bu durumda `taksim claude` yalnızca Claude modelleri arasında, kuruluşunuzun izin verdiği modeller içinde geçiş yapar ve --model ile /model seçimlerinizi başlangıç modelinden uzak tutar. Kimlik bilgisi girişiniz olarak kalır, kullanım subscription’da kalır. Ayar kapalıyken ve ChatGPT planındaki Codex için her zaman Taksim yalnızca gözlemler. Taksim’in Opus’a çıkardığı istekler plan kotasını daha hızlı tüketir. Claude masaüstü uygulaması (Code sekmesi) gözlemlenir, yönlendirilmez: uygulama her oturum için kendi API uç noktasını belirler. `taksim desktop on`, terminalden başlatılan düz `claude` CLI oturumlarını yönlendirir.',
       },
       {
         q: '“Tasarruf edilebilirdi” rakamı garantili mi?',
@@ -694,9 +694,9 @@ export const tr: Dictionary = {
         access: 'Claude planı',
         observe: 'Kullanıcı düzeyindeki bir hook ile yerel transkriptler.',
         judge: '',
-        gateway: 'İsteğe bağlı: Code sekmesi oturumlarını yönlendirmek için bir kez taksim desktop on çalıştırın (Windows’ta test edildi).',
+        gateway: 'Code sekmesi henüz yönlendirilmiyor, yalnızca gözlemleniyor: uygulama her oturum için kendi API uç noktasını belirler. `taksim desktop on` terminaldeki düz `claude` oturumlarını yönlendirir.',
         context: '',
-        route: 'İsteğe bağlı, yalnızca Claude modelleri; kimlik bilgisi olarak girişiniz kalır.',
+        route: 'Code sekmesi için henüz yok.',
       },
       claudeCodeApi: {
         client: 'Claude Code',
@@ -984,7 +984,7 @@ export const tr: Dictionary = {
       body3:
         'Neden isteğe bağlı ve yalnızca-Claude: Taksim bir subscription turunu asla üçüncü taraf bir modele yönlendirmez ve gateway girişinizi asla okumaz, kopyalamaz veya loglamaz. EdgeeTech, Anthropic koşullarını Claude modelleri arasında seçime izin veren ve üçüncü taraf modelleri yasaklayan şekilde okur; bu, Anthropic onayı değildir. Anthropic’in Claude Code için Legal and compliance sayfası, Claude.ai kimlik bilgilerine üçüncü taraf aracılığını kısıtlıyor (Free, Pro ve Max’i anıyor; Team ve Enterprise açıkça ele alınmıyor); `routing.subscription` bu yüzden varsayılan olarak kapalıdır ve açıp açmamaya siz karar verirsiniz. OpenAI, ChatGPT girişi için bir proxy yolu belgeliyor; ancak Taksim bu yolda plan, kota ve workspace denetimlerinin korunduğunu doğrulamadı, bu yüzden Codex planları yalnızca gözlemlenir. Sağlayıcı hakları ve workspace politikası belirleyici olmaya devam eder.',
       body4:
-        'Claude masaüstü uygulamasının (Code sekmesi) oturumları yalnızca bir kez `taksim desktop on` çalıştırdığınızda yönlendirilir; `taksim desktop off` kapatır ve varsayılan olarak kapalıdır. `routing.subscription` üzerine kuruludur; aynı yalnızca-Claude izin listesi, `availableModels`, --model ve /model kuralları geçerlidir ve giriş değiştirilmeden iletilir, okunmaz ve saklanmaz. Her Windows oturumunda tek bir gateway çalışır. Gateway kullanılamıyorsa oturumlar doğrudan Anthropic’e gider (fail-open). Windows’ta test edildi; bu özellik için macOS test edilmedi.',
+        'Claude masaüstü uygulamasının (Code sekmesi) oturumları henüz yönlendirilmez, yalnızca gözlemlenir: uygulama her oturum için kendi API uç noktasını belirlediğinden bu oturumlar doğrudan Anthropic’e gider. `taksim desktop on`, o profilde terminalden başlatılan düz `claude` CLI oturumlarını yönlendirir; `taksim desktop off` kapatır ve varsayılan olarak kapalıdır. `routing.subscription` üzerine kuruludur; aynı yalnızca-Claude izin listesi, `availableModels`, --model ve /model kuralları geçerlidir ve giriş değiştirilmeden iletilir, okunmaz ve saklanmaz. Her Windows oturumunda tek bir gateway çalışır. Gateway kullanılamıyorsa oturumlar doğrudan Anthropic’e gider (fail-open). Windows’ta test edildi; bu özellik için macOS test edilmedi.',
     },
     verification: {
       title: 'Doğrulama kanıta bağlıdır',
@@ -1267,8 +1267,8 @@ export const tr: Dictionary = {
         'Düşürülmüş bir turda sorun işaretleri görüldüğünde (tool, test veya build hataları, yeniden deneme ya da düzeltme, upstream hatası), Taksim istediğiniz modele geri döner ve o aşama boyunca orada kalır. Size herhangi bir yanıt ulaşmadan başarısız olan düşürülmüş bir çağrı, sizin modelinizle bir kez yeniden denenir. `diagnostics downgrades` her düşürmeyi ve escalation’ı gösterir. Claude subscription yönlendirmesi ayrı bir isteğe bağlı ayardır (`taksim routing subscription on`); ChatGPT planları yalnızca gözlemlenir. Yönlendirme sonuçlardan da öğrenir. Aşağı geçilen bir tura “Hayır, yanlış olmuş” gibi bir düzeltmeyle cevap verirseniz (Türkçe ya da İngilizce), Taksim başlangıç modeline döner ve reddi kendisi kaydeder; `taksim routing outcome record --session <id> --result rejected` ile bildirim ya da oturum içi bir judge kararı da sayılır. Ardından Taksim aynı türden bir görev bir sonraki sefer başladığında başlangıç modelini korur. Yalnızca anahtarlı bir görev parmak izi saklanır, `taksim routing outcome list` kaydedilenleri gösterir ve `taksim memory forget` bunu temizler.',
     },
     desktop: {
-      title: 'Claude masaüstü uygulamasını yönlendirme',
-      body: 'Claude masaüstü uygulamasının (Code sekmesi) oturumları varsayılan olarak yalnızca gözlemlenir. Bunları yerel gateway üzerinden yönlendirmek için aşağıdaki komutu bir kez çalıştırın; isteğe bağlıdır, varsayılan olarak kapalıdır ve yalnızca Windows’ta test edilmiştir. Yalnızca Claude modelleri kullanılır, kuruluşunuzun `availableModels` ayarı içinde kalır; --model ve /model dikkate alınır. Her Windows oturumunda tek bir gateway çalışır; kullanılamıyorsa oturumlar doğrudan Anthropic’e gider. Girişiniz değiştirilmeden iletilir, okunmaz ve saklanmaz. `taksim desktop off` kapatır.',
+      title: 'Düz claude terminal oturumlarını yönlendirme',
+      body: 'Claude masaüstü uygulamasının (Code sekmesi) oturumları gözlemlenir (maliyet raporları, oturum içi judge), yönlendirilmez: uygulama her oturum için kendi API uç noktasını belirlediğinden yönlendirme henüz mümkün değil. Terminalden başlatılan düz `claude` CLI oturumlarını o profilde yönlendirmek için aşağıdaki komutu bir kez çalıştırın; isteğe bağlıdır, varsayılan olarak kapalıdır ve yalnızca Windows’ta test edilmiştir. Yalnızca Claude modelleri kullanılır, kuruluşunuzun `availableModels` ayarı içinde kalır; --model ve /model dikkate alınır. Her Windows oturumunda tek bir gateway çalışır; kullanılamıyorsa oturumlar doğrudan Anthropic’e gider. Girişiniz değiştirilmeden iletilir, okunmaz ve saklanmaz. `taksim desktop off` kapatır.',
     },
     team: {
       title: 'Ekip toplu görünümü',
@@ -1282,7 +1282,7 @@ export const tr: Dictionary = {
       cache: 'Cache guard',
       insights: 'Kota ve anomaliler',
       routing: 'Yönlendirme (API key)',
-      desktop: 'Yönlendirme (Claude masaüstü)',
+      desktop: 'Yönlendirme (düz claude oturumları)',
       team: 'Ekip toplu görünümü',
     },
   },
