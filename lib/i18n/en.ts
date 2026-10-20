@@ -1267,7 +1267,7 @@ export const en = {
     },
     desktop: {
       title: 'Routing plain claude terminal sessions',
-      body: 'Claude desktop app (Code tab) sessions are observed (cost reports, in-session judge), not routed: the app sets its own API endpoint for each session, so routing is not available for it yet. To route plain `claude` CLI sessions started from a terminal on that profile, run this once; it is opt-in, off by default and tested on Windows only. Only Claude models are used, within your organisation’s `availableModels`, and --model and /model are respected. One gateway runs per Windows logon session; if it is unavailable, sessions go straight to Anthropic. Your login is forwarded unchanged, never read or stored. `taksim desktop off` turns it off.',
+      body: 'Claude desktop app (Code tab) sessions are observed (cost reports, in-session judge), not routed: the app sets its own API endpoint for each session, so routing is not available for it yet. To route plain `claude` CLI sessions started from a terminal on that profile, run this once; it is opt-in, off by default and tested on Windows only. Only Claude models are used, within your organisation’s `availableModels`, and --model and /model are respected. One gateway runs per Windows logon session; if it is unavailable, sessions go straight to Anthropic. Your login is forwarded unchanged, never read or stored. `taksim desktop status` warns when the desktop app’s launch environment bypasses Taksim. In routed sessions a one-line notice names the model when a reply came from a different model than you asked for. `taksim desktop off` turns it off.',
     },
     team: {
       title: 'Team roll-up',
