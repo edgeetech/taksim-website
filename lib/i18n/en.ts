@@ -970,7 +970,7 @@ export const en = {
     },
     gateway: {
       title: 'Local gateway, fail-open by design',
-      body: 'Optional live routing for API-key traffic uses a local gateway on 127.0.0.1. Telemetry, persistence, and remote advice do not get to hold a healthy provider request hostage.',
+      body: 'Optional live routing for API-key traffic uses a local gateway on 127.0.0.1. The gateway answers only loopback requests from your own machine and refuses cross-site browser requests, so web pages cannot reach it. Telemetry, persistence, and remote advice do not get to hold a healthy provider request hostage.',
       calloutTitle: 'Native workflow stays available',
       calloutBody:
         'If the managed path cannot start safely, Taksim preserves the native client invocation instead of blocking the developer. Raw prompt, response, and source content is not persisted by default. Update and pricing checks use the network; optional remote judges receive evaluation content, and configured notifications or exports send their selected data. Your coding client still connects to its own provider.',

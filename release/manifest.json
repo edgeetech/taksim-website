@@ -1,9 +1,9 @@
 {
   "schema": "taksim.release-manifest.v1",
   "repository": "edgeetech/taksim-releases",
-  "version": "0.3.14",
-  "tag": "v0.3.14",
-  "sourceCommit": "29a67b4268e8e9a86f3a847833bcc18ef08d2e76",
+  "version": "0.3.15",
+  "tag": "v0.3.15",
+  "sourceCommit": "7c06755d0afa9991052301e0bbe31b7d47b59399",
   "platforms": [
     "win-x64",
     "osx-arm64",
@@ -21,7 +21,7 @@
   ],
   "install": {
     "oneLine": "& ([scriptblock]::Create((irm https://github.com/edgeetech/taksim-releases/releases/latest/download/install.ps1))) -AllowUnsigned",
-    "pinned": "& ([scriptblock]::Create((irm https://github.com/edgeetech/taksim-releases/releases/latest/download/install.ps1))) -Version v0.3.14 -NoSetup -AllowUnsigned"
+    "pinned": "& ([scriptblock]::Create((irm https://github.com/edgeetech/taksim-releases/releases/latest/download/install.ps1))) -Version v0.3.15 -NoSetup -AllowUnsigned"
   },
   "commands": [
     "budget",
@@ -402,5 +402,5 @@
     }
   ],
   "source": "release-manifest",
-  "publishedAt": "2026-10-20T03:08:34Z"
+  "publishedAt": "2026-10-21T09:18:06Z"
 }
