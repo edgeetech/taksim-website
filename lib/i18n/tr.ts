@@ -971,7 +971,7 @@ export const tr: Dictionary = {
     },
     gateway: {
       title: 'Yerel gateway, tasarımı gereği fail-open',
-      body: 'API key trafiği için isteğe bağlı canlı yönlendirme, 127.0.0.1 üzerindeki yerel bir gateway’i kullanır. Telemetri, kalıcı kayıt ve uzak öneriler, sağlıklı bir sağlayıcı isteğini asla bekletemez.',
+      body: 'API key trafiği için isteğe bağlı canlı yönlendirme, 127.0.0.1 üzerindeki yerel bir gateway’i kullanır. Gateway yalnızca kendi makinenizden gelen loopback isteklerini yanıtlar ve siteler arası (cross-site) tarayıcı isteklerini reddeder; web sayfaları ona erişemez. Telemetri, kalıcı kayıt ve uzak öneriler, sağlıklı bir sağlayıcı isteğini asla bekletemez.',
       calloutTitle: 'Yerel iş akışı her zaman kullanılabilir',
       calloutBody:
         'Yönetilen yol güvenli şekilde başlatılamazsa Taksim, geliştiriciyi engellemek yerine istemcinin yerel çağrısını korur. Ham prompt, yanıt ve kaynak içerik varsayılan olarak kalıcı saklanmaz. Güncelleme ve fiyat kontrolleri ağı kullanır; isteğe bağlı uzak judge’lar değerlendirme içeriğini, yapılandırılmış bildirim veya dışa aktarma hedefleri seçilen verileri alır. Kodlama istemciniz kendi sağlayıcısına bağlanmaya devam eder.',
