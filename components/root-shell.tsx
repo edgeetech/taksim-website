@@ -1,4 +1,5 @@
 import { Bricolage_Grotesque, Geist, Geist_Mono } from 'next/font/google';
+import { CloudflareAnalytics } from '@/components/cf-analytics';
 import { Footer, Header } from '@/components/site-chrome';
 import { getDictionary, localePreferenceScript, type Locale } from '@/lib/i18n';
 
@@ -23,6 +24,7 @@ export function RootShell({ locale, children }: { locale: Locale; children: Reac
         <Header locale={locale} />
         <div id="main-content">{children}</div>
         <Footer locale={locale} />
+        <CloudflareAnalytics />
       </body>
     </html>
   );

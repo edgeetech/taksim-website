@@ -23,6 +23,7 @@ export const localizedRoutes = [
   '/clients/',
   '/benchmark/',
   '/privacy/',
+  '/privacy/verify/',
   '/terms/',
   '/contact/',
 ] as const;

@@ -23,3 +23,11 @@ By owner decision on 2026-10-09 the site has no analytics. Nothing collects the 
 - This site's own release sync (`scripts/release.mjs sync`, run by every Validate workflow run, including the 6-hourly schedule) downloads `install.ps1`, `SHA256SUMS.txt` and the manifest of the latest release. Installers never fetch the manifest, so the report subtracts manifest downloads from install-script downloads per release to estimate real new installs plus in-place updates.
 - Counts are cumulative, include retries and bots, and cannot be tied to a visitor or a site page.
 - Print the report only; do not commit counts or results.
+
+## Launch switches
+
+`lib/launch.ts` reads build-time `PUBLIC_*` variables. Each one is optional; unset or invalid means the feature is off and nothing is emitted.
+
+- `PUBLIC_PRO_CHECKOUT_URL`, `PUBLIC_TEAM_CHECKOUT_URL`: https Paddle checkout links for the Pro and Team buy buttons. Unset: the plan shows "Coming soon" and a mailto waitlist link.
+- `PUBLIC_DEMO_VIDEO_URL` (https `.mp4` or `.webm`), `PUBLIC_DEMO_CAPTIONS_URL` (https `.vtt`, optional): the demo block on `/pricing`. Unset: no block. Storyboard: `docs/launch-demo-storyboard.md`.
+- `PUBLIC_CF_ANALYTICS_TOKEN`: Cloudflare Web Analytics site token (32 hex characters). Set: `components/cf-analytics.tsx` adds the cookieless beacon to every page. Unset: no third-party script. This supersedes the no-analytics owner decision above only once the owner sets the variable; update `/privacy` (the website-data section says no third-party analytics tracker is loaded) in the same release, and keep the `data-funnel` markers uncollected.
