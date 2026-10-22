@@ -29,11 +29,13 @@ test('uses the selected Taksim brand mark alongside accessible product text', as
   assert.match(metadata, /taksim-icon-v1\.svg/);
 });
 
-test('keeps the CLI free for individuals, including at work, and publishes Team pricing', async () => {
+test('keeps the free plan free for individuals, including at work, and publishes Pro and Team pricing', async () => {
   const copy = await source(copyPath);
   assert.match(copy, /for any individual, at home or at work/);
-  assert.match(copy, /price: '\$8'/);
-  assert.match(copy, /\$99 per month minimum/);
+  assert.match(copy, /price: '\$12'/);
+  assert.match(copy, /price: '\$18'/);
+  assert.match(copy, /Minimum 5 seats/);
+  assert.doesNotMatch(copy, /price: '\$8'|\$99 per month/);
   assert.match(copy, /Can I use the free version at work\?/);
   for (const path of [
     copyPath,

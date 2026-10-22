@@ -11,7 +11,12 @@ export const tr: Dictionary = {
       pricing: {
         title: 'Fiyatlandırma',
         description:
-          'Taksim CLI, evde ya da işte, her bireysel geliştirici için ücretsizdir. Team: aktif geliştirici başına aylık $8, en az $99.',
+          'Free, evde ya da işte her birey için içe aktarma, judge ve dashboard sunar. Pro: kendi API key’inizde canlı yönlendirme için aylık $12. Team: geliştirici başına aylık $18, en az 5 koltuk.',
+      },
+      verify: {
+        title: 'Kendiniz doğrulayın',
+        description:
+          'Taksim’in yalnızca yerel çalışmasını kendi araçlarınızla doğrulayın: TAKSIM_HOME altına hangi dosyaları yazdığını, hangi ağ uç noktalarını çağırabildiğini ve bunları netstat, Get-NetTCPConnection, Kaynak İzleyicisi veya lsof ile nasıl izleyeceğinizi görün.',
       },
       docs: {
         title: 'Dokümantasyon',
@@ -79,6 +84,7 @@ export const tr: Dictionary = {
       pricing: 'Fiyatlandırma',
       docs: 'Dokümanlar',
       benchmark: 'Pilot benchmark',
+      verify: 'Kendiniz doğrulayın',
     },
     talkToUs: 'Bize ulaşın',
     install: 'Taksim’i ücretsiz edinin',
@@ -292,7 +298,7 @@ export const tr: Dictionary = {
       link: 'Gizlilik modelini okuyun',
       more: 'Neler saklanır, ayrıntılı',
     },
-    pricingTitle: 'Geliştiricilere ücretsiz. Ekiplere ücretli.',
+    pricingTitle: 'Görmek ücretsiz. Yönlendirmek Pro. Ekip toplamak Team.',
     pricingMore: 'Planları karşılaştırın',
     faqTitle: 'Sorular',
     faqMore: 'Diğer sorular',
@@ -586,50 +592,163 @@ export const tr: Dictionary = {
 
   plans: {
     developer: {
-      name: 'Developer',
-      price: 'Ücretsiz',
+      name: 'Free',
+      price: '$0',
       sub: 'Evde ya da işte, her birey için ücretsiz.',
       value: 'Kurun ve kullanın. Hesap ya da kart gerekmez.',
       features: [
-        'Zaten sahip olduğunuz geçmişle çalışır: Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code, Pi ve Agent Workstation',
+        'Zaten sahip olduğunuz geçmişi içe aktarır: Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code, Pi ve Agent Workstation',
         'Yerel dashboard, haftalık rapor, digest ve status line',
         'Model, repo ve istemciye göre harcama, cache verimliliği ve subscription kota pencereleri',
         'İki judge consensus’u ve seçtiğiniz judge ile (oturum içi Claude veya Codex, Ollama, kendi API key’iniz) tur tur değerlendirme',
         'Yerelde tutulan karar hafızası ve doğrulama kanıtı',
-        'Kendi API key’inize faturalanan trafik için isteğe bağlı canlı yönlendirme',
         'Tasarımı gereği gizli: defterde prompt, yanıt veya kod yok',
       ],
       cta: 'Taksim’i ücretsiz edinin',
     },
+    pro: {
+      name: 'Pro',
+      price: '$12',
+      per: 'aylık',
+      sub: 'Kendi Anthropic API key’inizle çalışan Claude Code için.',
+      features: [
+        'Free’deki her şey',
+        'Kendi API key’inizle Claude Code için canlı model yönlendirme; `taksim claude` ile başlattığınız oturumlarda',
+        'Otomatik varsayılan seviyeler ve sonuçtan öğrenme: reddettiğiniz görev daha güçlü modelde kalır',
+        'Slack ve webhook uyarılı bütçeler (yalnızca uyarı; hiçbir şey engellenmez)',
+        'Çevrimdışı lisans: hesap yok ve doğrulamak için EdgeeTech’e hiçbir şey gönderilmez',
+      ],
+    },
     team: {
       name: 'Team',
-      price: '$8',
-      per: 'aktif geliştirici başına, aylık',
-      sub: 'Aylık en az $99. Yıllık faturalandırmada %20 indirim.',
+      price: '$18',
+      per: 'geliştirici başına, aylık',
+      sub: 'En az 5 koltuk; en küçük boyutta aylık $90.',
       features: [
+        'Pro’daki her şey',
         'Geliştirici export’larından ekip toplu görünümü; barındırılan bir servis gerekmez',
-        'Ekip lideri için haftalık tasarruf özeti',
         'İç maliyet dağıtımı veya müşteriye yeniden faturalandırma için repo ve göreve göre maliyet',
         'Geliştirici, repo ve ekip bazında bütçe uyarıları (bilgilendirme amaçlı; hiçbir şey engellenmez)',
         'Her geliştirici kendi export’unu oluşturur ve paylaşmadan önce inceleyebilir; export’lar dosya yollarını değil, repo takma adlarını içerir',
       ],
-      cta: 'Ekip pilotu başlatın',
+      talk: 'Team için bizimle konuşun',
     },
+    buy: { pro: 'Pro satın alın', team: 'Team satın alın' },
+    soon: 'Çok yakında',
+    soonNote: 'Ödeme henüz açık değil.',
+    waitlist: 'Bekleme listesine katılın',
+    launch: 'Lansman teklifi: ilk 20 müşteriye %50 indirim.',
+    payment: 'Ödemeyi satıcı kuruluşumuz (merchant of record) Paddle yönetir.',
   },
 
   pricing: {
-    title: 'Geliştiricilere ücretsiz. Ekiplere ücretli.',
-    lede: 'Developer planı, evde ya da işte, her birey için ücretsizdir: CLI’ı kurun ve kullanın, hesap gerekmez. Şirketler ekip toplu görünümü için ödeme yapar.',
+    title: 'Görmek ücretsiz. Yönlendirmek Pro. Ekip toplamak Team.',
+    lede: 'Free, evde ya da işte, her birey için hesapsız içe aktarma, judge ve dashboard sunar. Pro, kendi Anthropic API key’inizde canlı yönlendirme ve bütçeler ekler. Team, şirketler için toplu görünüm ve maliyet dağıtımı ekler.',
+    demo: {
+      title: 'Çalışırken izleyin',
+      body: 'Kısa bir terminal kaydı: kurulum, yönlendirilmiş bir Claude Code yanıtı, dashboard ve maliyet raporu.',
+      label: 'Taksim terminal demosu',
+      fallback: 'Tarayıcınız bu videoyu oynatamıyor.',
+    },
+    pilot: {
+      title: 'İç pilotumuzda yönlendirme ne yaptı',
+      lede: 'Aynı {tasks} kodlama görevi üç şekilde çalıştırıldı: hep Opus, hep Sonnet ve Taksim’in seçtiği. Gizli otomatik kontroller her koşuyu değerlendirdi.',
+      caption: 'İç pilot: kabul edilen koşular, maliyet ve kabul edilen görev başına maliyet',
+      columns: {
+        arm: 'Kol',
+        accepted: 'Kabul edilen',
+        cost: 'Maliyet',
+        perAccepted: 'Kabul edilen görev başına',
+      },
+      arms: {
+        opus: 'Hep Opus',
+        sonnet: 'Hep Sonnet',
+        taksim: 'Taksim yönlendirmeli',
+      },
+      acceptedOf: '{total} içinde {n}',
+      summary:
+        'Yönlendirilen koşular hep-Opus’tan {costSavingPct} daha ucuza geldi; {runsPerArm} koşudan {taksimAccepted} tanesi kabul edildi, Opus’ta {opusAccepted}. Hep-Sonnet {sonnetCost} tuttu ve {runsPerArm} koşudan {sonnetAccepted} tanesi kabul edildi; yani bu görev setinde çok yakın ikinci oldu.',
+      caveat:
+        'İç pilot; bağımsız bir benchmark değildir ve held-out değildir: kendi {tasks} görevimiz, {totalRuns} koşu, tek makine, önceki sonuç geçmişi olmayan bir soğuk başlangıç. Maliyetler fatura değil, API karşılığı liste fiyatlarıdır. Sonuçlar yalnızca bu pilot için geçerlidir; sizin tasarrufunuz farklı olacaktır. Taksim yalnızca Claude modelleri arasında geçiş yapar.',
+      method: 'Yöntem, görev seti ve uyarılar',
+    },
+    matrix: {
+      title: 'Planları karşılaştırın',
+      caption: 'Her Taksim planının neleri içerdiği',
+      regionLabel: 'Plan karşılaştırma tablosu, yatay kaydırılır',
+      capability: 'Özellik',
+      included: 'Dahil',
+      excluded: 'Dahil değil',
+      groups: {
+        observe: 'Harcamanızı görün',
+        route: 'Yönlendirin ve denetleyin',
+        team: 'Ekip genelinde toplayın',
+      },
+      rows: {
+        import: {
+          label: 'Desteklenen istemcilerden geçmişi içe aktarma',
+          note: 'Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code, Pi ve Agent Workstation.',
+        },
+        dashboard: {
+          label: 'Yerel dashboard, haftalık rapor ve status line',
+          note: 'Model, repo ve istemciye göre harcama, cache verimliliği ve kota pencereleri.',
+        },
+        judge: {
+          label: 'Biten turları judge ile değerlendirme',
+          note: 'İki judge consensus’u; oturum içi Claude veya Codex, Ollama ya da kendi API key’iniz ile.',
+        },
+        routing: {
+          label: 'Kendi API key’inizde Claude Code için canlı yönlendirme',
+          note: 'Taksim üzerinden başlattığınız oturumlarda `taksim claude`. Yalnızca Claude modelleri arasında.',
+        },
+        learning: {
+          label: 'Otomatik varsayılan seviyeler ve sonuçtan öğrenme',
+          note: '`taksim routing auto`. Reddettiğiniz görev daha güçlü modelde kalır.',
+        },
+        budgets: {
+          label: 'Slack ve webhook uyarılı bütçeler',
+          note: 'Yalnızca uyarı; hiçbir şey engellenmez.',
+        },
+        rollup: {
+          label: 'Ekip toplu görünümü',
+          note: '`taksim report team`; her geliştiricinin inceleyebildiği export’lardan oluşur. Barındırılan servis yok.',
+        },
+        chargeback: {
+          label: 'Repo ve göreve göre maliyet',
+          note: 'İç maliyet dağıtımı veya müşteriye yeniden faturalandırma için.',
+        },
+      },
+    },
     modesTitle: 'Taksim’in maliyeti nasıl saydığı, işin nasıl faturalandığına bağlıdır',
     faqTitle: 'Fiyatlandırma soruları',
     faq: [
       {
         q: 'Ücretsiz sürümü işte kullanabilir miyim?',
-        a: 'Evet. CLI her birey için ücretsizdir. Şirketlerin ödeme yaptığı şey Team özellikleridir.',
+        a: 'Evet. Free, evde ya da işte her birey içindir ve hesap gerektirmez. Şirketlerin ödediği şey canlı yönlendirme (Pro) ve ekip toplu görünümüdür (Team).',
       },
       {
-        q: 'Taksim, Claude veya ChatGPT subscription’ımda modelimi değiştirir mi?',
-        a: 'Varsayılan olarak hayır. Claude Pro, Max veya Team girişinde `taksim routing subscription on` ile isteğe bağlı açabilirsiniz; bu durumda `taksim claude` yalnızca Claude modelleri arasında, kuruluşunuzun izin verdiği modeller içinde geçiş yapar ve --model ile /model seçimlerinizi başlangıç modelinden uzak tutar. Kimlik bilgisi girişiniz olarak kalır, kullanım subscription’da kalır. Ayar kapalıyken ve ChatGPT planındaki Codex için her zaman Taksim yalnızca gözlemler. Taksim’in Opus’a çıkardığı istekler plan kotasını daha hızlı tüketir. Claude masaüstü uygulaması (Code sekmesi) gözlemlenir, yönlendirilmez: uygulama her oturum için kendi API uç noktasını belirler. `taksim desktop on`, terminalden başlatılan düz `claude` CLI oturumlarını yönlendirir.',
+        q: 'Bir Taksim hesabına ihtiyacım var mı?',
+        a: 'Hayır. Taksim hesabı ya da girişi yoktur. Satın aldıktan sonra, Taksim’in kendi makinenizde doğruladığı bir lisans alırsınız.',
+      },
+      {
+        q: 'Çevrimdışı lisans nasıl çalışır?',
+        a: 'Lisans imzalı bir dosyadır. Taksim imzayı yerelde doğrular; bu yüzden doğrulama ağ çağrısı yapmaz ve EdgeeTech’e hiçbir şey göndermez.',
+      },
+      {
+        q: 'Lisansım sona erince ne olur?',
+        a: 'Yönlendirme durur ve Taksim, Free’deki gibi yalnızca gözlemlemeye döner. Claude Code asla engellenmez, verileriniz korunur; defter, dashboard ve judge çalışmaya devam eder.',
+      },
+      {
+        q: 'İadeler nasıl işler?',
+        a: 'Ödemeler ve iadeler satıcı kuruluşumuz (merchant of record) Paddle üzerinden yürür. İade için Paddle makbuzunuzdaki bağlantıyı kullanın ya da [bize e-posta gönderin](mailto:info@edgee.tech?subject=Taksim%20refund).',
+      },
+      {
+        q: 'KDV ve satış vergisini kim üstlenir?',
+        a: 'Paddle. Satıcı kuruluş olarak Taksim’i size o satar, geçerli olduğu yerde KDV ve satış vergisini tahsil edip öder ve faturanızı keser.',
+      },
+      {
+        q: 'Team koltukları nasıl sayılır?',
+        a: 'Geliştirici başına. Team, geliştirici başına aylık $18 ve en az 5 koltuktur; en küçük Team planı aylık $90 eder.',
       },
       {
         q: '“Tasarruf edilebilirdi” rakamı garantili mi?',
@@ -637,9 +756,132 @@ export const tr: Dictionary = {
       },
       {
         q: 'Makinemden dışarı bir şey çıkıyor mu?',
-        a: 'Uzakta çalışan bir judge (kendi API key’iniz veya Jev) seçmediğiniz ya da bir ekip export’u paylaşmadığınız sürece hayır. Export’lar yalnızca metadata içerir.',
+        a: 'Taksim programının telemetri uç noktası yoktur ve içinden hiçbir şey eve haber vermez. Kodlama istemciniz yine kendi sağlayıcısıyla konuşur, güncelleme kontrolleri GitHub’ı kullanır; uzak bir judge, Slack veya webhook yalnızca siz açarsanız veri alır. Hepsini kendiniz doğrulayabilirsiniz: [kendiniz doğrulayın](/privacy/verify).',
       },
     ],
+  },
+
+  verify: {
+    eyebrow: 'Gizlilik',
+    title: 'Kendiniz doğrulayın',
+    lede: 'Taksim’in makinenizde ne yaptığı konusunda sözümüze güvenmek zorunda olmamalısınız. Bu sayfa, diske ne yazdığını ve hangi ağ uç noktalarını çağırabildiğini listeler; ardından ikisini de işletim sisteminizle gelen araçlarla nasıl izleyeceğinizi gösterir.',
+    summaryLabel: 'Kısaca.',
+    summary:
+      'Taksim yerel bir programdır. `TAKSIM_HOME` içinde yalnızca metadata içeren bir defter tutar, yalnızca 127.0.0.1 üzerinde dinler ve telemetri uç noktası yoktur. Yapabildiği giden bağlantılar aşağıda listelenmiştir ve çoğu isteğe bağlıdır.',
+    files: {
+      title: 'Diske ne yazar',
+      lede: 'Taksim verilerini `TAKSIM_HOME` içinde tutar; değişkeni ayarlamazsanız bu `%USERPROFILE%\\.taksim` olur. Veritabanı yalnızca metadata içerir: prompt, yanıt, kaynak kod, diff, araç çıktısı, komut metni, kimlik bilgisi, repo adı ya da yerel yol yok.',
+      homeLabel: '`TAKSIM_HOME` altında',
+      outsideLabel: '`TAKSIM_HOME` dışında',
+      columns: { path: 'Yol', holds: 'Ne tutar' },
+      home: {
+        db: 'Kanonik SQLite veritabanı: oturumlar, token ve gecikme sayıları, model ve maliyet metadata’sı, judge kararları (seviye, güven, işaretler). Herhangi bir SQLite görüntüleyiciyle açabilirsiniz.',
+        reports: 'Oluşturduğunuz haftalık, baseline, ekonomi ve ekip raporları.',
+        judge: 'Oturum içi judge anahtarı, otomatik judge tercihiniz (asla bir key değil), bir maliyet günlüğü ve oturum başına sayaçlar.',
+        routing: 'Yönlendirme anahtarları ve kısa ömürlü oturum başına durum.',
+        budgets: '`taksim budget set` ile belirlediğiniz harcama bütçeleri.',
+        notify: 'Hangi bildirim kanallarının açık olduğu. Windows Credential Manager’da tutulan Slack veya webhook URL’leri asla burada değildir.',
+        policy: 'Yazarsanız yerel politika dosyanız.',
+        pricing: 'Yazdığınız veya içe aktardığınız, isteğe bağlı model başına fiyat geçersiz kılmaları.',
+        secrets: 'Yerel hook uç noktalarını koruyan rastgele ortak bir gizli anahtar.',
+        memory: 'Karar hafızası için kuruluma özel bir anahtar. Prompt’lar yalnızca anahtarlı parmak izi olarak saklanır, asla metin olarak değil.',
+        salt: 'Repo adlarını raporlarda ve export’larda kısa takma adlara çeviren, kuruluma özel bir gizli değer.',
+        aliases: 'Bu takma adlara `taksim repo alias` ile verdiğiniz isteğe bağlı görünen adlar. Asla dışarı aktarılmaz.',
+        logs: 'Gateway çıktısı: istek kimliği, oturum kimliği, rota takma adı, HTTP durumu ve süreler. İstek veya yanıt gövdeleri ve kimlik bilgileri asla yok.',
+        archive: 'Varsayılan olarak kapalı, deneysel bir ayarı açmadıkça kullanılmaz. Açarsanız araç çıktısının tamamı burada 24 saate kadar düz metin olarak tutulur; araç çıktısı gizli bilgi içerebiliyorsa kapalı bırakın.',
+      },
+      outside: {
+        binaries: 'Kurulu program; her sürüm için bir klasör.',
+        gatewayRecord: 'Hangi yerel gateway’in çalıştığı: süreç kimliği, sürüm ve port. Gateway kapanınca silinir.',
+        settings: 'Yalnızca oturum içi judge’ı `taksim judge enable --in-session --user-settings` ile açarsanız: Taksim, Claude Code ayarlarınıza tek bir Stop hook ekler ve yedek tutar. `taksim judge disable --user-settings` onu kaldırır, `--dry-run` değişikliği önizler.',
+      },
+      reads:
+        'Geçmişi içe aktarmak için Taksim, kodlama istemcilerinizin zaten tuttuğu dosyaları, örneğin Claude Code ve Codex oturum klasörlerini okur. Bunları bellekte ayrıştırır ve yalnızca metadata saklar; ham JSON, prompt, kod ve araç çıktısı veritabanına asla ulaşmaz.',
+      uninstall:
+        'Nelerin kaldırılacağını görmek için `taksim uninstall --dry-run` çalıştırın. `--purge-data` eklemediğiniz sürece defteriniz ve raporlarınız korunur.',
+    },
+    network: {
+      title: 'Hangi ağ uç noktalarını çağırabilir',
+      lede: 'Bu liste projenin gizlilik ve yapılandırma dokümantasyonundan gelir. Kodlama istemciniz, Taksim kurulu olsa da olmasa da kendi sağlayıcısıyla konuşmaya devam eder; bu trafik istemciye aittir.',
+      columns: { endpoint: 'Uç nokta', when: 'Ne zaman', sent: 'Ne gönderilir' },
+      hostFallback: {
+        licence: 'Ağ çağrısı yok',
+        webhook: 'Yapılandırdığınız Slack veya webhook URL’si',
+        export: 'Seçtiğiniz bir klasör',
+      },
+      rows: {
+        loopback: {
+          when: 'Her zaman, yalnızca makinenizde',
+          sent: 'Yerel gateway, hook uç noktası ve `taksim dashboard`. Yalnızca loopback isteklerini yanıtlarlar: başka bir ana makine adı için gelen istek HTTP 421, başka bir siteden gelen tarayıcı isteği HTTP 403 alır.',
+        },
+        provider: {
+          when: '`taksim claude` gibi bir komutla istemciyi Taksim üzerinden başlattığınızda',
+          sent: 'Kendi isteğiniz, istemcinizin zaten kullandığı sağlayıcıya iletilir (örneğin API key ile Codex için `api.openai.com`). İzin verilen model veya effort yeniden yazımı dışında hiçbir şey değişmez.',
+        },
+        releases: {
+          when: 'Varsayılan olarak açık: `taksim doctor` içindeki güncelleme kontrolü ve `taksim update`',
+          sent: 'Herkese açık sürüm akışındaki son sürüm için bir istek; yalnızca her HTTPS isteğinin taşıdığını taşır. Doctor kontrolünü `TAKSIM_UPDATE_CHECK=0` ile kapatın.',
+        },
+        anthropicJudge: {
+          when: 'Yalnızca bir Anthropic API-key judge’ı kullanırsanız; bir key tanımlıyken `auto` judge onu seçer',
+          sent: 'Turun kısaltılmış bir alıntısı ve yalnızca metadata içeren sonuç sayıları; kendi key’inizle.',
+        },
+        ollama: {
+          when: 'Yerel daemon yanıt verdiğinde ve judge `auto` olduğunda',
+          sent: 'Makinenizden hiçbir şey çıkmaz; daemon yereldir.',
+        },
+        jev: {
+          when: 'Kapalı. Yalnızca `taksim set-judge jev` sonrası',
+          sent: 'İsteğinizin ve yanıtın kısaltılmış bir alıntısı ile sonuç sayıları; kendi key’inizle. Ortak kimlik bilgisi ve EdgeeTech proxy’si yok.',
+        },
+        githubApi: {
+          when: 'Yalnızca `GITHUB_TOKEN` tanımlıyken veya `gh` oturumu açıkken',
+          sent: 'Harcamayı pull request’lere bağlamak için repo ve pull request kimlikleri.',
+        },
+        webhook: {
+          when: '`taksim notify configure` çalıştırana kadar kapalı',
+          sent: 'Bir digest veya bütçe uyarısı: pencere, başlık harcama, model dağılım payları, bütçe satırları ve repo takma adları. Prompt, yanıt, yol veya kimlik bilgisi asla yok.',
+        },
+        export: {
+          when: 'Yalnızca `taksim report baseline --export` çalıştırdığınızda',
+          sent: 'Yalnızca toplu değerler; bir klasöre yazılır, hiçbir yere gönderilmez. Paylaşmadan önce dosyayı inceleyebilirsiniz.',
+        },
+        licence: {
+          when: 'Asla',
+          sent: 'Ücretli lisans, Taksim’in makinenizde doğruladığı imzalı bir dosyadır. Satın alma Paddle’da tarayıcınızda olur, Taksim programının içinde değil.',
+        },
+      },
+    },
+    watch: {
+      title: 'İşletim sisteminizin kendi araçlarıyla izleyin',
+      lede: 'Hiçbir şey kurmanız gerekmez. Taksim boştayken başlayın, bir komut ya da oturum çalıştırın ve araçların gösterdiğini yukarıdaki tabloyla karşılaştırın.',
+      windowsLabel: 'Windows, PowerShell',
+      windows: '`Get-NetTCPConnection`, bağlantıları sahibi olan süreçle birlikte listeler.',
+      netstatLabel: 'Windows, netstat',
+      netstat: '`netstat -ano` her bağlantıyı bir süreç kimliğiyle yazdırır. Bu kimliği `tasklist` ile eşleştirin.',
+      resmonLabel: 'Windows, Kaynak İzleyicisi',
+      resmon: '`resmon` çalıştırın, **Ağ** sekmesini açın ve Ağ Etkinliği Olan İşlemler altında `taksim.exe` kutusunu işaretleyin. **TCP Bağlantıları** o süreç için her uzak adresi ve portu listeler.',
+      lsofLabel: 'macOS, lsof',
+      lsof: 'macOS’ta (önizleme platformu), `lsof` adı `taksim` ile başlayan her sürecin TCP bağlantılarını listeler.',
+      expectTitle: 'Ne görmelisiniz',
+      expect: [
+        'Dinleyen: yalnızca `127.0.0.1:4027` ve başka hiçbiri; bir gateway çalıştığı sürece. Gateway, iki saat trafik olmayınca kendini durdurur.',
+        'Kurulmuş: yönlendirilen bir oturum sürerken `taksim.exe`’den sağlayıcınıza, güncelleme kontrolünde GitHub’a bağlantılar; bir judge, webhook veya GitHub zenginleştirmesi açmadıysanız başka hiçbiri.',
+        'Araçlar adları değil IP adreslerini gösterir. Bunları ters DNS veya `nslookup` ile çözün ve GitHub ile sağlayıcınız için CDN adresleri bekleyin.',
+        'Kodlama istemcinizin kendi gönderdiği trafik Taksim’in değil, istemcinin sürecinin altında görünür.',
+      ],
+    },
+    doctor: {
+      title: '`taksim doctor` çıktısı',
+      body: '`taksim doctor` bir JSON sağlık özeti yazdırır: veritabanı durumu, kimlik bilgisi modu, gateway’in kullanılıp kullanılmayacağı, güncelleme kontrolü durumu ve öneriler. `"rawSensitiveDataCollected": false` satırına bakın. Bu bir alıntıdır; yollar ve bazı ayrıntılar kırpılmıştır.',
+      label: '`taksim doctor` alıntısı',
+      note: 'Doctor, Taksim’in kendisi hakkında verdiği rapordur. Bağımsız kontrol, yukarıdaki işletim sistemi araçlarıdır.',
+    },
+    limits: {
+      title: 'Bunun kanıtlamadığı şey',
+      body: 'Bu kontroller Taksim’in nereye bağlandığını ve diskinizde ne sakladığını gösterir. Prompt’larınızı kendi koşullarıyla alan kodlama istemcinizi ve sağlayıcılarınızı kapsamaz. Açtığınız bir uzak judge veya webhook, seçtiğiniz hedefe veri gönderir. Bu sayfanın açıklamadığı bir bağlantı bulursanız [bize bildirin](mailto:info@edgee.tech?subject=Taksim%20network%20question).',
+      privacy: 'Gizlilik bildirimini okuyun',
+    },
   },
 
   matrix: {

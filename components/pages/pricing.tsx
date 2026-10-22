@@ -1,5 +1,9 @@
+import { DemoVideo } from '@/components/demo-video';
 import { EconomicModes } from '@/components/economic-modes';
+import { PlanMatrix } from '@/components/plan-matrix';
+import { PricingPilot } from '@/components/pricing-pilot';
 import { PricingPlans } from '@/components/pricing-plans';
+import { Rich } from '@/components/rich';
 import { getDictionary, type Locale } from '@/lib/i18n';
 
 export function PricingPage({ locale }: { locale: Locale }) {
@@ -16,6 +20,16 @@ export function PricingPage({ locale }: { locale: Locale }) {
           <PricingPlans locale={locale} />
         </div>
       </section>
+      <DemoVideo locale={locale} />
+      <section className="band" id="compare" aria-labelledby="pricing-matrix-title">
+        <div className="shell">
+          <div className="section-lead">
+            <h2 id="pricing-matrix-title">{t.matrix.title}</h2>
+          </div>
+          <PlanMatrix locale={locale} />
+        </div>
+      </section>
+      <PricingPilot locale={locale} />
       <section className="band modes" id="billing-modes" aria-labelledby="pricing-modes-title">
         <div className="shell">
           <div className="section-lead">
@@ -25,14 +39,16 @@ export function PricingPage({ locale }: { locale: Locale }) {
           <EconomicModes t={dict.home.modes} />
         </div>
       </section>
-      <section className="band faq" aria-labelledby="pricing-faq-title">
+      <section className="band faq" id="faq" aria-labelledby="pricing-faq-title">
         <div className="shell faq-layout">
           <h2 id="pricing-faq-title">{t.faqTitle}</h2>
           <div className="faq-items">
             {t.faq.map(({ q, a }) => (
               <details key={q}>
                 <summary>{q}</summary>
-                <p>{a}</p>
+                <p>
+                  <Rich text={a} locale={locale} />
+                </p>
               </details>
             ))}
           </div>

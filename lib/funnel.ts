@@ -5,6 +5,8 @@
 // counts instead (npm run funnel, see AGENTS.md). If analytics is reconsidered, the privacy notice
 // must be updated first, and only these markers may be counted (no prompt, code, repo or machine
 // data, no cross-site identifiers).
+// Cloudflare Web Analytics can be switched on at build time (lib/launch.ts, AGENTS.md); it counts page
+// views only and does not read these markers.
 export const funnel = {
   getFree: 'get-free',
   seeHow: 'see-how',
