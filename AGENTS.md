@@ -13,7 +13,7 @@ The security audit skips advisories listed in the `AUDIT_IGNORE_GHSA` repo varia
 
 ## Funnel measurement
 
-By owner decision on 2026-10-09 the site has no analytics. Nothing collects the `data-funnel` markers (`lib/funnel.ts`); they only document the intended steps. The free-tier funnel is measured from the GitHub release asset download counts of `edgeetech/taksim-releases`, which are GitHub's own release statistics, so the privacy notice ("does not load a third-party analytics tracker") stays accurate. Analytics may be reconsidered later; the privacy notice must be updated before anything is enabled.
+By owner decision on 2026-10-09 the site has no analytics. Nothing collects the `data-funnel` markers (`lib/funnel.ts`); they only document the intended steps. The free-tier funnel is measured from the GitHub release asset download counts of `edgeetech/taksim-releases`, which are GitHub's own release statistics, so the privacy notice (Cloudflare Web Analytics "may" be used; cookieless, page views only) stays accurate. If Cloudflare Web Analytics is enabled, it is the only analytics allowed, and the privacy notice already covers it.
 
 `npm run funnel` (`scripts/funnel-report.mjs`) reads the public releases API, with `GITHUB_TOKEN` if set and anonymously otherwise. It prints per-release and per-asset counts split by kind, then a funnel summary: install-script downloads, platform binary downloads, and binaries per install-script download.
 

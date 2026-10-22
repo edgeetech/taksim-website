@@ -260,7 +260,7 @@ test('marks funnel steps without loading any analytics', async () => {
     assert.doesNotMatch(await source(path), /gtag|googletagmanager|plausible|posthog|segment\.com|sendBeacon|analytics.js/i, path);
   }
   assert.match(await source('components/copy-command.tsx'), /data-funnel=\{funnelStep\}/);
-  assert.match(await source('lib/i18n/en.ts'), /does not load a third-party analytics tracker/);
+  assert.match(await source('lib/i18n/en.ts'), /may use Cloudflare Web Analytics, which is cookieless/);
 });
 
 test('shows the internal pilot benchmark high on the home page with exact, qualified figures', async () => {

@@ -17,6 +17,6 @@ Tracked decisions for advisories excluded from the audit gate through the `AUDIT
 ## Site analytics: none
 
 - Decision: the site has no analytics. Nothing collects the `data-funnel` markers in `lib/funnel.ts`; they only document the intended funnel steps.
-- Measurement instead: GitHub release asset download counts of `edgeetech/taksim-releases`, read with `npm run funnel`. These are GitHub's own release statistics; the site collects nothing, so the privacy notice ("does not load a third-party analytics tracker") stays accurate. See AGENTS.md, "Funnel measurement".
+- Measurement instead: GitHub release asset download counts of `edgeetech/taksim-releases`, read with `npm run funnel`. These are GitHub's own release statistics; the site loads no tracker of its own; the privacy notice allows only cookieless Cloudflare Web Analytics (page views only). See AGENTS.md, "Funnel measurement".
 - Owner decision: 2026-10-09.
 - Review: analytics may be reconsidered later. Update the privacy notice before enabling anything, and count only the `data-funnel` markers.

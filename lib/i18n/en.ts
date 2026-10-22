@@ -1312,7 +1312,7 @@ export const en = {
       },
       {
         title: 'Website data',
-        body: 'This website has no analytics: it does not load a third-party analytics tracker and sets no analytics or advertising cookies. If you choose a language, the site keeps that choice in your browser’s local storage; it is not sent to us. The assessment form opens your email application and does not submit its values to a form processor. Our hosting and security providers process standard request information, such as IP address, user agent, requested path and timestamps, to deliver and protect the site. Taksim downloads are served from GitHub under GitHub’s own privacy terms.',
+        body: 'This website may use Cloudflare Web Analytics, which is cookieless, collects page views only, and uses no personal identifiers or cross-site tracking. It sets no analytics or advertising cookies. The Taksim app itself collects nothing. If you choose a language, the site keeps that choice in your browser’s local storage; it is not sent to us. The assessment form opens your email application and does not submit its values to a form processor. Our hosting and security providers process standard request information, such as IP address, user agent, requested path and timestamps, to deliver and protect the site. Taksim downloads are served from GitHub under GitHub’s own privacy terms.',
       },
       {
         title: 'Email and paid plans',

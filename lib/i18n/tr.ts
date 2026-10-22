@@ -1313,7 +1313,7 @@ export const tr: Dictionary = {
       },
       {
         title: 'Web sitesi verileri',
-        body: 'Bu web sitesinde analitik yoktur; üçüncü taraf izleyici yüklenmez, analitik veya reklam çerezi kullanılmaz. Bir dil seçerseniz site bu tercihi tarayıcınızın yerel depolamasında (local storage) tutar; bize gönderilmez. Değerlendirme formu e-posta uygulamanızı açar ve değerleri bir form işleyicisine göndermez. Barındırma ve güvenlik sağlayıcılarımız, siteyi sunmak ve korumak için IP adresi, kullanıcı aracısı (user agent), istenen yol ve zaman damgaları gibi standart istek bilgilerini işler. Taksim indirmeleri GitHub üzerinden, GitHub’ın kendi gizlilik koşulları altında sunulur.',
+        body: 'Bu web sitesi, çerezsiz çalışan, yalnızca sayfa görüntülemelerini toplayan ve kişisel tanımlayıcı ya da siteler arası izleme kullanmayan Cloudflare Web Analytics’i kullanabilir. Analitik veya reklam çerezi kullanılmaz. Taksim uygulamasının kendisi hiçbir şey toplamaz. Bir dil seçerseniz site bu tercihi tarayıcınızın yerel depolamasında (local storage) tutar; bize gönderilmez. Değerlendirme formu e-posta uygulamanızı açar ve değerleri bir form işleyicisine göndermez. Barındırma ve güvenlik sağlayıcılarımız, siteyi sunmak ve korumak için IP adresi, kullanıcı aracısı (user agent), istenen yol ve zaman damgaları gibi standart istek bilgilerini işler. Taksim indirmeleri GitHub üzerinden, GitHub’ın kendi gizlilik koşulları altında sunulur.',
       },
       {
         title: 'E-posta ve ücretli planlar',
