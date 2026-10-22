@@ -21,12 +21,12 @@ export const en = {
       privacy: {
         title: 'Privacy',
         description:
-          'How Taksim processes engineering metadata while avoiding raw engineering content in canonical telemetry.',
+          'How Taksim keeps engineering metadata on your machine without storing raw content, what leaves your machine, and how EdgeeTech handles website and email data.',
       },
       terms: {
         title: 'Terms',
         description:
-          'Preview terms describing free developer use, Team use, third-party providers, verification, and economics boundaries.',
+          'Taksim terms: the EULA version 1.1 licence, Free, Pro and Team plans, restrictions, confidentiality, third-party providers and governing law.',
       },
       quickStart: {
         title: 'Easy install',
@@ -1289,42 +1289,125 @@ export const en = {
   privacy: {
     eyebrow: 'Privacy',
     title: 'Prompt-aware. Not prompt-owning.',
-    lede: 'Taksim is designed to derive the intelligence metadata it needs without retaining raw engineering content in canonical telemetry.',
+    lede: 'Taksim runs on your machine. It derives the metadata it needs without keeping raw engineering content, and EdgeeTech runs no server that receives your Taksim data.',
     summaryLabel: 'Plain-language summary.',
     summary:
-      'Taksim may inspect limited content transiently to derive classifications. That is different from retaining prompts, responses, source code, or diffs in its canonical telemetry.',
+      'Taksim may inspect limited content transiently on your machine to derive classifications. It does not store prompts, responses, source code or diffs, and it sends nothing to EdgeeTech.',
     sections: [
       {
-        title: 'What canonical telemetry may contain',
-        body: 'Structural task and session metadata, resource/model attribution when observable, token and latency signals when observable, verification outcomes, finite evidence classifications, and opaque identifiers needed to correlate events.',
+        title: 'Who we are',
+        body: 'EdgeeTech Ltd, a UK company, publishes Taksim and this website and is the controller of the personal data described in this notice. For privacy questions or requests, contact [legal contact email].',
       },
       {
-        title: 'What canonical telemetry is designed not to retain',
-        body: 'Raw prompts, model responses, source code, diffs, credentials, secrets, raw tool payloads, shell-command content, or invented provider identity.',
+        title: 'What Taksim stores on your machine',
+        body: 'Structural task and session metadata, resource and model attribution when observable, token, cost and latency counts when observable, verification outcomes, judge verdicts (tier, confidence and flags), finite evidence classifications, and opaque identifiers needed to correlate events. All of it stays in the local Taksim database on your machine.',
       },
       {
-        title: 'Local and transient processing',
-        body: 'The ledger stays on your machine. Taksim has no default hosted routing-advice service or hosted usage ledger. Update and pricing checks use external network services. If you choose a remote judge (Anthropic or TypeSafe Jev, on your own key), that provider receives truncated excerpts of the turns it grades. Configured Slack, webhook and export destinations receive the selected report data. Your coding client independently sends prompts and responses to its own provider under that provider’s terms. Some adapters inspect native client data or request content transiently to derive classifications and structural facts; raw content is not persisted by default. Each client’s documentation describes its boundary. Unestablished providers or models remain unknown.',
+        title: 'What Taksim does not store',
+        body: 'Raw prompts, model responses, source code, diffs, credentials, secrets, raw tool payloads, shell-command content, repository names, branch names or local paths. Some adapters inspect native client data or request content transiently to derive classifications and structural facts; that content is not kept. The one exception is an experimental archive that is off by default: if you turn it on, it keeps full tool output as local files on your machine for up to 24 hours.',
+      },
+      {
+        title: 'What leaves your machine',
+        body: 'EdgeeTech runs no Taksim server: there is no telemetry endpoint, nothing phones home, and Taksim has no default hosted routing-advice service or hosted usage ledger. Taksim makes network calls only to the providers and services you use or configure, to the Taksim release feed and to optional destinations you turn on. Update and pricing checks use external network services: the Taksim release feed on GitHub and the public price and model pages of your providers. If you choose a remote judge on your own key (Anthropic or TypeSafe Jev), that provider receives truncated excerpts of the turns it grades. GitHub enrichment, when enabled, sends repository and pull request identifiers to GitHub. Slack, webhook and export destinations you configure receive the selected report data, never prompts, answers, paths or credentials. Your coding client sends prompts and responses to its own provider under that provider’s terms, with or without Taksim.',
       },
       {
         title: 'Website data',
-        body: 'This preview does not load a third-party analytics tracker. The assessment form opens your email application and does not submit its values to a website form processor. Hosting and security infrastructure may still process standard request information such as IP address, user agent, requested path, and timestamps.',
+        body: 'This website has no analytics: it does not load a third-party analytics tracker and sets no analytics or advertising cookies. If you choose a language, the site keeps that choice in your browser’s local storage; it is not sent to us. The assessment form opens your email application and does not submit its values to a form processor. Our hosting and security providers process standard request information, such as IP address, user agent, requested path and timestamps, to deliver and protect the site. Taksim downloads are served from GitHub under GitHub’s own privacy terms.',
       },
       {
-        title: 'Contact',
-        body: 'If you email [info@edgee.tech](mailto:info@edgee.tech), EdgeeTech uses the information you provide to respond to your request and maintain relevant business records.',
+        title: 'Email and paid plans',
+        body: 'If you email us, EdgeeTech uses the information you provide to answer you and to keep the business records we need. If you buy a paid plan, the seller and payment provider named at checkout process your billing details under their own privacy notices, and EdgeeTech receives the order and licence details it needs to provide the plan.',
       },
       {
-        title: 'Service improvement, retention, and subprocessors',
-        body: 'The production notice will document the exact deployed product mode, purposes, legal bases, retention periods, subprocessors, international transfers, and user rights before public launch. No production analytics or new form processor should be enabled without updating this notice.',
+        title: 'Legal bases, retention and transfers',
+        body: 'Under UK data protection law, EdgeeTech relies on its legitimate interests to answer you and to run and secure the website, and on the performance of a contract for paid plans. We keep personal data only as long as these purposes need, or longer where the law requires it, for example for tax records. Some of our service providers may process data outside the UK; where they do, we rely on the safeguards UK data protection law requires.',
       },
       {
-        title: 'Important review status',
-        body: 'This preview privacy notice describes the implemented preview behavior and product architecture. It must complete legal review before public production launch.',
+        title: 'Your rights',
+        body: 'You can ask for access to, correction or deletion of your personal data, ask us to restrict or stop processing it, or ask for a copy in a portable format. Contact [legal contact email]. You can also complain to the Information Commissioner’s Office at [ico.org.uk](https://ico.org.uk).',
+      },
+      {
+        title: 'Changes to this notice',
+        body: 'We update this notice, and its effective date, before Taksim or the website starts processing personal data in a new way.',
       },
     ],
     effectiveLabel: 'Effective:',
-    effective: '8 September 2026.',
+    effective: '22 October 2026.',
+  },
+
+  terms: {
+    eyebrow: 'Terms',
+    title: 'Clear boundaries for Taksim use.',
+    lede: 'These terms summarise how you may use Taksim and this website. The Taksim End User License Agreement, version 1.1, is the licence for the software.',
+    sections: [
+      {
+        title: '1. About these terms',
+        body: 'These terms are between you and EdgeeTech Ltd (“EdgeeTech”, “we”), a UK company. The Taksim software is licensed under the Taksim End User License Agreement version 1.1, the `EULA.md` file installed with every release. These terms follow it; if they differ, the EULA applies to the software.',
+      },
+      {
+        title: '2. About Taksim',
+        body: 'Taksim is a local-first control plane for AI coding agents developed by EdgeeTech. Its sufficiency ledger records which model ran, what it cost, and whether a cheaper model would have been enough. It works with third-party coding agents, model providers and runtimes; it is not the underlying model provider.',
+      },
+      {
+        title: '3. Licence and plans',
+        body: 'EdgeeTech grants you a non-exclusive, non-transferable, revocable licence to install and use Taksim for personal purposes and for the internal business purposes of you or your organisation, including work for an employer or client. Taksim is offered on Free, Pro and Team plans. The Free plan costs nothing and needs no Taksim account. Features of the paid plans, such as team roll-ups, the team digest and team budgets, need an active subscription to the matching plan, on the terms shown when you buy it. Plan contents are published on the [pricing page](/pricing).',
+      },
+      {
+        title: '4. Restrictions',
+        body: 'You must not, and must not help or allow anyone else to:',
+        items: [
+          'reverse engineer, decompile or disassemble Taksim, except to the extent permitted by applicable law (including sections 50A–50C and 296A of the Copyright, Designs and Patents Act 1988);',
+          'use Taksim, or information obtained from it, to build, train or improve a product or service that competes with Taksim;',
+          'extract, copy or redistribute the data embedded in or shipped with Taksim, such as prompts, judge rubrics, routing and policy rules, pricing and model catalogs and calibration data, by automated means or otherwise, except as Taksim itself shows that data to you in normal use;',
+          'circumvent, disable or interfere with any licence check, plan limit or other technical protection in Taksim;',
+          'distribute, sublicense, rent, lend, sell or resell Taksim, or offer it as a hosted service to third parties; or',
+          'remove or alter any copyright, licence or proprietary notices, or use Taksim in breach of applicable law.',
+        ],
+        note: 'Installing Taksim for colleagues inside your own organisation is internal use and is allowed. Nothing in these terms restricts anything that applicable law allows you to do despite a contractual restriction. Third-party components included in Taksim keep their own licences, listed in `THIRD_PARTY_NOTICES.md`.',
+      },
+      {
+        title: '5. Confidentiality',
+        body: 'The non-public parts of Taksim, including its embedded data in the form Taksim stores it, its licence mechanisms and any pre-release builds, and any other non-public information EdgeeTech gives you about Taksim, are EdgeeTech’s confidential information and may include trade secrets. Keep them confidential, use them only to use Taksim, and share them only with employees and contractors who need them and are bound by equivalent duties. This does not cover information that is public through no breach of these terms, that you already lawfully had, that you develop independently, or that the law or a court requires you to disclose.',
+      },
+      {
+        title: '6. Your responsibilities',
+        body: 'You remain responsible for source review, credentials, provider terms, software licences, organisational approvals, security review and deployment decisions.',
+      },
+      {
+        title: '7. Third-party services',
+        body: 'Availability and output from coding agents, model providers, source-control services and provider-native planners remain subject to their own terms and technical behaviour. Taksim does not control or warrant those outputs. Provider entitlements, plan limits and workspace policies remain authoritative. Taksim does not route or rewrite traffic authenticated with a ChatGPT subscription. For Claude Code on your own Claude login, routing is opt-in and off by default; when you turn it on, Taksim leaves your login as the credential, never reads or copies it, and switches only among Claude models. This describes Taksim’s behaviour and is not an endorsement by Anthropic. Optional routing on your own API key is separate. EdgeeTech is not affiliated with or endorsed by any provider named on this site.',
+      },
+      {
+        title: '8. Privacy',
+        body: 'Taksim runs locally and EdgeeTech runs no server that receives your Taksim data. The [privacy notice](/privacy) describes what Taksim stores, what leaves your machine and how we handle website and email data.',
+      },
+      {
+        title: '9. Verification',
+        body: '`VERIFIED` means configured and available engineering evidence satisfied the applicable Taksim verification rules. It does not guarantee that code is correct, secure, complete or fit for purpose.',
+      },
+      {
+        title: '10. Estimates and recommendations',
+        body: 'Cost figures, shadow recommendations, counterfactual plans, optimisation ranges, estimated savings and judge verdicts are estimates, not execution evidence or realised savings. Check them before relying on them. Illustrative website values are examples only.',
+      },
+      {
+        title: '11. Updates, warranty and liability',
+        body: 'EdgeeTech may release updates but is not obliged to provide updates or support, except as the terms of a paid plan state. Taksim and this website are provided “as is” and “as available”, without warranties of any kind, to the extent the law allows. To the maximum extent permitted by law, EdgeeTech is not liable for indirect or consequential loss, or for loss of profits, revenue, data or goodwill, and its total liability is limited to the greater of the amount you paid EdgeeTech for Taksim in the 12 months before the claim and GBP 100. Nothing limits liability that cannot be limited by law, such as for death or personal injury caused by negligence, or for fraud. If you are a consumer, your statutory rights are not affected.',
+      },
+      {
+        title: '12. Termination',
+        body: 'Your licence ends automatically if you breach these terms or the EULA. You may end it at any time by uninstalling Taksim. On termination you must stop using and delete Taksim. The ownership, confidentiality, warranty, liability and governing law terms survive termination.',
+      },
+      {
+        title: '13. Governing law and courts',
+        body: 'These terms and the EULA, and any dispute or claim arising out of or in connection with them or their subject matter (including non-contractual disputes or claims), are governed by the law of England and Wales. The courts of England and Wales have exclusive jurisdiction. If you are a consumer, you keep the protection of any mandatory law of the country where you live, and you may also bring proceedings in the courts of the part of the United Kingdom where you live.',
+      },
+      {
+        title: '14. Changes and contact',
+        body: 'EdgeeTech may publish new versions of these terms and of the EULA; a new EULA version applies to the Taksim releases shipped with it. Legal questions: [legal contact email]. Other questions: [info@edgee.tech](mailto:info@edgee.tech).',
+      },
+    ],
+    effectiveLabel: 'Effective:',
+    effective: '22 October 2026.',
   },
 };
 

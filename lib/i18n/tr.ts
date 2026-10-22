@@ -21,12 +21,12 @@ export const tr: Dictionary = {
       privacy: {
         title: 'Gizlilik',
         description:
-          'Taksim, mühendislik metadata’sını işlerken ham mühendislik içeriğini kanonik telemetride tutmaktan nasıl kaçınır.',
+          'Taksim mühendislik metadata’sını ham içeriği saklamadan makinenizde nasıl tutar, makinenizden neler çıkar ve EdgeeTech web sitesi ile e-posta verilerini nasıl ele alır.',
       },
       terms: {
         title: 'Koşullar',
         description:
-          'Ücretsiz geliştirici kullanımı, Team kullanımı, üçüncü taraf sağlayıcılar, doğrulama ve ekonomik sınırları açıklayan önizleme koşulları.',
+          'Taksim koşulları: EULA sürüm 1.1 lisansı, Free, Pro ve Team planları, kısıtlamalar, gizlilik yükümlülüğü, üçüncü taraf sağlayıcılar ve uygulanacak hukuk.',
       },
       quickStart: {
         title: 'Kolay kurulum',
@@ -1290,41 +1290,124 @@ export const tr: Dictionary = {
   privacy: {
     eyebrow: 'Gizlilik',
     title: 'Prompt’un farkında. Prompt’un sahibi değil.',
-    lede: 'Taksim, ihtiyaç duyduğu metadata’yı ham mühendislik içeriğini kanonik telemetride tutmadan türetecek şekilde tasarlanmıştır.',
+    lede: 'Taksim sizin makinenizde çalışır. İhtiyaç duyduğu metadata’yı ham mühendislik içeriğini saklamadan türetir ve EdgeeTech, Taksim verilerinizi alan bir sunucu işletmez.',
     summaryLabel: 'Sade dille özet.',
     summary:
-      'Taksim, sınıflandırma türetmek için sınırlı içeriği geçici olarak inceleyebilir. Bu, prompt’ları, yanıtları, kaynak kodu veya diff’leri kanonik telemetrisinde saklamaktan farklıdır.',
+      'Taksim, sınıflandırma türetmek için sınırlı içeriği makinenizde geçici olarak inceleyebilir. Prompt’ları, yanıtları, kaynak kodu veya diff’leri saklamaz ve EdgeeTech’e hiçbir şey göndermez.',
     sections: [
       {
-        title: 'Kanonik telemetri neleri içerebilir',
-        body: 'Yapısal görev ve oturum metadata’sı, gözlemlenebildiğinde kaynak/model ilişkilendirmesi, gözlemlenebildiğinde token ve gecikme sinyalleri, doğrulama sonuçları, sınırlı kanıt sınıflandırmaları ve olayları ilişkilendirmek için gereken opak tanımlayıcılar.',
+        title: 'Biz kimiz',
+        body: 'Taksim’i ve bu web sitesini yayımlayan, bu bildirimde açıklanan kişisel verilerin veri sorumlusu olan şirket, Birleşik Krallık şirketi EdgeeTech Ltd’dir. Gizlilik soruları ve talepleri için: [legal contact email].',
       },
       {
-        title: 'Kanonik telemetri neleri saklamayacak şekilde tasarlanmıştır',
-        body: 'Ham prompt’lar, model yanıtları, kaynak kod, diff’ler, kimlik bilgileri, gizli anahtarlar, ham araç yükleri (tool payload), shell komutu içerikleri veya uydurulmuş sağlayıcı kimliği.',
+        title: 'Taksim makinenizde neleri saklar',
+        body: 'Yapısal görev ve oturum metadata’sı, gözlemlenebildiğinde kaynak ve model ilişkilendirmesi, gözlemlenebildiğinde token, maliyet ve gecikme sayıları, doğrulama sonuçları, judge kararları (seviye, güven ve işaretler), sınırlı kanıt sınıflandırmaları ve olayları ilişkilendirmek için gereken opak tanımlayıcılar. Bunların tümü makinenizdeki yerel Taksim veritabanında kalır.',
       },
       {
-        title: 'Yerel ve geçici işleme',
-        body: 'Defter makinenizde kalır. Taksim’in varsayılan barındırılmış yönlendirme önerisi servisi veya kullanım defteri yoktur. Güncelleme ve fiyat kontrolleri dış ağ hizmetlerini kullanır. Uzak bir judge (kendi key’inizle Anthropic veya TypeSafe Jev) seçerseniz, sağlayıcı değerlendirdiği turların kısaltılmış alıntılarını alır. Yapılandırılmış Slack, webhook ve dışa aktarma hedefleri seçilen rapor verilerini alır. Kodlama istemciniz kendi sağlayıcısına, o sağlayıcının koşulları altında bağımsız olarak prompt ve yanıt göndermeye devam eder. Bazı adaptörler sınıflandırma ve yapısal bilgiler için istemci verilerini veya istek içeriğini geçici olarak inceler; ham içerik varsayılan olarak kalıcı saklanmaz. Her istemcinin belgesi kendi sınırını açıklar. Belirlenemeyen sağlayıcılar veya modeller bilinmiyor olarak kalır.',
+        title: 'Taksim neleri saklamaz',
+        body: 'Ham prompt’lar, model yanıtları, kaynak kod, diff’ler, kimlik bilgileri, gizli anahtarlar, ham araç yükleri (tool payload), shell komutu içerikleri, repo adları, branch adları veya yerel yollar. Bazı adaptörler sınıflandırma ve yapısal bilgiler türetmek için istemci verilerini veya istek içeriğini geçici olarak inceler; bu içerik saklanmaz. Tek istisna, varsayılan olarak kapalı olan deneysel bir arşivdir: açarsanız, tam araç çıktısını makinenizde yerel dosyalar olarak en fazla 24 saat tutar.',
+      },
+      {
+        title: 'Makinenizden neler çıkar',
+        body: 'EdgeeTech bir Taksim sunucusu işletmez: telemetri uç noktası yoktur, Taksim hiçbir yere kendiliğinden veri göndermez ve varsayılan barındırılmış bir yönlendirme önerisi servisi ya da kullanım defteri yoktur. Taksim yalnızca kullandığınız veya yapılandırdığınız sağlayıcılara ve hizmetlere, Taksim release akışına ve açtığınız isteğe bağlı hedeflere ağ çağrısı yapar. Güncelleme ve fiyat kontrolleri dış ağ hizmetlerini kullanır: GitHub’daki Taksim release akışını ve sağlayıcılarınızın herkese açık fiyat ve model sayfalarını. Kendi key’inizle uzak bir judge (Anthropic veya TypeSafe Jev) seçerseniz, bu sağlayıcı değerlendirdiği turların kısaltılmış alıntılarını alır. GitHub zenginleştirmesi açıksa GitHub’a repo ve pull request tanımlayıcıları gönderilir. Yapılandırdığınız Slack, webhook ve dışa aktarma hedefleri seçilen rapor verilerini alır; prompt, yanıt, yol veya kimlik bilgisi asla gönderilmez. Kodlama istemciniz, Taksim olsun ya da olmasın, prompt ve yanıtları kendi sağlayıcısına o sağlayıcının koşulları altında gönderir.',
       },
       {
         title: 'Web sitesi verileri',
-        body: 'Bu önizleme, üçüncü taraf bir analitik izleyici yüklemez. Değerlendirme formu e-posta uygulamanızı açar ve değerleri bir web sitesi form işleyicisine göndermez. Barındırma ve güvenlik altyapısı yine de IP adresi, kullanıcı aracısı (user agent), istenen yol ve zaman damgaları gibi standart istek bilgilerini işleyebilir.',
+        body: 'Bu web sitesinde analitik yoktur; üçüncü taraf izleyici yüklenmez, analitik veya reklam çerezi kullanılmaz. Bir dil seçerseniz site bu tercihi tarayıcınızın yerel depolamasında (local storage) tutar; bize gönderilmez. Değerlendirme formu e-posta uygulamanızı açar ve değerleri bir form işleyicisine göndermez. Barındırma ve güvenlik sağlayıcılarımız, siteyi sunmak ve korumak için IP adresi, kullanıcı aracısı (user agent), istenen yol ve zaman damgaları gibi standart istek bilgilerini işler. Taksim indirmeleri GitHub üzerinden, GitHub’ın kendi gizlilik koşulları altında sunulur.',
       },
       {
-        title: 'İletişim',
-        body: '[info@edgee.tech](mailto:info@edgee.tech) adresine e-posta gönderirseniz EdgeeTech, verdiğiniz bilgileri talebinize yanıt vermek ve ilgili iş kayıtlarını tutmak için kullanır.',
+        title: 'E-posta ve ücretli planlar',
+        body: 'Bize e-posta gönderirseniz EdgeeTech, verdiğiniz bilgileri size yanıt vermek ve gerekli iş kayıtlarını tutmak için kullanır. Ücretli bir plan satın alırsanız ödeme sırasında adı geçen satıcı ve ödeme sağlayıcısı fatura bilgilerinizi kendi gizlilik bildirimleri altında işler; EdgeeTech ise planı sağlamak için gereken sipariş ve lisans bilgilerini alır.',
       },
       {
-        title: 'Hizmet iyileştirme, saklama süreleri ve alt işleyiciler',
-        body: 'Üretim bildirimi; kullanıma alınan ürün modunu, amaçları, hukuki dayanakları, saklama sürelerini, alt işleyicileri, uluslararası aktarımları ve kullanıcı haklarını genel lansmandan önce tam olarak belgeleyecektir. Bu bildirim güncellenmeden hiçbir üretim analitiği veya yeni form işleyicisi etkinleştirilmemelidir.',
+        title: 'Hukuki dayanaklar, saklama ve aktarımlar',
+        body: 'Birleşik Krallık veri koruma hukuku kapsamında EdgeeTech, size yanıt vermek ve web sitesini işletip korumak için meşru menfaatlerine, ücretli planlar için ise sözleşmenin ifasına dayanır. Kişisel verileri yalnızca bu amaçların gerektirdiği süre boyunca, hukukun gerektirdiği durumlarda (örneğin vergi kayıtları için) daha uzun süre saklarız. Bazı hizmet sağlayıcılarımız verileri Birleşik Krallık dışında işleyebilir; bu durumda Birleşik Krallık veri koruma hukukunun gerektirdiği güvencelere dayanırız.',
       },
       {
-        title: 'Önemli inceleme durumu',
-        body: 'Bu önizleme gizlilik bildirimi, uygulanmış önizleme davranışını ve ürün mimarisini açıklar. Genel üretim lansmanından önce hukuki incelemeden geçmesi gerekir.',
+        title: 'Haklarınız',
+        body: 'Kişisel verilerinize erişim, düzeltme veya silme talep edebilir, işlemenin kısıtlanmasını ya da durdurulmasını isteyebilir veya verilerinizin taşınabilir bir kopyasını isteyebilirsiniz. İletişim: [legal contact email]. Ayrıca Birleşik Krallık veri koruma otoritesi Information Commissioner’s Office’e [ico.org.uk](https://ico.org.uk) üzerinden şikâyette bulunabilirsiniz.',
+      },
+      {
+        title: 'Bu bildirimdeki değişiklikler',
+        body: 'Taksim veya web sitesi kişisel verileri yeni bir şekilde işlemeye başlamadan önce bu bildirimi ve yürürlük tarihini güncelleriz.',
       },
     ],
     effectiveLabel: 'Yürürlük tarihi:',
-    effective: '8 Eylül 2026.',
+    effective: '22 Ekim 2026.',
+  },
+
+  terms: {
+    eyebrow: 'Koşullar',
+    title: 'Taksim kullanımı için net sınırlar.',
+    lede: 'Bu koşullar, Taksim’i ve bu web sitesini nasıl kullanabileceğinizi özetler. Yazılımın lisansı, Taksim Son Kullanıcı Lisans Sözleşmesi (EULA) sürüm 1.1’dir.',
+    sections: [
+      {
+        title: '1. Bu koşullar hakkında',
+        body: 'Bu koşullar sizinle Birleşik Krallık şirketi EdgeeTech Ltd (“EdgeeTech”, “biz”) arasındadır. Taksim yazılımı, her sürümle birlikte kurulan `EULA.md` dosyası olan Taksim Son Kullanıcı Lisans Sözleşmesi sürüm 1.1 kapsamında lisanslanır. Bu koşullar EULA ile uyumludur; aralarında fark olursa yazılım için EULA geçerlidir.',
+      },
+      {
+        title: '2. Taksim hakkında',
+        body: 'Taksim, EdgeeTech tarafından geliştirilen, AI kodlama ajanları için yerel öncelikli (local-first) bir kontrol düzlemidir. Yeterlilik defteri hangi modelin çalıştığını, maliyetini ve daha ucuz bir modelin yeterli olup olmayacağını kaydeder. Üçüncü taraf kodlama ajanları, model sağlayıcıları ve çalışma ortamlarıyla birlikte çalışır; altta yatan model sağlayıcısı değildir.',
+      },
+      {
+        title: '3. Lisans ve planlar',
+        body: 'EdgeeTech size, Taksim’i kişisel amaçlarla ve sizin ya da kuruluşunuzun iç iş amaçlarıyla, bir işveren veya müşteri için yapılan işler dahil, kurup kullanmanız için münhasır olmayan, devredilemez ve geri alınabilir bir lisans verir. Taksim; Free, Pro ve Team planlarıyla sunulur. Free plan ücretsizdir ve Taksim hesabı gerektirmez. Team roll-up, team özeti ve team bütçeleri gibi ücretli plan özellikleri, satın alırken gösterilen koşullarla, ilgili plana etkin bir abonelik gerektirir. Plan içerikleri [fiyatlandırma sayfasında](/pricing) yayımlanır.',
+      },
+      {
+        title: '4. Kısıtlamalar',
+        body: 'Aşağıdakileri yapamaz, başkasının yapmasına yardım edemez veya izin veremezsiniz:',
+        items: [
+          'uygulanabilir hukukun izin verdiği ölçü (Copyright, Designs and Patents Act 1988’in 50A–50C ve 296A bölümleri dahil) dışında Taksim’e tersine mühendislik uygulamak, kaynak koda dönüştürmek (decompile) veya disassemble etmek;',
+          'Taksim’i veya ondan elde edilen bilgileri, Taksim ile rekabet eden bir ürün ya da hizmeti geliştirmek, eğitmek veya iyileştirmek için kullanmak;',
+          'Taksim’e gömülü veya onunla birlikte dağıtılan prompt’lar, judge rubric’leri, yönlendirme ve policy kuralları, fiyat ve model katalogları ve kalibrasyon verileri gibi verileri, otomatik yollarla ya da başka şekilde, Taksim’in normal kullanımda size gösterdiği biçim dışında çıkarmak, kopyalamak veya yeniden dağıtmak;',
+          'Taksim’deki herhangi bir lisans kontrolünü, plan sınırını veya başka bir teknik korumayı aşmak, devre dışı bırakmak veya bunlara müdahale etmek;',
+          'Taksim’i dağıtmak, alt lisanslamak, kiralamak, ödünç vermek, satmak veya yeniden satmak ya da üçüncü taraflara barındırılan bir hizmet olarak sunmak; veya',
+          'telif hakkı, lisans veya mülkiyet bildirimlerini kaldırmak ya da değiştirmek veya Taksim’i uygulanabilir hukuka aykırı biçimde kullanmak.',
+        ],
+        note: 'Taksim’i kendi kuruluşunuzdaki iş arkadaşlarınız için kurmak iç kullanımdır ve serbesttir. Bu koşulların hiçbir hükmü, uygulanabilir hukukun bir sözleşme kısıtlamasına rağmen yapmanıza izin verdiği hiçbir şeyi kısıtlamaz. Taksim’e dahil edilen üçüncü taraf bileşenler, `THIRD_PARTY_NOTICES.md` dosyasında listelenen kendi lisanslarına tabidir.',
+      },
+      {
+        title: '5. Gizlilik yükümlülüğü',
+        body: 'Taksim’in kamuya açık olmayan bölümleri (Taksim’in sakladığı biçimdeki gömülü verileri, lisans mekanizmaları ve yayın öncesi derlemeler dahil) ve EdgeeTech’in size Taksim hakkında verdiği kamuya açık olmayan diğer bilgiler, EdgeeTech’in gizli bilgisidir ve ticari sır içerebilir. Bunları gizli tutun, yalnızca Taksim’i kullanmak için kullanın ve yalnızca bunlara ihtiyaç duyan ve eşdeğer yükümlülüklerle bağlı çalışanlarınız ve yüklenicilerinizle paylaşın. Bu yükümlülük; bu koşulların ihlali dışında bir yolla kamuya açık olan, zaten hukuka uygun biçimde elinizde bulunan, bağımsız olarak geliştirdiğiniz veya hukukun ya da bir mahkemenin açıklamanızı gerektirdiği bilgileri kapsamaz.',
+      },
+      {
+        title: '6. Sorumluluklarınız',
+        body: 'Kaynak inceleme, kimlik bilgileri, sağlayıcı koşulları, yazılım lisansları, kurumsal onaylar, güvenlik incelemesi ve dağıtım kararlarından siz sorumlu olmaya devam edersiniz.',
+      },
+      {
+        title: '7. Üçüncü taraf hizmetler',
+        body: 'Kodlama ajanlarının, model sağlayıcılarının, kaynak kontrol hizmetlerinin ve sağlayıcıya özgü planlayıcıların erişilebilirliği ve çıktıları kendi koşullarına ve teknik davranışlarına tabidir. Taksim bu çıktıları kontrol etmez ve garanti etmez. Sağlayıcı hakları, plan sınırları ve çalışma alanı politikaları belirleyici olmaya devam eder. Taksim, ChatGPT aboneliğiyle kimliği doğrulanmış trafiği yönlendirmez veya yeniden yazmaz. Kendi Claude girişinizle çalışan Claude Code için yönlendirme isteğe bağlıdır ve varsayılan olarak kapalıdır; açtığınızda Taksim girişinizi kimlik bilgisi olarak bırakır, onu asla okumaz veya kopyalamaz ve yalnızca Claude modelleri arasında geçiş yapar. Bu, Taksim’in davranışını açıklar; Anthropic’in bir onayı değildir. Kendi API key’inizle isteğe bağlı yönlendirme ayrı bir konudur. EdgeeTech, bu sitede adı geçen hiçbir sağlayıcıyla bağlantılı değildir ve onlar tarafından onaylanmamıştır.',
+      },
+      {
+        title: '8. Gizlilik',
+        body: 'Taksim yerel olarak çalışır ve EdgeeTech, Taksim verilerinizi alan bir sunucu işletmez. [Gizlilik bildirimi](/privacy), Taksim’in neleri sakladığını, makinenizden nelerin çıktığını ve web sitesi ile e-posta verilerini nasıl ele aldığımızı açıklar.',
+      },
+      {
+        title: '9. Doğrulama',
+        body: '`VERIFIED`, yapılandırılmış ve mevcut mühendislik kanıtlarının geçerli Taksim doğrulama kurallarını karşıladığı anlamına gelir. Kodun doğru, güvenli, eksiksiz veya amaca uygun olduğunu garanti etmez.',
+      },
+      {
+        title: '10. Tahminler ve öneriler',
+        body: 'Maliyet rakamları, shadow önerileri, karşı olgusal planlar, optimizasyon aralıkları, tahmini tasarruflar ve judge kararları tahmindir; yürütme kanıtı veya gerçekleşmiş tasarruf değildir. Bunlara güvenmeden önce kontrol edin. Web sitesindeki örnek değerler yalnızca örnektir.',
+      },
+      {
+        title: '11. Güncellemeler, garanti ve sorumluluk',
+        body: 'EdgeeTech güncelleme yayımlayabilir, ancak ücretli bir planın koşullarında belirtilenler dışında güncelleme veya destek sağlamakla yükümlü değildir. Taksim ve bu web sitesi, hukukun izin verdiği ölçüde, hiçbir garanti verilmeksizin “olduğu gibi” ve “mevcut olduğu şekilde” sunulur. Hukukun izin verdiği azami ölçüde EdgeeTech dolaylı veya sonuç olarak doğan zararlardan ya da kâr, gelir, veri veya itibar kaybından sorumlu değildir; toplam sorumluluğu, talepten önceki 12 ay içinde Taksim için EdgeeTech’e ödediğiniz tutar ile GBP 100’den yüksek olanla sınırlıdır. Hiçbir hüküm, ihmalden kaynaklanan ölüm veya yaralanma ya da dolandırıcılık gibi hukuken sınırlanamayan sorumluluğu sınırlamaz. Tüketiciyseniz yasal haklarınız etkilenmez.',
+      },
+      {
+        title: '12. Sona erme',
+        body: 'Bu koşulları veya EULA’yı ihlal ederseniz lisansınız kendiliğinden sona erer. Taksim’i kaldırarak lisansı istediğiniz zaman sona erdirebilirsiniz. Sona ermede Taksim’i kullanmayı bırakmalı ve silmelisiniz. Mülkiyet, gizlilik yükümlülüğü, garanti, sorumluluk ve uygulanacak hukuk hükümleri sona ermeden sonra da geçerlidir.',
+      },
+      {
+        title: '13. Uygulanacak hukuk ve yetkili mahkemeler',
+        body: 'Bu koşullar ve EULA ile bunlardan veya konularından doğan ya da bunlarla bağlantılı her türlü uyuşmazlık veya talep (sözleşme dışı uyuşmazlık ve talepler dahil) İngiltere ve Galler hukukuna tabidir. İngiltere ve Galler mahkemeleri münhasır yetkilidir. Tüketiciyseniz, yaşadığınız ülkenin emredici hukukunun sağladığı korumayı korursunuz ve Birleşik Krallık’ın yaşadığınız bölgesindeki mahkemelerde de dava açabilirsiniz.',
+      },
+      {
+        title: '14. Değişiklikler ve iletişim',
+        body: 'EdgeeTech bu koşulların ve EULA’nın yeni sürümlerini yayımlayabilir; yeni bir EULA sürümü, onunla birlikte yayımlanan Taksim sürümlerine uygulanır. Hukuki sorular: [legal contact email]. Diğer sorular: [info@edgee.tech](mailto:info@edgee.tech).',
+      },
+    ],
+    effectiveLabel: 'Yürürlük tarihi:',
+    effective: '22 Ekim 2026.',
   },
 };

@@ -232,7 +232,7 @@ test('describes the subscription boundary as current release behaviour, not a pe
   assert.match(en.docs.subscriptions.body, /never reads, copies or logs it/);
   assert.match(en.docs.subscriptions.body2, /reported as plan quota/);
   assert.match(en.docs.subscriptions.body3, /restricts third-party intermediation of Claude.ai credentials/);
-  assert.match(await source('components/pages/terms.tsx'), /routing is opt-in and off by\s+default/);
+  assert.match(en.terms.sections.map((s) => s.body).join(' '), /routing is opt-in and off by default/);
 });
 
 test('separates subscription, API-key and private economics without claiming private routing', async () => {
@@ -428,4 +428,23 @@ test('exports a platform-independent static site for GitHub Pages', async () => 
   assert.match(workflow, /path: dist\/client/);
   assert.match(workflow, /retention-days: 1/);
   assert.doesNotMatch(vite, /openai|cloudflare|wrangler/i);
+});
+
+test('legal pages match EULA 1.1 and carry no preview status', async () => {
+  const { en } = await import('../lib/i18n/en.ts');
+  const { tr } = await import('../lib/i18n/tr.ts');
+  for (const dict of [en, tr]) {
+    const text = JSON.stringify([dict.terms, dict.privacy, dict.meta]);
+    assert.doesNotMatch(text, /preview (status|terms|privacy)|önizleme (koşul|gizlilik)|legal review|hukuki inceleme/i);
+    assert.match(text, /\[legal contact email\]/);
+    assert.match(text, /50A–50C and 296A|50A–50C ve 296A/);
+    assert.match(text, /1\.1/);
+  }
+  assert.equal(en.terms.effective, '22 October 2026.');
+  assert.equal(en.privacy.effective, '22 October 2026.');
+  assert.equal(tr.terms.effective, '22 Ekim 2026.');
+  assert.equal(tr.privacy.effective, '22 Ekim 2026.');
+  assert.match(en.terms.sections.map((s) => s.body).join(' '), /law of England and Wales/);
+  assert.doesNotMatch(await source('components/pages/terms.tsx'), /Preview status/);
+  assert.doesNotMatch(await source('app/tr/terms/page.tsx'), /UntranslatedNote/);
 });

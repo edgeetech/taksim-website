@@ -5,5 +5,5 @@ import { pageMetadata } from '@/lib/i18n';
 export const metadata: Metadata = pageMetadata('en', '/terms/', 'terms');
 
 export default function TermsRoute() {
-  return <TermsPage />;
+  return <TermsPage locale="en" />;
 }

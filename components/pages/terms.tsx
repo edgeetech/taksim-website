@@ -1,91 +1,44 @@
-// English only for now; locale routes show UntranslatedNote above it.
-export function TermsPage() {
+import { Fragment } from 'react';
+import { Rich } from '@/components/rich';
+import { getDictionary, type Locale } from '@/lib/i18n';
+
+export function TermsPage({ locale }: { locale: Locale }) {
+  const t = getDictionary(locale).terms;
   return (
     <main>
       <section className="page-hero">
         <div className="shell">
-          <p className="eyebrow">Terms</p>
-          <h1>Clear boundaries for Taksim use.</h1>
-          <p>
-            These preview terms capture the intended product and pricing
-            boundaries. Final production terms require legal review.
-          </p>
+          <p className="eyebrow">{t.eyebrow}</p>
+          <h1>{t.title}</h1>
+          <p>{t.lede}</p>
         </div>
       </section>
       <section className="content-section">
         <article className="shell narrow prose">
-          <p className="notice">
-            <strong>Preview status.</strong> This is implementation copy, not
-            the final legally approved agreement.
-          </p>
-          <h2>1. About Taksim</h2>
+          {t.sections.map((section) => (
+            <Fragment key={section.title}>
+              <h2>{section.title}</h2>
+              <p>
+                <Rich text={section.body} locale={locale} />
+              </p>
+              {section.items && (
+                <ul>
+                  {section.items.map((item) => (
+                    <li key={item}>
+                      <Rich text={item} locale={locale} />
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {section.note && (
+                <p>
+                  <Rich text={section.note} locale={locale} />
+                </p>
+              )}
+            </Fragment>
+          ))}
           <p>
-            Taksim is a local-first control plane for AI coding agents developed by EdgeeTech Ltd.
-            Its sufficiency ledger records which model ran, what it cost, and
-            whether a cheaper model would have been enough. It works with
-            third-party coding agents, model providers, and runtimes; it is not
-            the underlying model provider.
-          </p>
-          <h2>2. Developer use</h2>
-          <p>
-            The Taksim CLI (the Developer plan) is free for any individual
-            developer, including for work performed for an employer or client.
-            No Taksim account is required.
-          </p>
-          <h2>3. Team use</h2>
-          <p>
-            Team features, such as the team roll-up across developer exports,
-            the team section of the savings digest and team budgets, are part
-            of the paid Team plan. Team pricing is published on the pricing
-            page.
-          </p>
-          <h2>4. Customer responsibilities</h2>
-          <p>
-            You remain responsible for source review, credentials, provider
-            terms, software licences, organisational approvals, security review,
-            and deployment decisions.
-          </p>
-          <h2>5. Third-party services</h2>
-          <p>
-            Availability and output from coding agents, model providers,
-            source-control services, and provider-native planners remain subject
-            to their own terms and technical behavior. Taksim does not control
-            or warrant those outputs. Provider entitlements, plan limits and
-            workspace policies remain authoritative. Taksim does not route or
-            rewrite traffic authenticated with a ChatGPT subscription. For
-            Claude Code on your own Claude login, routing is opt-in and off by
-            default; when you turn it on, Taksim leaves your login as the
-            credential, never reads or copies it, and switches only among
-            Claude models. This describes Taksim&rsquo;s behaviour and is not
-            an endorsement by Anthropic. Optional routing on your own API key
-            is separate.
-          </p>
-          <h2>6. Verification</h2>
-          <p>
-            <code>VERIFIED</code> means configured and available engineering
-            evidence satisfied the applicable Taksim verification rules. It does
-            not guarantee that code is correct, secure, complete, or fit for
-            purpose.
-          </p>
-          <h2>7. Estimates and recommendations</h2>
-          <p>
-            Shadow recommendations, counterfactual plans, optimisation ranges,
-            and estimated savings are not execution evidence or realised
-            savings. Illustrative website values are examples only.
-          </p>
-          <h2>8. Availability, liability, and termination</h2>
-          <p>
-            Final provisions covering service availability, warranties,
-            liability limits, suspension, termination, governing law, disputes,
-            and changes will be included following legal review.
-          </p>
-          <h2>9. Contact</h2>
-          <p>
-            Questions may be sent to{' '}
-            <a href="mailto:info@edgee.tech">info@edgee.tech</a>.
-          </p>
-          <p>
-            <strong>Effective:</strong> 8 September 2026.
+            <strong>{t.effectiveLabel}</strong> {t.effective}
           </p>
         </article>
       </section>
