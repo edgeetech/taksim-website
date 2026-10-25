@@ -96,7 +96,7 @@ test('the language switcher lives in the footer, not the navbar', async () => {
 
 test('each locale root layout sets <html lang> and localized metadata', async () => {
   const shell = await source('components/root-shell.tsx');
-  assert.match(shell, /<html lang=\{locale\}>/);
+  assert.match(shell, /<html\s+lang=\{locale\}[^>]*>/);
   assert.match(await source('app/(en)/layout.tsx'), /<RootShell locale="en">/);
   assert.match(await source('app/tr/layout.tsx'), /<RootShell locale="tr">/);
   assert.match(await source('app/tr/layout.tsx'), /rootMetadata\('tr'\)/);

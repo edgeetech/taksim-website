@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Menu } from 'lucide-react';
+import { ThemeToggle } from '@/components/theme-toggle';
 import { LanguageSwitcher } from '@/components/language-switcher';
 import { TrustStrip } from '@/components/trust-strip';
 import { funnel } from '@/lib/funnel';
@@ -9,7 +10,11 @@ import { getDictionary, localePath, type Locale } from '@/lib/i18n';
 export function Brand({ locale }: { locale: Locale }) {
   const t = getDictionary(locale).chrome;
   return (
-    <Link className="brand" href={localePath(locale, '/')} aria-label={t.brandHome}>
+    <Link
+      className="brand"
+      href={localePath(locale, '/')}
+      aria-label={t.brandHome}
+    >
       <Image
         className="brand-mark"
         src="/taksim-mark.png"
@@ -41,31 +46,45 @@ export function Header({ locale }: { locale: Locale }) {
           <Link href={href('/pricing')}>{t.nav.pricing}</Link>
           <Link href={href('/docs')}>{t.nav.docs}</Link>
         </nav>
-        <div className="header-actions">
-          <Link className="text-action" href={href('/contact')} data-funnel={funnel.teamContact}>
-            {t.talkToUs}
-          </Link>
-          <Link className="button button-small" href={href('/docs/quick-start')} data-funnel={funnel.getFree}>
-            {t.install}
-          </Link>
-        </div>
-        <details className="mobile-menu">
-          <summary aria-label={t.openNav}>
-            <Menu size={21} />
-          </summary>
-          <nav aria-label={t.mobileNav}>
-            <Link href={href('/docs/quick-start')} data-funnel={funnel.getFree}>
-              {t.install}
-            </Link>
-            <Link href={href('/how-it-works')}>{t.nav.how}</Link>
-            <Link href={href('/clients')}>{t.nav.clients}</Link>
-            <Link href={href('/pricing')}>{t.nav.pricing}</Link>
-            <Link href={href('/docs')}>{t.nav.docs}</Link>
-            <Link href={href('/contact')} data-funnel={funnel.teamContact}>
+        <div className="header-tools">
+          <ThemeToggle label={t.darkMode} />
+          <div className="header-actions">
+            <Link
+              className="text-action"
+              href={href('/contact')}
+              data-funnel={funnel.teamContact}
+            >
               {t.talkToUs}
             </Link>
-          </nav>
-        </details>
+            <Link
+              className="button button-small"
+              href={href('/docs/quick-start')}
+              data-funnel={funnel.getFree}
+            >
+              {t.install}
+            </Link>
+          </div>
+          <details className="mobile-menu">
+            <summary aria-label={t.openNav}>
+              <Menu size={21} />
+            </summary>
+            <nav aria-label={t.mobileNav}>
+              <Link
+                href={href('/docs/quick-start')}
+                data-funnel={funnel.getFree}
+              >
+                {t.install}
+              </Link>
+              <Link href={href('/how-it-works')}>{t.nav.how}</Link>
+              <Link href={href('/clients')}>{t.nav.clients}</Link>
+              <Link href={href('/pricing')}>{t.nav.pricing}</Link>
+              <Link href={href('/docs')}>{t.nav.docs}</Link>
+              <Link href={href('/contact')} data-funnel={funnel.teamContact}>
+                {t.talkToUs}
+              </Link>
+            </nav>
+          </details>
+        </div>
       </div>
     </header>
   );

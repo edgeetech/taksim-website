@@ -72,6 +72,7 @@ export const tr: Dictionary = {
     brandTagline: 'EdgeeTech tarafından',
     primaryNav: 'Ana gezinme',
     mobileNav: 'Mobil gezinme',
+    darkMode: 'Koyu mod',
     openNav: 'Gezinmeyi aç',
     nav: {
       how: 'Nasıl çalışır',
@@ -561,6 +562,8 @@ export const tr: Dictionary = {
   },
 
   ledger: {
+    pause: 'Canlı demoyu duraklat',
+    resume: 'Canlı demoyu sürdür',
     recording: 'kaydediliyor',
     paused: 'duraklatıldı',
     spend: 'Bu haftaki harcama, liste fiyatı',

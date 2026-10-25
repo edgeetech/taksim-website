@@ -186,7 +186,7 @@ test('makes Get Taksim free the primary CTA and sends it to the easy install', a
     const text = await source(path);
     assert.match(
       text,
-      /href=\{(?:href|localePath)\((?:locale, )?'\/docs\/quick-start'\)\} data-funnel=\{funnel\.getFree\}/,
+      /href=\{(?:href|localePath)\((?:locale, )?'\/docs\/quick-start'\)\}\s+data-funnel=\{funnel\.getFree\}/,
       path,
     );
   }

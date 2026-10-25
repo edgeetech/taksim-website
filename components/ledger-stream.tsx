@@ -16,16 +16,76 @@ type Row = {
 };
 
 const templates: Omit<Row, 'id' | 'time'>[] = [
-  { client: 'Claude Code', model: 'Opus 5.5', cost: 4.82, verdict: 'over', label: 'sonnetEnough' },
-  { client: 'Claude Code', model: 'Sonnet', cost: 1.14, verdict: 'sufficient', label: 'rightSize' },
-  { client: 'Claude Code', model: 'Fable 5.1', cost: 7.36, verdict: 'sufficient', label: 'neededTop' },
-  { client: 'Claude app', model: 'Opus 5.5', cost: 2.07, verdict: 'over', label: 'haikuEnough' },
-  { client: 'Claude Code', model: 'Sonnet', cost: 0.61, verdict: 'sufficient', label: 'rightSize' },
-  { client: 'Claude Code', model: 'Opus 5.5', cost: 3.4, verdict: 'disputed', label: 'disagree' },
-  { client: 'Claude Code', model: 'Sonnet', cost: 0.92, verdict: 'over', label: 'haikuEnough' },
-  { client: 'Claude Code', model: 'Fable 5.1', cost: 5.95, verdict: 'over', label: 'opusEnough' },
-  { client: 'Claude Code', model: 'Haiku', cost: 0.08, verdict: 'sufficient', label: 'rightSize' },
-  { client: 'Claude app', model: 'Opus 5.5', cost: 2.63, verdict: 'sufficient', label: 'neededOpus' },
+  {
+    client: 'Claude Code',
+    model: 'Opus 5.5',
+    cost: 4.82,
+    verdict: 'over',
+    label: 'sonnetEnough',
+  },
+  {
+    client: 'Claude Code',
+    model: 'Sonnet',
+    cost: 1.14,
+    verdict: 'sufficient',
+    label: 'rightSize',
+  },
+  {
+    client: 'Claude Code',
+    model: 'Fable 5.1',
+    cost: 7.36,
+    verdict: 'sufficient',
+    label: 'neededTop',
+  },
+  {
+    client: 'Claude app',
+    model: 'Opus 5.5',
+    cost: 2.07,
+    verdict: 'over',
+    label: 'haikuEnough',
+  },
+  {
+    client: 'Claude Code',
+    model: 'Sonnet',
+    cost: 0.61,
+    verdict: 'sufficient',
+    label: 'rightSize',
+  },
+  {
+    client: 'Claude Code',
+    model: 'Opus 5.5',
+    cost: 3.4,
+    verdict: 'disputed',
+    label: 'disagree',
+  },
+  {
+    client: 'Claude Code',
+    model: 'Sonnet',
+    cost: 0.92,
+    verdict: 'over',
+    label: 'haikuEnough',
+  },
+  {
+    client: 'Claude Code',
+    model: 'Fable 5.1',
+    cost: 5.95,
+    verdict: 'over',
+    label: 'opusEnough',
+  },
+  {
+    client: 'Claude Code',
+    model: 'Haiku',
+    cost: 0.08,
+    verdict: 'sufficient',
+    label: 'rightSize',
+  },
+  {
+    client: 'Claude app',
+    model: 'Opus 5.5',
+    cost: 2.63,
+    verdict: 'sufficient',
+    label: 'neededOpus',
+  },
 ];
 
 const VISIBLE = 6;
@@ -40,10 +100,16 @@ function clock(offsetMinutes: number) {
 }
 
 function makeRow(index: number): Row {
-  return { ...templates[index % templates.length], id: index, time: clock(index * 3) };
+  return {
+    ...templates[index % templates.length],
+    id: index,
+    time: clock(index * 3),
+  };
 }
 
-const initialRows = Array.from({ length: VISIBLE }, (_, i) => makeRow(VISIBLE - 1 - i));
+const initialRows = Array.from({ length: VISIBLE }, (_, i) =>
+  makeRow(VISIBLE - 1 - i),
+);
 
 const money = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -55,6 +121,7 @@ export function LedgerStream({ t }: { t: Dictionary['ledger'] }) {
   const [rows, setRows] = useState<Row[]>(initialRows);
   const [total, setTotal] = useState(START_TOTAL);
   const [running, setRunning] = useState(false);
+  const [userPaused, setUserPaused] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const nextIndex = useRef(VISIBLE);
 
@@ -63,7 +130,13 @@ export function LedgerStream({ t }: { t: Dictionary['ledger'] }) {
     const node = rootRef.current;
     if (!node) return;
     let visible = false;
-    const sync = () => setRunning(visible && !reduce.matches && document.visibilityState === 'visible');
+    const sync = () =>
+      setRunning(
+        visible &&
+          !userPaused &&
+          !reduce.matches &&
+          document.visibilityState === 'visible',
+      );
     const observer = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
       sync();
@@ -76,20 +149,26 @@ export function LedgerStream({ t }: { t: Dictionary['ledger'] }) {
       document.removeEventListener('visibilitychange', sync);
       reduce.removeEventListener('change', sync);
     };
-  }, []);
+  }, [userPaused]);
 
   useEffect(() => {
     if (!running) return;
     const timer = window.setInterval(() => {
       const row = makeRow(nextIndex.current++);
       setRows((current) => [row, ...current].slice(0, VISIBLE));
-      setTotal((current) => (current + row.cost > WEEK_CAP ? START_TOTAL : current + row.cost));
+      setTotal((current) =>
+        current + row.cost > WEEK_CAP ? START_TOTAL : current + row.cost,
+      );
     }, 2200);
     return () => window.clearInterval(timer);
   }, [running]);
 
   const judged = rows.filter((r) => r.verdict !== 'disputed');
-  const overShare = Math.round((rows.filter((r) => r.verdict === 'over').length / Math.max(judged.length, 1)) * 100);
+  const overShare = Math.round(
+    (rows.filter((r) => r.verdict === 'over').length /
+      Math.max(judged.length, 1)) *
+      100,
+  );
 
   return (
     <div className="ledger" ref={rootRef}>
@@ -100,9 +179,15 @@ export function LedgerStream({ t }: { t: Dictionary['ledger'] }) {
           <i />
         </span>
         <span>Taksim ledger</span>
-        <span className={running ? 'ledger-live is-live' : 'ledger-live'}>
+        <button
+          type="button"
+          className={running ? 'ledger-live is-live' : 'ledger-live'}
+          onClick={() => setUserPaused((paused) => !paused)}
+          aria-label={userPaused ? t.resume : t.pause}
+          title={userPaused ? t.resume : t.pause}
+        >
           {running ? t.recording : t.paused}
-        </span>
+        </button>
       </div>
       <div className="ledger-totals">
         <div>
