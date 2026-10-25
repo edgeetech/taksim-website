@@ -72,6 +72,7 @@ export const en = {
     brandTagline: 'by EdgeeTech',
     primaryNav: 'Primary navigation',
     mobileNav: 'Mobile navigation',
+    darkMode: 'Dark mode',
     openNav: 'Open navigation',
     nav: {
       how: 'How it works',
@@ -561,6 +562,8 @@ export const en = {
   },
 
   ledger: {
+    pause: 'Pause live demo',
+    resume: 'Resume live demo',
     recording: 'recording',
     paused: 'paused',
     spend: 'Spend this week, list price',
