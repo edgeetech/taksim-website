@@ -1,16 +1,20 @@
 # Taksim
 
-Taksim is a local-first control plane for AI coding agents, built around a sufficiency ledger. It reads the local history and hooks of coding agents (Claude Code, Codex, GitHub Copilot CLI, Devin, Devin Desktop, OpenCode, Kilo Code, Pi and Oh My Pi, Agent Workstation), prices every session, and grades finished turns with an LLM judge to show when a cheaper model would have been enough. It stores metadata only: no prompts, responses, code, paths or credentials.
+Taksim is a local-first control plane for AI coding agents, built around a sufficiency ledger. It reads the local history and hooks of coding agents (Claude Code, Codex, GitHub Copilot CLI, Devin, Devin Desktop, OpenCode, Kilo Code, Pi and Oh My Pi, Agent Workstation), prices every session, and grades finished turns with an LLM judge to show when a cheaper model would have been enough. It stores metadata only: no prompts, responses, code or credentials. Local repository folders stay in your local database only, to attribute cost, and never appear in exports.
 
 Canonical site: https://taksim.edgee.tech
 Easy install (3 steps): https://taksim.edgee.tech/docs/quick-start
 Full install guide: https://taksim.edgee.tech/docs/getting-started
 Next steps (dashboard, judging, budgets, digest, Slack, team): https://taksim.edgee.tech/docs/next-steps
+Troubleshooting (exact command and expected output for the common problems): https://taksim.edgee.tech/docs/troubleshooting
+Changelog (recent releases): https://taksim.edgee.tech/changelog
 How it works (first evidence, judging, weekly report, what is stored): https://taksim.edgee.tech/how-it-works
 Client support table: https://taksim.edgee.tech/clients
 Internal pilot benchmark (method and caveats): https://taksim.edgee.tech/benchmark
+Comparison with Copilot Fusion, Claude /advisor, Not Diamond Code, ccusage and plain /model sonnet (dated, sourced, with where Taksim is weaker): https://taksim.edgee.tech/compare
 Documentation: https://taksim.edgee.tech/docs
 Pricing: https://taksim.edgee.tech/pricing
+Security (network destinations, local service guards, releases, disclosure): https://taksim.edgee.tech/security
 Privacy: https://taksim.edgee.tech/privacy
 Turkish: https://taksim.edgee.tech/tr/
 
@@ -23,7 +27,7 @@ Client boundary (Observe = history import and reports; Judge = LLM judge grades 
 - Claude Code on a Claude plan (Free, Pro, Max, Team, Enterprise): history import, hooks, status line, judging, reports. Observed by default. Opt-in: `taksim routing subscription on` (off by default) routes `taksim claude` on a Pro, Max or Team login through the local gateway for Claude-only model switching; the login stays the credential and is never read, copied or logged.
 - Claude Code on an Anthropic API key: all of the above, plus optional live routing through the local gateway in sessions launched with `taksim claude`.
 - Codex CLI on a ChatGPT plan: history import from `CODEX_HOME` sessions, judging (history judging and an in-session Stop hook), reports. Observe-only in the current release.
-- Codex CLI on an OpenAI API key: all of the above, plus optional live routing through the local gateway in sessions launched with `taksim codex`.
+- Codex CLI on an OpenAI API key: history import, judging, reports. Observed; not routed. Taksim routes only between Claude models.
 - GitHub Copilot CLI: usage import from the local Copilot CLI session store, reports. Not judged; no request-time routing.
 - Devin CLI: history import and reports. Not judged; no routing.
 - Devin Desktop (formerly Windsurf): history import and judging. Observe-only; never routed.
@@ -41,7 +45,7 @@ Routing on your own API key (pay-per-token only): `taksim routing recommend` sug
 
 Usage and cost: API-key usage is shown in billed dollars; subscription usage is shown as API-equivalent list-price dollars, labelled as quota, not billed. `taksim dashboard` is a local, read-only dashboard on 127.0.0.1. Reports are on demand: `taksim report weekly`, `taksim digest`, `taksim report summary`. Budgets (`taksim budget set`) warn by default and never block a request; the opt-in `taksim budget enforce --mode downgrade` (off by default) serves routed Claude requests on Sonnet (or Haiku with `--to haiku`) while a developer or repo budget is at or above its threshold, never blocking or leaving Claude. The digest and budget alerts can be sent to Slack or a webhook you configure with `taksim notify configure`.
 
-Pricing: the Developer plan (the CLI) is free for any individual developer, at home or at work, with no account. It includes history import, the local dashboard and weekly report, spend and subscription quota visibility, judging with two-judge consensus, decision memory and verification evidence, and optional routing on your own API key. Team is $8 per active developer per month, $99 per month minimum, 20% off with annual billing. The team roll-up is built from exports each developer creates and can inspect before sharing; exports carry repo aliases, never paths.
+Pricing: the Developer plan (the CLI) is free for any individual developer, at home or at work, with no account. It includes history import, the local dashboard and weekly report, spend and subscription quota visibility, judging with two-judge consensus, decision memory and verification evidence, manual `taksim mode` and budget warnings that never block. Pro is $12 per month (the first 20 customers get 50% off for the first 12 months) and adds automatic outcome-learned routing (`taksim routing auto on`), budget caps that step down to a cheaper Claude model (`taksim budget enforce --mode downgrade`), digest delivery to Slack or a webhook and the HTML executive summary (`taksim report summary --html`). Team is $18 per active developer per month with a 5-developer minimum ($90 per month); it adds the team roll-up (`taksim report team`) and team budgets. Paid plans are not on sale yet: reserving a founding seat or starting a team pilot costs nothing (https://taksim.edgee.tech/contact), and billing opens when checkout is live. The team roll-up is built from exports each developer creates and can inspect before sharing; exports carry repo aliases, never paths.
 
 There is no Taksim account, sign-in or server: install Taksim and use it. Nothing is sent to a Taksim server; none exists.
 

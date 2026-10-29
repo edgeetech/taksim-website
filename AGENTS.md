@@ -23,3 +23,7 @@ By owner decision on 2026-10-09 the site has no analytics. Nothing collects the 
 - This site's own release sync (`scripts/release.mjs sync`, run by every Validate workflow run, including the 6-hourly schedule) downloads `install.ps1`, `SHA256SUMS.txt` and the manifest of the latest release. Installers never fetch the manifest, so the report subtracts manifest downloads from install-script downloads per release to estimate real new installs plus in-place updates.
 - Counts are cumulative, include retries and bots, and cannot be tied to a visitor or a site page.
 - Print the report only; do not commit counts or results.
+
+## Changelog
+
+`/changelog` renders `data/changelog.json`, the five newest released entries of the product `CHANGELOG.md`. The build never reads the product repository. After a release, regenerate the file from the product changelog at the release commit, for example `git -C <product repo> show <release commit>:CHANGELOG.md > changelog.md`, then `node scripts/release.mjs changelog changelog.md`, and commit the result. A test fails while the top entry is not the version in `release/manifest.json`; set `TAKSIM_CHANGELOG=<path>` to also check the committed file against that changelog.

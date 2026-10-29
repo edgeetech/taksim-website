@@ -1,6 +1,7 @@
 // Keeps the site in step with the latest published Taksim release.
 //
 //   node scripts/release.mjs render            render generated files from release/manifest.json (offline)
+//   node scripts/release.mjs changelog <path>   write data/changelog.json from the product CHANGELOG.md at <path>
 //   node scripts/release.mjs sync [--strict] [--walk]
 //
 // sync reads the latest release of the releases repository and rewrites release/manifest.json:
@@ -18,6 +19,7 @@ import { pathToFileURL } from 'node:url';
 
 const root = new URL('..', import.meta.url);
 const manifestPath = new URL('release/manifest.json', root);
+const changelogOut = new URL('data/changelog.json', root);
 const MANIFEST_ASSET = 'taksim-release-manifest.json';
 const REQUIRED_ASSETS = [
   'taksim-connector-win-x64.zip',
@@ -94,6 +96,85 @@ export function render(m = readManifest()) {
     );
   writeFileSync(new URL('public/llms.txt', root), renderLlms(m));
   console.log(`release: rendered for ${m.tag} (${m.source})`);
+}
+
+// ---- changelog ------------------------------------------------------------------------------------
+// The product repository is another repo, so the site never reads it during a build. This command is run
+// by hand with an explicit path, and its output (data/changelog.json) is committed to keep the build hermetic.
+
+const CHANGELOG_HEADING = /^##\s+(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)(?:\s+[\u2014\u2013-]+\s+(\d{4}-\d{2}-\d{2}))?\s*$/;
+
+/** Site copy is plain text with `code`: drop issue references from the private product repository and relative links. */
+export function plainChangelogText(text) {
+  return text
+    .replace(/\s*\((?:refs?\s+)?#\d+(?:,\s*(?:refs?\s+)?#\d+)*\)/g, '')
+    .replace(/,?\s*\brefs?\s+#\d+(?:,?\s*#\d+)*/g, '')
+    .replace(/\[([^\]]+)\]\((?![a-z]+:)[^)]*\)/g, '$1')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/** Split text after its first sentence, ignoring full stops inside `code` and after e.g. / i.e. */
+export function firstSentence(text) {
+  let inCode = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (c === '`') inCode = !inCode;
+    if (inCode || !'.!?'.includes(c)) continue;
+    if (text[i + 1] !== ' ') continue;
+    if (/(?:\be\.g|\bi\.e|\bvs|\betc)\.$/.test(text.slice(0, i + 1))) continue;
+    if (!/^[A-Z`"'(\d]/.test(text[i + 2] ?? '')) continue;
+    return [text.slice(0, i + 1), text.slice(i + 2)];
+  }
+  return [text, ''];
+}
+
+export function parseChangelog(markdown, limit = 5) {
+  const entries = [];
+  let entry = null;
+  let item = null;
+  const close = () => {
+    if (!entry || !item) return;
+    const [summary, rest] = firstSentence(plainChangelogText(item.lines.join(' ')));
+    entry.items.push({
+      summary,
+      details: rest,
+      points: item.points.map(plainChangelogText).filter(Boolean),
+    });
+    item = null;
+  };
+  for (const line of markdown.split(/\r?\n/)) {
+    if (line.startsWith('## ')) {
+      close();
+      const m = line.match(CHANGELOG_HEADING);
+      entry = m ? { version: m[1], date: m[2] ?? null, items: [] } : null;
+      if (entry) entries.push(entry);
+      continue;
+    }
+    if (!entry || line.trim() === '') continue;
+    if (line.startsWith('- ')) {
+      close();
+      item = { lines: [line.slice(2)], points: [] };
+    } else if (item && /^\s+[-*]\s/.test(line)) {
+      item.points.push(line.replace(/^\s+[-*]\s/, ''));
+    } else if (item) {
+      const last = item.points.length - 1;
+      if (last >= 0) item.points[last] += ` ${line.trim()}`;
+      else item.lines.push(line.trim());
+    }
+  }
+  close();
+  return entries.filter((e) => e.items.length).slice(0, limit);
+}
+
+export function writeChangelog(sourcePath, limit = 5) {
+  const entries = parseChangelog(readFileSync(sourcePath, 'utf8'), limit);
+  if (!entries.length) throw new Error(`no released entries found in ${sourcePath}`);
+  writeFileSync(
+    changelogOut,
+    `${JSON.stringify({ schema: 'taksim.changelog.v1', entries }, null, 2)}\n`,
+  );
+  console.log(`release: wrote data/changelog.json (${entries.map((e) => e.version).join(', ')})`);
 }
 
 async function gh(path, accept = 'application/vnd.github+json') {
@@ -333,6 +414,10 @@ if (
   const [cmd, ...flags] = process.argv.slice(2);
   try {
     if (cmd === 'render') render();
+    else if (cmd === 'changelog') {
+      if (!flags[0]) throw new Error('usage: node scripts/release.mjs changelog <path to CHANGELOG.md>');
+      writeChangelog(flags[0]);
+    }
     else if (cmd === 'sync')
       await sync({
         strict: flags.includes('--strict'),
@@ -340,7 +425,7 @@ if (
       });
     else
       throw new Error(
-        'usage: node scripts/release.mjs render | sync [--strict] [--walk]',
+        'usage: node scripts/release.mjs render | changelog <path> | sync [--strict] [--walk]',
       );
   } catch (e) {
     console.error(`release: ${e.message}`);

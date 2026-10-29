@@ -19,11 +19,15 @@ export const localizedRoutes = [
   '/docs/quick-start/',
   '/docs/getting-started/',
   '/docs/next-steps/',
+  '/docs/troubleshooting/',
   '/how-it-works/',
   '/clients/',
   '/benchmark/',
+  '/compare/',
+  '/changelog/',
   '/privacy/',
   '/terms/',
+  '/security/',
   '/contact/',
 ] as const;
 

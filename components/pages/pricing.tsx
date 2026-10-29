@@ -1,4 +1,6 @@
 import { EconomicModes } from '@/components/economic-modes';
+import { SoftwareApplicationJsonLd } from '@/components/json-ld';
+import { Rich } from '@/components/rich';
 import { PricingPlans } from '@/components/pricing-plans';
 import { getDictionary, type Locale } from '@/lib/i18n';
 
@@ -7,6 +9,7 @@ export function PricingPage({ locale }: { locale: Locale }) {
   const t = dict.pricing;
   return (
     <main className="home">
+      <SoftwareApplicationJsonLd locale={locale} />
       <section className="band page-lead" aria-labelledby="pricing-title">
         <div className="shell">
           <div className="section-lead">
@@ -32,7 +35,9 @@ export function PricingPage({ locale }: { locale: Locale }) {
             {t.faq.map(({ q, a }) => (
               <details key={q}>
                 <summary>{q}</summary>
-                <p>{a}</p>
+                <p>
+                  <Rich text={a} locale={locale} />
+                </p>
               </details>
             ))}
           </div>

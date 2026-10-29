@@ -1,0 +1,242 @@
+{
+  "schema": "taksim.changelog.v1",
+  "entries": [
+    {
+      "version": "0.3.17",
+      "date": "2026-10-29",
+      "items": [
+        {
+          "summary": "`taksim mode economy|balanced|quality`: one switch over settings that already exist, and `taksim mode` with no argument shows the mode in force, what it maps to and any setting changed by hand since.",
+          "details": "`balanced` is today's defaults. `economy` turns `routing.auto` on and lowers the managed baseline's standard capability demand from 0.60 to 0.55 (Sonnet at low effort instead of medium); `quality` keeps `routing.auto` off, raises the demand to 0.90 (Opus at medium effort for ordinary requests) and stops using the low (Haiku) tier. Escalations, risk and failure handling, pins, an explicit effort, hard policy and required safety are unchanged, `routing.subscription` is never touched, and while a mode other than `balanced` is set every candidate must be an exact Claude catalog model the organisation's managed model policy allows (an unreadable policy leaves nothing eligible, so the request is forwarded unchanged). Stored in `routing/mode.json`. See Routing.",
+          "points": []
+        },
+        {
+          "summary": "`taksim budget enforce --mode downgrade`: opt-in budget enforcement, off by default.",
+          "details": "While a developer or repo budget window is at or above its threshold (`--at`, `--daily-at`, `--monthly-at`, percent of the limit, default 100), the gateway serves routed Claude requests on a cheaper tier (`--to sonnet`, the default, or `haiku`) instead of only warning. It never blocks a request or leaves Claude, forwards the original request on any routing error (and retries once on the requested model after an upstream failure before the first byte), skips explicit pins, required-safety requests and phases that already escalated, applies the organisation's model policy to the target, and is released when the day or month rolls over, the limit is raised or enforcement is turned off. Every step down is a routing decision with evidence source `budget_downgrade` and `BUDGET_DOWNGRADE` reason codes plus a `ROUTING_DOWNGRADE_OBSERVED` event; `taksim budget status`, `diagnostics downgrades` and `report weekly` count them and the status line shows `, sonnet cap` in sessions the gateway can cap. A step down the `/advisor` guard would undo is skipped (`BUDGET_DOWNGRADE_SKIPPED:ADVISOR_GUARD`). Settings live in the `enforcement` block of `budgets.json`. See Routing.",
+          "points": []
+        },
+        {
+          "summary": "Claude `/advisor` support: the gateway forwards the advisor tool, its beta header and the advisor response blocks and usage unchanged, and no longer swaps the executor model into a pairing the API would refuse (or past encrypted advice or a paused advisor call); it keeps the client's model and records `advisorRoutingSkipped` with the reason.",
+          "details": "Advisor tokens, reported only in `usage.iterations`, are now recorded as their own execution per advisor model in the gateway and the Claude transcript import, priced at the advisor model's rates, shown in `taksim report task-cost`, and kept out of downgrade counterfactuals. The pairing check follows the API's model compatibility list. An advisor result without reported advisor usage, or an advisor model without a known price, is flagged as not priced instead of counted as zero. See `docs/ROUTING.md`.",
+          "points": []
+        },
+        {
+          "summary": "Updater: `taksim update --apply` on Windows now checks the downloaded `install.ps1` against the release's `SHA256SUMS.txt`, as macOS already did, and refuses on a mismatch or a missing entry.",
+          "details": "A build that is not signed (every release so far) no longer accepts a bootstrap with a valid signature from an arbitrary publisher: a signed bootstrap must come from a publisher pinned in the binary (none yet), and an unsigned one still needs `--allow-unsigned`. A signed build compares the signer's issuer as well as its subject. Consequence: builds released before the publisher is pinned cannot recognise the first signed release, so `taksim update --apply` refuses it (with or without `--allow-unsigned`). Install that release once with the one-line installer from the README; later signed updates go through `taksim update --apply` again.",
+          "points": []
+        },
+        {
+          "summary": "Installers: `install.ps1` applies the same rule to `install-release.ps1`, and `install-release.ps1` to `taksim.exe`.",
+          "details": "When no signed Taksim is installed, a signed file must come from a publisher in the script's pinned list, which must match the updater's list (a test checks this). A signed install needs the same subject and issuer, or a pinned signer. A duplicate `SHA256SUMS.txt` entry is now refused, and entry names are matched case-sensitively.",
+          "points": []
+        },
+        {
+          "summary": "macOS home migration safety.",
+          "details": "`taksim home migrate` takes its lock before it scans for other Taksim processes, scans again under the lock, and no longer deletes `-wal`/`-shm` itself: after it checkpoints and closes its own connection, a sidecar that is still there means another process has the database open (even idle), and the migration stops with exit 3 before anything moves. With taksim.dev's files in `~/.taksim`, generic names (`cache`, `logs`, `reports`, `team`, `policy`, `routing`, `gateway`, `vendor-*`) are left alone by `uninstall --purge-data` and move with `home migrate` only when named with `--include`, marker or not. During an interrupted migration only `status-line` and the fail-open hooks (including desktop routing's `desktop-register`/`-unregister`/`-liveness`) exit 0 silently; `taksim doctor` names the generic entries a plain rerun leaves behind and the `--include` they need; every other command, also with stdin redirected, exits 3 with a one-line message. `install.sh` treats exit 3 from `home path --create` as a warning, so `taksim update --apply` still completes and hands off the gateway. `macos.yml` has a manual `home-tests-only` input that runs only the `TaksimHome` tests.",
+          "points": []
+        }
+      ]
+    },
+    {
+      "version": "0.3.16",
+      "date": "2026-10-22",
+      "items": [
+        {
+          "summary": "CI cost: GitHub Actions no longer runs on every push to `main`; `ci.yml` runs its Linux check weekly and on manual dispatch.",
+          "details": "`release.yml` runs only on `v*` tags and only when the repository variable `TAKSIM_ACTIONS_RELEASE` is `true` (releases are built locally), skips the integration and performance tests on the hosted Windows runner (new `ci-local.ps1 -SkipIntegrationTests`; the local merge gate still runs them), has a 30-minute timeout, and starts the macOS jobs only after Windows passes. `macos.yml` cancels the other architecture when one fails and runs the unit tests on Apple Silicon only.",
+          "points": []
+        },
+        {
+          "summary": "macOS: the default Taksim home moves to `~/Library/Application Support/EdgeeTech/Taksim`, out of the `~/.taksim` that taksim.dev also uses and its Homebrew zap deletes.",
+          "details": "`TAKSIM_HOME` still wins; Windows (`%USERPROFILE%\\.taksim`) and Linux (`~/.taksim`) are unchanged. An existing `~/.taksim` with Taksim's marker or Taksim data stays in use, and `taksim doctor` warns with `TAKSIM_HOME_LEGACY_LOCATION`; one shared with taksim.dev stays in use too, with a warning, until `taksim home migrate --shared`. New `taksim home migrate [--dry-run] [--shared] [--include NAME]` moves only Taksim's own entries under an exclusive lock and a journal. It checkpoints the databases first (`BEGIN EXCLUSIVE`, `wal_checkpoint(TRUNCATE)`) so each moves as one file, refuses links, stages entries next to the new home (renamed on one volume, copied and verified across volumes) and publishes them last, rolling back on failure. An interrupted migration makes Taksim commands refuse (hooks and the status line skip silently) until a rerun resumes it, and doctor reports `TAKSIM_HOME_MIGRATION_IN_PROGRESS`. A new home whose database holds data is never overwritten. It leaves foreign files and a `TAKSIM-HOME-MOVED.txt` breadcrumb, removes `~/.taksim` only when empty, and refuses while a gateway, another Taksim process or desktop routing is active. New `taksim home path [--create]` prints the home; the macOS installer uses it to create the new home (`0700`) for new installs. `uninstall --purge-data` accepts the new home. Rolling back to a binary older than 0.3.16 after migrating needs `TAKSIM_HOME` set to the new path.",
+          "points": []
+        },
+        {
+          "summary": "Data safety: Taksim no longer risks deleting another product's data in a shared home. taksim.dev, an unrelated macOS app, also uses `~/.taksim` and `TAKSIM_HOME`.",
+          "details": "Taksim now writes an ownership marker (`.edgeetech-taksim`, schema version and install id) into its home and backfills it at startup when the home holds Taksim files and none of taksim.dev's. `taksim uninstall --purge-data` purges only a home with the marker, or with Taksim files and no taksim.dev files, and otherwise refuses. It deletes only Taksim's own entries and removes the directory only when it is empty afterwards, on Windows and macOS. `taksim doctor` warns with `TAKSIM_HOME_SHARED_WITH_FOREIGN_PRODUCT` (or `TAKSIM_HOME_UNKNOWN_FILES`) and a `homeNote`, and on macOS recommends `taksim home migrate`.",
+          "points": []
+        },
+        {
+          "summary": "Docs: README now shows v0.3.15, the unsigned `-AllowUnsigned` install and a capability summary.",
+          "details": "ROUTING, CLIENTS, PRIVACY_AND_COMPLIANCE and MACOS no longer describe the Claude desktop app Code tab as routable or subscription sessions as never routed.",
+          "points": []
+        },
+        {
+          "summary": "Release hardening.",
+          "details": "The published package no longer carries the XML documentation files (about 1.4 MB of member descriptions) or PDBs: `Directory.Build.props` sets `PublishDocumentationFile=false`, `PublishReferencesDocumentationFiles=false` and drops every `.pdb` from the publish set, while build output keeps both for the analyzers, debugging and tests. `scripts/Test-ReleaseArtifact.ps1` now fails when a published directory or the release zip holds an `.xml`, `.pdb` or `.dbg` file, or when the single-file bundle manifest lists one. `taksim.exe` version info now shows `Copyright © 2026 EdgeeTech Ltd. All rights reserved.` The local release builder moved into the repository as `scripts/release/Build-LocalRelease.ps1` (website checkout is a parameter or `TAKSIM_WEBSITE_ROOT`, restore is locked, and it applies the same publish settings); `docs/DEVELOPMENT.md` documents the steps. Installs made before this change keep their `.xml` files until `taksim install cleanup` removes the old version directory.",
+          "points": []
+        },
+        {
+          "summary": "Legal: EULA version 1.1, effective 22 October 2026.",
+          "details": "Governing law and courts are now England and Wales, with consumer protections kept. New restrictions: no use of Taksim to build a competing product; no extraction or redistribution of embedded prompts, rubrics, policies, pricing and model catalogs or calibration data; no circumvention of licence checks or plan limits. A new confidentiality section covers non-public materials. The reverse-engineering restriction now names the exceptions in sections 50A-50C and 296A of the Copyright, Designs and Patents Act 1988, which it does not override. The licence names the Free, Pro and Team plans, and the privacy section lists the only services Taksim connects to.",
+          "points": []
+        },
+        {
+          "summary": "Pricing: the official OpenAI price refresh reads the new standard price table.",
+          "details": "OpenAI reordered the columns and replaced the single cache-write column with 30-minute and 12-hour cache-write columns, so the refresh was rejected. The parser now maps columns by header name, keeps the 30m and 12h write rates under `30m` and `12h` for both context bands, and still reads the old single `cache writes` layout. An unknown, duplicated or missing column, a half-present cache-write pair or an unparseable price still fails the refresh and keeps the last good catalog. Rows labelled `(<272K context length)` were skipped silently before. They hold both bands in one row, so they now import into the existing `standard_short` and `standard_long` tiers. The catalog has no field for the numeric threshold, so it is not stored: a consumer must pick the band itself. The legacy list-price lookup does not read OpenAI catalog bands, and it no longer stops at an OpenAI model that the catalog holds: an official refresh used to leave such a model (for example `gpt-5.4`) unpriced in reports, and the verified built-in rate now prices it below and above the 272K threshold. A model with no built-in rate, such as `gpt-5.5`, stays unpriced until an override sets one. A priced row with a label the parser cannot read now fails the refresh instead of being skipped.",
+          "points": []
+        },
+        {
+          "summary": "Pricing: follow-ups to effective-dated prices.",
+          "details": "",
+          "points": [
+            "`pricing-overrides.json` schema 3 lets one model hold several dated windows. Windows that overlap, are partly undated or disagree on `preferOverride` are rejected at load with a reason. An execution in a gap between windows is left unpriced, never priced at zero.",
+            "An optional `timeZone` (`UTC`, a UTC offset or an IANA id) normalises a window to UTC when it is read, so a boundary-day execution is priced instead of left unpriced. Only the UTC hour holding a bound that is not on a whole hour (a `UTC+05:30` midnight, say) stays unpriced.",
+            "The official Anthropic and OpenAI price sources emit dated schedules from a trailing `(through ...)` or `(from ...)` qualifier on a model row. Private fabric prices accept `validFrom`, `validUntil` and `timeZone`.",
+            "Schema 1 and 2 override files, catalog snapshots and frozen task contracts load, serialize and price exactly as before. Saving the overrides file keeps entries that failed to load instead of dropping them."
+          ]
+        },
+        {
+          "summary": "`taksim doctor` no longer leaves the `unknown` Claude credential state unexplained.",
+          "details": "Doctor still does not run `claude auth status` unless given `--probe-claude-auth`, so a saved `/login` stays `unknown` (`saved_login_unclassified`) there while `taksim claude credentials` probes and reports `subscription` for a claude.ai login. `claudeCredentialNote` now says the probe was skipped and names `taksim doctor --probe-claude-auth` and `taksim claude credentials` as the ways to classify. With the flag, doctor matches the launcher.",
+          "points": []
+        },
+        {
+          "summary": "NativeAOT groundwork: JSON goes through source-generated serializer contexts.",
+          "details": "The trim/AOT analyzer pass now reports 87 warnings instead of 797; the JSON-reflection share fell from 766 to 56. Serialized output, stored metadata, digests and CLI `--json` output are byte-for-byte unchanged: a parity test compares every generated type with the reflection serializer under every options set the product uses, and a golden test pins payloads that were anonymous objects, and gateway golden tests pin the execution-record metadata, `/health`, routing status and the hook replies (ASP.NET's relaxed encoder included). The 56 left are the non-generic enum converters (12), `Dictionary<string, object>` metadata (14), OTLP telemetry payloads (12), the public generic signing helpers of the native evidence bridge (8), judge request bodies with open-ended members (6), the Cursor hook fragment (2) and one reflection `--json` helper (2). `scripts/aot/Test-JsonReflectionWarnings.ps1` (opt-in `ci-local.ps1 -AotJsonBudget`) fails on any warning not in its baseline file. Release binaries are unchanged and are still not NativeAOT.",
+          "points": []
+        }
+      ]
+    },
+    {
+      "version": "0.3.15",
+      "date": "2026-10-21",
+      "items": [
+        {
+          "summary": "Security: the local gateway is hardened against misuse by other software and web pages on the same machine.",
+          "details": "",
+          "points": [
+            "The client's request path is appended to the provider base URL and can no longer select a different upstream host, scheme or port. Such a path gets HTTP 400 `invalid_upstream_path` and nothing is sent upstream. Paths with an encoded slash (`%2F`) or any other percent-escape left after decoding (for example a double-encoded `%252F`) are refused too. This also refuses Bedrock- or Vertex-style encoded ARN model ids, which are not supported upstreams today.",
+            "The provider endpoints and `/dashboard` now apply the loopback `Host` check that `/health` already had (HTTP 421 otherwise), and refuse browser requests from other sites with HTTP 403. CLI clients are not affected. `/dashboard` sends the same security headers as `taksim dashboard`. Each refusal names its reason in `x-taksim-error` (`misdirected_host`, `cross_site_request`, `invalid_upstream_path`) and a small JSON error body.",
+            "Provider redirects are passed back to the client and never followed; the upstream client keeps no cookies and has a 30 s connect timeout.",
+            "Browser-only request headers (`Cookie`, `Origin`, `Referer`, `Sec-Fetch-*`, `Sec-CH-*`) are no longer forwarded upstream. All other headers still are.",
+            "The Anthropic, OpenAI and Gemini upstream base URLs share one check: an absolute `http` or `https` URL, any host.",
+            "Gateway client adapters must now state their credential policy explicitly; there is no permissive default."
+          ]
+        },
+        {
+          "summary": "Internal: event-type storage names now come from `CanonicalEventStorage` instead of repeated literals (stored values unchanged), with a guard test; ARCHITECTURE.md describes the Domain layer accurately; renamed the unit `CostAttributionTests` class.",
+          "details": "",
+          "points": []
+        },
+        {
+          "summary": "Internal: Edge no longer touches EF Core or `TaksimDbContext`.",
+          "details": "The execution recorder, downgrade outcome recorder, judgement count cache and managed session lifecycle moved to Infrastructure; the routing decision writes, routing snapshot reads, performance samples and the `routing`, `routing outcome`, `pricing`, `report cost` and `diagnostics downgrades` queries are Infrastructure adapters. `IDowngradeOutcomeSink` and `CanonicalExecutionObservation` are Application contracts; `IInferenceExecutionSink` sits with the recorder in Infrastructure. Behaviour, SQL, diagnostics and CLI output are unchanged; a new architecture test keeps EF Core, the context and raw SQLite out of Edge. The Connector's hook handler now names `SESSION_STARTED` through `CanonicalEventStorage`.",
+          "points": []
+        },
+        {
+          "summary": "Internal: the shadow policy file loader and the Taksim home resolution moved from Application to Infrastructure; Application keeps the pure shadow policy parser and an `IShadowPolicySource` port, and a guard test keeps file and environment access out of Application.",
+          "details": "Same environment variables, defaults and precedence.",
+          "points": []
+        },
+        {
+          "summary": "Internal: `GatewayPipeline` takes one `GatewayPipelineOptions` record instead of 19 constructor parameters, with the same defaults.",
+          "details": "`TaskEvidenceCollector`, `ClaudeHistoricalImportService` and the public offline calibration artifact generator are split into collaborator classes by responsibility (storage, report building, evaluator import, record mapping, row writes, validation, prior and findings). Public APIs, evidence, imports and generated artifacts are unchanged. A guard test fails when a `src` file outside migrations and generated code exceeds 1,000 lines.",
+          "points": []
+        },
+        {
+          "summary": "Internal: catch-all blocks that swallowed their exception were reviewed.",
+          "details": "Three are narrowed to the expected exception types. Ten now print a `TAKSIM_INTERNAL_DEGRADED` line on stderr with the exception type only: decision memory reuse, fingerprinting, learning and lessons (`DECISION_MEMORY_*`), a failed judge batch (`JUDGE_BATCH_FAILED`), evidence tier recalculation (`EVIDENCE_TIER_RECALCULATION_FAILED`) and lost judge or router service-call observations (`JUDGE_SERVICE_CALL_OBSERVATION_FAILED`, `ROUTER_SERVICE_CALL_OBSERVATION_FAILED`). The gateway reports a stale decision-memory hint snapshot once per failure streak (`DECISION_MEMORY_HINTS_STALE`), and an unreadable fingerprint key (`DECISION_MEMORY_FINGERPRINT_FAILED`) or a failing decision engine (`DECISION_ENGINE_FAILED`) once per process, never per request. `taksim notify status` shows `unavailable` for an enabled channel whose settings or stored credential cannot be read, instead of `not configured`. The rest stay silent with a `// Best-effort:` comment that says why. A guard test fails when a `src` catch-all neither rethrows, records a diagnostic, uses the caught exception nor carries that comment.",
+          "points": []
+        },
+        {
+          "summary": "`taksim update --apply` now runs exactly the installer bytes it verified.",
+          "details": "On Windows the download is written to a new file in a fresh private temp directory. That file is reopened read-only and write-denied (a Windows sharing mode) for verification and the installer's lifetime, and re-hashed against the downloaded bytes; any difference stops the update. Its Authenticode signature is then checked, and that same held copy runs. The directory is removed on every path. On macOS the download is checked against `SHA256SUMS.txt` in memory and handed to bash as its command string, so no file exists to swap. The `--allow-unsigned` behaviour and the macOS checksum source are unchanged.",
+          "points": []
+        },
+        {
+          "summary": "The CodeBuddy, Gemini CLI, Kimi Code and Qwen Code history importers now run on the shared importer base like the other clients.",
+          "details": "Run records, skip-unchanged checks, source and session rows and error handling come from one place, so a fix to the shared pipeline reaches them too. Imported rows and results are unchanged. One difference: an unexpected error in one of these imports now ends the run as failed and is rethrown, instead of leaving the run marked running. Resource discovery after the import is unchanged: still run for CodeBuddy, still not run for the other three.",
+          "points": []
+        },
+        {
+          "summary": "Secret files under TAKSIM_HOME are now created atomically and owner-only.",
+          "details": "The hook secret, the installation salts (`installation-salt`, `cache/installation.salt`) and `decision-memory.key` are written to a private temp file and published with a no-overwrite move. Before, the launcher and the gateway could both create the hook secret on first run and disagree, and a crash mid-write left a corrupt secret. On Unix new files are 0600 from creation, and an existing file with a wider mode is tightened to 0600 on first read. Windows keeps the TAKSIM_HOME user-profile ACLs. File names and contents are unchanged, so existing installs keep their values. An empty or truncated file left by a crashed older writer is replaced in place under an exclusive handle, so concurrent first runs still agree. Sharing violations from antivirus or the indexer are retried for about 2 s before startup fails with a clear timeout. Known limit: on a mixed-version first run, where an older binary and a new one create the secret at the same moment, they can still disagree once. Restarting fixes it.",
+          "points": []
+        },
+        {
+          "summary": "`taksim claude` no longer promotes a status line from a project `.claude/settings.json` or `.claude/settings.local.json` into its `--settings`.",
+          "details": "That would run a project-sourced command without Claude Code's workspace-trust prompt. Every directory from the launch directory up to the git root is checked. When one of these files defines a status line, or cannot be parsed, Claude's native precedence applies and the Taksim status stays in the terminal title. A user-level status line is still composed with the Taksim status, as before. A config directory inside the project chain (for example `CLAUDE_CONFIG_DIR=<workspace>/.claude`) counts as user settings. `--setting-sources` is now recognised (it was misspelled `--settings-sources`): without `user` the user status line is not composed, and without `project` or `local` those files are ignored.",
+          "points": []
+        },
+        {
+          "summary": "Internal: event-type storage names now come from `CanonicalEventStorage` instead of repeated literals (stored values unchanged), with a guard test; ARCHITECTURE.md describes the Domain layer accurately; renamed the unit `CostAttributionTests` class.",
+          "details": "",
+          "points": []
+        },
+        {
+          "summary": "Internal: the shadow policy file loader and the Taksim home resolution moved from Application to Infrastructure; Application keeps the pure shadow policy parser and an `IShadowPolicySource` port, and a guard test keeps file and environment access out of Application.",
+          "details": "Same environment variables, defaults and precedence.",
+          "points": []
+        },
+        {
+          "summary": "Raw benchmark NDJSON moved out of `docs/`.",
+          "details": "The ten `docs/performance-*.ndjson` files (about 5.7 MB) are now assets of the `perf-data-2026-10` release; `docs/PERFORMANCE.md` links to them and the JSON reports and tables stay in the tree. No test, script or CI gate read them. The benchmark command regenerates them under the gitignored `artifacts/`.",
+          "points": []
+        },
+        {
+          "summary": "Build hygiene.",
+          "details": "NuGet lock files (`packages.lock.json`) are now committed for every project and CI, the release build and `scripts/ci-local.ps1` restore with `--locked-mode`, so a dependency cannot change without a reviewed lock-file diff. The lock files cover the publish runtimes (`win-x64`, `osx-arm64`, `osx-x64`); publish steps now use `--no-restore` after the locked restore. NuGet audit is explicit (`NuGetAudit`, `NuGetAuditMode=all`, so transitive packages are checked) and NU1901-NU1904 are errors. `ci-local.ps1` gains a \"Vulnerable packages\" step (`dotnet list package --vulnerable --include-transitive`) that fails on any finding or when the audit cannot run. `.wrangler/` and `.claude/` are git-ignored.",
+          "points": []
+        }
+      ]
+    },
+    {
+      "version": "0.3.14",
+      "date": "2026-10-20",
+      "items": [
+        {
+          "summary": "Fixed-configuration task runs through the gateway can now be verified evidence.",
+          "details": "Before, a `taksim claude --model` run had no routing decision, so no execution had an applied configuration and every context-benchmark report was a mixed treatment. For a request it forwards with the client's original bytes, the gateway now records the model, effort, thinking mode and budget, context variant and whether any typed (server) tool was declared, never content. On a run registered with one treatment and propensity 1, `task collect` uses those tokens as the applied configuration (`canonical-gateway-observed-fixed`) and verifies the run assignment as the phase authority. A call on another model, effort or thinking mode still makes the episode mixed and unverified. Subscription calls (`claude_subscription_gateway`) get an API-equivalent amount at the first-party list price; when no server tool was offered, server-tool fees are zero instead of unknown. Quota-unit amounts stay unknown: there is no measured quota source. Outcomes still need `import-evaluation` from an independent evaluator; `evaluate-local` stays diagnostic only. Bytes may differ only through the arm's declared context strategy, which must keep the observed tokens. Only Anthropic Messages bodies are read. The observed thinking version is `request-observed-v1`, so a fixed plan must use it.",
+          "points": []
+        },
+        {
+          "summary": "Connectivity probes and token counts are no longer inference evidence.",
+          "details": "The gateway stops recording non-POST requests (Claude Code's `HEAD /api/hello` startup probe, `GET /v1/models`) and the free `/count_tokens` and `/responses/input_tokens` endpoints as executions, so they no longer block `task begin` or reach `task collect` and gate 9. One-token quota probes are billed and stay recorded.",
+          "points": []
+        },
+        {
+          "summary": "`taksim claude`, `codex` and `devin` adopt `TAKSIM_PREREGISTERED_SESSION_ID`, so `task begin` can register the session before launch.",
+          "details": "An unusable or already used id refuses the launch, a registered session never falls back to native, and the variable is not passed to the child.",
+          "points": []
+        },
+        {
+          "summary": "Sessions routed by `taksim desktop on` show which model served.",
+          "details": "The per-prompt liveness probe now sends Claude's session id and the gateway can answer with a one-line hook `systemMessage`. This applies to plain `claude` terminal and VS Code sessions; Claude desktop app Code-tab sessions are not routed (next entry), and the desktop app shows such messages only behind a server-side feature gate. On the first prompt of a registered session: \"Taksim manages this session: …\". After that, only when the served model changes: \"Taksim: previous reply was served by Sonnet 5.5 (requested Opus 5.5).\" and \"Taksim: back to Opus 5.5 after your correction.\" Only main-conversation turns count (not subagents or side requests). The notice carries model names only. A probe still takes about 0.16 s. Run `taksim desktop on` again to install the new probe; the 0.3.13 probe keeps working without notices.",
+          "points": []
+        },
+        {
+          "summary": "Desktop routing reports when it cannot reach a session.",
+          "details": "The Claude desktop app (2.42304, Claude Code 2.1.299) starts Claude Code with `ANTHROPIC_BASE_URL=https://api.anthropic.com` in its launch environment, and Claude Code prefers a launch-environment value over the settings `env`, so a real desktop session sends every request directly to Anthropic: the gateway sees none and Taksim records no session. The SessionStart hook now compares the session's effective base URL with the settings value, records the endpoint (scheme and host only) on the session entry, and shows a notice; `taksim desktop status` lists such sessions and warns.",
+          "points": []
+        },
+        {
+          "summary": "`taksim.exe` now carries the Taksim icon and version info (file description `Taksim`, product `Taksim`, company `EdgeeTech`), so Windows Task Manager shows the logo and name.",
+          "details": "",
+          "points": []
+        }
+      ]
+    },
+    {
+      "version": "0.3.13",
+      "date": "2026-10-16",
+      "items": [
+        {
+          "summary": "Desktop routing rehearsal fixes.",
+          "details": "A gateway that crashed shortly after starting no longer makes the next session start back off: in desktop mode only a second consecutive failure does, and one crash gets a real restart (a resume 4 s after the kill now succeeds routed in about 6 s instead of hanging 190 s on ECONNREFUSED). Fail-open now points `env.ANTHROPIC_BASE_URL` at `https://api.anthropic.com` instead of removing it, because Claude Code keeps a removed value in running sessions, and the hook waits 4 s (`TAKSIM_DESKTOP_RELOAD_WAIT_MS`) so the starting session goes direct. The SessionStart restore after a fail-open waits too, so that session is routed from its first request. `off` uses the same two steps, deletes a settings file that `on` created (and its backup), and otherwise restores the original bytes when nothing else changed.",
+          "points": []
+        },
+        {
+          "summary": "Faster gateway restarts: probes of a stopped gateway read the OS listener table instead of waiting out Windows' 2 s refused-connect retries, and the start poll is tighter.",
+          "details": "A liveness restart takes about 2.3 s (was 6.7-12 s); the gateway log records its start-up phases, and `gateway ensure --trace` prints the client's. The liveness probe times out after 0.5 s.",
+          "points": []
+        },
+        {
+          "summary": "`taksim doctor` reports `claudeGatewayContextStatus: desktop-routing` while desktop mode is on, reading the settings `env` base URL before the process environment, as Claude Code does.",
+          "details": "",
+          "points": []
+        }
+      ]
+    }
+  ]
+}

@@ -11,5 +11,6 @@ export const funnel = {
   installGuide: 'install-guide',
   installCopy: 'install-copy',
   docsNext: 'docs-next',
+  proReserve: 'pro-reserve',
   teamContact: 'team-contact',
 } as const;

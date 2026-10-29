@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import { CopyCommand } from '@/components/copy-command';
-import { LedgerStream } from '@/components/ledger-stream';
+import { SoftwareApplicationJsonLd } from '@/components/json-ld';
 import { PilotBenchmark } from '@/components/pilot-benchmark';
 import { PricingPlans } from '@/components/pricing-plans';
 import { clientSupport } from '@/lib/client-support';
-import { getDictionary, localePath, type Locale } from '@/lib/i18n';
+import { copyTokens, fillKnown, report } from '@/lib/benchmark/report';
+import { getDictionary, localePath, localizedRoutes, type Locale } from '@/lib/i18n';
 import { funnel } from '@/lib/funnel';
 import { release } from '@/lib/release';
 
@@ -12,15 +13,33 @@ export function HomePage({ locale }: { locale: Locale }) {
   const dict = getDictionary(locale);
   const t = dict.home;
   const href = (path: string) => localePath(locale, path);
+  const labels = { notMeasured: t.pilot.notMeasured, undefinedPerAccepted: t.pilot.undefinedPerAccepted };
+  const chipText = fillKnown(t.hero.chips, copyTokens(report, locale, labels));
+  // A chip shows only once its page exists in localizedRoutes, so /proof can be added there later without a dead link.
+  const chips = [
+    { id: 'benchmark', route: '/benchmark/', text: chipText.benchmark },
+    { id: 'proof', route: '/proof/', text: chipText.proof },
+  ].filter((chip) => (localizedRoutes as readonly string[]).includes(chip.route));
   const clientNames = [...new Set(clientSupport.map((row) => dict.matrix.rows[row.id].client))];
   return (
     <main className="home">
+      <SoftwareApplicationJsonLd locale={locale} />
       <section className="hero" aria-labelledby="hero-title">
         <div className="hero-backdrop" aria-hidden="true" />
         <div className="shell hero-layout">
           <div className="hero-copy">
             <h1 id="hero-title">{t.hero.title}</h1>
             <p className="hero-lede">{t.hero.lede}</p>
+            <ul className="hero-chips" aria-label={t.hero.chipsLabel}>
+              {chips.map((chip) => (
+                <li key={chip.id}>
+                  <Link className="hero-chip" href={href(chip.route)}>
+                    {chip.text}
+                    <span aria-hidden="true"> →</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
             <div className="hero-actions">
               <Link className="btn btn-primary" href={href('/docs/quick-start')} data-funnel={funnel.getFree}>
                 {dict.chrome.install}
@@ -42,9 +61,6 @@ export function HomePage({ locale }: { locale: Locale }) {
               </Link>
             </div>
             <p className="hero-trust">{t.hero.trust}</p>
-          </div>
-          <div className="hero-visual">
-            <LedgerStream t={dict.ledger} />
           </div>
         </div>
       </section>

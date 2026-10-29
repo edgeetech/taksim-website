@@ -6,11 +6,12 @@ export function ContactPage({ locale }: { locale: Locale }) {
     <main>
       <section className="page-hero">
         <div className="shell">
-          <p className="eyebrow">Team assessment</p>
-          <h1>See what your team&rsquo;s AI coding actually needed.</h1>
+          <p className="eyebrow">Founding seats and team pilots</p>
+          <h1>Reserve a seat, start a pilot, or ask a question.</h1>
           <p>
-            Tell us about your team&rsquo;s AI coding usage. We&rsquo;ll help you
-            set up a team pilot.
+            Paid plans are not on sale yet. Reserve a Pro founding seat or
+            start a Team pilot and we will contact you when billing opens;
+            reserving costs nothing.
           </p>
         </div>
       </section>

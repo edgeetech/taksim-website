@@ -77,6 +77,10 @@ jobs:
           npm run audit
       - name: Build static site
         run: npm run build
+      - name: Check built output
+        env:
+          CLAIMS_REQUIRE_BUILD: '1'
+        run: node --test tests/claims.test.mjs
       - name: Upload static artifact
         uses: actions/upload-artifact@v7
         with:

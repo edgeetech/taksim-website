@@ -1,5 +1,6 @@
 import { ClientMatrix } from '@/components/client-matrix';
 import { getDictionary, type Locale } from '@/lib/i18n';
+import { release } from '@/lib/release';
 
 export function ClientsPage({ locale }: { locale: Locale }) {
   const dict = getDictionary(locale);
@@ -12,6 +13,11 @@ export function ClientsPage({ locale }: { locale: Locale }) {
             <p className="eyebrow">{dict.chrome.nav.clients}</p>
             <h1 id="clients-title">{t.title}</h1>
             <p className="hero-lede">{t.body}</p>
+            {release.supportsMac ? (
+              <p className="notice">
+                <strong>{dict.platform.macPreview}</strong>. {dict.platform.macPreviewNote}
+              </p>
+            ) : null}
           </div>
           <ClientMatrix locale={locale} />
         </div>
