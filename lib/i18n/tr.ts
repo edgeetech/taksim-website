@@ -12,7 +12,7 @@ const feature = {
   'free.judge':
     'İki judge consensus’u ve seçtiğiniz judge ile (oturum içi Claude veya Codex, Ollama, kendi API key’iniz) tur tur değerlendirme',
   'free.memory': 'Yerelde tutulan karar hafızası ve doğrulama kanıtı',
-  'free.proof': `Kanıt dışa aktarımı (\`taksim proof export\`): kendi rakamlarınızın, yayımlamaya uygun, maskelenmiş ve hash damgalı özeti${proofPending ? ' (geliştirme aşamasında; mevcut sürümde yok)' : ''}`,
+  'free.proof': `Kanıt dışa aktarımı (\`taksim proof export\`): kendi rakamlarınızın, yayımlamadan önce okuyabileceğiniz maskelenmiş ve hash damgalı özeti${proofPending ? ' (geliştirme aşamasında; mevcut sürümde yok)' : ''}`,
   'free.mode': '`taksim mode economy|balanced|quality` ile elle yönlendirme, yalnızca Claude modelleri',
   'free.routingAuto':
     'Sonuçlardan öğrenen otomatik yönlendirme (`taksim routing auto on`): yeni bağlamlar, kendi judge kararlarınızın desteklediği yerde daha ucuz bir Claude modeliyle başlar, hata sinyallerinde tekrar yukarı çıkar',
@@ -732,7 +732,7 @@ export const tr: Dictionary = {
       mixTitle: 'İşi hangi modeller yaptı',
       mixCaption: 'Model ailesine göre maliyet ve çıktı token payı',
       mixCols: { family: 'Model ailesi', cost: 'Maliyet payı', now: 'Çıktı token payı, bu pencere', before: 'Çıktı token payı, önceki 30 gün' },
-      families: { opus: 'Opus', sonnet: 'Sonnet', fable: 'Fable', haiku: 'Haiku', other: 'Diğer (Claude dışı)' },
+      families: { opus: 'Opus', sonnet: 'Sonnet', fable: 'Fable', haiku: 'Haiku', other: 'Diğer (Claude dışı veya model kaydı yok)' },
       mix: 'Opus, çıktı token’larının önceki 30 günde {opusTokensBefore}, bu pencerede {opusTokensNow} kadarını üretti. Bu modelleri Taksim seçmedi; yukarıda sözü edilen {routedDecisions} istek hariç.',
       cache: 'Prompt cache isabet oranı: {cacheHit}. Tanım: cache read / (cache read + cache write + uncached input); cache sayıları kaydedilmiş Claude çalıştırmaları üzerinde, token ağırlıklı.',
       leversTitle: 'Para nereye gitti, bu defterden ölçülerek',
@@ -756,7 +756,7 @@ export const tr: Dictionary = {
       },
       spikes: 'Harcama sıçraması olarak işaretlenen gün sayısı: {n} ({days} gün içinde).',
       leversRead:
-        'Bu defterde cache ve bağlam kaldıraçları, {countedTurns} sayılan tura dayanan model düşürme tahmininden çok daha büyüktür.',
+        'Bu defterde cache ve bağlam kaldıraçları, model düşürme tahmininden çok daha büyüktür. O tahmin, judge’ların yeterli bulduğundan daha pahalı bir modelde çalışan {countedTurns} güçlü-consensus turuna dayanır.',
     },
     c: {
       title: 'C. Judge dürüstlük paneli',
@@ -784,7 +784,7 @@ export const tr: Dictionary = {
       title: 'D. Ek yük',
       label: 'sahte upstream, Windows x64, SLO değil',
       intro:
-        'Gateway’de eklenen süre, {measuredOn} tarihinde, daha eski bir derlemede, sentetik bir benchmark ile ölçüldü. {levels} eşzamanlılık düzeyinde {requests} yönlendirilmiş istek; {errors} HTTP hatası, {degraded} bozulan istek, {byteMismatches} değişen yanıt baytı.',
+        'Gateway’de eklenen süre, {measuredOn} tarihinde, daha eski bir derlemede, sentetik bir benchmark ile ölçüldü. {levels} eşzamanlılık düzeyinde {requests} yönlendirilmiş istek (aşağıda dördü gösteriliyor; diğerleri ürünün raporunda); {errors} HTTP hatası, {degraded} bozulan istek, {byteMismatches} değişen yanıt baytı.',
       caption: 'Gateway’de ilk bayta eklenen süre, sentetik benchmark, yakalama kapalı',
       cols: { concurrency: 'Eşzamanlı istek', p50: 'İlk bayta eklenen süre, p50 (ms)', p95: 'p95 (ms)' },
       nativeTitle: 'Yanında, native soğuk başlatma',

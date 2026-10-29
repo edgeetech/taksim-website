@@ -12,7 +12,7 @@ const feature = {
   'free.judge':
     'Turn-by-turn judging with two-judge consensus and your choice of judge (in-session Claude or Codex, Ollama, your own API key)',
   'free.memory': 'Decision memory and verification evidence, kept locally',
-  'free.proof': `Proof export (\`taksim proof export\`): a redacted, hash-stamped summary of your own numbers that is safe to publish${proofPending ? ' (in development; not in the current release)' : ''}`,
+  'free.proof': `Proof export (\`taksim proof export\`): a redacted, hash-stamped summary of your own numbers that you can read before you publish it${proofPending ? ' (in development; not in the current release)' : ''}`,
   'free.mode': 'Manual routing with `taksim mode economy|balanced|quality`, Claude models only',
   'free.routingAuto':
     'Automatic outcome-learned routing (`taksim routing auto on`): fresh contexts start on a cheaper Claude model where your own verdicts support it, and step back up on failure signals',
@@ -732,7 +732,7 @@ export const en = {
       mixTitle: 'Which models did the work',
       mixCaption: 'Share of cost and of output tokens by model family',
       mixCols: { family: 'Model family', cost: 'Share of cost', now: 'Share of output tokens, this window', before: 'Share of output tokens, previous 30 days' },
-      families: { opus: 'Opus', sonnet: 'Sonnet', fable: 'Fable', haiku: 'Haiku', other: 'Other (non-Claude)' },
+      families: { opus: 'Opus', sonnet: 'Sonnet', fable: 'Fable', haiku: 'Haiku', other: 'Other (not Claude, or no model recorded)' },
       mix: 'Opus produced {opusTokensBefore} of the output tokens in the previous 30 days and {opusTokensNow} in this window. Taksim did not choose these models, apart from the {routedDecisions} requests mentioned above.',
       cache: 'Prompt cache hit ratio: {cacheHit}. Definition: {cacheDefinition}.',
       leversTitle: 'Where the money went, sized from this ledger',
@@ -756,7 +756,7 @@ export const en = {
       },
       spikes: 'Days flagged as spend spikes: {n} of {days}.',
       leversRead:
-        'In this ledger the cache and context levers are far larger than the model-downgrade estimate, which rests on {countedTurns} counted turns.',
+        'In this ledger the cache and context levers are far larger than the model-downgrade estimate, which rests on the {countedTurns} strong-consensus turns that ran on a costlier model than the judges found enough.',
     },
     c: {
       title: 'C. The judge honesty panel',
@@ -784,7 +784,7 @@ export const en = {
       title: 'D. Overhead',
       label: 'fake upstream, Windows x64, not an SLO',
       intro:
-        'Added time at the gateway on a synthetic benchmark, measured on {measuredOn} on an older build. {requests} routed requests across {levels} concurrency levels, {errors} HTTP errors, {degraded} degraded, {byteMismatches} changed response bytes.',
+        'Added time at the gateway on a synthetic benchmark, measured on {measuredOn} on an older build. {requests} routed requests across {levels} concurrency levels (four of them are shown below; the rest are in the product’s report), {errors} HTTP errors, {degraded} degraded, {byteMismatches} changed response bytes.',
       caption: 'Added time to first byte at the gateway, synthetic benchmark, capture off',
       cols: { concurrency: 'Concurrent requests', p50: 'Added time to first byte, p50 (ms)', p95: 'p95 (ms)' },
       nativeTitle: 'The native cold launch, beside it',
