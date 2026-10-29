@@ -3257,6 +3257,127 @@ textarea::placeholder {
   margin-top: 12px;
 }
 
+/* Proof page */
+.proof .proof-section {
+  margin-top: 56px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+.proof .proof-section > h2 {
+  margin-top: 24px;
+}
+.proof .proof-headline {
+  margin-top: 0;
+}
+.proof-status {
+  margin: 0 0 14px;
+}
+.status-chip {
+  display: inline-block;
+  padding: 3px 11px;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.status-chip[data-status='observed'] {
+  border-color: var(--rose);
+  background: var(--rose-soft);
+  color: var(--rose-deep);
+}
+.status-chip[data-status='notYet'] {
+  border-style: dashed;
+  border-color: var(--line-strong);
+  background: var(--surface-raised);
+  color: var(--muted);
+}
+.proof-legend ul {
+  display: grid;
+  gap: 8px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.proof-legend p {
+  margin: 0;
+}
+.proof-facts {
+  display: grid;
+  gap: 12px;
+  margin: 18px 0;
+}
+.proof-facts > div {
+  display: grid;
+  gap: 2px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.proof-facts dt {
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.proof-facts dd {
+  margin: 0;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.proof-hash {
+  font-size: 0.78rem;
+}
+.proof-statement {
+  color: var(--ink);
+  font-size: 1.15rem;
+}
+.proof-label {
+  color: var(--ink);
+  font-weight: 700;
+}
+.proof-table th,
+.proof-table td {
+  white-space: normal;
+  vertical-align: top;
+}
+.proof-table th[scope='row'] {
+  font-weight: 600;
+  text-align: start;
+}
+.proof-table th[scope='col'] {
+  min-width: 7rem;
+}
+.proof-table.proof-levers th[scope='row'] {
+  min-width: 16rem;
+}
+.proof-unproven {
+  display: grid;
+  gap: 18px;
+  padding-left: 20px;
+}
+.proof-by {
+  color: var(--muted);
+}
+.proof-commands {
+  display: grid;
+  gap: 16px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.proof-commands p {
+  margin: 6px 0 0;
+}
+.proof-removed {
+  columns: 2 16rem;
+}
+.proof-log {
+  padding-left: 22px;
+}
+
 /* Troubleshooting and changelog */
 .troubleshooting-steps {
   display: grid;

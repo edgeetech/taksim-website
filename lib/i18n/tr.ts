@@ -108,6 +108,11 @@ export const tr: Dictionary = {
         description:
           'Son Taksim sürümlerinde ne değiştiği: değişiklik başına bir cümle, ayrıntı bir tık uzağınızda.',
       },
+      proof: {
+        title: 'Kanıt',
+        description:
+          'Kanıt: vaat değil, ölçüm. Tek geliştirici, tek makine, 30 gün, yalnızca Claude: eşleştirilmiş pilot, gözlenen model dağılımı oran olarak, judge sayıları, native soğuk başlatma dahil ek yük ve henüz kanıtlanmayanlar.',
+      },
       compare: {
         title: 'Karşılaştırma',
         description:
@@ -135,6 +140,7 @@ export const tr: Dictionary = {
       pricing: 'Fiyatlandırma',
       docs: 'Dokümanlar',
       benchmark: 'Pilot benchmark',
+      proof: 'Kanıt',
       compare: 'Karşılaştırma',
       changelog: 'Sürüm notları',
     },
@@ -281,6 +287,7 @@ export const tr: Dictionary = {
       notMeasured: 'ölçülmedi',
       undefinedPerAccepted: 'tanımsız (kabul edilen koşu yok)',
       methodLink: 'Yöntem, görev seti ve sınırlar',
+      proofLink: '30 günlük kanıt',
     },
     how: {
       title: 'Üç adımda nasıl çalışır.',
@@ -619,6 +626,227 @@ export const tr: Dictionary = {
     back: 'Sonuçlara dön',
   },
 
+  proof: {
+    eyebrow: 'Kanıt',
+    title: 'Kanıt: vaat değil, ölçüm',
+    lede: 'Tek geliştirici, tek makine, 30 gün, yalnızca Claude. Buradaki her rakamın tarihi, kaynağı ve çekincesi yanında yazılıdır; ölçmediklerimiz de ölçtiklerimiz kadar açık biçimde listelenir.',
+    headline: 'Tek geliştirici, tek makine, 30 gün, yalnızca Claude',
+    snapshot: {
+      title: 'Anlık görüntü',
+      date: 'Görüntü tarihi',
+      version: 'Taksim sürümü',
+      window: 'Pencere',
+      windowValue: '{since} – {until} ({days} gün); karşılaştırma: {prevSince} – {prevUntil}',
+      download: 'Ham JSON’u indirin',
+      hash: 'Kurallı (canonical) içeriğinin sha256’sı',
+      source: 'Bu kopyanın üretildiği, maskelenmemiş export’un sha256’sı',
+      localBuild: 'proof-export dalının yerel derlemesi; yayımlanmış bir sürüm değil.',
+      refreshed: 'Son yenileme: {date}. G bölümündeki günlük her yenilemeyi listeler.',
+    },
+    statusLabel: 'Bu sayfada kullanılan durum etiketleri',
+    status: {
+      measured: { label: 'Ölçüldü', body: 'Kayıtlı koşulardan veya izlerden sayıldı; yöntem bu sayfada.' },
+      observed: { label: 'Gözlendi, yönlendirilmedi', body: 'Taksim bu rakamları, değiştirmediği trafikten okudu.' },
+      notYet: { label: 'Henüz ölçülmedi', body: 'Henüz bir rakam yok. Bölüm, onu neyin üreteceğini söyler.' },
+    },
+    a: {
+      title: 'A. Eşleştirilmiş pilot',
+      intro:
+        'Elimizdeki tek kontrollü karşılaştırma. {tasks} kodlama görevi üç kolda koştu: her zaman Opus, her zaman Sonnet ve Taksim’in seçtiği; her görev her kolda {repetitions} kez, 15 Eki 2026’da, kendi Claude Team subscription’ımızda. Gizli otomatik kontroller her koşuyu değerlendirdi. Bu bir iç pilottur, bağımsız bir benchmark değil.',
+      caption: 'Pilotun üç kolu: kabul edilen koşular, maliyet ve kabul edilen görev başına maliyet',
+      cols: { arm: 'Kol', accepted: 'Kabul edilen', cost: 'Maliyet', perAccepted: 'Kabul edilen görev başına maliyet' },
+      arms: { opus: 'Her zaman Opus', sonnet: 'Her zaman Sonnet', taksim: 'Taksim yönlendirmeli' },
+      acceptedOf: '{n} / {total}',
+      saving:
+        'Tasarruf her zaman Opus’a karşıdır. Taksim, her zaman Sonnet’ten daha ucuz değildi.',
+      savingDetail:
+        'Taksim {taksimCost} tuttu: her zaman Opus’un ({opusCost}) {costSavingPct} altında, her zaman Sonnet’in ({sonnetCost}) üstünde.',
+      noise:
+        '{opusAccepted}, {sonnetAccepted} ve {taksimAccepted} kabul arasındaki farklar gürültü sınırı içindedir.',
+      served:
+        'Taksim’in sunduğu modeller. Soğuk başlangıç ({runsPerArm} koşu): Sonnet {servedSonnet}, Opus {servedOpus}. Reddedilen görevlerden öğrendikten sonraki sıcak yeniden koşu ({warmRuns} koşu): Sonnet {warmServedSonnet}, Opus {warmServedOpus}; {warmAccepted} kabul, {warmCost}. Bu, tur tur yönlendirme değil; alt modelle başlama artı öğrenmedir.',
+      learned:
+        'Taksim’in soğuk koşuda yanlış yaptığı görevler: soğuk turda {correctedColdRejected} başarısız koşu, sıcak yeniden koşuda {correctedWarmRejected}.',
+      method: 'Görev kümesi, gizli kontroller, maliyet temeli ve her koşu: [pilot benchmark](/benchmark).',
+    },
+    b: {
+      title: 'B. 30 günlük defter',
+      notRouted: 'Bu trafik yönlendirilmedi. Taksim onu ölçtü.',
+      intro:
+        '{days} gün boyunca ({since} – {until}) Taksim, kurucunun Claude Code geçmişini ve oturumlarını okudu ve her turu fiyatlandırdı. Export anında ayarlar şöyleydi: mod `{mode}`, `routing.auto` {autoState}, `routing.subscription` {subscriptionState}. Gateway pencerede {routedDecisions} isteği yeniden yazdı; bu maliyetin {routedCostShare} kadarıdır. Geri kalan her şey, Taksim’in yalnızca gözlediği içe aktarılmış geçmiş ve native oturumlardır.',
+      basis: 'Tutarlar API-eşdeğeridir (kota-eşdeğeri); fatura değildir.',
+      credential:
+        'Çalıştırmaların {notRecordedShare} kadarı nasıl ödendiğini kaydetmiyor (çoğu içe aktarılmış geçmiş) ve {pricedShare} kadarı fiyatlandırılabildi. Her maliyet payını kota-eşdeğeri olarak okuyun.',
+      ratiosOnly:
+        'Yalnızca paylar gösterilir. Kurucunun mutlak dolar toplamları ve çalıştırma sayıları yayımlanmaz; G bölümündeki yöntem notu tam olarak neyin çıkarıldığını söyler.',
+      mixTitle: 'İşi hangi modeller yaptı',
+      mixCaption: 'Model ailesine göre maliyet ve çıktı token payı',
+      mixCols: { family: 'Model ailesi', cost: 'Maliyet payı', now: 'Çıktı token payı, bu pencere', before: 'Çıktı token payı, önceki 30 gün' },
+      families: { opus: 'Opus', sonnet: 'Sonnet', fable: 'Fable', haiku: 'Haiku', other: 'Diğer (Claude dışı)' },
+      mix: 'Opus, çıktı token’larının önceki 30 günde {opusTokensBefore}, bu pencerede {opusTokensNow} kadarını üretti. Bu modelleri Taksim seçmedi; yukarıda sözü edilen {routedDecisions} istek hariç.',
+      cache: 'Prompt cache isabet oranı: {cacheHit}. Tanım: cache read / (cache read + cache write + uncached input); cache sayıları kaydedilmiş Claude çalıştırmaları üzerinde, token ağırlıklı.',
+      leversTitle: 'Para nereye gitti, bu defterden ölçülerek',
+      leversIntro:
+        'Her kaldıraç, 30 günlük maliyetin bir payıdır; API-eşdeğeridir, fatura değildir ve büyüklüğe göre sıralıdır. Kaldıraçlar birbiriyle örtüşür (boşta bekleme boşlukları cache kopmalarının bir parçasıdır), bu yüzden toplamayın.',
+      leversCaption: '30 günlük defterdeki maliyet kaldıraçlarının maliyetteki payı',
+      leversCols: { lever: 'Kaldıraç', events: 'Olay', share: 'Maliyet payı' },
+      levers: {
+        contextOver200k: '200 bin token üstü bağlam: prompt’un fazla kısmı',
+        cacheBreak: 'Prompt cache kopmaları: kaybolan önek için yazma primi',
+        idleGap: 'Bir saati aşan boşta bekleme (cache kopmalarının bir parçası)',
+        failureLoops: 'Hata döngüleri: tekrarlanan başarısız denemeler',
+        counterfactual: 'Yalnızca güçlü consensus ile daha ucuz kademe: sayılan turların daha ucuza mal olacağı tahmini',
+      },
+      events: {
+        contextOver200k: 'Turların {share}',
+        cacheBreak: '{n} kopma',
+        idleGap: '{n} boşluk',
+        failureLoops: '{n} döngü',
+        counterfactual: 'N = {n} tur',
+      },
+      spikes: 'Harcama sıçraması olarak işaretlenen gün sayısı: {n} ({days} gün içinde).',
+      leversRead:
+        'Bu defterde cache ve bağlam kaldıraçları, {countedTurns} sayılan tura dayanan model düşürme tahmininden çok daha büyüktür.',
+    },
+    c: {
+      title: 'C. Judge dürüstlük paneli',
+      intro:
+        'Bir LLM judge tamamlanan turları değerlendirir. Bir karar yalnızca iki judge uzlaştığında ve biri güçlü olduğunda sayılır. Geri kalan her şey burada gösterilir, sayılmaz.',
+      caption: 'Kaç judge’ın uzlaştığına göre değerlendirilen turlar',
+      cols: { kind: 'Değerlendirilen turlar', turns: 'Sayı', counted: 'Tasarrufa sayılır' },
+      yes: 'Evet',
+      no: 'Hayır',
+      rows: {
+        strong: 'Güçlü consensus: iki judge uzlaşır, biri güçlü',
+        weak: 'Zayıf consensus: yalnızca zayıf judge’lar uzlaşır',
+        disputed: 'İhtilaflı: judge’lar aynı fikirde değil',
+        single: 'Tek judge: yalnızca bir karar',
+      },
+      stored: 'Toplam {verdicts} karar saklanıyor; {judgedTurns} tur değerlendirildi.',
+      outcome:
+        '{strong} güçlü-consensus turu: {right} tanesi yeterli bir modelde, {over} tanesi gerekenden pahalı bir modelde, {under} tanesi fazla zayıf bir modelde çalıştı.',
+      matrixCaption: 'Güçlü-consensus turları: çalışan model ve judge’ların yeterli bulduğu en ucuz model',
+      matrixCols: { ran: 'Çalıştığı model', enough: 'Judge’ların yeterli bulduğu', turns: 'Tur' },
+      honesty: 'LLM judge’lar, gerçek referans yok; uzlaşma doğruluk değildir.',
+      small: '{strong} sayılan turla bu, kurala bir örnektir; güvenilecek bir oran değildir.',
+    },
+    d: {
+      title: 'D. Ek yük',
+      label: 'sahte upstream, Windows x64, SLO değil',
+      intro:
+        'Gateway’de eklenen süre, {measuredOn} tarihinde, daha eski bir derlemede, sentetik bir benchmark ile ölçüldü. {levels} eşzamanlılık düzeyinde {requests} yönlendirilmiş istek; {errors} HTTP hatası, {degraded} bozulan istek, {byteMismatches} değişen yanıt baytı.',
+      caption: 'Gateway’de ilk bayta eklenen süre, sentetik benchmark, yakalama kapalı',
+      cols: { concurrency: 'Eşzamanlı istek', p50: 'İlk bayta eklenen süre, p50 (ms)', p95: 'p95 (ms)' },
+      nativeTitle: 'Yanında, native soğuk başlatma',
+      nativeCaption: 'Taksim üzerinden ve doğrudan başlatılan Claude Code, {pairs} eşleştirilmiş çağrı',
+      nativeCols: { metric: 'Ölçü', p50: 'p50', p95: 'p95' },
+      native: {
+        added: 'İlk metne eklenen süre',
+        prep: 'Bunun içindeki yerel hazırlık',
+        direct: 'Doğrudan, ölçek için',
+      },
+      nativeSentence:
+        'Claude Code’u Taksim üzerinden soğuk başlatmak medyanda yaklaşık {nativeP50} saniye ekler. Bu durumda Taksim görünmez değildir.',
+      nativeScope:
+        'Bu ölçümde her çağrı için yeni bir yerel servis başlatıldı; derleme {build}, Claude Code {claudeCli}, {measuredOn}. Sıcak, etkileşimli bir oturum ölçülmedi ve güncel sürümde yeniden ölçmedik.',
+      real: 'Gerçek trafikte gecikme: ölçülmedi. Yakalama varsayılan olarak kapalı olduğu için bu defterde {samples} gateway gecikme örneği var.',
+    },
+    e: {
+      title: 'E. Henüz kanıtlanmadı',
+      intro: 'Bu iddialar, bir şey onları ölçene kadar çitin dışında tutulur. Her madde, rakamı üretecek komutu veya issue’yu söyler.',
+      commandLabel: 'Şunu üretecek',
+      items: [
+        {
+          title: 'Gerçek trafikte gecikme',
+          body: 'D bölümündeki her şey sentetik ya da soğuk başlatmadır. Her zaman açık gecikme sayaçları henüz yok.',
+          by: '`TAKSIM_PERFORMANCE_CAPTURE=1`, ardından `taksim diagnostics performance`',
+        },
+        {
+          title: 'Subscription kotasında yönlendirmeyle tasarruf',
+          body: 'B bölümündeki 30 gün yönlendirilmedi; yani Taksim’in neyi ölçtüğünü gösterir, yönlendirmenin neyi tasarruf ettirdiğini değil.',
+          by: 'Belirli bir pencere için `taksim routing subscription on`, ardından `taksim proof export` ve iki pencerenin karşılaştırılması',
+        },
+        {
+          title: 'Gerçek işte kalite',
+          body: 'Defterde yetkili geçti/kaldı sonucu yok. Kabulü yalnızca A bölümündeki pilot, {tasks} küçük görevde ölçtü.',
+          by: 'Ürün deposunda #232 numaralı issue ile izlenen, ayrı tutulmuş 30 görevlik eşleştirilmiş koşu',
+        },
+        {
+          title: 'Haiku kalitesi',
+          body: 'Pilot yalnızca Sonnet ile Opus arasında yönlendirdi. Haiku için kabul sonucu yok.',
+          by: 'Aynı ayrı tutulmuş koşu (#232), Haiku bir kol olarak',
+        },
+        {
+          title: 'Diğer geliştiriciler ve ekipler',
+          body: 'Bu tek bir geliştiricidir. Buradaki hiçbir şey sizin işinizin nasıl göründüğünü söylemez.',
+          by: 'Kendi geçmişinizde `taksim proof export`; başkasının görüntüsünü buraya yalnızca sahibi kabul ederse koyarız',
+        },
+        {
+          title: 'macOS',
+          body: 'macOS bir önizlemedir ve Mac donanımında test edilmedi; buradaki hiçbir rakam onu kapsamaz.',
+          by: 'Mac donanımında bir koşu, olduğunda',
+        },
+      ],
+    },
+    f: {
+      title: 'F. Kendiniz yeniden üretin',
+      intro:
+        'Bunları kendi makinenizde çalıştırın. Yerel defterinizi okurlar; proof export tek bir dosya yazar ve onu hiçbir yere göndermez.',
+      pending:
+        '`taksim proof export`, bugün indirebileceğiniz {releaseVersion} sürümünde yok. Yazıldı ama henüz yayımlanmadı; yukarıdaki görüntü yerel bir derlemeyle üretildi. Diğer üçünü şimdi çalıştırın.',
+      commands: [
+        { command: 'taksim doctor', about: 'Sağlık, kapsam ve oturumlarınızın hiç yönlendirilip yönlendirilmediği.' },
+        { command: 'taksim report cost --by model --since 30d', about: 'B bölümündeki gibi, 30 günde modele göre maliyet.' },
+        { command: 'taksim judge status', about: 'C bölümündeki gibi, judge kapsamı ve consensus sayıları.' },
+        { command: 'taksim proof export --since 30d', about: 'Aynı rakamların maskelenmiş, hash damgalı bir paketi; paylaşmadan önce okuyabileceğiniz bir dosyaya yazılır.' },
+      ],
+    },
+    g: {
+      title: 'G. Yöntem ve çekinceler',
+      method: [
+        'Pencere: {days} UTC günü, {since} – {until}; öncesindeki {days} günle karşılaştırılır. Tarihler gün cinsindendir; daha ince bir şey kaydedilmez.',
+        'Maliyet: yayımlanmış liste fiyatlarıyla API-eşdeğeri; fatura değildir. Bir maliyet payı, bir model ailesinin maliyetini pencerenin toplamına böler.',
+        'Bir karar yalnızca iki judge uzlaştığında ve en az biri güçlü olduğunda sayılır. Tek-judge, zayıf-consensus ve ihtilaflı turlar asla sayılmaz.',
+        'Counterfactual, daha ucuz modeli çalıştırarak değil, judge kararlarından yapılan bir tahmindir.',
+        'Gateway ek yükü, ürünün sentetik benchmark’ından ve D bölümünde tarihleri verilen bir native soğuk başlatma koşusundan gelir.',
+      ],
+      publishTitle: 'Neyin çıkarıldığı ve neden',
+      publish:
+        'Maskelenmemiş export, mutlak dolar toplamlarını ve çalıştırma sayılarını içerir. Alınan karar gereği bu sayfa yalnızca bunların paylarını ve oranlarını yayımlar; dosya yayımlanmadan önce bu alanlar çıkarıldı veya paya çevrildi. Çıkarılan alanlar:',
+      hashTitle: 'Hash’i denetleme',
+      hash:
+        'sha256, dosyanın kurallı JSON’unun (anahtarlar sıralı, boşluksuz) kendi sha256 alanı olmadan alınan hash’idir. Dosyanın üretildikten sonra düzenlenmediğini kanıtlar; rakamların doğru olduğunu kanıtlamaz ve bir imza değildir. Maskelenmemiş export’un hash’i başlıkta yazılıdır, ancak o dosya yayımlanmaz; bu yüzden yalnızca bu kopya denetlenebilir.',
+      caveatsTitle: 'Görüntüde kayıtlı çekinceler',
+      caveats: {
+        NO_GROUND_TRUTH: 'Counterfactual, daha ucuz modeli çalıştırmaya değil, judge kararlarına dayanır.',
+        NO_EXECUTIONS: 'Pencerede hiç çalıştırma yok.',
+        UNPRICED_EXECUTIONS: 'Bazı çalıştırmalar fiyatlandırılamadı; maliyet payları bir alt sınırdır.',
+        CREDENTIAL_NOT_RECORDED: 'Bazı çalıştırmalar nasıl ödendiğini kaydetmiyor; çoğu içe aktarılmış geçmiş.',
+        QUOTA_EQUIVALENT_DOLLARS: 'Bazı dolarlar API-eşdeğeri kotadır, fatura değildir.',
+        NOT_ROUTED_WINDOW: 'Taksim pencerede hiçbir isteği yeniden yazmadı.',
+        NO_STRONG_CONSENSUS: 'Hiçbir turda güçlü consensus yok; counterfactual tasarım gereği sıfırdır.',
+        SINGLE_JUDGE_EXCLUDED: 'Tek-judge turları var ve sayılmıyor.',
+        WEAK_CONSENSUS_EXCLUDED: 'Yalnızca zayıf judge’ların uzlaştığı turlar var ve sayılmıyor.',
+        DISPUTED_EXCLUDED: 'Judge’ların aynı fikirde olmadığı turlar var ve sayılmıyor.',
+        OVERHEAD_NOT_MEASURED: 'Pencerede gateway gecikme örneği kaydedilmedi.',
+      },
+      logTitle: 'Yenileme günlüğü',
+      logBody: 'Her yenileme tarihiyle buraya eklenir. Kayıtlar asla yeniden yazılmaz.',
+      log: [
+        {
+          date: '2026-10-29',
+          text: 'İlk görüntü: 2026-10-29’a kadar 30 gün; o günkü sürümün yerel derlemesiyle export edildi ve yalnızca pay olarak yayımlandı. Pilot rakamları 2026-10-15 benchmark’ından, ek yük 2026-10-03 benchmark’ından.',
+        },
+      ],
+    },
+    cta: {
+      title: 'Kendi geçmişinizde 5 dakikada çalıştırın.',
+      body: 'Kurulum ücretsizdir ve kodlama ajanlarınızın zaten tuttuğu geçmişi okur. Hiçbir şeyi değiştirmeden B bölümünün kendi sürümünüzü görürsünüz.',
+      install: 'Taksim’i ücretsiz edinin',
+      benchmark: 'Pilot verisine bakın',
+    },
+  },
+
   compare: {
     eyebrow: 'Karşılaştırma',
     title: 'Taksim, alternatiflerinin yanında.',
@@ -768,6 +996,7 @@ export const tr: Dictionary = {
       body: 'Kurulum ücretsizdir ve kodlama ajanlarınızın zaten tuttuğu geçmişi okur; böylece hiçbir şeyi değiştirmeden daha ucuz bir modelin ne yapabileceğini görürsünüz.',
       install: 'Taksim’i ücretsiz edinin',
       benchmark: 'Pilot verisini görün',
+      proof: '30 günlük kanıta bakın',
     },
   },
 
