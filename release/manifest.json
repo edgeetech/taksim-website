@@ -3,7 +3,7 @@
   "repository": "edgeetech/taksim-releases",
   "version": "0.3.17",
   "tag": "v0.3.17",
-  "sourceCommit": "31f1dee45574d7642abbc8c3f678f4ec947e3830",
+  "sourceCommit": "f09da039707ff886839d5fede5e2d5a1e3c0ce01",
   "platforms": [
     "win-x64",
     "osx-arm64",
@@ -408,5 +408,5 @@
     }
   ],
   "source": "release-manifest",
-  "publishedAt": "2026-10-29T00:00:00Z"
+  "publishedAt": "2026-10-29T16:09:22Z"
 }
