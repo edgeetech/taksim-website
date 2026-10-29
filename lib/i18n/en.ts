@@ -106,9 +106,9 @@ export const en = {
           'Taksim next to GitHub Copilot Fusion, Claude /advisor, Not Diamond Code, ccusage and plain /model sonnet, with a public source for every competitor fact and a list of where Taksim is weaker. As of 29 Oct 2026.',
       },
       contact: {
-        title: 'Talk to Taksim — Team Assessment',
+        title: 'Contact',
         description:
-          'Tell EdgeeTech about your AI engineering usage and explore whether Taksim Team is a good fit.',
+          'Reserve a Pro founding seat, start a Team pilot or ask a security question. Paid plans are not on sale yet, and reserving costs nothing.',
       },
     },
   },
@@ -744,7 +744,7 @@ export const en = {
     },
     limits: {
       title: 'Where Taksim is weaker',
-      body: 'Read these before the table. They are the reasons you might reasonably choose something else.',
+      body: 'Weigh these alongside the table. They are the reasons you might reasonably choose something else.',
       items: [
         'Routing was not cheaper than always-Sonnet in our pilot. Always-Sonnet cost {sonnetCost} with {sonnetAccepted} of {runsPerArm} runs accepted. Taksim routed cost {taksimCost} with {taksimAccepted} of {runsPerArm}. The {costSavingPct} saving is against always-Opus only. [Method and data](/benchmark).',
         'The pilot is internal: {tasks} tasks on our own Claude Team subscription, not an independent benchmark. We have not run Taksim head to head against `/advisor` or Copilot Fusion, and there is no public independent result yet.',
@@ -821,7 +821,7 @@ export const en = {
       },
       {
         q: 'What happens when a paid plan lapses?',
-        a: 'Nothing breaks. Routing returns to plain pass-through, your local data is left untouched, and Claude is never blocked. The Developer features keep working.',
+        a: 'Nothing breaks. The Pro and Team features switch off: automatic routing and budget step-down stop, and requests follow your manual `taksim mode` setting or pass through unchanged. Your local data is left untouched, Claude is never blocked, and the Developer features keep working.',
       },
       {
         q: 'How is an active developer counted?',
@@ -908,7 +908,7 @@ export const en = {
         access: 'OpenAI API key',
         observe: 'History import from CODEX_HOME sessions.',
         judge: '',
-        gateway: 'Not used for Codex.',
+        gateway: 'Optional: in Codex sessions Taksim launches on an API key, the local gateway forwards requests to OpenAI.',
         context: '',
         route: 'Observed; not routed. Taksim routes only between Claude models.',
       },
@@ -1562,7 +1562,7 @@ export const en = {
       budget: {
         q: 'A budget downgrade happened',
         intro:
-          'With the opt-in budget enforcement (a Pro feature), the gateway serves Claude requests on a cheaper tier while a daily or monthly budget is at or above its threshold. It never blocks a request. This is what an empty install prints; yours shows your spend.',
+          'With the opt-in budget enforcement (a Pro feature), the gateway serves Claude requests on a cheaper tier while a daily or monthly budget is at or above its threshold. It never blocks a request. The output below is from a fresh install with a $20 daily and $300 monthly developer budget; yours shows your own limits and spend.',
         steps: [
           'See each budget window, the threshold and how many downgrades were recorded.',
           'List the downgrades and the escalations back to the requested model.',
@@ -1624,18 +1624,22 @@ export const en = {
     title: 'Runs on your machine. Connects only where it has to.',
     lede: 'EdgeeTech operates no Taksim server, so there is no hosted ledger to breach and no telemetry endpoint to trust. This page lists the network destinations Taksim itself uses, how its local services are protected, and how to report a problem.',
     summaryLabel: 'Plain-language summary.',
-    summary: 'Your ledger, dashboard and settings stay on your computer. Taksim connects out only to the hosts below, and each one is tied to a feature you start or switch on. Your coding clients still talk to their own providers under those providers’ terms.',
+    summary: 'Your ledger, dashboard and settings stay on your computer. Taksim connects out only to the hosts below, and each one is tied to a feature you use or switch on. Your coding clients still talk to their own providers under those providers’ terms.',
     egressTitle: 'Network destinations',
-    egressLede: 'Every host Taksim connects to, and when.',
+    egressLede: 'The hosts Taksim itself connects to, and when.',
     egressCaption: 'Network destinations used by Taksim, with the feature that uses each one',
     egressHeaders: { host: 'Host', purpose: 'What for', when: 'When' },
     egress: [
-      { host: 'api.anthropic.com', purpose: 'Your Claude requests, when they pass through the local gateway, and the optional Anthropic API-key judge.', when: 'In sessions you start with `taksim claude` on an API key, or on a Claude login once you turn on `taksim routing subscription on`. The judge only runs with a key you configured.' },
+      { host: 'api.anthropic.com', purpose: 'Your Claude requests, when they pass through the local gateway, and the optional Anthropic API-key judge.', when: 'In sessions you start with `taksim claude` on an API key, or on a Claude login once you turn on `taksim routing subscription on`. The judge only runs with a key you configured. The model list only when `ANTHROPIC_API_KEY` is set, and organization usage only when you run `taksim team import-vendor anthropic`.' },
       { host: 'github.com', purpose: 'Release downloads, the installer and update checks.', when: 'When you install, run `taksim update`, or an update check runs. Set `TAKSIM_UPDATE_CHECK=0` to turn update checks off.' },
       { host: 'api.github.com', purpose: 'Pull request and repository identifiers, to tie work to spend.', when: 'Only when `GITHUB_TOKEN` is set or the GitHub CLI is signed in.' },
-      { host: 'platform.claude.com', purpose: 'Anthropic’s public pricing and model-lifecycle pages, to keep Taksim’s model price catalogue current.', when: 'When the local gateway refreshes its model catalogue.' },
+      { host: 'platform.claude.com', purpose: 'Anthropic’s public pricing and model-lifecycle pages, to keep Taksim’s model price catalogue current.', when: 'When the local gateway refreshes its model catalogue. Set `TAKSIM_CATALOG_REFRESH_ENABLED=false` to turn the refresh off.' },
+      { host: 'developers.openai.com', purpose: 'OpenAI’s public pricing and deprecation pages, for the same price catalogue.', when: 'When the local gateway refreshes its model catalogue; the same setting turns it off.' },
       { host: 'huggingface.co', purpose: 'A bounded preview of a public research dataset (including datasets-server.huggingface.co).', when: 'Only when you run `taksim research trace-commons`.' },
       { host: 'api.typesafe.ai', purpose: 'The Jev judge and pre-request router, with your own key.', when: 'Only when you choose Jev (`taksim set-judge jev`).' },
+      { host: 'api.openai.com', purpose: 'Codex CLI requests on an OpenAI API key, forwarded by the local gateway; the OpenAI model list; organization usage you import.', when: 'Codex requests only in Codex sessions Taksim launches on an API key. The model list only when `OPENAI_API_KEY` is set. Organization usage only when you run `taksim team import-vendor openai`.' },
+      { host: 'generativelanguage.googleapis.com', purpose: 'Gemini CLI requests on a Gemini API key, forwarded by the local gateway.', when: 'Only in Gemini sessions Taksim launches with an explicit API key; Google sign-in traffic goes straight to Google.' },
+      { host: 'api.cursor.com', purpose: 'Team usage from that editor vendor’s official Admin API.', when: 'Only when you import that team usage with an admin key you stored.' },
     ],
     egressNote: 'Also on your instruction: a Slack or webhook address you set with `taksim notify configure`, and a folder you choose for team exports. Claude Code, Codex and other coding clients send prompts to their own providers under those providers’ terms; Taksim does not change where they connect, apart from the local gateway on your machine.',
     sections: [
@@ -1661,7 +1665,7 @@ export const en = {
       },
       {
         title: 'What you can turn off',
-        body: 'Update checks: set `TAKSIM_UPDATE_CHECK=0`. Remote judges: one runs only when you have configured a key for it; `taksim set-judge off` turns the Jev judge off, and Ollama keeps judging on your machine. Notifications: no Slack or webhook address is contacted until you run `taksim notify configure`.',
+        body: 'Update checks: set `TAKSIM_UPDATE_CHECK=0`. Model catalogue refresh: set `TAKSIM_CATALOG_REFRESH_ENABLED=false`. Remote judges: one runs only when you have configured a key for it; `taksim set-judge off` turns the Jev judge off, and Ollama keeps judging on your machine. Notifications: no Slack or webhook address is contacted until you run `taksim notify configure`.',
       },
       {
         title: 'What is stored',
@@ -1698,7 +1702,7 @@ export const en = {
       },
       {
         title: 'Website data',
-        body: 'This preview does not load a third-party analytics tracker. The assessment form opens your email application and does not submit its values to a website form processor. Hosting and security infrastructure may still process standard request information such as IP address, user agent, requested path, and timestamps.',
+        body: 'This preview does not load a third-party analytics tracker. The contact form opens your email application and does not submit its values to a website form processor. Hosting and security infrastructure may still process standard request information such as IP address, user agent, requested path, and timestamps.',
       },
       {
         title: 'Contact',

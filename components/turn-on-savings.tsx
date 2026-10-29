@@ -1,10 +1,12 @@
 import { Rich } from '@/components/rich';
 import { getDictionary, type Locale } from '@/lib/i18n';
 
-// Verbatim output of `taksim mode economy` on a fresh install (the same in every language).
+// The first lines of `taksim mode economy` on a fresh install, verbatim (the same in every language).
 const modeOutput = `routing.mode: economy. Applied.
 Changed: routing.auto off -> on.
-Previous: mode balanced (default), routing.auto off. Undo: \`taksim mode balanced\`.`;
+Previous: mode balanced (default), routing.auto off. Undo: \`taksim mode balanced\`.
+What this mode maps to:
+  ...`;
 
 const reportOutput = `Status: completed
 Usage (API-equivalent, list prices <date>): n/a (no priced executions) · priced executions 0 of 0 (n/a) · Opus/Fable share of output tokens: n/a (no token data)

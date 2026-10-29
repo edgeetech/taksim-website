@@ -31,7 +31,7 @@ export const tr: Dictionary = {
   meta: {
     siteTitle: 'Taksim — Claude Code için harcama kontrolü ve makbuzlar',
     titleTemplate: '%s — Taksim',
-    ogAlt: 'Taksim: Claude Code için harcama kontrolü ve makbuzlar. İç pilotta always-Opus’a göre {costSavingPct} daha düşük maliyet.',
+    ogAlt: 'Taksim: Claude Code için harcama kontrolü ve makbuzlar. Şirket içi pilotta her zaman Opus kullanmaya göre {costSavingPct} daha düşük maliyet.',
     description:
       'Taksim, AI kodlama ajanları için yerel bir kontrol düzlemidir (control plane). Defteri her turda hangi modelin çalıştığını, maliyetini ve daha ucuz bir modelin işi ne zaman görebileceğini kaydeder. Bireysel geliştiriciler için ücretsiz.',
     pages: {
@@ -103,12 +103,12 @@ export const tr: Dictionary = {
       compare: {
         title: 'Karşılaştırma',
         description:
-          'Taksim’in GitHub Copilot Fusion, Claude /advisor, Not Diamond Code, ccusage ve düz /model sonnet ile karşılaştırması. Her rakip bilgisinin açık bir kaynağı ve Taksim’in geride kaldığı yerlerin listesi var. 29 Eki 2026 itibarıyla.',
+          'Taksim’in GitHub Copilot Fusion, Claude /advisor, Not Diamond Code, ccusage ve düz /model sonnet ile karşılaştırması. Her rakip bilgisinin herkese açık bir kaynağı ve Taksim’in geride kaldığı yerlerin listesi var. 29 Eki 2026 itibarıyla.',
       },
       contact: {
-        title: 'Taksim ile görüşün — Team değerlendirmesi',
+        title: 'İletişim',
         description:
-          'EdgeeTech’e AI mühendislik kullanımınızı anlatın ve Taksim Team’in size uygun olup olmadığını birlikte değerlendirelim.',
+          'Pro kurucu müşteri yerinizi ayırtın, Team pilotu başlatın ya da bir güvenlik sorusu sorun. Ücretli planlar henüz satışta değil ve yer ayırtmak ücretsizdir.',
       },
     },
   },
@@ -162,7 +162,7 @@ export const tr: Dictionary = {
       chipsLabel: 'Pilot sonucu ve kanıt',
       chips: {
         benchmark:
-          'İç pilotta always-Opus’a göre {costSavingPct} daha düşük maliyet ({tasks} görev); always-Sonnet’ten daha ucuz değil',
+          'Şirket içi pilotta her zaman Opus kullanmaya göre {costSavingPct} daha düşük maliyet ({tasks} görev); her zaman Sonnet’ten daha ucuz değil',
         proof: 'Judge makbuzları: kanıtı görün',
       },
       trust: 'Kendi makinenizde çalışır. Taksim hesabı gerekmez. EdgeeTech prompt’larınızı veya kodunuzu almaz.',
@@ -614,7 +614,7 @@ export const tr: Dictionary = {
   compare: {
     eyebrow: 'Karşılaştırma',
     title: 'Taksim, alternatiflerinin yanında.',
-    lede: 'Taksim, Claude Code’da daha az harcamanın birkaç yolundan biri. Bu sayfa onu, büyük olasılıkla karşılaştıracağınız araçların yanına koyuyor. Her rakip bilgisi açık kaynağına bağlanıyor; son bölüm Taksim’in nerede geride kaldığını söylüyor.',
+    lede: 'Taksim, Claude Code’da daha az harcamanın birkaç yolundan biri. Bu sayfa onu, büyük olasılıkla karşılaştıracağınız araçların yanına koyuyor. Her rakip bilgisi, herkese açık kaynağına bağlantı veriyor; son bölüm Taksim’in nerede geride kaldığını söylüyor.',
     asOf: '29 Eki 2026 itibarıyla.',
     asOfNote:
       'Rakip ürünler sık değişir. Karar vermeden önce her kaynağı kontrol edin; buradaki bir bilgi güncelliğini yitirmişse [info@edgee.tech](mailto:info@edgee.tech) adresinden bize yazın.',
@@ -745,13 +745,13 @@ export const tr: Dictionary = {
     },
     limits: {
       title: 'Taksim’in geride kaldığı yerler',
-      body: 'Tablodan önce bunları okuyun. Başka bir aracı seçmeniz için makul nedenler bunlar.',
+      body: 'Tabloyu bunlarla birlikte değerlendirin. Başka bir aracı seçmeniz için makul nedenler bunlar.',
       items: [
         'Pilotumuzda yönlendirme, her zaman Sonnet kullanmaktan daha ucuz çıkmadı. Her zaman Sonnet {sonnetCost} tuttu ve {runsPerArm} çalıştırmanın {sonnetAccepted} tanesi kabul edildi. Taksim yönlendirmesi {taksimCost} tuttu ve {runsPerArm} çalıştırmanın {taksimAccepted} tanesi kabul edildi. {costSavingPct} tasarruf yalnızca her zaman Opus’a göre. [Yöntem ve veri](/benchmark).',
-        'Pilot iç bir pilot: kendi Claude Team subscription’ımızda {tasks} görev; bağımsız bir benchmark değil. Taksim’i `/advisor` ya da Copilot Fusion ile baş başa denemedik ve henüz bağımsız, herkese açık bir sonuç yok.',
+        'Pilot şirket içinde yapıldı: kendi Claude Team subscription’ımızda {tasks} görev; bağımsız bir benchmark değil. Taksim’i `/advisor` ya da Copilot Fusion ile baş başa denemedik ve henüz bağımsız, herkese açık bir sonuç yok.',
         'Bir alt modele inen bütçe sınırları Pro özelliğidir ve ücretli planlar henüz satışta değil. Ücretsiz Developer planı uyarır ve hiçbir isteği engellemez.',
         'Binary’ler bugün imzasız; bu yüzden Windows SmartScreen ilk çalıştırmada onay ister. [Güvenlik](/security) sayfasına bakın.',
-        'Taksim yalnızca Claude modelleri arasında yönlendirir. AWS Bedrock, Google Vertex AI ya da Microsoft Foundry üzerindeki oturumlar yerel olarak başlar; Claude masaüstü uygulamasının Code sekmesi ise gözlemlenir, yönlendirilmez.',
+        'Taksim yalnızca Claude modelleri arasında yönlendirir. AWS Bedrock, Google Vertex AI ya da Microsoft Foundry üzerindeki oturumlar Taksim’e uğramadan doğrudan başlar; Claude masaüstü uygulamasının Code sekmesi ise gözlemlenir, yönlendirilmez.',
         'Barındırılan bir ekip dashboard’u yok: ekip raporları her geliştiricinin paylaştığı export’lardan üretilir. macOS, Mac donanımında test edilmemiş bir önizlemedir ve Linux sürümü yoktur.',
       ],
     },
@@ -780,7 +780,7 @@ export const tr: Dictionary = {
       sub: 'Tasarrufu yalnızca görmek değil, Taksim’in uygulamasını da isteyen tek bir geliştirici için.',
       lead: 'Developer planındaki her şey, ayrıca:',
       features: featureList(entitlements.pro),
-      cta: 'Kurucu koltuğunu ayırtın',
+      cta: 'Kurucu müşteri yerinizi ayırtın',
     },
     team: {
       name: 'Team',
@@ -806,7 +806,7 @@ export const tr: Dictionary = {
       },
       {
         q: 'Bugün bir plan satın alabilir miyim?',
-        a: 'Henüz hayır. Ödeme sayfası yayına girene kadar ücretli planlar satışta değildir. [İletişim formu](/contact) üzerinden kurucu koltuğu ayırtın veya ekip pilotu başlatın; yer ayırtmak ücretsizdir ve sizden ödeme alınmaz. İlk 20 müşteriye ilk 12 ay için %50 indirim uygulanır.',
+        a: 'Henüz hayır. Ödeme sayfası yayına girene kadar ücretli planlar satışta değildir. [İletişim formu](/contact) üzerinden kurucu müşteri yerinizi ayırtın veya ekip pilotu başlatın; yer ayırtmak ücretsizdir ve sizden ödeme alınmaz. İlk 20 müşteriye ilk 12 ay için %50 indirim uygulanır.',
       },
       {
         q: 'Taksim, Claude veya ChatGPT subscription’ımda modelimi değiştirir mi?',
@@ -822,11 +822,11 @@ export const tr: Dictionary = {
       },
       {
         q: 'Ücretli bir plan sona erince ne olur?',
-        a: 'Hiçbir şey bozulmaz. Yönlendirme düz geçişe (pass-through) döner, yerel verileriniz olduğu gibi kalır ve Claude hiçbir zaman engellenmez. Developer özellikleri çalışmaya devam eder.',
+        a: 'Hiçbir şey bozulmaz. Pro ve Team özellikleri kapanır: otomatik yönlendirme ve bütçe sınırında alt modele inme durur; istekler elle seçtiğiniz `taksim mode` ayarına göre gider ya da değiştirilmeden geçer. Yerel verileriniz olduğu gibi kalır, Claude hiçbir zaman engellenmez ve Developer özellikleri çalışmaya devam eder.',
       },
       {
         q: 'Aktif geliştirici nasıl sayılır?',
-        a: 'Aktif geliştirici, ay içinde Taksim’i kendi makinesinde kullanan kişidir. Repo veya istemci sayısı ne olursa olsun her kişi bir kez sayılır; Team planında en az 5 geliştirici ($90, aylık) koşulu vardır. Tam koltuk koşulları faturalandırma başlamadan önce netleştirilir.',
+        a: 'Aktif geliştirici, ay içinde Taksim’i kendi makinesinde kullanan kişidir. Repo veya istemci sayısı ne olursa olsun her kişi bir kez sayılır; Team planında en az 5 geliştirici koşulu vardır (aylık $90). Lisans koşullarının ayrıntıları faturalandırma başlamadan önce netleştirilir.',
       },
     ],
   },
@@ -910,7 +910,7 @@ export const tr: Dictionary = {
         access: 'OpenAI API key',
         observe: 'CODEX_HOME oturumlarından geçmiş içe aktarma.',
         judge: '',
-        gateway: 'Codex için kullanılmaz.',
+        gateway: 'İsteğe bağlı: Taksim’in API key ile başlattığı Codex oturumlarında yerel gateway istekleri OpenAI’a iletir.',
         context: '',
         route: 'Gözlemlenir; yönlendirilmez. Taksim yalnızca Claude modelleri arasında yönlendirme yapar.',
       },
@@ -1547,7 +1547,7 @@ export const tr: Dictionary = {
           'Biten bir Claude Code turu, Stop hook üzerinden oturum içi judge tarafından değerlendirilir. Judge’ın açık olduğunu ve hook’un oturumunuzun okuduğu yere kurulduğunu kontrol edin.',
         steps: [
           'Şu satırlara bakın. `none recorded`, henüz hiçbir turun değerlendirilmediği anlamına gelir.',
-          'Judge kapalıysa ya da kullanıcı düzeyindeki hook kurulu değilse ikisini de açın. `--user-settings` yalnızca `taksim claude` oturumlarını değil, her Claude Code oturumunu kapsar; ayar değişikliğini önceden görmek için başa `--dry-run` ekleyin. Sonra ayarları yeniden okuması için Claude Code’u yeniden başlatın.',
+          'Judge kapalıysa ya da kullanıcı düzeyindeki hook kurulu değilse ikisini de açın. `--user-settings` yalnızca `taksim claude` oturumlarını değil, her Claude Code oturumunu kapsar; ayar değişikliğini önceden görmek için önce `--dry-run` ile çalıştırın. Sonra ayarları yeniden okuması için Claude Code’u yeniden başlatın.',
         ],
       },
       mode: {
@@ -1564,7 +1564,7 @@ export const tr: Dictionary = {
       budget: {
         q: 'Bir bütçe düşürmesi oldu',
         intro:
-          'İsteğe bağlı bütçe uygulamasında (bir Pro özelliği), günlük ya da aylık bütçe eşiğine ulaştığında gateway Claude isteklerini daha ucuz bir kademede sunar. Hiçbir isteği engellemez. Aşağıdaki, boş bir kurulumun çıktısıdır; sizinki harcamanızı gösterir.',
+          'İsteğe bağlı bütçe uygulamasında (bir Pro özelliği), günlük ya da aylık bütçe eşiğine ulaştığında gateway Claude isteklerini daha ucuz bir kademede sunar. Hiçbir isteği engellemez. Aşağıdaki çıktı, günlük $20 ve aylık $300 geliştirici bütçesi ayarlanmış yeni bir kurulumdan alınmıştır; sizinki kendi limitlerinizi ve harcamanızı gösterir.',
         steps: [
           'Her bütçe penceresini, eşiği ve kaç düşürme kaydedildiğini görün.',
           'Düşürmeleri ve istenen modele geri yükseltmeleri listeleyin.',
@@ -1626,18 +1626,22 @@ export const tr: Dictionary = {
     title: 'Makinenizde çalışır. Yalnızca gerektiğinde bağlanır.',
     lede: 'EdgeeTech hiçbir Taksim sunucusu işletmez; dolayısıyla ihlal edilebilecek barındırılan bir defter ve güvenmeniz gereken bir telemetri uç noktası yoktur. Bu sayfa Taksim’in kendi kullandığı ağ hedeflerini, yerel servislerinin nasıl korunduğunu ve bir sorunun nasıl bildirileceğini listeler.',
     summaryLabel: 'Sade özet.',
-    summary: 'Defteriniz, dashboard’unuz ve ayarlarınız bilgisayarınızda kalır. Taksim yalnızca aşağıdaki hostlara bağlanır ve her biri sizin başlattığınız ya da açtığınız bir özelliğe bağlıdır. Kodlama istemcileriniz yine kendi sağlayıcılarıyla, o sağlayıcıların koşulları altında konuşur.',
+    summary: 'Defteriniz, dashboard’unuz ve ayarlarınız bilgisayarınızda kalır. Taksim yalnızca aşağıdaki hostlara bağlanır ve her biri sizin kullandığınız ya da açtığınız bir özelliğe bağlıdır. Kodlama istemcileriniz yine kendi sağlayıcılarıyla, o sağlayıcıların koşulları altında konuşur.',
     egressTitle: 'Ağ hedefleri',
-    egressLede: 'Taksim’in bağlandığı her host ve ne zaman bağlandığı.',
+    egressLede: 'Taksim’in kendisinin bağlandığı hostlar ve ne zaman bağlandığı.',
     egressCaption: 'Taksim’in kullandığı ağ hedefleri ve her birini kullanan özellik',
     egressHeaders: { host: 'Host', purpose: 'Ne için', when: 'Ne zaman' },
     egress: [
-      { host: 'api.anthropic.com', purpose: 'Yerel gateway üzerinden geçen Claude istekleriniz ve isteğe bağlı Anthropic API key judge’ı.', when: 'API key ile `taksim claude` başlattığınız oturumlarda ya da `taksim routing subscription on` ile açtıktan sonra bir Claude girişinde. Judge yalnızca sizin yapılandırdığınız bir key ile çalışır.' },
+      { host: 'api.anthropic.com', purpose: 'Yerel gateway üzerinden geçen Claude istekleriniz ve isteğe bağlı Anthropic API key judge’ı.', when: 'API key ile `taksim claude` başlattığınız oturumlarda ya da `taksim routing subscription on` ile açtıktan sonra bir Claude girişinde. Judge yalnızca sizin yapılandırdığınız bir key ile çalışır. Model listesi yalnızca `ANTHROPIC_API_KEY` ayarlıysa, kurum kullanımı ise yalnızca `taksim team import-vendor anthropic` çalıştırdığınızda alınır.' },
       { host: 'github.com', purpose: 'Sürüm indirmeleri, yükleyici ve güncelleme kontrolleri.', when: 'Kurarken, `taksim update` çalıştırdığınızda veya bir güncelleme kontrolü çalıştığında. Güncelleme kontrollerini kapatmak için `TAKSIM_UPDATE_CHECK=0` ayarlayın.' },
       { host: 'api.github.com', purpose: 'İşi harcamayla ilişkilendirmek için pull request ve repo tanımlayıcıları.', when: 'Yalnızca `GITHUB_TOKEN` ayarlıysa veya GitHub CLI’da oturum açıksa.' },
-      { host: 'platform.claude.com', purpose: 'Taksim’in model fiyat kataloğunu güncel tutmak için Anthropic’in herkese açık fiyat ve model yaşam döngüsü sayfaları.', when: 'Yerel gateway model kataloğunu yenilediğinde.' },
+      { host: 'platform.claude.com', purpose: 'Taksim’in model fiyat kataloğunu güncel tutmak için Anthropic’in herkese açık fiyat ve model yaşam döngüsü sayfaları.', when: 'Yerel gateway model kataloğunu yenilediğinde. Yenilemeyi kapatmak için `TAKSIM_CATALOG_REFRESH_ENABLED=false` ayarlayın.' },
+      { host: 'developers.openai.com', purpose: 'Aynı fiyat kataloğu için OpenAI’ın herkese açık fiyat ve kullanımdan kaldırma sayfaları.', when: 'Yerel gateway model kataloğunu yenilediğinde; aynı ayar bunu da kapatır.' },
       { host: 'huggingface.co', purpose: 'Herkese açık bir araştırma veri kümesinin sınırlı bir önizlemesi (datasets-server.huggingface.co dahil).', when: 'Yalnızca `taksim research trace-commons` çalıştırdığınızda.' },
       { host: 'api.typesafe.ai', purpose: 'Kendi key’inizle Jev judge’ı ve istek öncesi yönlendirici.', when: 'Yalnızca Jev’i seçtiğinizde (`taksim set-judge jev`).' },
+      { host: 'api.openai.com', purpose: 'Yerel gateway’in ilettiği, OpenAI API key ile çalışan Codex CLI istekleri; OpenAI model listesi; içe aktardığınız kurum kullanımı.', when: 'Codex istekleri yalnızca Taksim’in API key ile başlattığı Codex oturumlarında. Model listesi yalnızca `OPENAI_API_KEY` ayarlıysa. Kurum kullanımı yalnızca `taksim team import-vendor openai` çalıştırdığınızda.' },
+      { host: 'generativelanguage.googleapis.com', purpose: 'Yerel gateway’in ilettiği, Gemini API key ile çalışan Gemini CLI istekleri.', when: 'Yalnızca Taksim’in açık bir API key ile başlattığı Gemini oturumlarında; Google ile giriş yapılan trafik doğrudan Google’a gider.' },
+      { host: 'api.cursor.com', purpose: 'Bu editör üreticisinin resmi Admin API’sinden ekip kullanımı.', when: 'Yalnızca kaydettiğiniz bir yönetici key’iyle bu ekip kullanımını içe aktardığınızda.' },
     ],
     egressNote: 'Sizin talimatınızla ayrıca: `taksim notify configure` ile ayarladığınız bir Slack veya webhook adresi ve ekip export’ları için seçtiğiniz bir klasör. Claude Code, Codex ve diğer kodlama istemcileri prompt’ları kendi sağlayıcılarına, o sağlayıcıların koşulları altında gönderir; Taksim, makinenizdeki yerel gateway dışında, bunların nereye bağlandığını değiştirmez.',
     sections: [
@@ -1663,11 +1667,11 @@ export const tr: Dictionary = {
       },
       {
         title: 'Neleri kapatabilirsiniz',
-        body: 'Güncelleme kontrolleri: `TAKSIM_UPDATE_CHECK=0` ayarlayın. Uzak judge’lar: yalnızca onlar için bir key yapılandırdıysanız çalışır; `taksim set-judge off` Jev judge’ını kapatır, Ollama ise judge işini makinenizde tutar. Bildirimler: `taksim notify configure` çalıştırana kadar hiçbir Slack veya webhook adresine bağlanılmaz.',
+        body: 'Güncelleme kontrolleri: `TAKSIM_UPDATE_CHECK=0` ayarlayın. Model kataloğu yenileme: `TAKSIM_CATALOG_REFRESH_ENABLED=false` ayarlayın. Uzak judge’lar: yalnızca onlar için bir key yapılandırdıysanız çalışır; `taksim set-judge off` Jev judge’ını kapatır, Ollama ise judge işini makinenizde tutar. Bildirimler: `taksim notify configure` çalıştırana kadar hiçbir Slack veya webhook adresine bağlanılmaz.',
       },
       {
         title: 'Neler saklanır',
-        body: 'Defter ve asla tutmadıkları [gizlilik sayfasında](/privacy) anlatılır.',
+        body: 'Defterin neleri tuttuğu ve neleri asla tutmadığı [gizlilik sayfasında](/privacy) anlatılır.',
       },
       {
         title: 'Güvenlik açığı bildirme',
@@ -1700,7 +1704,7 @@ export const tr: Dictionary = {
       },
       {
         title: 'Web sitesi verileri',
-        body: 'Bu önizleme, üçüncü taraf bir analitik izleyici yüklemez. Değerlendirme formu e-posta uygulamanızı açar ve değerleri bir web sitesi form işleyicisine göndermez. Barındırma ve güvenlik altyapısı yine de IP adresi, kullanıcı aracısı (user agent), istenen yol ve zaman damgaları gibi standart istek bilgilerini işleyebilir.',
+        body: 'Bu önizleme, üçüncü taraf bir analitik izleyici yüklemez. İletişim formu e-posta uygulamanızı açar ve değerleri bir web sitesi form işleyicisine göndermez. Barındırma ve güvenlik altyapısı yine de IP adresi, kullanıcı aracısı (user agent), istenen yol ve zaman damgaları gibi standart istek bilgilerini işleyebilir.',
       },
       {
         title: 'İletişim',

@@ -20,7 +20,7 @@ export function SecurityPage({ locale }: { locale: Locale }) {
           </p>
           <h2>{t.egressTitle}</h2>
           <p>{t.egressLede}</p>
-          <div className="table-scroll">
+          <section className="table-scroll" aria-label={t.egressCaption} tabIndex={0}>
             <table className="security-table" aria-label={t.egressCaption}>
               <thead>
                 <tr>
@@ -43,7 +43,7 @@ export function SecurityPage({ locale }: { locale: Locale }) {
                 ))}
               </tbody>
             </table>
-          </div>
+          </section>
           <p>
             <Rich text={t.egressNote} locale={locale} />
           </p>

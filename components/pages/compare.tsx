@@ -71,9 +71,9 @@ export function ComparePage({ locale }: { locale: Locale }) {
                                     href={link}
                                     rel="noreferrer"
                                     target="_blank"
-                                    aria-label={t.sourceFor
+                                    aria-label={`${t.sourceFor
                                       .replace('{column}', t.columns[column])
-                                      .replace('{feature}', row.feature)}
+                                      .replace('{feature}', row.feature)}${links.length > 1 ? ` (${index + 1})` : ''}`}
                                   >
                                     {links.length > 1 ? `${t.source} ${index + 1}` : t.source} ↗
                                   </a>

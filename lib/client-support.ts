@@ -64,7 +64,7 @@ export const clientSupport: ClientSupportRow[] = [
     id: 'codexApi',
     manifestClients: ['codex'],
     billing: 'apiKey',
-    cells: { observe: 'yes', judge: 'yes', gateway: 'no', context: 'no', route: 'no' },
+    cells: { observe: 'yes', judge: 'yes', gateway: 'yes', context: 'no', route: 'no' },
   },
   {
     id: 'copilotPlan',

@@ -521,6 +521,10 @@ h3 {
   font-weight: 500;
   white-space: nowrap;
 }
+/* Keep the prose columns readable on a phone: the table scrolls sideways instead of squeezing them. */
+.security-table td {
+  min-width: 14rem;
+}
 .notice {
   padding: 18px 20px;
   border-left: 3px solid var(--rose);

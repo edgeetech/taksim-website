@@ -96,7 +96,7 @@ test('/compare states where Taksim is weaker, including that routing was not che
   assert.match(en.compare.limits.items.join(' '), /not been tested on Mac hardware/);
   assert.equal(tr.compare.limits.items.length, en.compare.limits.items.length);
   assert.match(en.home.hero.chips.benchmark, /not cheaper than always-Sonnet/);
-  assert.match(tr.home.hero.chips.benchmark, /always-Sonnet.ten daha ucuz değil/);
+  assert.match(tr.home.hero.chips.benchmark, /her zaman Sonnet.ten daha ucuz değil/);
 });
 
 test('competitor facts stay within what the sources say', async () => {

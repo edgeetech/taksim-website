@@ -79,7 +79,7 @@ test('tells the local-paths and Codex truths in the copy', async () => {
   }
   const { clientSupport } = await import('../lib/client-support.ts');
   const codexApi = clientSupport.find((row) => row.id === 'codexApi');
-  assert.equal(codexApi?.cells.gateway, 'no');
+  assert.equal(codexApi?.cells.gateway, 'yes');
   assert.equal(codexApi?.cells.route, 'no');
 });
 
@@ -114,8 +114,12 @@ test('publishes /security in both languages and the sitemap', async () => {
       'github.com',
       'api.github.com',
       'platform.claude.com',
+      'developers.openai.com',
       'huggingface.co',
       'api.typesafe.ai',
+      'api.openai.com',
+      'generativelanguage.googleapis.com',
+      'api.cursor.com',
     ]);
     const body = JSON.stringify(dict.security);
     for (const needle of ['127.0.0.1', 'Host, Origin', 'X-Taksim-Hook-Secret', 'Credential Manager', 'Keychain', 'SHA256SUMS.txt']) {
