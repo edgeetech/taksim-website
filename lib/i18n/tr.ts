@@ -908,7 +908,7 @@ export const tr: Dictionary = {
         title: 'Sonraki adımlar',
         copy: 'Dashboard, judge değerlendirmesi, bütçeler, haftalık digest, Slack ve webhook uyarıları ve ekip toplu görünümü.',
         href: '/docs/next-steps',
-        keywords: 'dashboard judge budget digest slack webhook notify alerts team export summary bütçe uyarı ekip',
+        keywords: 'dashboard judge budget enforce downgrade mode economy balanced quality advisor digest slack webhook notify alerts team export summary bütçe uyarı ekip',
       },
       {
         title: 'Taksim nasıl çalışır',
@@ -1115,7 +1115,7 @@ export const tr: Dictionary = {
     update: {
       title: 'Güncelleme',
       body: 'Yeni bir sürüm çıktığında `taksim doctor` size söyler. Kontrol etmek ve ardından kurmak için:',
-      after: 'Güncelleme verilerinizi ve ayarlarınızı korur. Kurulum satırını yeniden çalıştırmak da aynı işi yapar.',
+      after: 'Güncelleme verilerinizi ve ayarlarınızı korur. Kurulum satırını yeniden çalıştırmak da aynı işi yapar. `taksim update --apply`, indirilen kurulum betiğini sürümün `SHA256SUMS.txt` dosyasıyla karşılaştırır; uyuşmazlık veya eksik kayıt varsa reddeder. İmzalı bir kurulum betiği yalnızca Taksim’in içine gömülü bir yayıncıdan kabul edilir; imzasız olan için yine `--allow-unsigned` gerekir.',
     },
     uninstall: {
       title: 'Kaldırma',
@@ -1158,7 +1158,7 @@ export const tr: Dictionary = {
     },
     install: {
       title: '3. Tek satırla kurun',
-      body: 'PowerShell’i açın ve aşağıdaki komutu çalıştırın. En son sürümü HTTPS üzerinden indirir, Connector arşivini ve kurulum betiğini yayımlanmış `SHA256SUMS.txt` ile doğrular (bir şey eşleşmezse durur), `%LOCALAPPDATA%\\Taksim` altına kurar, kullanıcı PATH’inize ekler ve ardından `taksim setup` çalıştırır.',
+      body: 'PowerShell’i açın ve aşağıdaki komutu çalıştırın. En son sürümü HTTPS üzerinden indirir, Connector arşivini ve kurulum betiğini yayımlanmış `SHA256SUMS.txt` ile doğrular (bir şey eşleşmezse ya da bir kayıt iki kez geçerse durur), `%LOCALAPPDATA%\\Taksim` altına kurar, kullanıcı PATH’inize ekler ve ardından `taksim setup` çalıştırır.',
       pinnedTitle: 'Belirli bir sürümü kurun veya setup’ı atlayın',
       pinnedBody: 'Belirli bir sürümü, ardından setup çalıştırmadan kurmak için:',
       note: 'Taksim, sürümlü binary’lerini `%LOCALAPPDATA%\\Taksim` altında, ayrı kullanıcı verilerini ise `%USERPROFILE%\\.taksim` altında tutar. Güncellenmiş bir sürümü kurmak bu kullanıcı verisi dizinini değiştirmez.',
@@ -1243,7 +1243,9 @@ export const tr: Dictionary = {
     },
     budgets: {
       title: 'Bütçeler, haftalık digest ve Slack uyarıları',
-      body: 'Bütçeler sınır değil, uyarıdır: kendiniz, bir repo veya ekip için API eşdeğeri dolar cinsinden günlük ya da aylık bir tutar belirleyin; Taksim bunu status line’da gösterir ve %75, %90 ve %100’de uyarır.',
+      body: 'Bütçeler varsayılan olarak uyarır ve asla engellemez: kendiniz, bir repo veya ekip için API eşdeğeri dolar cinsinden günlük ya da aylık bir tutar belirleyin; Taksim bunu status line’da gösterir ve %75, %90 ve %100’de uyarır.',
+      enforce:
+        'İsteğe bağlı olarak `taksim budget enforce --mode downgrade` (varsayılan olarak kapalı), geliştirici veya repo bütçeniz bir eşiğe (`--at`, limitin yüzdesi, varsayılan 100) ulaştığında ya da aştığında gateway’in yönlendirilen Claude isteklerini daha ucuz bir seviyede sunmasını sağlar: varsayılan Sonnet, `--to haiku` ile Haiku. Hiçbir isteği engellemez ve Claude’dan ayrılmaz. Sabitlemeler, zorunlu güvenlik istekleri ve zaten escalation yapmış aşamalar olduğu gibi bırakılır; ilk yanıt baytından önce başarısız olan bir çağrı, istediğiniz modelle bir kez yeniden denenir. Gün veya ay değiştiğinde, limiti yükselttiğinizde ya da `--mode off` çalıştırdığınızda düşürme sona erer. Gateway’in yönlendirdiği trafiğe uygulanır: API key ile `taksim claude` ile başlattığınız oturumlar ve yalnızca `routing subscription on` ile subscription oturumları. Harcama yumuşak bir sınırdır ve 30 saniyede bir yenilenir; yani toplamı değil, hızı sınırlar. `taksim budget status`, `diagnostics downgrades` ve `report weekly` düşürmeleri sayar.',
       digest: 'Digest, dosyaya yazılan tek sayfalık bir “ne kadar tasarruf edebilirdiniz” özetidir:',
       notify:
         'Digest’i ve bütçe uyarılarını Slack’te veya herhangi bir webhook’ta almak için adresi bir kez kaydedin (Windows Credential Manager’da saklanır ve yalnızca toplu değerler ile repo takma adları gönderilir), bir test gönderin, ardından digest’i paylaşın:',
@@ -1266,6 +1268,10 @@ export const tr: Dictionary = {
       body: 'Token başına kendi Anthropic API key’inizle ödüyorsanız, `routing recommend` iki judge’ın uzlaştığı turlara dayanarak her repo, görev sınıfı ve istemci için varsayılan bir model seviyesi önerir. Örneklem büyüklüğünü, güveni ve değerlendirilen turlardaki tasarrufu gösterir. Zayıf kanıt, daha ucuz modelin yetersiz kaldığını söyleyen herhangi bir karar ya da daha önceki bir escalation mevcut modeli korur. Yalnızca öneride bulunur; siz seçmeden hiçbir şey değişmez.',
       auto:
         '`routing auto on` (varsayılan olarak kapalı), önerilen bir düşürmeyi yalnızca `taksim claude` ile başlattığınız bir oturumda yeni bir context başladığında uygular: yeni bir oturum ya da bir subagent gibi. Zaten süren bir konuşmayı asla değiştirmez; sabitlemeleriniz, bütçeleriniz ve yerel `/model` seçimleriniz yine önceliklidir.',
+      modes:
+        '`taksim mode economy|balanced|quality` bu ayarların üzerinde tek bir anahtardır; argümansız `taksim mode` geçerli modu ve sonradan elle değiştirdiğiniz her şeyi gösterir. `balanced` bugünkü varsayılanlardır. `economy`, `routing.auto` ayarını açar ve sıradan istekler için yetenek eşiğini düşürür; böylece bu istekler orta yerine düşük efor düzeyinde Sonnet ile çalışır. `quality`, `routing.auto` ayarını kapalı tutar, eşiği yükseltir (sıradan istekler orta eforda Opus ile çalışır) ve düşük (Haiku) seviyeyi kullanmaz. Ölçülmüş bir tasarruf değil, hazır bir ayardır. Escalation’lar, risk ve hata işleme, sabitlemeleriniz ve açık bir efor seçimi değişmez; `routing.subscription` asla değiştirilmez. `balanced` dışında bir mod ayarlıyken yalnızca kuruluşunuzun yönetilen model politikasının izin verdiği Claude modelleri aday olur; bu politika okunamazsa istek değiştirilmeden iletilir.',
+      advisor:
+        'Claude Code’un `/advisor` özelliği Taksim üzerinden çalışır. Advisor aracı ve yanıtları değiştirilmeden iletilir; yönlendirme modelinizi API’nin reddedeceği bir eşleşmeye asla çevirmez, bunun yerine istek sizin modelinizde kalır. Advisor token’ları kendi çalıştırması olarak kaydedilir, advisor modelinin fiyatıyla hesaplanır ve `taksim report task-cost` çıktısında görünür; Taksim’in fiyatlayamadığı bir sonuç sıfır sayılmaz, işaretlenir.',
       escalation:
         'Düşürülmüş bir turda sorun işaretleri görüldüğünde (tool, test veya build hataları, yeniden deneme ya da düzeltme, upstream hatası), Taksim istediğiniz modele geri döner ve o aşama boyunca orada kalır. Size herhangi bir yanıt ulaşmadan başarısız olan düşürülmüş bir çağrı, sizin modelinizle bir kez yeniden denenir. `diagnostics downgrades` her düşürmeyi ve escalation’ı gösterir. Claude subscription yönlendirmesi ayrı bir isteğe bağlı ayardır (`taksim routing subscription on`); ChatGPT planları yalnızca gözlemlenir. Yönlendirme sonuçlardan da öğrenir. Aşağı geçilen bir tura “Hayır, yanlış olmuş” gibi bir düzeltmeyle cevap verirseniz (Türkçe ya da İngilizce), Taksim başlangıç modeline döner ve reddi kendisi kaydeder; `taksim routing outcome record --session <id> --result rejected` ile bildirim ya da oturum içi bir judge kararı da sayılır. Ardından Taksim aynı türden bir görev bir sonraki sefer başladığında başlangıç modelini korur. Yalnızca anahtarlı bir görev parmak izi saklanır, `taksim routing outcome list` kaydedilenleri gösterir ve `taksim memory forget` bunu temizler.',
     },

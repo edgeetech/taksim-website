@@ -907,7 +907,7 @@ export const en = {
         title: 'Next steps',
         copy: 'Dashboard, judging, budgets, the weekly digest, Slack and webhook alerts, and the team roll-up.',
         href: '/docs/next-steps',
-        keywords: 'dashboard judge budget digest slack webhook notify alerts team export summary',
+        keywords: 'dashboard judge budget enforce downgrade mode economy balanced quality advisor digest slack webhook notify alerts team export summary',
       },
       {
         title: 'How Taksim works',
@@ -1114,7 +1114,7 @@ export const en = {
     update: {
       title: 'Update',
       body: '`taksim doctor` tells you when a newer release is out. To check, and then install it:',
-      after: 'Updating keeps your data and settings. Running the install line again does the same.',
+      after: 'Updating keeps your data and settings. Running the install line again does the same. `taksim update --apply` checks the downloaded installer against the release’s `SHA256SUMS.txt` and refuses on a mismatch or a missing entry. A signed installer is accepted only from a publisher built into Taksim, and an unsigned one still needs `--allow-unsigned`.',
     },
     uninstall: {
       title: 'Uninstall',
@@ -1157,7 +1157,7 @@ export const en = {
     },
     install: {
       title: '3. Install with one line',
-      body: 'Open PowerShell and run the command below. It downloads the latest release over HTTPS, checks the Connector archive and the installer against the published `SHA256SUMS.txt` (and stops if anything does not match), installs into `%LOCALAPPDATA%\\Taksim`, adds it to your user PATH and then runs `taksim setup`.',
+      body: 'Open PowerShell and run the command below. It downloads the latest release over HTTPS, checks the Connector archive and the installer against the published `SHA256SUMS.txt` (and stops if anything does not match, or if an entry appears twice), installs into `%LOCALAPPDATA%\\Taksim`, adds it to your user PATH and then runs `taksim setup`.',
       pinnedTitle: 'Pin a version or skip setup',
       pinnedBody: 'To install one specific release without running setup afterwards:',
       note: 'Taksim keeps its versioned binaries under `%LOCALAPPDATA%\\Taksim` and its separate user data under `%USERPROFILE%\\.taksim`. Installing an updated version does not replace that user-data directory.',
@@ -1242,7 +1242,9 @@ export const en = {
     },
     budgets: {
       title: 'Budgets, the weekly digest and Slack alerts',
-      body: 'Budgets are warnings, never limits: set a daily or monthly amount in API-equivalent dollars for yourself, a repo or the team, and Taksim shows it in the status line and warns at 75%, 90% and 100%.',
+      body: 'Budgets warn by default and never block: set a daily or monthly amount in API-equivalent dollars for yourself, a repo or the team, and Taksim shows it in the status line and warns at 75%, 90% and 100%.',
+      enforce:
+        'Optionally, `taksim budget enforce --mode downgrade` (off by default) makes the gateway serve routed Claude requests on a cheaper tier, Sonnet by default or Haiku with `--to haiku`, while your developer or repo budget is at or above a threshold (`--at`, in percent of the limit, default 100). It never blocks a request or leaves Claude. Pins, required-safety requests and phases that already escalated are left alone, and a call that fails before any response byte is retried once on the model you asked for. The step down ends when the day or month rolls over, you raise the limit or you run `--mode off`. It applies to traffic the gateway routes: sessions started with `taksim claude` on an API key, and subscription sessions only with `routing subscription on`. Spend is a soft cap, refreshed every 30 seconds, so it limits the rate, not the total. `taksim budget status`, `diagnostics downgrades` and `report weekly` count the step downs.',
       digest: 'The digest is a one-page “what you could have saved” summary, written to a file:',
       notify:
         'To receive the digest and budget alerts in Slack or any webhook, save the address once (it is stored in Windows Credential Manager, and only aggregates and repo aliases are sent), send a test, then post the digest:',
@@ -1265,6 +1267,10 @@ export const en = {
       body: 'If you pay per token with your own Anthropic API key, `routing recommend` suggests a default model tier per repo, task class and client from turns two judges agreed on. It shows the sample size, the confidence and the saving on the judged turns. Thin evidence, any verdict that the cheaper model fell short, or an earlier escalation keeps the current model. It only advises; nothing changes until you choose.',
       auto:
         '`routing auto on` (off by default) applies a recommended downgrade only when a fresh context starts in a session you launched with `taksim claude`, such as a new session or a subagent. It never switches a conversation that is already running, and your pins, budgets and native `/model` choices still win.',
+      modes:
+        '`taksim mode economy|balanced|quality` is one switch over these settings, and `taksim mode` with no argument shows the mode in force and anything you changed by hand since. `balanced` is today’s defaults. `economy` turns `routing.auto` on and lowers the capability bar for ordinary requests, so they run Sonnet at low effort instead of medium. `quality` keeps `routing.auto` off, raises the bar so ordinary requests run Opus at medium effort, and stops using the low (Haiku) tier. It is a preset, not a measured saving. Escalations, risk and failure handling, your pins and an explicit effort are unchanged, and `routing.subscription` is never touched. While a mode other than `balanced` is set, only Claude models your organisation’s managed model policy allows are candidates; if that policy cannot be read, the request is forwarded unchanged.',
+      advisor:
+        'Claude Code’s `/advisor` works through Taksim. The advisor tool and its responses are forwarded unchanged, and routing never swaps your model into a pairing the API would refuse; the request keeps your model instead. Advisor tokens are recorded and priced as their own execution at the advisor model’s rates and show up in `taksim report task-cost`; a result Taksim cannot price is flagged, not counted as zero.',
       escalation:
         'When a downgraded turn shows signs of trouble (tool, test or build failures, a retry or correction, an upstream error), Taksim goes back to the model you asked for and stays there for that phase. A downgraded call that fails before any response reaches you is retried once on your model. `diagnostics downgrades` shows every downgrade and escalation. Claude subscription routing is a separate opt-in (`taksim routing subscription on`); ChatGPT plans are observed only. Routing also learns from outcomes. If you reply to a stepped-down turn with a correction such as “No, that’s wrong” (Turkish or English), Taksim moves back to the start model and records the rejection itself; a `taksim routing outcome record --session <id> --result rejected` report or an in-session judge verdict counts too. Taksim then keeps the start model the next time the same kind of task starts. It stores only a keyed task fingerprint, `taksim routing outcome list` shows what was recorded, and `taksim memory forget` clears it.',
     },

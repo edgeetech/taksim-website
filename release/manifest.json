@@ -1,9 +1,9 @@
 {
   "schema": "taksim.release-manifest.v1",
   "repository": "edgeetech/taksim-releases",
-  "version": "0.3.16",
-  "tag": "v0.3.16",
-  "sourceCommit": "e26bdc7482f7ad579accb1cc031eccde40b3343c",
+  "version": "0.3.17",
+  "tag": "v0.3.17",
+  "sourceCommit": "f09da039707ff886839d5fede5e2d5a1e3c0ce01",
   "platforms": [
     "win-x64",
     "osx-arm64",
@@ -21,11 +21,12 @@
   ],
   "install": {
     "oneLine": "& ([scriptblock]::Create((irm https://github.com/edgeetech/taksim-releases/releases/latest/download/install.ps1))) -AllowUnsigned",
-    "pinned": "& ([scriptblock]::Create((irm https://github.com/edgeetech/taksim-releases/releases/latest/download/install.ps1))) -Version v0.3.16 -NoSetup -AllowUnsigned"
+    "pinned": "& ([scriptblock]::Create((irm https://github.com/edgeetech/taksim-releases/releases/latest/download/install.ps1))) -Version v0.3.17 -NoSetup -AllowUnsigned"
   },
   "commands": [
     "budget",
     "budget clear",
+    "budget enforce",
     "budget set",
     "budget status",
     "cache-guard",
@@ -123,6 +124,7 @@
     "memory explain",
     "memory forget",
     "memory status",
+    "mode",
     "notify",
     "notify clear",
     "notify configure",
@@ -406,5 +408,5 @@
     }
   ],
   "source": "release-manifest",
-  "publishedAt": "2026-10-22T23:14:22Z"
+  "publishedAt": "2026-10-29T16:09:22Z"
 }
