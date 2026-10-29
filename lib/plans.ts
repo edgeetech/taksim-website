@@ -14,9 +14,12 @@ export const foundingOffer = {
   months: 12,
 } as const;
 
+// CEO decision 2026-10-29: everything that saves money or shows evidence is free; Pro and Team charge for
+// automation, enforcement and team features. Entitlement enforcement in the product stays off until the owner
+// sets a real public key and launches checkout, so today every command works without a licence.
 export const entitlements = {
-  pro: ['routing.auto', 'budget.enforce', 'digest.delivery', 'report.summaryHtml'],
-  team: ['report.team', 'budget.team'],
+  pro: ['budget.enforce', 'digest.delivery', 'report.summaryHtml', 'audit.native', 'support.priority'],
+  team: ['report.team', 'budget.team', 'policy.org'],
 } as const;
 
 export const freeFeatures = [
@@ -25,10 +28,21 @@ export const freeFeatures = [
   'free.insights',
   'free.judge',
   'free.memory',
+  'free.proof',
   'free.mode',
+  'free.routingAuto',
+  'free.routingSubscription',
   'free.budgetWarnings',
   'free.privacy',
 ] as const;
+
+// `taksim proof export` is built but not in a published release yet. While `shippedIn` is null the site says so
+// wherever it names the command. Set it to the first release version that contains the command; a test fails
+// if the synced release moves past the version the site was written for while this is still null.
+export const proofExport = {
+  shippedIn: null as string | null,
+  writtenForRelease: '0.3.17',
+} as const;
 
 export type EntitlementId = (typeof entitlements.pro)[number] | (typeof entitlements.team)[number];
 export type FreeFeatureId = (typeof freeFeatures)[number];

@@ -77,8 +77,11 @@ test('takes plan prices and the feature split from one constants file', async ()
   const { en } = await import('../lib/i18n/en.ts');
   const { tr } = await import('../lib/i18n/tr.ts');
   const { entitlements, freeFeatures, prices, foundingOffer } = await import('../lib/plans.ts');
-  assert.deepEqual(entitlements.pro, ['routing.auto', 'budget.enforce', 'digest.delivery', 'report.summaryHtml']);
-  assert.deepEqual(entitlements.team, ['report.team', 'budget.team']);
+  assert.deepEqual(entitlements.pro, ['budget.enforce', 'digest.delivery', 'report.summaryHtml', 'audit.native', 'support.priority']);
+  assert.deepEqual(entitlements.team, ['report.team', 'budget.team', 'policy.org']);
+  // Routing and the proof export are free; only enforcement, automation and team features are paid.
+  for (const id of ['free.mode', 'free.routingAuto', 'free.routingSubscription', 'free.proof']) assert.ok(freeFeatures.includes(id), id);
+  assert.ok(![...entitlements.pro, ...entitlements.team].some((id) => id.startsWith('routing.')));
   assert.deepEqual([prices.pro, prices.team, prices.teamMinDevelopers, prices.teamMinMonthly], [12, 18, 5, 90]);
   assert.equal(prices.teamMinDevelopers * prices.team, prices.teamMinMonthly);
   assert.deepEqual([foundingOffer.customers, foundingOffer.discountPercent, foundingOffer.months], [20, 50, 12]);

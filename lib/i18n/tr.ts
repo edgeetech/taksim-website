@@ -1,28 +1,36 @@
 // Turkish copy. Mirrors en.ts key-for-key; commands, prices and product names stay as in English.
 import type { Dictionary } from './en';
-import { entitlements, foundingOffer, freeFeatures, prices, type FeatureId } from '../plans.ts';
+import { entitlements, foundingOffer, freeFeatures, prices, proofExport, type FeatureId } from '../plans.ts';
+
+const proofPending = proofExport.shippedIn === null;
 
 const feature = {
   'free.history':
-    'Zaten sahip olduğunuz geçmişle çalışır: Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code, Pi ve Agent Workstation',
+    'Defter ve içe aktarma: zaten sahip olduğunuz geçmişle çalışır (Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code, Pi ve Agent Workstation)',
   'free.dashboard': 'Yerel dashboard, haftalık rapor, isteğe bağlı digest ve status line',
   'free.insights': 'Model, repo ve istemciye göre harcama, cache verimliliği ve subscription kota pencereleri',
   'free.judge':
     'İki judge consensus’u ve seçtiğiniz judge ile (oturum içi Claude veya Codex, Ollama, kendi API key’iniz) tur tur değerlendirme',
   'free.memory': 'Yerelde tutulan karar hafızası ve doğrulama kanıtı',
-  'free.mode':
-    'Elle ayarlanan `taksim mode` (economy, balanced, quality) ve Claude subscription’ında isteğe bağlı, yalnızca Claude modelleri arasında yönlendirme',
+  'free.proof': `Kanıt dışa aktarımı (\`taksim proof export\`): kendi rakamlarınızın, yayımlamaya uygun, maskelenmiş ve hash damgalı özeti${proofPending ? ' (geliştirme aşamasında; mevcut sürümde yok)' : ''}`,
+  'free.mode': '`taksim mode economy|balanced|quality` ile elle yönlendirme, yalnızca Claude modelleri',
+  'free.routingAuto':
+    'Sonuçlardan öğrenen otomatik yönlendirme (`taksim routing auto on`): yeni bağlamlar, kendi judge kararlarınızın desteklediği yerde daha ucuz bir Claude modeliyle başlar, hata sinyallerinde tekrar yukarı çıkar',
+  'free.routingSubscription':
+    'Claude Pro, Max veya Team girişinde isteğe bağlı, yalnızca Claude modelleri arasında yönlendirme (`taksim routing subscription on`)',
   'free.budgetWarnings': 'Geliştirici ve repo bazında bütçe uyarıları; uyarı hiçbir isteği engellemez',
   'free.privacy': 'Tasarımı gereği gizli: defterde prompt, yanıt veya kod yok',
-  'routing.auto':
-    'Sonuçlardan öğrenen otomatik yönlendirme (`taksim routing auto on`): yeni bağlamlar, kendi judge kararlarınızın desteklediği yerde daha ucuz bir Claude modeliyle başlar, hata sinyallerinde tekrar yukarı çıkar',
   'budget.enforce':
     'Daha ucuz bir Claude modeline inen ve hiçbir isteği engellemeyen bütçe sınırları (`taksim budget enforce --mode downgrade`)',
   'digest.delivery': 'Digest ve bütçe uyarılarının yapılandırdığınız Slack’e veya webhook’a iletilmesi (`taksim notify configure`)',
   'report.summaryHtml': 'Yazdırılabilir HTML sayfası olarak yönetici özeti raporu (`taksim report summary --html`)',
+  'audit.native':
+    'Başlık rakamının ötesinde native yönlendirici denetim ayrıntıları; Claude Code’un kendi yönlendirmesi ve `/advisor` için (planlanıyor; mevcut sürümde yok)',
+  'support.priority': 'Öncelikli destek',
   'report.team':
     'Geliştirici export’larından ekip toplu görünümü ve iç maliyet dağıtımı (`taksim report team`): repo ve göreve göre maliyet, barındırılan bir servis gerekmez. Her geliştirici export’unu paylaşmadan önce inceleyebilir; export’lar dosya yollarını değil, repo takma adlarını içerir',
   'budget.team': 'Geliştirici, repo ve ekip bazında ekip bütçeleri',
+  'policy.org': 'Kurum politikası: tüm ekip için tek bir yönlendirme ve bütçe kuralı seti (planlanıyor; mevcut sürümde yok)',
 } satisfies Record<FeatureId, string>;
 
 const featureList = (ids: readonly FeatureId[]) => ids.map((id) => feature[id]);
@@ -342,7 +350,7 @@ export const tr: Dictionary = {
       link: 'Gizlilik modelini okuyun',
       more: 'Neler saklanır, ayrıntılı',
     },
-    pricingTitle: 'Geliştiricilere ücretsiz. Otomasyon ve ekipler için ücretli.',
+    pricingTitle: 'Geliştiricilere ücretsiz. Zorlama ve ekipler için ücretli.',
     pricingMore: 'Planları karşılaştırın',
     faqTitle: 'Sorular',
     faqMore: 'Diğer sorular',
@@ -353,7 +361,7 @@ export const tr: Dictionary = {
       },
       {
         q: 'Ücretsiz sürümü işte kullanabilir miyim?',
-        a: 'Evet. CLI her birey için ücretsizdir. Pro ve Team, otomasyon ve ekip raporlaması ekler.',
+        a: 'Evet. CLI her birey için ücretsizdir. Yönlendirme ve kanıt dışa aktarımı da ücretsizdir. Pro zorlama ve otomasyon, Team ekip raporlaması ekler.',
       },
       {
         q: 'Makinemden dışarı bir şey çıkıyor mu?',
@@ -777,7 +785,7 @@ export const tr: Dictionary = {
       price: `$${prices.pro}`,
       per: 'aylık',
       badge: `İlk ${foundingOffer.customers} müşteriye ilk ${foundingOffer.months} ay için %${foundingOffer.discountPercent} indirim`,
-      sub: 'Tasarrufu yalnızca görmek değil, Taksim’in uygulamasını da isteyen tek bir geliştirici için.',
+      sub: 'Ücretsiz araçların üstüne zorlama ve otomasyon isteyen tek bir geliştirici için: alt modele inen bütçe sınırları, iletilen digest’ler, HTML özet ve öncelikli destek.',
       lead: 'Developer planındaki her şey, ayrıca:',
       features: featureList(entitlements.pro),
       cta: 'Kurucu müşteri yerinizi ayırtın',
@@ -795,14 +803,14 @@ export const tr: Dictionary = {
   },
 
   pricing: {
-    title: 'Geliştiricilere ücretsiz. Otomasyon ve ekipler için ücretli.',
-    lede: 'Developer planı, evde ya da işte, her birey için ücretsizdir: CLI’ı kurun ve kullanın, hesap gerekmez. Pro tek bir geliştirici için otomatik yönlendirme ve bütçe sınırları ekler; Team şirketler için ekip toplu görünümünü ekler.',
+    title: 'Geliştiricilere ücretsiz. Zorlama ve ekipler için ücretli.',
+    lede: 'Developer planı, evde ya da işte, her birey için ücretsizdir: CLI’ı kurun ve kullanın, hesap gerekmez. Para tasarrufu sağlayan ya da kanıt gösteren her şey ücretsizdir; yönlendirme ve kanıt dışa aktarımı dahil. Pro tek bir geliştirici için zorlama ve otomasyon ekler; Team şirketler için ekip toplu görünümünü ve politikayı ekler.',
     modesTitle: 'Taksim’in maliyeti nasıl saydığı, işin nasıl faturalandığına bağlıdır',
     faqTitle: 'Fiyatlandırma soruları',
     faq: [
       {
         q: 'Ücretsiz sürümü işte kullanabilir miyim?',
-        a: 'Evet. CLI her birey için ücretsizdir. Pro ve Team, otomasyon ve ekip raporlaması ekler.',
+        a: 'Evet. CLI her birey için ücretsizdir. Yönlendirme ve kanıt dışa aktarımı da ücretsizdir. Pro zorlama ve otomasyon, Team ekip raporlaması ekler.',
       },
       {
         q: 'Bugün bir plan satın alabilir miyim?',
@@ -822,7 +830,7 @@ export const tr: Dictionary = {
       },
       {
         q: 'Ücretli bir plan sona erince ne olur?',
-        a: 'Hiçbir şey bozulmaz. Pro ve Team özellikleri kapanır: otomatik yönlendirme ve bütçe sınırında alt modele inme durur; istekler elle seçtiğiniz `taksim mode` ayarına göre gider ya da değiştirilmeden geçer. Yerel verileriniz olduğu gibi kalır, Claude hiçbir zaman engellenmez ve Developer özellikleri çalışmaya devam eder.',
+        a: 'Hiçbir şey bozulmaz. Pro ve Team özellikleri kapanır: bütçe sınırında alt modele inme, digest iletimi ve HTML özet durur; bütçeler yeniden uyarıya döner. Yönlendirme, defter ve kanıt dışa aktarımı ücretsiz olduğu için çalışmaya devam eder. Yerel verileriniz olduğu gibi kalır ve Claude hiçbir zaman engellenmez.',
       },
       {
         q: 'Aktif geliştirici nasıl sayılır?',
@@ -1369,7 +1377,7 @@ export const tr: Dictionary = {
       'Taksim’i kurun ve doğrudan çalıştırın. Taksim girişi ve Taksim sunucusu yoktur; her şey sizin makinenizde çalışır.',
     plan: {
       title: '1. Planınızı doğrulayın',
-      body: 'Taksim CLI, evde ya da işte, her bireysel geliştirici için ücretsizdir. Pro ve Team, otomasyon ve ekip raporlaması ekleyen ücretli planlardır.',
+      body: 'Taksim CLI, evde ya da işte, her bireysel geliştirici için ücretsizdir. Pro ve Team, zorlama, otomasyon ve ekip raporlaması ekleyen ücretli planlardır; yönlendirme ve kanıt dışa aktarımı ücretsiz kalır.',
       selfTitle: 'Kendim için kuruyorum',
       selfSub: 'Ücretsiz CLI ile devam edin',
       teamTitle: 'Ekibim için kuruyorum',

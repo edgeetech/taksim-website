@@ -1,28 +1,36 @@
 // English copy. Every string shown on the site lives here; tr.ts mirrors this shape.
 // Inline markup understood by <Rich>: `code`, **bold**, [label](href).
-import { entitlements, foundingOffer, freeFeatures, prices, type FeatureId } from '../plans.ts';
+import { entitlements, foundingOffer, freeFeatures, prices, proofExport, type FeatureId } from '../plans.ts';
+
+const proofPending = proofExport.shippedIn === null;
 
 const feature = {
   'free.history':
-    'Works with the history you already have: Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code, Pi and Agent Workstation',
+    'The ledger and imports: works with the history you already have (Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code, Pi and Agent Workstation)',
   'free.dashboard': 'Local dashboard, weekly report, on-demand digest and status line',
   'free.insights': 'Spend by model, repo and client, cache efficiency and subscription quota windows',
   'free.judge':
     'Turn-by-turn judging with two-judge consensus and your choice of judge (in-session Claude or Codex, Ollama, your own API key)',
   'free.memory': 'Decision memory and verification evidence, kept locally',
-  'free.mode':
-    'Manual `taksim mode` (economy, balanced, quality) and opt-in Claude-only routing on a Claude subscription',
+  'free.proof': `Proof export (\`taksim proof export\`): a redacted, hash-stamped summary of your own numbers that is safe to publish${proofPending ? ' (in development; not in the current release)' : ''}`,
+  'free.mode': 'Manual routing with `taksim mode economy|balanced|quality`, Claude models only',
+  'free.routingAuto':
+    'Automatic outcome-learned routing (`taksim routing auto on`): fresh contexts start on a cheaper Claude model where your own verdicts support it, and step back up on failure signals',
+  'free.routingSubscription':
+    'Opt-in Claude-only routing on a Claude Pro, Max or Team login (`taksim routing subscription on`)',
   'free.budgetWarnings': 'Budget warnings by developer and repo; a warning never blocks a request',
   'free.privacy': 'Private by design: no prompts, responses or code in the ledger',
-  'routing.auto':
-    'Automatic outcome-learned routing (`taksim routing auto on`): fresh contexts start on a cheaper Claude model where your own verdicts support it, and step back up on failure signals',
   'budget.enforce':
     'Budget caps that step down to a cheaper Claude model and never block a request (`taksim budget enforce --mode downgrade`)',
   'digest.delivery': 'Digest and budget alerts delivered to Slack or a webhook you configure (`taksim notify configure`)',
   'report.summaryHtml': 'Executive summary report as a printable HTML page (`taksim report summary --html`)',
+  'audit.native':
+    'Native-router audit details beyond the headline figure, for Claude Code’s own routing and `/advisor` (planned; not in the current release)',
+  'support.priority': 'Priority support',
   'report.team':
     'Team roll-up and chargeback from developer exports (`taksim report team`): cost by repo and task, no hosted service required. Each developer can inspect their export before sharing; exports carry repo aliases, never paths',
   'budget.team': 'Team budgets by developer, repo and team',
+  'policy.org': 'Org policy: one set of routing and budget rules for the whole team (planned; not in the current release)',
 } satisfies Record<FeatureId, string>;
 
 const featureList = (ids: readonly FeatureId[]) => ids.map((id) => feature[id]);
@@ -342,7 +350,7 @@ export const en = {
       link: 'Read the privacy model',
       more: 'What is stored, in detail',
     },
-    pricingTitle: 'Free for developers. Paid for automation and teams.',
+    pricingTitle: 'Free for developers. Paid for enforcement and teams.',
     pricingMore: 'Compare plans',
     faqTitle: 'Questions',
     faqMore: 'More questions',
@@ -353,7 +361,7 @@ export const en = {
       },
       {
         q: 'Can I use the free version at work?',
-        a: 'Yes. The CLI is free for any individual. Pro and Team add automation and team reporting.',
+        a: 'Yes. The CLI is free for any individual. Routing and the proof export are free too. Pro adds enforcement and automation, and Team adds team reporting.',
       },
       {
         q: 'Does anything leave my machine?',
@@ -776,7 +784,7 @@ export const en = {
       price: `$${prices.pro}`,
       per: 'per month',
       badge: `First ${foundingOffer.customers} customers: ${foundingOffer.discountPercent}% off for the first ${foundingOffer.months} months`,
-      sub: 'For one developer who wants Taksim to apply the savings, not only report them.',
+      sub: 'For one developer who wants enforcement and automation on top of the free tools: budget caps that step down, delivered digests, the HTML summary and priority support.',
       lead: 'Everything in Developer, plus:',
       features: featureList(entitlements.pro),
       cta: 'Reserve a founding seat',
@@ -794,14 +802,14 @@ export const en = {
   },
 
   pricing: {
-    title: 'Free for developers. Paid for automation and teams.',
-    lede: 'The Developer plan is free for any individual, at home or at work: install the CLI and use it, no account required. Pro adds automatic routing and budget caps for one developer; Team adds the roll-up for companies.',
+    title: 'Free for developers. Paid for enforcement and teams.',
+    lede: 'The Developer plan is free for any individual, at home or at work: install the CLI and use it, no account required. Everything that saves money or shows evidence is free, including routing and the proof export. Pro adds enforcement and automation for one developer; Team adds the roll-up and policy for companies.',
     modesTitle: 'How Taksim counts cost depends on how the work is billed',
     faqTitle: 'Pricing questions',
     faq: [
       {
         q: 'Can I use the free version at work?',
-        a: 'Yes. The CLI is free for any individual. Pro and Team add automation and team reporting.',
+        a: 'Yes. The CLI is free for any individual. Routing and the proof export are free too. Pro adds enforcement and automation, and Team adds team reporting.',
       },
       {
         q: 'Can I buy a plan today?',
@@ -821,7 +829,7 @@ export const en = {
       },
       {
         q: 'What happens when a paid plan lapses?',
-        a: 'Nothing breaks. The Pro and Team features switch off: automatic routing and budget step-down stop, and requests follow your manual `taksim mode` setting or pass through unchanged. Your local data is left untouched, Claude is never blocked, and the Developer features keep working.',
+        a: 'Nothing breaks. The Pro and Team features switch off: budget step-down enforcement, digest delivery and the HTML summary stop, and budgets go back to warnings. Routing, the ledger and the proof export are free, so they keep working. Your local data is left untouched and Claude is never blocked.',
       },
       {
         q: 'How is an active developer counted?',
@@ -1367,7 +1375,7 @@ export const en = {
       'Install and run Taksim directly. There is no Taksim sign-in and no Taksim server; everything runs on your machine.',
     plan: {
       title: '1. Confirm your plan',
-      body: 'The Taksim CLI is free for any individual developer, at home or at work. Pro and Team are paid plans that add automation and team reporting.',
+      body: 'The Taksim CLI is free for any individual developer, at home or at work. Pro and Team are paid plans that add enforcement, automation and team reporting; routing and the proof export stay free.',
       selfTitle: 'Install for myself',
       selfSub: 'Continue with the free CLI',
       teamTitle: 'Set up my team',
