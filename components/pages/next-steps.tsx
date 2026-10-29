@@ -13,6 +13,9 @@ taksim judge status`,
   budget: `taksim budget set --monthly 200
 taksim budget set --scope repo --name <repo-alias> --daily 20
 taksim budget status`,
+  budgetEnforce: `taksim budget enforce --mode downgrade
+taksim budget enforce --mode downgrade --at 90 --to haiku
+taksim budget enforce --mode off`,
   digest: `taksim digest
 taksim digest --since 30d --format html`,
   notify: `taksim notify configure --slack-webhook <your-slack-webhook-url>
@@ -30,6 +33,8 @@ taksim insights anomalies --since 7d`,
   routingRecommend: `taksim routing recommend`,
   routingAuto: `taksim routing auto on
 taksim routing auto status`,
+  mode: `taksim mode economy
+taksim mode`,
   downgrades: `taksim diagnostics downgrades`,
   desktop: `taksim desktop on
 taksim desktop status
@@ -80,6 +85,8 @@ export function NextStepsPage({ locale }: { locale: Locale }) {
           <h2>{t.budgets.title}</h2>
           <p>{rich(t.budgets.body)}</p>
           <Commands text={commands.budget} />
+          <p>{rich(t.budgets.enforce)}</p>
+          <Commands text={commands.budgetEnforce} />
           <p>{rich(t.budgets.digest)}</p>
           <Commands text={commands.digest} />
           <p>{rich(t.budgets.notify)}</p>
@@ -108,6 +115,9 @@ export function NextStepsPage({ locale }: { locale: Locale }) {
           <Commands text={commands.routingRecommend} />
           <p>{rich(t.routing.auto)}</p>
           <Commands text={commands.routingAuto} />
+          <p>{rich(t.routing.modes)}</p>
+          <Commands text={commands.mode} />
+          <p>{rich(t.routing.advisor)}</p>
           <p>{rich(t.routing.escalation)}</p>
           <Commands text={commands.downgrades} />
         </section>
