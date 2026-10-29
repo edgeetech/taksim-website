@@ -102,15 +102,17 @@ test('takes plan prices and the feature split from one constants file', async ()
 test('offers Pro, Team and security intents on the contact form, prefilled from the URL', async () => {
   const form = await source('components/contact-form.tsx');
   const plans = await source('components/pricing-plans.tsx');
+  const { en } = await import('../lib/i18n/en.ts');
   assert.match(form, /URLSearchParams\(window\.location\.search\)\.get\('intent'\)/);
-  for (const label of ['Pro founding seat', 'Team pilot', 'Security question']) assert.ok(form.includes(label), label);
+  assert.deepEqual(Object.values(en.contact.form.intents), ['Pro founding seat', 'Team pilot', 'Security question']);
+  assert.deepEqual(Object.keys(en.contact.form.intents), ['pro', 'team', 'security']);
   for (const option of ['<option>1</option>', '2–4', '5–10', '11–50', '50+', '$500–2k', '$2–10k', '$10k+']) {
     assert.ok(form.includes(option), option);
   }
   assert.doesNotMatch(form, /\$100k|\$50k/);
   assert.match(form, /Taksim: \$\{intentLabel\}/);
   assert.match(form, /info@edgee\.tech/);
-  assert.match(form, /Copy address/);
+  assert.equal(en.contact.form.copy, 'Copy address');
   assert.match(plans, /\/contact\?intent=pro/);
   assert.match(plans, /\/contact\?intent=team/);
 });

@@ -1,47 +1,31 @@
-// English only for now; locale routes show UntranslatedNote above it.
 import { ContactForm } from '@/components/contact-form';
-import type { Locale } from '@/lib/i18n';
+import { getDictionary, type Locale } from '@/lib/i18n';
+
 export function ContactPage({ locale }: { locale: Locale }) {
+  const t = getDictionary(locale).contact;
   return (
     <main>
       <section className="page-hero">
         <div className="shell">
-          <p className="eyebrow">Founding seats and team pilots</p>
-          <h1>Reserve a seat, start a pilot, or ask a question.</h1>
-          <p>
-            Paid plans are not on sale yet. Reserve a Pro founding seat or
-            start a Team pilot and we will contact you when billing opens;
-            reserving costs nothing.
-          </p>
+          <p className="eyebrow">{t.eyebrow}</p>
+          <h1>{t.title}</h1>
+          <p>{t.lede}</p>
         </div>
       </section>
       <section className="content-section">
         <div className="shell contact-layout">
-          <ContactForm locale={locale} />
+          <ContactForm locale={locale} copy={t.form} />
           <aside>
-            <p className="eyebrow">What happens next</p>
+            <p className="eyebrow">{t.next.title}</p>
             <ol>
-              <li>
-                <span>01</span>
-                <strong>Usage and constraints</strong>
-              </li>
-              <li>
-                <span>02</span>
-                <strong>Opportunity review</strong>
-              </li>
-              <li>
-                <span>03</span>
-                <strong>Pilot discussion</strong>
-              </li>
-              <li>
-                <span>04</span>
-                <strong>Team deployment, if suitable</strong>
-              </li>
+              {t.next.steps.map((step, index) => (
+                <li key={step}>
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <strong>{step}</strong>
+                </li>
+              ))}
             </ol>
-            <p>
-              Do not send prompts, source code, diffs, credentials, provider
-              keys, or raw session exports.
-            </p>
+            <p>{t.next.warning}</p>
           </aside>
         </div>
       </section>
