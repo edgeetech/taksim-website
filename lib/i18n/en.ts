@@ -1,5 +1,31 @@
 // English copy. Every string shown on the site lives here; tr.ts mirrors this shape.
 // Inline markup understood by <Rich>: `code`, **bold**, [label](href).
+import { entitlements, foundingOffer, freeFeatures, prices, type FeatureId } from '../plans.ts';
+
+const feature = {
+  'free.history':
+    'Works with the history you already have: Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code, Pi and Agent Workstation',
+  'free.dashboard': 'Local dashboard, weekly report, on-demand digest and status line',
+  'free.insights': 'Spend by model, repo and client, cache efficiency and subscription quota windows',
+  'free.judge':
+    'Turn-by-turn judging with two-judge consensus and your choice of judge (in-session Claude or Codex, Ollama, your own API key)',
+  'free.memory': 'Decision memory and verification evidence, kept locally',
+  'free.mode':
+    'Manual `taksim mode` (economy, balanced, quality) and opt-in Claude-only routing on a Claude subscription',
+  'free.budgetWarnings': 'Budget warnings by developer and repo; a warning never blocks a request',
+  'free.privacy': 'Private by design: no prompts, responses or code in the ledger',
+  'routing.auto':
+    'Automatic outcome-learned routing (`taksim routing auto on`): fresh contexts start on a cheaper Claude model where your own verdicts support it, and step back up on failure signals',
+  'budget.enforce':
+    'Budget caps that step down to a cheaper Claude model and never block a request (`taksim budget enforce --mode downgrade`)',
+  'digest.delivery': 'Digest and budget alerts delivered to Slack or a webhook you configure (`taksim notify configure`)',
+  'report.summaryHtml': 'Executive summary report as a printable HTML page (`taksim report summary --html`)',
+  'report.team':
+    'Team roll-up and chargeback from developer exports (`taksim report team`): cost by repo and task, no hosted service required. Each developer can inspect their export before sharing; exports carry repo aliases, never paths',
+  'budget.team': 'Team budgets by developer, repo and team',
+} satisfies Record<FeatureId, string>;
+
+const featureList = (ids: readonly FeatureId[]) => ids.map((id) => feature[id]);
 
 export const en = {
   meta: {
@@ -11,7 +37,7 @@ export const en = {
       pricing: {
         title: 'Pricing',
         description:
-          'The Taksim CLI is free for any individual developer, at home or at work. Team: $8 per active developer per month, $99 minimum.',
+          `The Taksim CLI is free for any individual developer, at home or at work. Pro: $${prices.pro} per month. Team: $${prices.team} per active developer per month, ${prices.teamMinDevelopers}-developer minimum.`,
       },
       docs: {
         title: 'Documentation',
@@ -26,7 +52,7 @@ export const en = {
       terms: {
         title: 'Terms',
         description:
-          'Preview terms describing free developer use, Team use, third-party providers, verification, and economics boundaries.',
+          'Preview terms describing free developer use, paid plans, third-party providers, verification, and economics boundaries.',
       },
       quickStart: {
         title: 'Easy install',
@@ -293,7 +319,7 @@ export const en = {
       link: 'Read the privacy model',
       more: 'What is stored, in detail',
     },
-    pricingTitle: 'Free for developers. Paid for teams.',
+    pricingTitle: 'Free for developers. Paid for automation and teams.',
     pricingMore: 'Compare plans',
     faqTitle: 'Questions',
     faqMore: 'More questions',
@@ -304,7 +330,7 @@ export const en = {
       },
       {
         q: 'Can I use the free version at work?',
-        a: 'Yes. The CLI is free for any individual. Team features are what companies pay for.',
+        a: 'Yes. The CLI is free for any individual. Pro and Team add automation and team reporting.',
       },
       {
         q: 'Does anything leave my machine?',
@@ -593,42 +619,44 @@ export const en = {
       price: 'Free',
       sub: 'Free for any individual, at home or at work.',
       value: 'Install it and use it. No account and no card required.',
-      features: [
-        'Works with the history you already have: Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code, Pi and Agent Workstation',
-        'Local dashboard, weekly report, digest and status line',
-        'Spend by model, repo and client, cache efficiency and subscription quota windows',
-        'Turn-by-turn judging with two-judge consensus and your choice of judge (in-session Claude or Codex, Ollama, your own API key)',
-        'Decision memory and verification evidence, kept locally',
-        'Optional live routing for traffic billed to your own API key',
-        'Private by design: no prompts, responses or code in the ledger',
-      ],
+      features: featureList(freeFeatures),
       cta: 'Get Taksim free',
+    },
+    pro: {
+      name: 'Pro',
+      price: `$${prices.pro}`,
+      per: 'per month',
+      badge: `First ${foundingOffer.customers} customers: ${foundingOffer.discountPercent}% off for the first ${foundingOffer.months} months`,
+      sub: 'For one developer who wants Taksim to apply the savings, not only report them.',
+      lead: 'Everything in Developer, plus:',
+      features: featureList(entitlements.pro),
+      cta: 'Reserve a founding seat',
     },
     team: {
       name: 'Team',
-      price: '$8',
+      price: `$${prices.team}`,
       per: 'per active developer per month',
-      sub: '$99 per month minimum. 20% off with annual billing.',
-      features: [
-        'Team roll-up from developer exports, no hosted service required',
-        'Weekly savings digest for the team lead',
-        'Cost by repo and task, for chargeback or client rebilling',
-        'Budget warnings by developer, repo and team (informational; nothing is blocked)',
-        'Each developer creates their export and can inspect it before sharing; exports carry repo aliases, never paths',
-      ],
+      sub: `${prices.teamMinDevelopers}-developer minimum ($${prices.teamMinMonthly}/month)`,
+      lead: 'Everything in Pro, plus:',
+      features: featureList(entitlements.team),
       cta: 'Start a team pilot',
     },
+    billingNote: 'Billing opens when checkout is live; reserving costs nothing.',
   },
 
   pricing: {
-    title: 'Free for developers. Paid for teams.',
-    lede: 'The Developer plan is free for any individual, at home or at work: install the CLI and use it, no account required. Companies pay for the team roll-up.',
+    title: 'Free for developers. Paid for automation and teams.',
+    lede: 'The Developer plan is free for any individual, at home or at work: install the CLI and use it, no account required. Pro adds automatic routing and budget caps for one developer; Team adds the roll-up for companies.',
     modesTitle: 'How Taksim counts cost depends on how the work is billed',
     faqTitle: 'Pricing questions',
     faq: [
       {
         q: 'Can I use the free version at work?',
-        a: 'Yes. The CLI is free for any individual. Team features are what companies pay for.',
+        a: 'Yes. The CLI is free for any individual. Pro and Team add automation and team reporting.',
+      },
+      {
+        q: 'Can I buy a plan today?',
+        a: 'Not yet. Paid plans are not on sale until checkout is live. Reserve a founding seat or start a team pilot through the [contact form](/contact); reserving costs nothing and does not charge you. The first 20 customers get 50% off for the first 12 months.',
       },
       {
         q: 'Does Taksim change my model on a Claude or ChatGPT subscription?',
@@ -641,6 +669,14 @@ export const en = {
       {
         q: 'Does anything leave my machine?',
         a: 'Not unless you choose a judge that runs remotely (your own API key or Jev) or share a team export. Exports contain metadata only.',
+      },
+      {
+        q: 'What happens when a paid plan lapses?',
+        a: 'Nothing breaks. Routing returns to plain pass-through, your local data is left untouched, and Claude is never blocked. The Developer features keep working.',
+      },
+      {
+        q: 'How is an active developer counted?',
+        a: 'An active developer is one person who uses Taksim on their own machine during the month. Each person counts once, whatever the number of repos or clients, and the Team plan has a 5-developer minimum ($90 per month). The exact seat terms are confirmed before billing opens.',
       },
     ],
   },
@@ -1145,7 +1181,7 @@ export const en = {
       'Install and run Taksim directly. There is no Taksim sign-in and no Taksim server; everything runs on your machine.',
     plan: {
       title: '1. Confirm your plan',
-      body: 'The Taksim CLI is free for any individual developer, at home or at work. Team features such as the team roll-up are paid.',
+      body: 'The Taksim CLI is free for any individual developer, at home or at work. Pro and Team are paid plans that add automation and team reporting.',
       selfTitle: 'Install for myself',
       selfSub: 'Continue with the free CLI',
       teamTitle: 'Set up my team',

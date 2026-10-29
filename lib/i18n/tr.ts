@@ -1,5 +1,31 @@
 // Turkish copy. Mirrors en.ts key-for-key; commands, prices and product names stay as in English.
 import type { Dictionary } from './en';
+import { entitlements, foundingOffer, freeFeatures, prices, type FeatureId } from '../plans.ts';
+
+const feature = {
+  'free.history':
+    'Zaten sahip olduğunuz geçmişle çalışır: Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code, Pi ve Agent Workstation',
+  'free.dashboard': 'Yerel dashboard, haftalık rapor, isteğe bağlı digest ve status line',
+  'free.insights': 'Model, repo ve istemciye göre harcama, cache verimliliği ve subscription kota pencereleri',
+  'free.judge':
+    'İki judge consensus’u ve seçtiğiniz judge ile (oturum içi Claude veya Codex, Ollama, kendi API key’iniz) tur tur değerlendirme',
+  'free.memory': 'Yerelde tutulan karar hafızası ve doğrulama kanıtı',
+  'free.mode':
+    'Elle ayarlanan `taksim mode` (economy, balanced, quality) ve Claude subscription’ında isteğe bağlı, yalnızca Claude modelleri arasında yönlendirme',
+  'free.budgetWarnings': 'Geliştirici ve repo bazında bütçe uyarıları; uyarı hiçbir isteği engellemez',
+  'free.privacy': 'Tasarımı gereği gizli: defterde prompt, yanıt veya kod yok',
+  'routing.auto':
+    'Sonuçlardan öğrenen otomatik yönlendirme (`taksim routing auto on`): yeni bağlamlar, kendi judge kararlarınızın desteklediği yerde daha ucuz bir Claude modeliyle başlar, hata sinyallerinde tekrar yukarı çıkar',
+  'budget.enforce':
+    'Daha ucuz bir Claude modeline inen ve hiçbir isteği engellemeyen bütçe sınırları (`taksim budget enforce --mode downgrade`)',
+  'digest.delivery': 'Digest ve bütçe uyarılarının yapılandırdığınız Slack’e veya webhook’a iletilmesi (`taksim notify configure`)',
+  'report.summaryHtml': 'Yazdırılabilir HTML sayfası olarak yönetici özeti raporu (`taksim report summary --html`)',
+  'report.team':
+    'Geliştirici export’larından ekip toplu görünümü ve iç maliyet dağıtımı (`taksim report team`): repo ve göreve göre maliyet, barındırılan bir servis gerekmez. Her geliştirici export’unu paylaşmadan önce inceleyebilir; export’lar dosya yollarını değil, repo takma adlarını içerir',
+  'budget.team': 'Geliştirici, repo ve ekip bazında ekip bütçeleri',
+} satisfies Record<FeatureId, string>;
+
+const featureList = (ids: readonly FeatureId[]) => ids.map((id) => feature[id]);
 
 export const tr: Dictionary = {
   meta: {
@@ -11,7 +37,7 @@ export const tr: Dictionary = {
       pricing: {
         title: 'Fiyatlandırma',
         description:
-          'Taksim CLI, evde ya da işte, her bireysel geliştirici için ücretsizdir. Team: aktif geliştirici başına aylık $8, en az $99.',
+          `Taksim CLI, evde ya da işte, her bireysel geliştirici için ücretsizdir. Pro: aylık $${prices.pro}. Team: aktif geliştirici başına aylık $${prices.team}, en az ${prices.teamMinDevelopers} geliştirici.`,
       },
       docs: {
         title: 'Dokümantasyon',
@@ -26,7 +52,7 @@ export const tr: Dictionary = {
       terms: {
         title: 'Koşullar',
         description:
-          'Ücretsiz geliştirici kullanımı, Team kullanımı, üçüncü taraf sağlayıcılar, doğrulama ve ekonomik sınırları açıklayan önizleme koşulları.',
+          'Ücretsiz geliştirici kullanımı, ücretli planlar, üçüncü taraf sağlayıcılar, doğrulama ve ekonomik sınırları açıklayan önizleme koşulları.',
       },
       quickStart: {
         title: 'Kolay kurulum',
@@ -293,7 +319,7 @@ export const tr: Dictionary = {
       link: 'Gizlilik modelini okuyun',
       more: 'Neler saklanır, ayrıntılı',
     },
-    pricingTitle: 'Geliştiricilere ücretsiz. Ekiplere ücretli.',
+    pricingTitle: 'Geliştiricilere ücretsiz. Otomasyon ve ekipler için ücretli.',
     pricingMore: 'Planları karşılaştırın',
     faqTitle: 'Sorular',
     faqMore: 'Diğer sorular',
@@ -304,7 +330,7 @@ export const tr: Dictionary = {
       },
       {
         q: 'Ücretsiz sürümü işte kullanabilir miyim?',
-        a: 'Evet. CLI her birey için ücretsizdir. Şirketlerin ödeme yaptığı şey Team özellikleridir.',
+        a: 'Evet. CLI her birey için ücretsizdir. Pro ve Team, otomasyon ve ekip raporlaması ekler.',
       },
       {
         q: 'Makinemden dışarı bir şey çıkıyor mu?',
@@ -593,42 +619,44 @@ export const tr: Dictionary = {
       price: 'Ücretsiz',
       sub: 'Evde ya da işte, her birey için ücretsiz.',
       value: 'Kurun ve kullanın. Hesap ya da kart gerekmez.',
-      features: [
-        'Zaten sahip olduğunuz geçmişle çalışır: Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code, Pi ve Agent Workstation',
-        'Yerel dashboard, haftalık rapor, digest ve status line',
-        'Model, repo ve istemciye göre harcama, cache verimliliği ve subscription kota pencereleri',
-        'İki judge consensus’u ve seçtiğiniz judge ile (oturum içi Claude veya Codex, Ollama, kendi API key’iniz) tur tur değerlendirme',
-        'Yerelde tutulan karar hafızası ve doğrulama kanıtı',
-        'Kendi API key’inize faturalanan trafik için isteğe bağlı canlı yönlendirme',
-        'Tasarımı gereği gizli: defterde prompt, yanıt veya kod yok',
-      ],
+      features: featureList(freeFeatures),
       cta: 'Taksim’i ücretsiz edinin',
+    },
+    pro: {
+      name: 'Pro',
+      price: `$${prices.pro}`,
+      per: 'aylık',
+      badge: `İlk ${foundingOffer.customers} müşteriye ilk ${foundingOffer.months} ay için %${foundingOffer.discountPercent} indirim`,
+      sub: 'Tasarrufu yalnızca görmek değil, Taksim’in uygulamasını da isteyen tek bir geliştirici için.',
+      lead: 'Developer planındaki her şey, ayrıca:',
+      features: featureList(entitlements.pro),
+      cta: 'Kurucu koltuğunu ayırtın',
     },
     team: {
       name: 'Team',
-      price: '$8',
+      price: `$${prices.team}`,
       per: 'aktif geliştirici başına, aylık',
-      sub: 'Aylık en az $99. Yıllık faturalandırmada %20 indirim.',
-      features: [
-        'Geliştirici export’larından ekip toplu görünümü; barındırılan bir servis gerekmez',
-        'Ekip lideri için haftalık tasarruf özeti',
-        'İç maliyet dağıtımı veya müşteriye yeniden faturalandırma için repo ve göreve göre maliyet',
-        'Geliştirici, repo ve ekip bazında bütçe uyarıları (bilgilendirme amaçlı; hiçbir şey engellenmez)',
-        'Her geliştirici kendi export’unu oluşturur ve paylaşmadan önce inceleyebilir; export’lar dosya yollarını değil, repo takma adlarını içerir',
-      ],
+      sub: `En az ${prices.teamMinDevelopers} geliştirici (aylık $${prices.teamMinMonthly})`,
+      lead: 'Pro planındaki her şey, ayrıca:',
+      features: featureList(entitlements.team),
       cta: 'Ekip pilotu başlatın',
     },
+    billingNote: 'Faturalandırma, ödeme sayfası yayına girdiğinde başlar; yer ayırtmak ücretsizdir.',
   },
 
   pricing: {
-    title: 'Geliştiricilere ücretsiz. Ekiplere ücretli.',
-    lede: 'Developer planı, evde ya da işte, her birey için ücretsizdir: CLI’ı kurun ve kullanın, hesap gerekmez. Şirketler ekip toplu görünümü için ödeme yapar.',
+    title: 'Geliştiricilere ücretsiz. Otomasyon ve ekipler için ücretli.',
+    lede: 'Developer planı, evde ya da işte, her birey için ücretsizdir: CLI’ı kurun ve kullanın, hesap gerekmez. Pro tek bir geliştirici için otomatik yönlendirme ve bütçe sınırları ekler; Team şirketler için ekip toplu görünümünü ekler.',
     modesTitle: 'Taksim’in maliyeti nasıl saydığı, işin nasıl faturalandığına bağlıdır',
     faqTitle: 'Fiyatlandırma soruları',
     faq: [
       {
         q: 'Ücretsiz sürümü işte kullanabilir miyim?',
-        a: 'Evet. CLI her birey için ücretsizdir. Şirketlerin ödeme yaptığı şey Team özellikleridir.',
+        a: 'Evet. CLI her birey için ücretsizdir. Pro ve Team, otomasyon ve ekip raporlaması ekler.',
+      },
+      {
+        q: 'Bugün bir plan satın alabilir miyim?',
+        a: 'Henüz hayır. Ödeme sayfası yayına girene kadar ücretli planlar satışta değildir. [İletişim formu](/contact) üzerinden kurucu koltuğu ayırtın veya ekip pilotu başlatın; yer ayırtmak ücretsizdir ve sizden ödeme alınmaz. İlk 20 müşteriye ilk 12 ay için %50 indirim uygulanır.',
       },
       {
         q: 'Taksim, Claude veya ChatGPT subscription’ımda modelimi değiştirir mi?',
@@ -641,6 +669,14 @@ export const tr: Dictionary = {
       {
         q: 'Makinemden dışarı bir şey çıkıyor mu?',
         a: 'Uzakta çalışan bir judge (kendi API key’iniz veya Jev) seçmediğiniz ya da bir ekip export’u paylaşmadığınız sürece hayır. Export’lar yalnızca metadata içerir.',
+      },
+      {
+        q: 'Ücretli bir plan sona erince ne olur?',
+        a: 'Hiçbir şey bozulmaz. Yönlendirme düz geçişe (pass-through) döner, yerel verileriniz olduğu gibi kalır ve Claude hiçbir zaman engellenmez. Developer özellikleri çalışmaya devam eder.',
+      },
+      {
+        q: 'Aktif geliştirici nasıl sayılır?',
+        a: 'Aktif geliştirici, ay içinde Taksim’i kendi makinesinde kullanan kişidir. Repo veya istemci sayısı ne olursa olsun her kişi bir kez sayılır; Team planında en az 5 geliştirici ($90, aylık) koşulu vardır. Tam koltuk koşulları faturalandırma başlamadan önce netleştirilir.',
       },
     ],
   },
@@ -1146,7 +1182,7 @@ export const tr: Dictionary = {
       'Taksim’i kurun ve doğrudan çalıştırın. Taksim girişi ve Taksim sunucusu yoktur; her şey sizin makinenizde çalışır.',
     plan: {
       title: '1. Planınızı doğrulayın',
-      body: 'Taksim CLI, evde ya da işte, her bireysel geliştirici için ücretsizdir. Ekip toplu görünümü gibi Team özellikleri ücretlidir.',
+      body: 'Taksim CLI, evde ya da işte, her bireysel geliştirici için ücretsizdir. Pro ve Team, otomasyon ve ekip raporlaması ekleyen ücretli planlardır.',
       selfTitle: 'Kendim için kuruyorum',
       selfSub: 'Ücretsiz CLI ile devam edin',
       teamTitle: 'Ekibim için kuruyorum',

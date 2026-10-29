@@ -2196,7 +2196,7 @@ h3 {
 
 .plans {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
 }
 .plan {
@@ -2208,7 +2208,7 @@ h3 {
   border-radius: 16px;
   background: var(--surface);
 }
-.plan-team {
+.plan-pro {
   border-color: rgba(37, 97, 139, 0.4);
   background: var(--accent-soft);
   box-shadow: none;
@@ -2241,6 +2241,27 @@ h3 {
 .plan-sub {
   margin: 0;
   color: var(--muted);
+}
+.plan-badge {
+  display: inline-block;
+  margin: 0 0 12px;
+  padding: 4px 10px;
+  border: 1px solid rgba(37, 97, 139, 0.4);
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.plan-lead {
+  margin: 0 0 -16px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.plans-note {
+  margin: 20px 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
 }
 .plan-features {
   display: grid;
@@ -2428,7 +2449,7 @@ h3 {
     border-top: 1px solid rgba(23, 33, 43, 0.1);
   }
 }
-@media (max-width: 760px) {
+@media (max-width: 1000px) {
   .plans {
     grid-template-columns: 1fr;
   }

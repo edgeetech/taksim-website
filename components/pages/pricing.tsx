@@ -1,4 +1,5 @@
 import { EconomicModes } from '@/components/economic-modes';
+import { Rich } from '@/components/rich';
 import { PricingPlans } from '@/components/pricing-plans';
 import { getDictionary, type Locale } from '@/lib/i18n';
 
@@ -32,7 +33,9 @@ export function PricingPage({ locale }: { locale: Locale }) {
             {t.faq.map(({ q, a }) => (
               <details key={q}>
                 <summary>{q}</summary>
-                <p>{a}</p>
+                <p>
+                  <Rich text={a} locale={locale} />
+                </p>
               </details>
             ))}
           </div>

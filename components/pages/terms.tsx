@@ -1,4 +1,6 @@
 // English only for now; locale routes show UntranslatedNote above it.
+import { foundingOffer, prices } from '@/lib/plans';
+
 export function TermsPage() {
   return (
     <main>
@@ -32,12 +34,18 @@ export function TermsPage() {
             developer, including for work performed for an employer or client.
             No Taksim account is required.
           </p>
-          <h2>3. Team use</h2>
+          <h2>3. Paid plans</h2>
           <p>
-            Team features, such as the team roll-up across developer exports,
-            the team section of the savings digest and team budgets, are part
-            of the paid Team plan. Team pricing is published on the pricing
-            page.
+            Pro (${prices.pro} per month) adds automatic routing, budget caps
+            that step down to a cheaper Claude model, digest delivery and the
+            HTML executive summary for one developer. Team (${prices.team} per
+            active developer per month, {prices.teamMinDevelopers}-developer minimum) adds the team
+            roll-up across developer exports and team budgets. Paid plans are
+            not on sale yet: billing opens when checkout is live, and
+            reserving a seat costs nothing. The first {foundingOffer.customers}{' '}
+            customers get {foundingOffer.discountPercent}% off for the first{' '}
+            {foundingOffer.months} months. Plan details are published on the
+            pricing page.
           </p>
           <h2>4. Customer responsibilities</h2>
           <p>
