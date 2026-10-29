@@ -42,6 +42,7 @@ export function Header({ locale }: { locale: Locale }) {
         <nav className="main-nav" aria-label={t.primaryNav}>
           <Link href={href('/how-it-works')}>{t.nav.how}</Link>
           <Link href={href('/clients')}>{t.nav.clients}</Link>
+          <Link href={href('/compare')}>{t.nav.compare}</Link>
           <Link href={href('/pricing')}>{t.nav.pricing}</Link>
           <Link href={href('/docs')}>{t.nav.docs}</Link>
         </nav>
@@ -76,6 +77,7 @@ export function Header({ locale }: { locale: Locale }) {
               </Link>
               <Link href={href('/how-it-works')}>{t.nav.how}</Link>
               <Link href={href('/clients')}>{t.nav.clients}</Link>
+              <Link href={href('/compare')}>{t.nav.compare}</Link>
               <Link href={href('/pricing')}>{t.nav.pricing}</Link>
               <Link href={href('/docs')}>{t.nav.docs}</Link>
               <Link href={href('/contact')} data-funnel={funnel.teamContact}>
@@ -105,6 +107,7 @@ export function Footer({ locale }: { locale: Locale }) {
             <Link href={href('/how-it-works')}>{t.nav.how}</Link>
             <Link href={href('/clients')}>{t.nav.clients}</Link>
             <Link href={href('/benchmark')}>{t.nav.benchmark}</Link>
+            <Link href={href('/compare')}>{t.nav.compare}</Link>
             <Link href={href('/pricing')}>{t.nav.pricing}</Link>
             <Link href={href('/docs')}>{t.nav.docs}</Link>
           </nav>

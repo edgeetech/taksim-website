@@ -89,6 +89,11 @@ export const en = {
         description:
           'Method and caveats of the internal Taksim pilot: task set, the three arms, hidden acceptance checks, cost basis, and how routing learns from outcomes.',
       },
+      compare: {
+        title: 'Compare',
+        description:
+          'Taksim next to GitHub Copilot Fusion, Claude /advisor, Not Diamond Code, ccusage and plain /model sonnet, with a public source for every competitor fact and a list of where Taksim is weaker. As of 29 Oct 2026.',
+      },
       contact: {
         title: 'Talk to Taksim — Team Assessment',
         description:
@@ -111,6 +116,7 @@ export const en = {
       pricing: 'Pricing',
       docs: 'Docs',
       benchmark: 'Pilot benchmark',
+      compare: 'Compare',
     },
     talkToUs: 'Talk to us',
     install: 'Get Taksim free',
@@ -139,8 +145,14 @@ export const en = {
 
   home: {
     hero: {
-      title: 'Frontier intelligence, only when the work requires it.',
-      lede: 'Taksim is a local control plane for your coding agents. It prices every session and shows which work needed the top model, and when a cheaper model would have done the job.',
+      title: 'Spend control and receipts for Claude Code.',
+      lede: 'Keeps ordinary work on Sonnet, steps down instead of cutting off at a budget cap, and shows judged receipts for when Opus was needed. Runs on your machine; no Taksim server exists.',
+      chipsLabel: 'Pilot result and proof',
+      chips: {
+        benchmark:
+          '−{costSavingPct} vs always-Opus in an internal pilot ({tasks} tasks), not cheaper than always-Sonnet',
+        proof: 'Judged receipts: see the proof',
+      },
       trust: 'Runs on your machine. No Taksim account. EdgeeTech does not receive your prompts or code.',
       seeHow: 'See how it works',
       installLabel: 'Install on Windows with one PowerShell line',
@@ -587,30 +599,155 @@ export const en = {
     back: 'Back to the results',
   },
 
-  ledger: {
-    pause: 'Pause live demo',
-    resume: 'Resume live demo',
-    recording: 'recording',
-    paused: 'paused',
-    spend: 'Spend this week, list price',
-    counterfactual: 'Always-Sonnet counterfactual',
-    overSized: 'Over-sized, on screen',
-    caption: 'Illustrative stream of recorded AI coding turns',
-    time: 'Time',
-    client: 'Client',
-    model: 'Model',
-    cost: 'Cost',
-    verdict: 'Verdict',
-    verdicts: {
-      sonnetEnough: 'Sonnet was enough',
-      haikuEnough: 'Haiku was enough',
-      opusEnough: 'Opus was enough',
-      rightSize: 'Right size',
-      neededTop: 'Needed the top tier',
-      neededOpus: 'Needed Opus',
-      disagree: 'Judges disagree',
+  compare: {
+    eyebrow: 'Compare',
+    title: 'Taksim next to the alternatives.',
+    lede: 'Taksim is one of several ways to spend less on Claude Code. This page sets it beside the tools you are most likely to be weighing. Every competitor fact links to its public source, and the last section says where Taksim is weaker.',
+    asOf: 'As of 29 Oct 2026.',
+    asOfNote:
+      'Competitor products change often. Check each source before you decide, and tell us at [info@edgee.tech](mailto:info@edgee.tech) if a fact here is out of date.',
+    freeSentence: 'If `/model sonnet` is enough for your work, use it; it is free.',
+    freeBody:
+      'Taksim is for work where it is not enough: you want ordinary requests kept on Sonnet without thinking about it, spend that steps down instead of cutting off, and a judged record of when Opus was actually needed.',
+    tableLabel:
+      'Comparison of Taksim with GitHub Copilot Fusion, Claude /advisor, Not Diamond Code, ccusage and plain /model sonnet. The table scrolls sideways.',
+    tableCaption: 'Capabilities compared across Taksim and five alternatives, as of 29 Oct 2026',
+    featureHeader: 'Capability',
+    columns: {
+      taksim: 'Taksim',
+      fusion: 'GitHub Copilot Fusion',
+      advisor: 'Claude /advisor',
+      notDiamond: 'Not Diamond Code',
+      ccusage: 'ccusage',
+      sonnet: 'Plain /model sonnet',
     },
-    note: 'Illustrative stream. Totals modelled on the founder’s own week at API-equivalent list prices.',
+    source: 'Source',
+    sourceFor: 'Source for {column}, {feature}',
+    rows: {
+      claudeOnly: {
+        feature: 'Claude-only routing',
+        cells: {
+          taksim: 'Yes. It switches only among Claude models, never to a third-party model.',
+          fusion:
+            'No. The pool changes over time; a third-party write-up lists Claude and GPT models, and GitHub’s page names no vendors.',
+          advisor: 'Yes. Your Claude main model consults a Claude advisor model.',
+          notDiamond:
+            'Not stated. Its configuration page lists Anthropic, AWS Bedrock and forwarded Claude Code logins as providers.',
+          ccusage: 'Not a router. It reports usage from local data.',
+          sonnet: 'Yes. You pick one Claude model and it stays until you change it.',
+        },
+      },
+      local: {
+        feature: 'Runs locally, no vendor server',
+        cells: {
+          taksim:
+            'Yes. A local binary with no Taksim server and no account; its services listen on 127.0.0.1. See [Security](/security).',
+          fusion:
+            'No. It is a Copilot model-picker option in VS Code, Copilot CLI, the Copilot app and JetBrains, so it needs the Copilot service.',
+          advisor: 'The advisor runs server-side on Anthropic’s infrastructure; there is nothing extra to install.',
+          notDiamond:
+            'A lightweight proxy on each machine, plus a hosted dashboard. Per its data dictionary, request metadata is always sent and prompt content only if an admin opts in.',
+          ccusage: 'Yes. Reports are built from local data; `--offline` uses cached pricing.',
+          sonnet: 'Yes. A built-in Claude Code command; nothing else runs.',
+        },
+      },
+      stepDown: {
+        feature: 'Budget caps that step down instead of blocking',
+        cells: {
+          taksim:
+            'Opt-in `taksim budget enforce --mode downgrade` serves routed Claude requests on a cheaper tier at the cap and never blocks one. It is a Pro feature, and paid plans are not on sale yet.',
+          fusion:
+            'No cap in the Fusion docs. Copilot budgets exist per user, cost center and enterprise, and stop usage only if you turn that option on.',
+          advisor: 'No. The docs say there is no setting to cap or force advisor calls.',
+          notDiamond: 'Budget caps are not mentioned in its configuration docs.',
+          ccusage: 'Budget enforcement is not mentioned on its page.',
+          sonnet: 'Not applicable. The model stays as you set it, with no cap.',
+        },
+      },
+      judge: {
+        feature: 'Judge evidence per turn',
+        cells: {
+          taksim:
+            'Yes, for judged clients. A judge grades finished turns, and a verdict counts only when two judges agree and one is strong. See [how it works](/how-it-works) and [Clients](/clients).',
+          fusion:
+            'No verdicts. After a response you can hover over the effort level to see the models used; the docs do not say why they were chosen.',
+          advisor:
+            'It shows an Advising line and whether the advisor reviewed, declined or was unavailable. The docs describe no verdict on whether a cheaper model would have done.',
+          notDiamond:
+            'The dashboard shows session activity, usage and savings. Per-turn quality verdicts are not described.',
+          ccusage: 'No. It produces usage and cost reports.',
+          sonnet: 'No. It only switches the model.',
+        },
+      },
+      ledger: {
+        feature: 'Multi-client ledger',
+        cells: {
+          taksim:
+            'Yes. Claude Code, Codex, GitHub Copilot CLI, Devin, OpenCode, Kilo Code, Pi and more in one local ledger. See [Clients](/clients).',
+          fusion: 'No. Copilot only: VS Code, Copilot CLI, the Copilot app and JetBrains.',
+          advisor: 'No. Claude Code only; advisor usage counts toward the totals in `/usage`.',
+          notDiamond: 'Claude Code requests, per its getting-started page.',
+          ccusage:
+            'Yes. Its page lists many tools, including Claude Code, Codex, OpenCode and GitHub Copilot CLI, so it is broad here too.',
+          sonnet: 'No. It switches models and records nothing.',
+        },
+      },
+      subscription: {
+        feature: 'Works on Claude subscriptions',
+        cells: {
+          taksim:
+            'Observed by default. Claude-only switching is an opt-in: `taksim routing subscription on`. Read the [plan terms note](/docs#subscriptions-and-api-keys) first.',
+          fusion: 'No. It needs a GitHub Copilot plan, not a Claude subscription.',
+          advisor: 'Yes. It works on subscription and API-billed accounts; advisor usage counts toward plan limits.',
+          notDiamond: 'Yes, in forwarded mode for engineers who sign in with `claude /login`.',
+          ccusage: 'Yes. It reads local usage data, including Claude Code 5-hour billing blocks.',
+          sonnet: 'Yes. It is built into Claude Code.',
+        },
+      },
+      nativeAudit: {
+        feature: 'Audits native routing (/advisor, default model)',
+        cells: {
+          taksim:
+            'Coming; not in this release. Today the gateway forwards `/advisor` unchanged and records advisor usage as its own priced execution.',
+          fusion: 'No. It is the router, and its docs show which models were used per response.',
+          advisor: 'No. It is the native feature; its usage appears in `/usage`.',
+          notDiamond: 'Not described.',
+          ccusage: 'It reports which models were used; auditing routing decisions is not part of its page.',
+          sonnet: 'No.',
+        },
+      },
+      price: {
+        feature: 'Price',
+        cells: {
+          taksim: `The CLI is free for any individual, at home or at work. Pro is $${prices.pro} a month and Team is $${prices.team} per developer a month; paid plans are not on sale yet. See [pricing](/pricing).`,
+          fusion:
+            'No separate Fusion charge: each model used is billed at its standard rate, with 30% off model costs on paid plans through 30 Nov 2026.',
+          advisor:
+            'No separate charge. Advisor tokens are billed at the advisor model’s rate on the API and count toward plan limits on a subscription.',
+          notDiamond: 'Pricing is not stated on the pages we read.',
+          ccusage: 'MIT licensed; run it with `npx ccusage`.',
+          sonnet: 'No extra cost. It is built into Claude Code, and you pay only for model usage.',
+        },
+      },
+    },
+    limits: {
+      title: 'Where Taksim is weaker',
+      body: 'Read these before the table. They are the reasons you might reasonably choose something else.',
+      items: [
+        'Routing was not cheaper than always-Sonnet in our pilot. Always-Sonnet cost {sonnetCost} with {sonnetAccepted} of {runsPerArm} runs accepted. Taksim routed cost {taksimCost} with {taksimAccepted} of {runsPerArm}. The {costSavingPct} saving is against always-Opus only. [Method and data](/benchmark).',
+        'The pilot is internal: {tasks} tasks on our own Claude Team subscription, not an independent benchmark. We have not run Taksim head to head against `/advisor` or Copilot Fusion, and there is no public independent result yet.',
+        'Budget caps that step down are a Pro feature, and paid plans are not on sale yet. The free Developer plan warns and never blocks.',
+        'The binaries are unsigned today, so Windows SmartScreen asks you to confirm the first run. See [Security](/security).',
+        'Taksim routes only between Claude models. Sessions on AWS Bedrock, Google Vertex AI or Microsoft Foundry start natively, and the Claude desktop app’s Code tab is observed, not routed.',
+        'There is no hosted team dashboard: team reports are built from exports each developer shares. macOS is a preview that has not been tested on Mac hardware, and there is no Linux build.',
+      ],
+    },
+    cta: {
+      title: 'Try it on your own history.',
+      body: 'Install is free and reads the history your coding agents already keep, so you can see what a cheaper model could have done before you change anything.',
+      install: 'Get Taksim free',
+      benchmark: 'See the pilot data',
+    },
   },
 
   plans: {

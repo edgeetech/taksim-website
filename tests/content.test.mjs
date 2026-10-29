@@ -234,8 +234,9 @@ test('positions Taksim as a control plane whose ledger proves the decisions', as
   const { en } = await import('../lib/i18n/en.ts');
   const copy = await source(copyPath);
   const llms = await source('public/llms.txt');
-  assert.match(en.home.hero.title, /Frontier intelligence, only when the work requires it/);
-  assert.match(en.home.hero.lede, /local control plane for your coding agents/);
+  assert.equal(en.home.hero.title, 'Spend control and receipts for Claude Code.');
+  assert.match(en.home.hero.lede, /steps down instead of cutting off at a budget cap/);
+  assert.match(en.home.hero.lede, /no Taksim server exists/);
   assert.match(copy, /when a cheaper model would have done the job/);
   assert.match(llms, /control plane for AI coding agents, built around a sufficiency ledger/);
   for (const text of [copy, llms]) assert.doesNotMatch(text, /Selection and delegation governance/);
@@ -417,7 +418,7 @@ const publicCopy = [
   'components/pages/docs-home.tsx',
   'components/pages/terms.tsx',
   'components/pages/contact.tsx',
-  'components/ledger-stream.tsx',
+  'components/pages/compare.tsx',
   'components/pilot-benchmark.tsx',
   'lib/client-support.ts',
   'release/llms.template.txt',

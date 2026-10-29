@@ -9,6 +9,7 @@ Next steps (dashboard, judging, budgets, digest, Slack, team): https://taksim.ed
 How it works (first evidence, judging, weekly report, what is stored): https://taksim.edgee.tech/how-it-works
 Client support table: https://taksim.edgee.tech/clients
 Internal pilot benchmark (method and caveats): https://taksim.edgee.tech/benchmark
+Comparison with Copilot Fusion, Claude /advisor, Not Diamond Code, ccusage and plain /model sonnet (dated, sourced, with where Taksim is weaker): https://taksim.edgee.tech/compare
 Documentation: https://taksim.edgee.tech/docs
 Pricing: https://taksim.edgee.tech/pricing
 Security (network destinations, local service guards, releases, disclosure): https://taksim.edgee.tech/security

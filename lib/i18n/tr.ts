@@ -89,6 +89,11 @@ export const tr: Dictionary = {
         description:
           'Taksim iç pilotunun yöntemi ve sınırları: görev seti, üç kol, gizli kabul kontrolleri, maliyet temeli ve yönlendirmenin sonuçlardan nasıl öğrendiği.',
       },
+      compare: {
+        title: 'Karşılaştırma',
+        description:
+          'Taksim’in GitHub Copilot Fusion, Claude /advisor, Not Diamond Code, ccusage ve düz /model sonnet ile karşılaştırması. Her rakip bilgisinin açık bir kaynağı ve Taksim’in geride kaldığı yerlerin listesi var. 29 Eki 2026 itibarıyla.',
+      },
       contact: {
         title: 'Taksim ile görüşün — Team değerlendirmesi',
         description:
@@ -111,6 +116,7 @@ export const tr: Dictionary = {
       pricing: 'Fiyatlandırma',
       docs: 'Dokümanlar',
       benchmark: 'Pilot benchmark',
+      compare: 'Karşılaştırma',
     },
     talkToUs: 'Bize ulaşın',
     install: 'Taksim’i ücretsiz edinin',
@@ -139,8 +145,14 @@ export const tr: Dictionary = {
 
   home: {
     hero: {
-      title: 'En üst düzey zekâ, yalnızca iş gerektirdiğinde.',
-      lede: 'Taksim, kodlama ajanlarınız için yerel bir kontrol düzlemidir. Her oturumu fiyatlandırır; hangi işin en üst modele ihtiyaç duyduğunu ve daha ucuz bir modelin işi ne zaman görebileceğini gösterir.',
+      title: 'Claude Code için harcama kontrolü ve makbuzlar.',
+      lede: 'Sıradan işleri Sonnet’te tutar, bütçe sınırına gelince işi kesmek yerine bir alt modele iner ve Opus’un ne zaman gerektiğini judge makbuzlarıyla gösterir. Kendi makinenizde çalışır; Taksim sunucusu yoktur.',
+      chipsLabel: 'Pilot sonucu ve kanıt',
+      chips: {
+        benchmark:
+          'İç pilotta always-Opus’a göre {costSavingPct} daha düşük maliyet ({tasks} görev); always-Sonnet’ten daha ucuz değil',
+        proof: 'Judge makbuzları: kanıtı görün',
+      },
       trust: 'Kendi makinenizde çalışır. Taksim hesabı gerekmez. EdgeeTech prompt’larınızı veya kodunuzu almaz.',
       seeHow: 'Nasıl çalıştığını görün',
       installLabel: 'Windows’a tek satır PowerShell ile kurun',
@@ -587,30 +599,156 @@ export const tr: Dictionary = {
     back: 'Sonuçlara dön',
   },
 
-  ledger: {
-    pause: 'Canlı demoyu duraklat',
-    resume: 'Canlı demoyu sürdür',
-    recording: 'kaydediliyor',
-    paused: 'duraklatıldı',
-    spend: 'Bu haftaki harcama, liste fiyatı',
-    counterfactual: 'Her zaman Sonnet senaryosu',
-    overSized: 'Gereğinden büyük, ekranda',
-    caption: 'Kaydedilmiş AI kodlama turlarından temsili bir akış',
-    time: 'Saat',
-    client: 'İstemci',
-    model: 'Model',
-    cost: 'Maliyet',
-    verdict: 'Karar',
-    verdicts: {
-      sonnetEnough: 'Sonnet yeterliydi',
-      haikuEnough: 'Haiku yeterliydi',
-      opusEnough: 'Opus yeterliydi',
-      rightSize: 'Doğru boyut',
-      neededTop: 'En üst seviye gerekliydi',
-      neededOpus: 'Opus gerekliydi',
-      disagree: 'Judge’lar anlaşamadı',
+  compare: {
+    eyebrow: 'Karşılaştırma',
+    title: 'Taksim, alternatiflerinin yanında.',
+    lede: 'Taksim, Claude Code’da daha az harcamanın birkaç yolundan biri. Bu sayfa onu, büyük olasılıkla karşılaştıracağınız araçların yanına koyuyor. Her rakip bilgisi açık kaynağına bağlanıyor; son bölüm Taksim’in nerede geride kaldığını söylüyor.',
+    asOf: '29 Eki 2026 itibarıyla.',
+    asOfNote:
+      'Rakip ürünler sık değişir. Karar vermeden önce her kaynağı kontrol edin; buradaki bir bilgi güncelliğini yitirmişse [info@edgee.tech](mailto:info@edgee.tech) adresinden bize yazın.',
+    freeSentence: '`/model sonnet` işiniz için yetiyorsa onu kullanın; ücretsizdir.',
+    freeBody:
+      'Taksim, bunun yetmediği iş içindir: sıradan isteklerin siz uğraşmadan Sonnet’te kalmasını, harcamanın işi kesmek yerine bir alt modele inmesini ve Opus’un gerçekten ne zaman gerektiğinin judge kaydıyla görülmesini istiyorsanız.',
+    tableLabel:
+      'Taksim’in GitHub Copilot Fusion, Claude /advisor, Not Diamond Code, ccusage ve düz /model sonnet ile karşılaştırması. Tablo yatay kaydırılır.',
+    tableCaption: 'Taksim ve beş alternatifin yetenek karşılaştırması, 29 Eki 2026 itibarıyla',
+    featureHeader: 'Yetenek',
+    columns: {
+      taksim: 'Taksim',
+      fusion: 'GitHub Copilot Fusion',
+      advisor: 'Claude /advisor',
+      notDiamond: 'Not Diamond Code',
+      ccusage: 'ccusage',
+      sonnet: 'Düz /model sonnet',
     },
-    note: 'Temsili akış. Toplamlar, kurucunun kendi haftasının API eşdeğeri liste fiyatlarına göre modellenmiştir.',
+    source: 'Kaynak',
+    sourceFor: '{column}, {feature} için kaynak',
+    rows: {
+      claudeOnly: {
+        feature: 'Yalnızca Claude modelleri arasında yönlendirme',
+        cells: {
+          taksim: 'Evet. Yalnızca Claude modelleri arasında geçiş yapar, üçüncü taraf modele asla geçmez.',
+          fusion:
+            'Hayır. Havuz zamanla değişiyor; üçüncü taraf bir yazı Claude ve GPT modellerini sayıyor, GitHub’ın sayfası ise hiçbir üretici adı vermiyor.',
+          advisor: 'Evet. Claude ana modeliniz, bir Claude advisor modeline danışır.',
+          notDiamond:
+            'Belirtilmemiş. Yapılandırma sayfası sağlayıcı olarak Anthropic, AWS Bedrock ve iletilen Claude Code girişlerini sayıyor.',
+          ccusage: 'Router değil. Yerel veriden kullanım raporu çıkarır.',
+          sonnet: 'Evet. Bir Claude modeli seçersiniz ve siz değiştirene kadar o kalır.',
+        },
+      },
+      local: {
+        feature: 'Yerelde çalışır, üretici sunucusu yok',
+        cells: {
+          taksim:
+            'Evet. Taksim sunucusu ve hesabı olmayan yerel bir binary; servisleri 127.0.0.1 üzerinde dinler. [Güvenlik](/security) sayfasına bakın.',
+          fusion:
+            'Hayır. VS Code, Copilot CLI, Copilot uygulaması ve JetBrains’teki bir Copilot model seçici seçeneğidir; yani Copilot servisine ihtiyaç duyar.',
+          advisor: 'Advisor, Anthropic’in altyapısında sunucu tarafında çalışır; ayrıca kurulacak bir şey yok.',
+          notDiamond:
+            'Her makinede hafif bir proxy ve barındırılan bir dashboard. Veri sözlüğüne göre istek metadata’sı her zaman gönderilir, prompt içeriği yalnızca bir yönetici izin verirse.',
+          ccusage: 'Evet. Raporlar yerel veriden üretilir; `--offline` önbellekteki fiyatları kullanır.',
+          sonnet: 'Evet. Claude Code’un yerleşik bir komutudur; başka bir şey çalışmaz.',
+        },
+      },
+      stepDown: {
+        feature: 'İşi kesmek yerine bir alt modele inen bütçe sınırları',
+        cells: {
+          taksim:
+            'İsteğe bağlı `taksim budget enforce --mode downgrade`, sınırda yönlendirilen Claude isteklerini daha ucuz bir kademede sunar ve hiçbirini engellemez. Pro özelliğidir; ücretli planlar henüz satışta değil.',
+          fusion:
+            'Fusion dokümanında sınır yok. Copilot bütçeleri kullanıcı, maliyet merkezi ve kurum düzeyinde var; kullanımı yalnızca o seçeneği açarsanız durdurur.',
+          advisor: 'Hayır. Dokümana göre advisor çağrılarını sınırlayacak ya da zorlayacak bir ayar yok.',
+          notDiamond: 'Yapılandırma dokümanında bütçe sınırlarından söz edilmiyor.',
+          ccusage: 'Sayfasında bütçe uygulamasından söz edilmiyor.',
+          sonnet: 'Geçerli değil. Model, ayarladığınız gibi kalır; sınır yoktur.',
+        },
+      },
+      judge: {
+        feature: 'Tur başına judge kanıtı',
+        cells: {
+          taksim:
+            'Evet, judge’ın desteklediği istemcilerde. Bir judge biten turları değerlendirir; karar yalnızca iki judge anlaşır ve biri güçlüyse sayılır. [Nasıl çalışır](/how-it-works) ve [İstemciler](/clients) sayfalarına bakın.',
+          fusion:
+            'Karar yok. Yanıttan sonra kullanılan modelleri görmek için efor seviyesinin üzerine gelebilirsiniz; dokümanda neden seçildikleri anlatılmıyor.',
+          advisor:
+            'Bir Advising satırı ve advisor’ın inceleyip incelemediğini, reddedip reddetmediğini ya da ulaşılamadığını gösterir. Dokümanda, daha ucuz bir modelin yetip yetmeyeceğine dair bir karar tanımlanmıyor.',
+          notDiamond:
+            'Dashboard oturum etkinliğini, kullanımı ve tasarrufu gösterir. Tur başına kalite kararları anlatılmıyor.',
+          ccusage: 'Hayır. Kullanım ve maliyet raporları üretir.',
+          sonnet: 'Hayır. Yalnızca modeli değiştirir.',
+        },
+      },
+      ledger: {
+        feature: 'Çok istemcili defter',
+        cells: {
+          taksim:
+            'Evet. Claude Code, Codex, GitHub Copilot CLI, Devin, OpenCode, Kilo Code, Pi ve daha fazlası tek bir yerel defterde. [İstemciler](/clients) sayfasına bakın.',
+          fusion: 'Hayır. Yalnızca Copilot: VS Code, Copilot CLI, Copilot uygulaması ve JetBrains.',
+          advisor: 'Hayır. Yalnızca Claude Code; advisor kullanımı `/usage` toplamlarına yansır.',
+          notDiamond: 'Başlangıç sayfasına göre Claude Code istekleri.',
+          ccusage:
+            'Evet. Sayfası Claude Code, Codex, OpenCode ve GitHub Copilot CLI dahil birçok aracı sayıyor; yani bu satırda o da geniş.',
+          sonnet: 'Hayır. Model değiştirir, hiçbir şey kaydetmez.',
+        },
+      },
+      subscription: {
+        feature: 'Claude subscription’larında çalışır',
+        cells: {
+          taksim:
+            'Varsayılan olarak gözlemlenir. Yalnızca Claude modelleri arasında geçiş isteğe bağlıdır: `taksim routing subscription on`. Önce [plan koşulları notunu](/docs#subscriptions-and-api-keys) okuyun.',
+          fusion: 'Hayır. Claude subscription’ı değil, bir GitHub Copilot planı gerekir.',
+          advisor:
+            'Evet. Subscription ve API ile faturalanan hesaplarda çalışır; advisor kullanımı plan limitlerine sayılır.',
+          notDiamond: '`claude /login` ile giriş yapan mühendisler için iletilen (forwarded) modda evet.',
+          ccusage: 'Evet. Claude Code’un 5 saatlik faturalama blokları dahil yerel kullanım verisini okur.',
+          sonnet: 'Evet. Claude Code’a yerleşiktir.',
+        },
+      },
+      nativeAudit: {
+        feature: 'Yerel yönlendirmeyi denetler (/advisor, varsayılan model)',
+        cells: {
+          taksim:
+            'Yakında; bu sürümde yok. Bugün gateway `/advisor`’ı değiştirmeden iletir ve advisor kullanımını fiyatlandırılmış ayrı bir çalıştırma olarak kaydeder.',
+          fusion: 'Hayır. Router’ın kendisidir; dokümanı yanıt başına hangi modellerin kullanıldığını gösterir.',
+          advisor: 'Hayır. Yerel özelliğin kendisidir; kullanımı `/usage` içinde görünür.',
+          notDiamond: 'Anlatılmıyor.',
+          ccusage: 'Hangi modellerin kullanıldığını raporlar; yönlendirme kararlarını denetlemek sayfasının konusu değil.',
+          sonnet: 'Hayır.',
+        },
+      },
+      price: {
+        feature: 'Fiyat',
+        cells: {
+          taksim: `CLI, evde ya da işte, her bireysel geliştirici için ücretsizdir. Pro aylık $${prices.pro}, Team geliştirici başına aylık $${prices.team}; ücretli planlar henüz satışta değil. [Fiyatlandırma](/pricing) sayfasına bakın.`,
+          fusion:
+            'Ayrı bir Fusion ücreti yok: kullanılan her model standart fiyatıyla faturalanır; ücretli planlarda model maliyetlerinde 30 Kas 2026’ya kadar %30 indirim var.',
+          advisor:
+            'Ayrı ücret yok. Advisor token’ları API’de advisor modelinin fiyatıyla faturalanır, subscription’da plan limitlerine sayılır.',
+          notDiamond: 'Okuduğumuz sayfalarda fiyat belirtilmiyor.',
+          ccusage: 'MIT lisanslı; `npx ccusage` ile çalıştırılır.',
+          sonnet: 'Ek maliyet yok. Claude Code’a yerleşiktir; yalnızca model kullanımının ücretini ödersiniz.',
+        },
+      },
+    },
+    limits: {
+      title: 'Taksim’in geride kaldığı yerler',
+      body: 'Tablodan önce bunları okuyun. Başka bir aracı seçmeniz için makul nedenler bunlar.',
+      items: [
+        'Pilotumuzda yönlendirme, her zaman Sonnet kullanmaktan daha ucuz çıkmadı. Her zaman Sonnet {sonnetCost} tuttu ve {runsPerArm} çalıştırmanın {sonnetAccepted} tanesi kabul edildi. Taksim yönlendirmesi {taksimCost} tuttu ve {runsPerArm} çalıştırmanın {taksimAccepted} tanesi kabul edildi. {costSavingPct} tasarruf yalnızca her zaman Opus’a göre. [Yöntem ve veri](/benchmark).',
+        'Pilot iç bir pilot: kendi Claude Team subscription’ımızda {tasks} görev; bağımsız bir benchmark değil. Taksim’i `/advisor` ya da Copilot Fusion ile baş başa denemedik ve henüz bağımsız, herkese açık bir sonuç yok.',
+        'Bir alt modele inen bütçe sınırları Pro özelliğidir ve ücretli planlar henüz satışta değil. Ücretsiz Developer planı uyarır ve hiçbir isteği engellemez.',
+        'Binary’ler bugün imzasız; bu yüzden Windows SmartScreen ilk çalıştırmada onay ister. [Güvenlik](/security) sayfasına bakın.',
+        'Taksim yalnızca Claude modelleri arasında yönlendirir. AWS Bedrock, Google Vertex AI ya da Microsoft Foundry üzerindeki oturumlar yerel olarak başlar; Claude masaüstü uygulamasının Code sekmesi ise gözlemlenir, yönlendirilmez.',
+        'Barındırılan bir ekip dashboard’u yok: ekip raporları her geliştiricinin paylaştığı export’lardan üretilir. macOS, Mac donanımında test edilmemiş bir önizlemedir ve Linux sürümü yoktur.',
+      ],
+    },
+    cta: {
+      title: 'Kendi geçmişinizde deneyin.',
+      body: 'Kurulum ücretsizdir ve kodlama ajanlarınızın zaten tuttuğu geçmişi okur; böylece hiçbir şeyi değiştirmeden daha ucuz bir modelin ne yapabileceğini görürsünüz.',
+      install: 'Taksim’i ücretsiz edinin',
+      benchmark: 'Pilot verisini görün',
+    },
   },
 
   plans: {
