@@ -2,16 +2,22 @@
 // The static export does not emit app/sitemap.ts or app/robots.ts, so they are plain files in public/.
 //
 //   node scripts/discovery.mjs
-import { writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { localePath, localizedRoutes, locales, siteUrl } from '../lib/i18n/config.ts';
 
 const root = new URL('..', import.meta.url);
-const lastModified = '2026-09-26';
+
+// lastmod is the date of the release the site describes, so it moves only when a release does.
+export function releaseDate(manifest = JSON.parse(readFileSync(new URL('release/manifest.json', root), 'utf8'))) {
+  const date = String(manifest.publishedAt ?? '').slice(0, 10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) throw new Error('release/manifest.json has no valid publishedAt date');
+  return date;
+}
 
 const escape = (s) => s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 
-export function sitemap() {
+export function sitemap(lastModified = releaseDate()) {
   const urls = localizedRoutes.flatMap((route) => {
     const alternates = locales.map(
       (l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${escape(siteUrl + localePath(l, route))}"/>`,

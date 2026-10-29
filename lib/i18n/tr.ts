@@ -29,8 +29,9 @@ const featureList = (ids: readonly FeatureId[]) => ids.map((id) => feature[id]);
 
 export const tr: Dictionary = {
   meta: {
-    siteTitle: 'Taksim — En üst düzey zekâ, yalnızca iş gerektirdiğinde',
+    siteTitle: 'Taksim — Claude Code için harcama kontrolü ve makbuzlar',
     titleTemplate: '%s — Taksim',
+    ogAlt: 'Taksim: Claude Code için harcama kontrolü ve makbuzlar. İç pilotta always-Opus’a göre {costSavingPct} daha düşük maliyet.',
     description:
       'Taksim, AI kodlama ajanları için yerel bir kontrol düzlemidir (control plane). Defteri her turda hangi modelin çalıştığını, maliyetini ve daha ucuz bir modelin işi ne zaman görebileceğini kaydeder. Bireysel geliştiriciler için ücretsiz.',
     pages: {
@@ -89,6 +90,16 @@ export const tr: Dictionary = {
         description:
           'Taksim iç pilotunun yöntemi ve sınırları: görev seti, üç kol, gizli kabul kontrolleri, maliyet temeli ve yönlendirmenin sonuçlardan nasıl öğrendiği.',
       },
+      troubleshooting: {
+        title: 'Sorun giderme',
+        description:
+          'Tam komut ve beklenen çıktıyla çözümler: gateway, judge hook’u, yönlendirme modları, bütçe düşürmeleri, imzasız güncellemeler, macOS PATH’i ve hook’ları kaldırma.',
+      },
+      changelog: {
+        title: 'Sürüm notları',
+        description:
+          'Son Taksim sürümlerinde ne değiştiği: değişiklik başına bir cümle, ayrıntı bir tık uzağınızda.',
+      },
       compare: {
         title: 'Karşılaştırma',
         description:
@@ -117,6 +128,7 @@ export const tr: Dictionary = {
       docs: 'Dokümanlar',
       benchmark: 'Pilot benchmark',
       compare: 'Karşılaştırma',
+      changelog: 'Sürüm notları',
     },
     talkToUs: 'Bize ulaşın',
     install: 'Taksim’i ücretsiz edinin',
@@ -1006,6 +1018,8 @@ export const tr: Dictionary = {
           ['Taksim nasıl çalışır', '/docs#how-taksim-works'],
           ['Adım adım', '/how-it-works'],
           ['Pilot benchmark', '/benchmark'],
+          ['Karşılaştırma', '/compare'],
+          ['Sürüm notları', '/changelog'],
         ],
       },
       {
@@ -1014,6 +1028,7 @@ export const tr: Dictionary = {
           ['Kolay kurulum', '/docs/quick-start'],
           ['Ayrıntılı kurulum rehberi', '/docs/getting-started'],
           ['Sonraki adımlar', '/docs/next-steps'],
+          ['Sorun giderme', '/docs/troubleshooting'],
         ],
       },
       {
@@ -1085,6 +1100,13 @@ export const tr: Dictionary = {
         keywords: 'dashboard judge budget enforce downgrade mode economy balanced quality advisor digest slack webhook notify alerts team export summary bütçe uyarı ekip',
       },
       {
+        title: 'Sorun giderme',
+        copy: 'Duran bir gateway’i, çalışmayan judge hook’unu, hiçbir şeyi değiştirmeyen modu, bütçe düşürmesini, imzasız güncellemeyi ve macOS PATH’ini düzeltin ya da hook’ları kaldırın.',
+        href: '/docs/troubleshooting',
+        keywords:
+          'troubleshooting gateway not running stale judge hook stop mode economy subscription budget downgrade update apply unsigned allow-unsigned macos path uninstall dry-run fix error sorun giderme hata düzeltme',
+      },
+      {
         title: 'Taksim nasıl çalışır',
         copy: 'Yerel defteri, judge değerlendirmesini, consensus’u ve shadow policy’yi anlayın.',
         href: '#how-taksim-works',
@@ -1118,6 +1140,9 @@ export const tr: Dictionary = {
     accountTitle: 'Hesap yok, Taksim sunucusu yok',
     accountBody:
       'Taksim’i kurun ve hesap ya da giriş olmadan kullanın. Taksim’in kendi sunucusu yoktur: defter, raporlar ve dashboard sizin makinenizde kalır. [Kolay kurulumla](/docs/quick-start) başlayın.',
+    helpTitle: 'Bir şey mi çalışmıyor?',
+    helpBody:
+      '[Sorun giderme rehberi](/docs/troubleshooting) yaygın sorunlar için tam komutu ve beklenen çıktıyı verir. Her sürümde [neyin değiştiğine](/changelog) bakın.',
     how: {
       title: 'Taksim nasıl çalışır',
       body: 'Taksim, kodlama istemcilerinizin zaten yazdığı yerel geçmişi ve hook’ları okur, her oturumu modele göre fiyatlandırır ve yerel bir deftere kaydeder. Yalnızca metadata saklar: prompt, yanıt, kod veya kimlik bilgisi saklamaz. Yerel repo klasörleri maliyeti atfetmek için yalnızca yerel veritabanınızda tutulur ve export’larda asla yer almaz.',
@@ -1300,11 +1325,35 @@ export const tr: Dictionary = {
         'Yerel verileri de kalıcı olarak silmek için `taksim uninstall --purge-data` komutunu çalıştırın. Bu işlem geri alınamaz.',
       ],
     },
+    savings: {
+      title: '4. Tasarrufu açın',
+      body: 'Kurulum yalnızca gözlemler. Claude Code için nasıl ödeme yaptığınıza uyan yolu seçin. Hangisini seçerseniz seçin Taksim yalnızca Claude modelleri arasında geçiş yapar ve `taksim mode balanced` varsayılanları geri getirir.',
+      apiKeyTitle: 'Anthropic API key ile',
+      apiKeyBody:
+        'Token başına faturalanırsınız. `taksim mode economy`, `taksim claude` ile başlattığınız oturumlarda sıradan istekleri düşük efor seviyesinde Sonnet’te tutar. Şunu yazar:',
+      subscriptionTitle: 'Claude subscription ile (Pro, Max veya Team)',
+      subscriptionBody:
+        'İzin verene kadar subscription trafiği yalnızca gözlemlenir. Önce [plan koşulları notunu](/docs#subscriptions-and-api-keys) okuyun: Anthropic, Claude.ai kimlik bilgilerinin üçüncü taraflarca aracılık edilmesini kısıtlar; karar sizindir. Sonra yönlendirmeyi açın, modu seçin ve yeni bir `taksim claude` oturumu başlatın. Taksim’in Opus’a yükselttiği istekler plan kotasını daha hızlı tüketir.',
+      checkTitle: 'Sonucu kontrol edin',
+      checkBody:
+        'Biraz çalıştıktan sonra `taksim report weekly` komutunu çalıştırın. Harcamayı, her zaman varsayılan kademe ve her zaman güçlü kademe ile ne kadar tutacağını ve Taksim’in seçimlerinin gerçekte çalışanla nasıl karşılaştığını gösterir. Henüz oturum yoksa her değer `n/a` yazar:',
+    },
+    manual: {
+      title: 'Elle kurulum ve sağlama toplamı kontrolü',
+      body: 'Tek satırlık kurucu indirmeyi zaten `SHA256SUMS.txt` ile karşılaştırır. Önce kendiniz kontrol etmek isterseniz [son sürümü](https://github.com/edgeetech/taksim-releases/releases/latest) açın; sisteminize uygun arşivi `SHA256SUMS.txt` ile birlikte indirin. Sonra hash’leri karşılaştırın.',
+      windowsTitle: 'Windows (PowerShell)',
+      windowsAfter: '`Hash` değeri, `SHA256SUMS.txt` içindeki o dosyanın kaydıyla aynı olmalıdır; büyük küçük harf fark etmez.',
+      macTitle: 'macOS (Terminal)',
+      macAfter: 'İki hash aynı olmalıdır. Intel Mac’te bunun yerine `taksim-connector-osx-x64.tar.gz` kullanın.',
+      after: 'Farklıysa dosyayı çalıştırmayın: yeniden indirin ve [info@edgee.tech](mailto:info@edgee.tech) adresinden bize haber verin. Doğruladığınız dosyalardan kurmak için [sürüm deposundan](https://github.com/edgeetech/taksim-releases) bağlanan çevrimdışı kurulum adımlarını izleyin.',
+    },
     toc: {
       label: 'Bu sayfada',
       install: 'Kurulum',
       setup: 'Setup',
       dashboard: 'Dashboard',
+      savings: 'Tasarrufu açın',
+      manual: 'Elle kurulum',
       troubleshooting: 'Sorun giderme',
       update: 'Güncelleme',
       uninstall: 'Kaldırma',
@@ -1385,6 +1434,7 @@ export const tr: Dictionary = {
         },
       ],
     },
+    savingsTitle: '8. Tasarrufu açın',
     toc: {
       label: 'Bu sayfada',
       plan: 'Planınızı doğrulayın',
@@ -1395,6 +1445,7 @@ export const tr: Dictionary = {
       session: 'Yönetilen oturum',
       inspect: 'Son oturumu inceleyin',
       history: 'Geçmişi içe aktarın',
+      savings: 'Tasarrufu açın',
       troubleshooting: 'Sorun giderme',
     },
   },
@@ -1468,6 +1519,106 @@ export const tr: Dictionary = {
       desktop: 'Yönlendirme (düz claude oturumları)',
       team: 'Ekip toplu görünümü',
     },
+  },
+
+  troubleshooting: {
+    eyebrow: 'Sorun giderme',
+    title: 'Sorun giderme',
+    lede: 'Her başlıkta çalıştıracağınız komut ve görmeniz gereken çıktı yer alıyor. Makinenizdeki yollar, süreç kimlikleri ve sürüm numaraları farklı olacaktır. Windows’ta SmartScreen ya da eksik PATH gibi kurulum sorunları için [kolay kurulum](/docs/quick-start#troubleshooting) sayfasına bakın.',
+    commandLabel: 'Çalıştırın',
+    outputLabel: 'Görmeniz gereken',
+    stillStuck:
+      'Hâlâ çözülmedi mi? `taksim doctor` komutunu çalıştırıp çıktısını [destek](mailto:info@edgee.tech?subject=Taksim%20support) adresine gönderin.',
+    toc: { label: 'Bu sayfada' },
+    items: {
+      gateway: {
+        q: 'Gateway çalışmıyor ya da durumu eski görünüyor',
+        intro:
+          'Yerel gateway, `taksim claude` ile başlattığınız oturumlar için gerektiğinde açılır. Önce durumuna bakın, gerekirse yeniden başlatın.',
+        steps: [
+          'Çalışıp çalışmadığına bakın. Sağlıklı bir gateway şu satırları yazar; değiştirmediyseniz port 4027’dir.',
+          '`Gateway: not running.` yazıyorsa ya da adı geçen süreç artık yoksa (örneğin bir çökme ya da yeniden başlatmadan sonra) yeniden başlatın. Komutu tekrar çalıştırmak güvenlidir.',
+          'Yine de açılmıyorsa durdurup yeniden başlatın. `taksim gateway stop` boşta olan gateway’i bekler; meşgul olanı durdurmak için `--force` ekleyin.',
+        ],
+      },
+      judge: {
+        q: 'Judge hook’u çalışmıyor',
+        intro:
+          'Biten bir Claude Code turu, Stop hook üzerinden oturum içi judge tarafından değerlendirilir. Judge’ın açık olduğunu ve hook’un oturumunuzun okuduğu yere kurulduğunu kontrol edin.',
+        steps: [
+          'Şu satırlara bakın. `none recorded`, henüz hiçbir turun değerlendirilmediği anlamına gelir.',
+          'Judge kapalıysa ya da kullanıcı düzeyindeki hook kurulu değilse ikisini de açın. `--user-settings` yalnızca `taksim claude` oturumlarını değil, her Claude Code oturumunu kapsar; ayar değişikliğini önceden görmek için başa `--dry-run` ekleyin. Sonra ayarları yeniden okuması için Claude Code’u yeniden başlatın.',
+        ],
+      },
+      mode: {
+        q: 'Bir mod seçtim ama hiçbir şey değişmedi',
+        intro:
+          '`taksim mode` yönlendirmeyi yalnızca Taksim’in yönlendirdiği yerde değiştirir: API key ile `taksim claude` ile başlattığınız oturumlar ya da izin verdikten sonra bir Claude girişi.',
+        steps: [
+          'Modun uygulandığını doğrulayın. Son iki satır neye dokunmadığını söyler.',
+          'Claude subscription’ındaysanız izin verip vermediğinizi kontrol edin. `off` Taksim’in yalnızca gözlemlediği anlamına gelir.',
+          'İzin vermek için önce [plan koşulları notunu](/docs#subscriptions-and-api-keys) okuyun, sonra açıp yeni bir `taksim claude` oturumu başlatın.',
+        ],
+        note: 'Claude masaüstü uygulamasının Code sekmesi yönlendirilemez: uygulama her oturum için kendi API uç noktasını ayarlar, bu yüzden Taksim onu yalnızca gözlemler. Oturumunuzu bunun yerine bir terminalde `taksim claude` ile başlatın.',
+      },
+      budget: {
+        q: 'Bir bütçe düşürmesi oldu',
+        intro:
+          'İsteğe bağlı bütçe uygulamasında (bir Pro özelliği), günlük ya da aylık bütçe eşiğine ulaştığında gateway Claude isteklerini daha ucuz bir kademede sunar. Hiçbir isteği engellemez. Aşağıdaki, boş bir kurulumun çıktısıdır; sizinki harcamanızı gösterir.',
+        steps: [
+          'Her bütçe penceresini, eşiği ve kaç düşürme kaydedildiğini görün.',
+          'Düşürmeleri ve istenen modele geri yükseltmeleri listeleyin.',
+          'Yalnızca uyarıya dönmek için uygulamayı kapatın. Gün ya da ay değişince veya limiti yükselttiğinizde alt kademeye inme zaten kendiliğinden biter.',
+        ],
+      },
+      update: {
+        q: '`taksim update --apply` imzasız bir build’i reddediyor',
+        intro:
+          'İndirilen kurucuyu çalıştırmadan önce `taksim update --apply`, kurucunun imzasını ve `SHA256SUMS.txt` içindeki kaydını kontrol eder. Windows build’leri bugün imzasız; bu yüzden imza kontrolü yalnızca açıkça izin verirseniz geçer.',
+        steps: [
+          'Daha yeni bir sürüm olup olmadığına bakın.',
+          'Güncelleme şu iletiyle duruyorsa kurucunun geçerli bir imzası yoktur.',
+          'Yayıncıya güveniyorsanız ve kurulu build’iniz de imzasızsa izin parametresiyle tekrar deneyin. İmzalı bir kurulum imzasız kurucuyu asla kabul etmez.',
+          'Yeni sürümü doğrulayın.',
+        ],
+      },
+      macPath: {
+        q: 'macOS: kabuk `taksim` komutunu bulamıyor',
+        intro:
+          'macOS bir önizlemedir ve Mac donanımında test edilmemiştir. Kurucu `taksim` komutunu `~/.local/bin` içine bağlar ve kabuk profilinizi değiştirmez.',
+        steps: [
+          'Kurulu olduğunu doğrulamak için tam yoluyla çalıştırın.',
+          'Klasörü PATH’inize ekleyin (varsayılan kabuk zsh’dir; bash için `~/.bash_profile` kullanın), sonra yeni bir Terminal penceresi açın.',
+          'Kısa komutun artık çalıştığını kontrol edin.',
+        ],
+      },
+      uninstall: {
+        q: 'Taksim’in hook’larını kaldırmak istiyorum',
+        intro:
+          'Taksim, Claude ve Codex ayarlarınıza yalnızca istediğiniz yerde bir Stop hook ekler. Kaldırmadan önce kaldırmanın nelere dokunacağını tam olarak görün.',
+        steps: [
+          'Kaldırmayı önizleyin. Hiçbir şey değişmez.',
+          'Taksim’i ve hook’larını kaldırın. Defteriniz ve raporlarınız korunur; yerel veriyi de silmek için `--purge-data` ekleyin, bu geri alınamaz.',
+        ],
+      },
+    },
+  },
+
+  changelog: {
+    eyebrow: 'Sürüm notları',
+    title: 'Her sürümde ne değişti.',
+    lede: 'Son sürümler, her değişiklik bir cümleyle. Ayrıntı için değişikliği seçin.',
+    latest: 'En yeni',
+    released: 'Yayın tarihi',
+    details: 'Ayrıntı',
+    source: 'Son beş sürüm için ürünün kendi sürüm notlarından alınmıştır; metin İngilizcedir.',
+    install: 'Taksim’i ücretsiz edinin',
+  },
+
+  platform: {
+    macPreview: 'Önizleme: henüz Mac donanımında test edilmedi',
+    macPreviewNote:
+      'macOS desteği bir önizlemedir. Bu sürüm Mac donanımında test edilmemiştir.',
   },
 
   security: {

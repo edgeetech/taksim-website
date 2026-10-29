@@ -6,6 +6,8 @@ import { funnel } from '@/lib/funnel';
 import { release } from '@/lib/release';
 import { MacInstall } from '@/components/mac-install';
 import { InstallTrust } from '@/components/install-trust';
+import { ManualInstall } from '@/components/manual-install';
+import { TurnOnSavings } from '@/components/turn-on-savings';
 
 const updateCommands = `taksim update
 taksim update --apply${release.unsignedInstall ? ' --allow-unsigned' : ''}`;
@@ -33,6 +35,7 @@ export function QuickStartPage({ locale }: { locale: Locale }) {
           />
           <p>{rich(t.install.after)}</p>
           <InstallTrust locale={locale} />
+          <ManualInstall locale={locale} />
         </section>
 
         <MacInstall locale={locale} />
@@ -64,6 +67,8 @@ export function QuickStartPage({ locale }: { locale: Locale }) {
           </div>
           <p>{t.dashboard.after}</p>
         </section>
+
+        <TurnOnSavings locale={locale} title={t.savings.title} />
 
         <div className="docs-callout" data-funnel={funnel.docsNext}>
           <strong>{t.doneTitle}</strong>
@@ -108,6 +113,8 @@ export function QuickStartPage({ locale }: { locale: Locale }) {
         <Link href="#install">{t.toc.install}</Link>
         <Link href="#setup">{t.toc.setup}</Link>
         <Link href="#dashboard">{t.toc.dashboard}</Link>
+        <Link href="#savings">{t.toc.savings}</Link>
+        <Link href="#manual">{t.toc.manual}</Link>
         <Link href="#troubleshooting">{t.toc.troubleshooting}</Link>
         <Link href="#update">{t.toc.update}</Link>
         <Link href="#uninstall">{t.toc.uninstall}</Link>

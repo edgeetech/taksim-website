@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { CopyCommand } from '@/components/copy-command';
+import { SoftwareApplicationJsonLd } from '@/components/json-ld';
 import { PilotBenchmark } from '@/components/pilot-benchmark';
 import { PricingPlans } from '@/components/pricing-plans';
 import { clientSupport } from '@/lib/client-support';
@@ -22,6 +23,7 @@ export function HomePage({ locale }: { locale: Locale }) {
   const clientNames = [...new Set(clientSupport.map((row) => dict.matrix.rows[row.id].client))];
   return (
     <main className="home">
+      <SoftwareApplicationJsonLd locale={locale} />
       <section className="hero" aria-labelledby="hero-title">
         <div className="hero-backdrop" aria-hidden="true" />
         <div className="shell hero-layout">

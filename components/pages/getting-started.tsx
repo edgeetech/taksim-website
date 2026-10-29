@@ -4,6 +4,8 @@ import { getDictionary, localePath, type Locale } from '@/lib/i18n';
 import { release } from '@/lib/release';
 import { MacInstall } from '@/components/mac-install';
 import { InstallTrust } from '@/components/install-trust';
+import { ManualInstall } from '@/components/manual-install';
+import { TurnOnSavings } from '@/components/turn-on-savings';
 
 const verificationCommand = `taksim version
 taksim doctor
@@ -81,6 +83,7 @@ export function GettingStartedPage({ locale }: { locale: Locale }) {
           </div>
           <p className="docs-note">{rich(t.install.note)}</p>
           <InstallTrust locale={locale} />
+          <ManualInstall locale={locale} />
         </section>
 
         <MacInstall locale={locale} />
@@ -139,6 +142,8 @@ export function GettingStartedPage({ locale }: { locale: Locale }) {
           <p>{t.inspect.after}</p>
         </section>
 
+        <TurnOnSavings locale={locale} title={t.savingsTitle} />
+
         <section id="import-history">
           <h2>{t.history.title}</h2>
           <p>{t.history.body}</p>
@@ -176,6 +181,7 @@ export function GettingStartedPage({ locale }: { locale: Locale }) {
         <Link href="#start-session">{t.toc.session}</Link>
         <Link href="#verify-session">{t.toc.inspect}</Link>
         <Link href="#import-history">{t.toc.history}</Link>
+        <Link href="#savings">{t.toc.savings}</Link>
         <Link href="#troubleshooting">{t.toc.troubleshooting}</Link>
       </aside>
     </div>

@@ -23,6 +23,12 @@ export function DocsHomePage({ locale }: { locale: Locale }) {
             <Rich text={t.accountBody} locale={locale} />
           </p>
         </div>
+        <div className="docs-callout">
+          <strong>{t.helpTitle}</strong>
+          <p>
+            <Rich text={t.helpBody} locale={locale} />
+          </p>
+        </div>
         <section id="how-taksim-works">
           <h2>{t.how.title}</h2>
           <p>{t.how.body}</p>

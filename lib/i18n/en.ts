@@ -29,8 +29,9 @@ const featureList = (ids: readonly FeatureId[]) => ids.map((id) => feature[id]);
 
 export const en = {
   meta: {
-    siteTitle: 'Taksim — Frontier intelligence, only when the work requires it',
+    siteTitle: 'Taksim — Spend control and receipts for Claude Code',
     titleTemplate: '%s — Taksim',
+    ogAlt: 'Taksim: spend control and receipts for Claude Code. −{costSavingPct} vs always-Opus in an internal pilot.',
     description:
       'Taksim is a local control plane for AI coding agents. Its ledger records which model ran each turn, what it cost, and when a cheaper model would have done the job. Free for individual developers.',
     pages: {
@@ -89,6 +90,16 @@ export const en = {
         description:
           'Method and caveats of the internal Taksim pilot: task set, the three arms, hidden acceptance checks, cost basis, and how routing learns from outcomes.',
       },
+      troubleshooting: {
+        title: 'Troubleshooting',
+        description:
+          'Fixes with the exact command and the output to expect: gateway, judge hook, routing modes, budget downgrades, unsigned updates, the macOS PATH and removing hooks.',
+      },
+      changelog: {
+        title: 'Changelog',
+        description:
+          'What changed in each recent Taksim release, one sentence per change, with the detail one click away.',
+      },
       compare: {
         title: 'Compare',
         description:
@@ -117,6 +128,7 @@ export const en = {
       docs: 'Docs',
       benchmark: 'Pilot benchmark',
       compare: 'Compare',
+      changelog: 'Changelog',
     },
     talkToUs: 'Talk to us',
     install: 'Get Taksim free',
@@ -1004,6 +1016,8 @@ export const en = {
           ['How Taksim works', '/docs#how-taksim-works'],
           ['Step by step', '/how-it-works'],
           ['Pilot benchmark', '/benchmark'],
+          ['Compare', '/compare'],
+          ['Changelog', '/changelog'],
         ],
       },
       {
@@ -1012,6 +1026,7 @@ export const en = {
           ['Easy install', '/docs/quick-start'],
           ['Full install guide', '/docs/getting-started'],
           ['Next steps', '/docs/next-steps'],
+          ['Troubleshooting', '/docs/troubleshooting'],
         ],
       },
       {
@@ -1083,6 +1098,13 @@ export const en = {
         keywords: 'dashboard judge budget enforce downgrade mode economy balanced quality advisor digest slack webhook notify alerts team export summary',
       },
       {
+        title: 'Troubleshooting',
+        copy: 'Fix a stopped gateway, a silent judge hook, a mode that changed nothing, a budget downgrade, an unsigned update and the macOS PATH, or remove the hooks.',
+        href: '/docs/troubleshooting',
+        keywords:
+          'troubleshooting gateway not running stale judge hook stop mode economy subscription budget downgrade update apply unsigned allow-unsigned macos path uninstall dry-run fix error',
+      },
+      {
         title: 'How Taksim works',
         copy: 'Understand the local ledger, judging, consensus and the shadow policy.',
         href: '#how-taksim-works',
@@ -1116,6 +1138,9 @@ export const en = {
     accountTitle: 'No account, no Taksim server',
     accountBody:
       'Install Taksim and use it without an account or sign-in. Taksim runs no server of its own: the ledger, the reports and the dashboard stay on your machine. Start with the [easy install](/docs/quick-start).',
+    helpTitle: 'Something not working?',
+    helpBody:
+      'The [troubleshooting guide](/docs/troubleshooting) gives the exact command and the output to expect for the common problems. See [what changed](/changelog) in each release.',
     how: {
       title: 'How Taksim works',
       body: 'Taksim reads the local history and hooks your coding clients already write, prices each session by model, and records it in a local ledger. It stores metadata only: no prompts, responses, code or credentials. Local repository folders stay in your local database only, to attribute cost, and never appear in exports.',
@@ -1298,11 +1323,35 @@ export const en = {
         'To permanently delete local data too, run `taksim uninstall --purge-data`. This cannot be undone.',
       ],
     },
+    savings: {
+      title: '4. Turn on savings',
+      body: 'Setup only observes. Pick the path that matches how you pay for Claude Code. Either way Taksim switches only among Claude models, and `taksim mode balanced` puts the defaults back.',
+      apiKeyTitle: 'On an Anthropic API key',
+      apiKeyBody:
+        'You are billed per token. `taksim mode economy` keeps ordinary requests on Sonnet at low effort in sessions you start with `taksim claude`. It prints this:',
+      subscriptionTitle: 'On a Claude subscription (Pro, Max or Team)',
+      subscriptionBody:
+        'Subscription traffic is only observed until you opt in. Read the [plan terms note](/docs#subscriptions-and-api-keys) first: Anthropic restricts third-party intermediation of Claude.ai credentials, so you decide. Then turn routing on, choose the mode and start a new `taksim claude` session. Requests Taksim raises to Opus use plan quota faster.',
+      checkTitle: 'Check the result',
+      checkBody:
+        'After some work, run `taksim report weekly`. It shows spend, what always-default-tier and always-strong-tier would have cost, and how Taksim’s selections compared with what ran. With no sessions yet, every figure reads `n/a`:',
+    },
+    manual: {
+      title: 'Manual install and checksum check',
+      body: 'The one-line installer already checks the download against `SHA256SUMS.txt`. To check it yourself first, open the [latest release](https://github.com/edgeetech/taksim-releases/releases/latest) and download the archive for your system together with `SHA256SUMS.txt`. Then compare hashes.',
+      windowsTitle: 'Windows (PowerShell)',
+      windowsAfter: 'The `Hash` value must equal the entry for that file in `SHA256SUMS.txt`; letter case does not matter.',
+      macTitle: 'macOS (Terminal)',
+      macAfter: 'Both hashes must be identical. On an Intel Mac use `taksim-connector-osx-x64.tar.gz` instead.',
+      after: 'If they differ, do not run the file: download it again and tell us at [info@edgee.tech](mailto:info@edgee.tech). To install from files you verified, follow the offline install steps linked from the [releases repository](https://github.com/edgeetech/taksim-releases).',
+    },
     toc: {
       label: 'On this page',
       install: 'Install',
       setup: 'Run setup',
       dashboard: 'Open the dashboard',
+      savings: 'Turn on savings',
+      manual: 'Manual install',
       troubleshooting: 'Troubleshooting',
       update: 'Update',
       uninstall: 'Uninstall',
@@ -1383,6 +1432,7 @@ export const en = {
         },
       ],
     },
+    savingsTitle: '8. Turn on savings',
     toc: {
       label: 'On this page',
       plan: 'Confirm your plan',
@@ -1393,6 +1443,7 @@ export const en = {
       session: 'Managed session',
       inspect: 'Inspect latest session',
       history: 'Import history',
+      savings: 'Turn on savings',
       troubleshooting: 'Troubleshooting',
     },
   },
@@ -1466,6 +1517,106 @@ export const en = {
       desktop: 'Routing (plain claude sessions)',
       team: 'Team roll-up',
     },
+  },
+
+  troubleshooting: {
+    eyebrow: 'Troubleshooting',
+    title: 'Troubleshooting',
+    lede: 'Each entry gives the exact command to run and what you should see. Paths, process ids and version numbers on your machine will differ. For install problems such as SmartScreen or a missing PATH on Windows, see [easy install](/docs/quick-start#troubleshooting).',
+    commandLabel: 'Run',
+    outputLabel: 'You should see',
+    stillStuck:
+      'Still stuck? Run `taksim doctor` and send its output to [support](mailto:info@edgee.tech?subject=Taksim%20support).',
+    toc: { label: 'On this page' },
+    items: {
+      gateway: {
+        q: 'The gateway is not running, or its status looks stale',
+        intro:
+          'The local gateway starts on demand for sessions you launch with `taksim claude`. Check it first, then start it again if needed.',
+        steps: [
+          'Check whether it is running. A healthy gateway prints these lines; the port is 4027 unless you changed it.',
+          'If it prints `Gateway: not running.`, or the process it names no longer exists (after a crash or a reboot, for example), start it again. The command is safe to repeat.',
+          'If it still does not come up, stop it and start it again. `taksim gateway stop` waits for an idle gateway; add `--force` to stop a busy one.',
+        ],
+      },
+      judge: {
+        q: 'The judge hook is not firing',
+        intro:
+          'A finished Claude Code turn is graded by the in-session judge through a Stop hook. Check that judging is on and that the hook is installed where your session reads it.',
+        steps: [
+          'Look for these lines. `none recorded` means no turn has been graded yet.',
+          'If judging is disabled, or the user-level hook is not installed, turn both on. `--user-settings` covers any Claude Code session, not only `taksim claude`; add `--dry-run` first to preview the settings change. Then restart Claude Code so it reloads its settings.',
+        ],
+      },
+      mode: {
+        q: 'I set a mode, but nothing changed',
+        intro:
+          '`taksim mode` changes routing only where Taksim routes: sessions you start with `taksim claude` on an API key, or on a Claude login after you opt in.',
+        steps: [
+          'Confirm the mode is applied. The last two lines say what it does not touch.',
+          'On a Claude subscription, check whether you opted in. `off` means Taksim only observes.',
+          'To opt in, read the [plan terms note](/docs#subscriptions-and-api-keys) first, then turn it on and start a new `taksim claude` session.',
+        ],
+        note: 'The Claude desktop app’s Code tab cannot be routed: the app sets its own API endpoint for each session, so Taksim observes it only. Start your session with `taksim claude` in a terminal instead.',
+      },
+      budget: {
+        q: 'A budget downgrade happened',
+        intro:
+          'With the opt-in budget enforcement (a Pro feature), the gateway serves Claude requests on a cheaper tier while a daily or monthly budget is at or above its threshold. It never blocks a request. This is what an empty install prints; yours shows your spend.',
+        steps: [
+          'See each budget window, the threshold and how many downgrades were recorded.',
+          'List the downgrades and the escalations back to the requested model.',
+          'To go back to warnings only, turn enforcement off. Stepping down also ends by itself when the day or month rolls over or when you raise the limit.',
+        ],
+      },
+      update: {
+        q: '`taksim update --apply` refuses an unsigned build',
+        intro:
+          'Before it runs a downloaded installer, `taksim update --apply` checks the installer’s signature and its entry in `SHA256SUMS.txt`. Windows builds are unsigned today, so the signature check passes only with an explicit opt-in.',
+        steps: [
+          'See whether a newer release exists.',
+          'If applying the update stops with this message, the installer has no valid signature.',
+          'If you trust the publisher and your installed build is itself unsigned, repeat it with the opt-in. A signed install never accepts an unsigned installer.',
+          'Confirm the new version.',
+        ],
+      },
+      macPath: {
+        q: 'macOS: the shell cannot find `taksim`',
+        intro:
+          'macOS is a preview and has not been tested on Mac hardware. The installer links `taksim` into `~/.local/bin` and does not edit your shell profile.',
+        steps: [
+          'Run it by its full path to confirm it is installed.',
+          'Add the folder to your PATH (zsh is the default shell; use `~/.bash_profile` for bash), then open a new Terminal window.',
+          'Check that the short command now works.',
+        ],
+      },
+      uninstall: {
+        q: 'I want to remove Taksim’s hooks',
+        intro:
+          'Taksim adds a Stop hook to your Claude and Codex settings only where you asked for it. See exactly what an uninstall would touch before you run it.',
+        steps: [
+          'Preview the removal. Nothing is changed.',
+          'Remove Taksim and its hooks. Your ledger and reports are kept; add `--purge-data` to delete local data too, which cannot be undone.',
+        ],
+      },
+    },
+  },
+
+  changelog: {
+    eyebrow: 'Changelog',
+    title: 'What changed in each release.',
+    lede: 'The latest releases, each change in a sentence. Select a change for the detail.',
+    latest: 'Latest',
+    released: 'Released',
+    details: 'Detail',
+    source: 'Copied from the product’s own changelog for the five most recent releases.',
+    install: 'Get Taksim free',
+  },
+
+  platform: {
+    macPreview: 'Preview: not yet tested on Mac hardware',
+    macPreviewNote:
+      'macOS support is a preview. This release has not been tested on Mac hardware.',
   },
 
   security: {

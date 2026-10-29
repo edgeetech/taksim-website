@@ -3252,3 +3252,71 @@ textarea::placeholder {
 .compare-limits {
   margin-top: 12px;
 }
+
+/* Troubleshooting and changelog */
+.troubleshooting-steps {
+  display: grid;
+  gap: 18px;
+  margin: 18px 0 0;
+  padding-left: 22px;
+}
+.troubleshooting-steps > li > p {
+  margin: 0 0 8px;
+}
+.troubleshooting-label {
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.troubleshooting-steps .docs-command-list {
+  gap: 6px;
+}
+.troubleshooting-steps .docs-command-list pre {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.changelog-entry + .changelog-entry {
+  margin-top: 8px;
+}
+.changelog-tag {
+  margin-left: 12px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  vertical-align: middle;
+}
+.changelog-date {
+  margin: 0 0 12px;
+}
+.changelog-items {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.changelog-items > li {
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.changelog-items > li > p {
+  margin: 0;
+}
+.changelog-items details {
+  margin-top: 8px;
+}
+.changelog-items summary {
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+.changelog-items details p {
+  font-size: 0.92rem;
+}
