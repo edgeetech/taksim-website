@@ -1,6 +1,6 @@
 # Taksim
 
-Taksim is a local-first control plane for AI coding agents, built around a sufficiency ledger. It reads the local history and hooks of coding agents (Claude Code, Codex, GitHub Copilot CLI, Devin, Devin Desktop, OpenCode, Kilo Code, Pi and Oh My Pi, Agent Workstation), prices every session, and grades finished turns with an LLM judge to show when a cheaper model would have been enough. It stores metadata only: no prompts, responses, code, paths or credentials.
+Taksim is a local-first control plane for AI coding agents, built around a sufficiency ledger. It reads the local history and hooks of coding agents (Claude Code, Codex, GitHub Copilot CLI, Devin, Devin Desktop, OpenCode, Kilo Code, Pi and Oh My Pi, Agent Workstation), prices every session, and grades finished turns with an LLM judge to show when a cheaper model would have been enough. It stores metadata only: no prompts, responses, code or credentials. Local repository folders stay in your local database only, to attribute cost, and never appear in exports.
 
 Canonical site: https://taksim.edgee.tech
 Easy install (3 steps): https://taksim.edgee.tech/docs/quick-start
@@ -11,6 +11,7 @@ Client support table: https://taksim.edgee.tech/clients
 Internal pilot benchmark (method and caveats): https://taksim.edgee.tech/benchmark
 Documentation: https://taksim.edgee.tech/docs
 Pricing: https://taksim.edgee.tech/pricing
+Security (network destinations, local service guards, releases, disclosure): https://taksim.edgee.tech/security
 Privacy: https://taksim.edgee.tech/privacy
 Turkish: https://taksim.edgee.tech/tr/
 
@@ -23,7 +24,7 @@ Client boundary (Observe = history import and reports; Judge = LLM judge grades 
 - Claude Code on a Claude plan (Free, Pro, Max, Team, Enterprise): history import, hooks, status line, judging, reports. Observed by default. Opt-in: `taksim routing subscription on` (off by default) routes `taksim claude` on a Pro, Max or Team login through the local gateway for Claude-only model switching; the login stays the credential and is never read, copied or logged.
 - Claude Code on an Anthropic API key: all of the above, plus optional live routing through the local gateway in sessions launched with `taksim claude`.
 - Codex CLI on a ChatGPT plan: history import from `CODEX_HOME` sessions, judging (history judging and an in-session Stop hook), reports. Observe-only in the current release.
-- Codex CLI on an OpenAI API key: all of the above, plus optional live routing through the local gateway in sessions launched with `taksim codex`.
+- Codex CLI on an OpenAI API key: history import, judging, reports. Observed; not routed. Taksim routes only between Claude models.
 - GitHub Copilot CLI: usage import from the local Copilot CLI session store, reports. Not judged; no request-time routing.
 - Devin CLI: history import and reports. Not judged; no routing.
 - Devin Desktop (formerly Windsurf): history import and judging. Observe-only; never routed.

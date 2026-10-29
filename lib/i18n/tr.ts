@@ -54,6 +54,11 @@ export const tr: Dictionary = {
         description:
           'Ücretsiz geliştirici kullanımı, ücretli planlar, üçüncü taraf sağlayıcılar, doğrulama ve ekonomik sınırları açıklayan önizleme koşulları.',
       },
+      security: {
+        title: 'Güvenlik',
+        description:
+          'Taksim’in nerelere bağlandığı, yerel servislerinin nasıl korunduğu, sürümlerin nasıl doğrulandığı ve bir güvenlik açığının nasıl bildirileceği.',
+      },
       quickStart: {
         title: 'Kolay kurulum',
         description:
@@ -116,19 +121,13 @@ export const tr: Dictionary = {
       legal: 'Yasal',
       privacy: 'Gizlilik',
       terms: 'Koşullar',
+      security: 'Güvenlik',
       company: 'EdgeeTech Ltd.',
     },
     language: {
       label: 'Dil',
     },
     untranslated: 'Bu sayfa şimdilik İngilizce.',
-    trust: {
-      eyebrow: 'Güven ve Uyumluluk',
-      title: 'Ciddi mühendislik ekiplerinin beklediği kontrolleri kuruyoruz.',
-      soc2: 'SOC 2 — Süreç devam ediyor',
-      iso: 'ISO 27001 — Süreç devam ediyor',
-      underway: 'Sertifikasyon süreci devam ediyor.',
-    },
   },
 
   notFound: {
@@ -159,7 +158,7 @@ export const tr: Dictionary = {
       },
       {
         title: 'Tasarımı gereği gizli.',
-        body: 'Yalnızca metadata saklayan yerel bir binary: prompt, yanıt, kod, dosya yolu ya da kimlik bilgisi yok.',
+        body: 'Yalnızca metadata saklayan yerel bir binary: prompt, yanıt, kod ya da kimlik bilgisi yok. Repo klasörleri makinenizde kalır ve export’larda asla yer almaz.',
       },
     ],
     pilot: {
@@ -286,7 +285,7 @@ export const tr: Dictionary = {
         {
           name: 'Kendi API key’iniz',
           economics: 'Anthropic ve OpenAI API key’leri: token başına faturalanan dolar.',
-          current: 'Yukarıdakilerin tümü; ayrıca taksim claude veya taksim codex ile başlattığınız oturumlarda isteğe bağlı yerel gateway, consensus kararlarından yönlendirme önerileri ve taksim claude oturumları için modelinize geri dönen, isteğe bağlı otomatik yönlendirme.',
+          current: 'Yukarıdakilerin tümü; ayrıca taksim claude ile başlattığınız oturumlarda isteğe bağlı yerel gateway, consensus kararlarından yönlendirme önerileri ve taksim claude oturumları için modelinize geri dönen, isteğe bağlı otomatik yönlendirme.',
         },
         {
           name: 'Özel ve yerel modeller',
@@ -313,7 +312,7 @@ export const tr: Dictionary = {
       title: 'İşinizin şeklini saklar, kelimelerini asla.',
       points: [
         'Saklananlar: istemci, model, token, maliyet ve judge kararları.',
-        'Asla saklanmayanlar: prompt’lar, yanıtlar, kaynak kod, kimlik bilgileri ve yerel dosya yolları.',
+        'Asla saklanmayanlar: prompt’lar, yanıtlar, kaynak kod veya kimlik bilgileri. Yerel repo klasörleri yalnızca yerel veritabanınızda, maliyeti atfetmek için tutulur ve export’larda asla yer almaz.',
         'Kendi key’inizle çalışan uzak bir judge, yalnızca siz izin verdikten sonra kısaltılmış alıntılar alır. Ollama ile değerlendirme makinenizde kalır.',
       ],
       link: 'Gizlilik modelini okuyun',
@@ -462,9 +461,10 @@ export const tr: Dictionary = {
         'Tur başına istemci, model ve efor',
         'Token sayıları, cache kullanımı ve liste fiyatı maliyeti',
         'Judge kararları: seviye, güven, işaretler',
+        'Yerel repo klasörleri: yalnızca yerel veritabanınızda, maliyeti atfetmek için tutulur; export’larda asla yer almaz',
       ],
       neverTitle: 'Asla saklanmayanlar',
-      never: ['Prompt’lar ve model yanıtları', 'Kaynak kod ve diff’ler', 'Kimlik bilgileri ve yerel dosya yolları'],
+      never: ['Prompt’lar ve model yanıtları', 'Kaynak kod ve diff’ler', 'Kimlik bilgileri'],
       judgingTitle: 'Değerlendirme nerede yapılır',
       judges: [
         {
@@ -758,11 +758,11 @@ export const tr: Dictionary = {
       codexApi: {
         client: 'Codex CLI',
         access: 'OpenAI API key',
-        observe: 'Geçmiş içe aktarma ve yerel gateway.',
+        observe: 'CODEX_HOME oturumlarından geçmiş içe aktarma.',
         judge: '',
-        gateway: 'İsteğe bağlı; taksim codex ile başlattığınız oturumlarda.',
+        gateway: 'Codex için kullanılmaz.',
         context: '',
-        route: 'İsteğe bağlı; yerel gateway üzerinden, taksim codex ile başlattığınız oturumlarda.',
+        route: 'Gözlemlenir; yönlendirilmez. Taksim yalnızca Claude modelleri arasında yönlendirme yapar.',
       },
       copilotPlan: {
         client: 'GitHub Copilot',
@@ -982,7 +982,7 @@ export const tr: Dictionary = {
       'Taksim’i kurun ve hesap ya da giriş olmadan kullanın. Taksim’in kendi sunucusu yoktur: defter, raporlar ve dashboard sizin makinenizde kalır. [Kolay kurulumla](/docs/quick-start) başlayın.',
     how: {
       title: 'Taksim nasıl çalışır',
-      body: 'Taksim, kodlama istemcilerinizin zaten yazdığı yerel geçmişi ve hook’ları okur, her oturumu modele göre fiyatlandırır ve yerel bir deftere kaydeder. Yalnızca metadata saklar: prompt, yanıt, kod, dosya yolu ya da kimlik bilgisi saklamaz.',
+      body: 'Taksim, kodlama istemcilerinizin zaten yazdığı yerel geçmişi ve hook’ları okur, her oturumu modele göre fiyatlandırır ve yerel bir deftere kaydeder. Yalnızca metadata saklar: prompt, yanıt, kod veya kimlik bilgisi saklamaz. Yerel repo klasörleri maliyeti atfetmek için yalnızca yerel veritabanınızda tutulur ve export’larda asla yer almaz.',
       calloutTitle: 'Önce gözlem',
       calloutBody:
         'Varsayılan olarak Taksim kaydeder ve değerlendirir. Hangi modelin çalışacağını değiştirmez. Canlı yönlendirme isteğe bağlıdır ve yalnızca kendi API key’inize faturalanan trafikle sınırlıdır.',
@@ -1023,7 +1023,7 @@ export const tr: Dictionary = {
       body3:
         'Neden isteğe bağlı ve yalnızca-Claude: Taksim bir subscription turunu asla üçüncü taraf bir modele yönlendirmez ve gateway girişinizi asla okumaz, kopyalamaz veya loglamaz. EdgeeTech, Anthropic koşullarını Claude modelleri arasında seçime izin veren ve üçüncü taraf modelleri yasaklayan şekilde okur; bu, Anthropic onayı değildir. Anthropic’in Claude Code için Legal and compliance sayfası, Claude.ai kimlik bilgilerine üçüncü taraf aracılığını kısıtlıyor (Free, Pro ve Max’i anıyor; Team ve Enterprise açıkça ele alınmıyor); `routing.subscription` bu yüzden varsayılan olarak kapalıdır ve açıp açmamaya siz karar verirsiniz. OpenAI, ChatGPT girişi için bir proxy yolu belgeliyor; ancak Taksim bu yolda plan, kota ve workspace denetimlerinin korunduğunu doğrulamadı, bu yüzden Codex planları yalnızca gözlemlenir. Sağlayıcı hakları ve workspace politikası belirleyici olmaya devam eder.',
       body4:
-        'Claude masaüstü uygulamasının (Code sekmesi) oturumları henüz yönlendirilmez, yalnızca gözlemlenir: uygulama her oturum için kendi API uç noktasını belirlediğinden bu oturumlar doğrudan Anthropic’e gider. `taksim desktop on`, o profilde terminalden başlatılan düz `claude` CLI oturumlarını yönlendirir; `taksim desktop off` kapatır ve varsayılan olarak kapalıdır. `routing.subscription` üzerine kuruludur; aynı yalnızca-Claude izin listesi, `availableModels`, --model ve /model kuralları geçerlidir ve giriş değiştirilmeden iletilir, okunmaz ve saklanmaz. Her Windows oturumunda tek bir gateway çalışır. Gateway kullanılamıyorsa oturumlar doğrudan Anthropic’e gider (fail-open). Windows’ta test edildi; bu özellik için macOS test edilmedi.',
+        'Claude masaüstü uygulamasının (Code sekmesi) oturumları henüz yönlendirilmez, yalnızca gözlemlenir: uygulama her oturum için kendi API uç noktasını belirlediğinden bu oturumlar doğrudan Anthropic’e gider. `taksim desktop on`, o profilde terminalden başlatılan düz `claude` CLI oturumlarını yönlendirir; `taksim desktop off` kapatır ve varsayılan olarak kapalıdır. `routing.subscription` üzerine kuruludur; aynı yalnızca-Claude izin listesi, `availableModels`, --model ve /model kuralları geçerlidir ve giriş değiştirilmeden iletilir, okunmaz ve saklanmaz. Her Windows oturumunda tek bir gateway çalışır. Bir oturum başlarken gateway kullanılamıyorsa oturum doğrudan Anthropic’e gider. Windows’ta test edildi; bu özellik için macOS test edilmedi.',
     },
     verification: {
       title: 'Doğrulama kanıta bağlıdır',
@@ -1211,7 +1211,7 @@ export const tr: Dictionary = {
     },
     session: {
       title: '6. İsteğe bağlı: yönetilen bir oturum başlatın',
-      body: '`claude`, `codex` ve diğer istemcilerinizi eskisi gibi çalıştırmaya devam edebilirsiniz; Taksim geçmişlerini okur. Taksim’in Claude Code veya Codex’i kendi hook’ları ve status line’ı ile (isteğe bağlı yönlendirmeyle) başlatmasını istiyorsanız aşağıdakilerden birini çalıştırın. Yerel istemciye yönelik argümanlar komutun ardından gelebilir.',
+      body: '`claude`, `codex` ve diğer istemcilerinizi eskisi gibi çalıştırmaya devam edebilirsiniz; Taksim geçmişlerini okur. Taksim’in Claude Code’u hook’ları, status line’ı ve isteğe bağlı yönlendirmesiyle, Codex’i ise hook’ları ve status line’ı ile başlatmasını istiyorsanız aşağıdakilerden birini çalıştırın. Yerel istemciye yönelik argümanlar komutun ardından gelebilir.',
       expectTitle: 'Ne beklemelisiniz',
       expectBody:
         'Claude veya ChatGPT subscription’ında Taksim istemciyi yerel olarak başlatır ve gözlemler; Claude Code subscription trafiği yalnızca `taksim routing subscription on` ile açarsanız Taksim’den geçer. API key ile Taksim önce yerel gateway’ini `127.0.0.1` üzerinde hazırlar; yönetilen yol kullanılamazsa istemci kendi yerel davranışına döner. Defter yerelde kalır. Güncelleme ve fiyat kontrolleri ağı kullanır; isteğe bağlı uzak judge’lar ile yapılandırılmış bildirim veya dışa aktarma hedefleri seçilen verileri alır. Kodlama istemciniz kendi sağlayıcısına bağlanmaya devam eder.',
@@ -1330,6 +1330,63 @@ export const tr: Dictionary = {
       desktop: 'Yönlendirme (düz claude oturumları)',
       team: 'Ekip toplu görünümü',
     },
+  },
+
+  security: {
+    eyebrow: 'Güvenlik',
+    title: 'Makinenizde çalışır. Yalnızca gerektiğinde bağlanır.',
+    lede: 'EdgeeTech hiçbir Taksim sunucusu işletmez; dolayısıyla ihlal edilebilecek barındırılan bir defter ve güvenmeniz gereken bir telemetri uç noktası yoktur. Bu sayfa Taksim’in kendi kullandığı ağ hedeflerini, yerel servislerinin nasıl korunduğunu ve bir sorunun nasıl bildirileceğini listeler.',
+    summaryLabel: 'Sade özet.',
+    summary: 'Defteriniz, dashboard’unuz ve ayarlarınız bilgisayarınızda kalır. Taksim yalnızca aşağıdaki hostlara bağlanır ve her biri sizin başlattığınız ya da açtığınız bir özelliğe bağlıdır. Kodlama istemcileriniz yine kendi sağlayıcılarıyla, o sağlayıcıların koşulları altında konuşur.',
+    egressTitle: 'Ağ hedefleri',
+    egressLede: 'Taksim’in bağlandığı her host ve ne zaman bağlandığı.',
+    egressCaption: 'Taksim’in kullandığı ağ hedefleri ve her birini kullanan özellik',
+    egressHeaders: { host: 'Host', purpose: 'Ne için', when: 'Ne zaman' },
+    egress: [
+      { host: 'api.anthropic.com', purpose: 'Yerel gateway üzerinden geçen Claude istekleriniz ve isteğe bağlı Anthropic API key judge’ı.', when: 'API key ile `taksim claude` başlattığınız oturumlarda ya da `taksim routing subscription on` ile açtıktan sonra bir Claude girişinde. Judge yalnızca sizin yapılandırdığınız bir key ile çalışır.' },
+      { host: 'github.com', purpose: 'Sürüm indirmeleri, yükleyici ve güncelleme kontrolleri.', when: 'Kurarken, `taksim update` çalıştırdığınızda veya bir güncelleme kontrolü çalıştığında. Güncelleme kontrollerini kapatmak için `TAKSIM_UPDATE_CHECK=0` ayarlayın.' },
+      { host: 'api.github.com', purpose: 'İşi harcamayla ilişkilendirmek için pull request ve repo tanımlayıcıları.', when: 'Yalnızca `GITHUB_TOKEN` ayarlıysa veya GitHub CLI’da oturum açıksa.' },
+      { host: 'platform.claude.com', purpose: 'Taksim’in model fiyat kataloğunu güncel tutmak için Anthropic’in herkese açık fiyat ve model yaşam döngüsü sayfaları.', when: 'Yerel gateway model kataloğunu yenilediğinde.' },
+      { host: 'huggingface.co', purpose: 'Herkese açık bir araştırma veri kümesinin sınırlı bir önizlemesi (datasets-server.huggingface.co dahil).', when: 'Yalnızca `taksim research trace-commons` çalıştırdığınızda.' },
+      { host: 'api.typesafe.ai', purpose: 'Kendi key’inizle Jev judge’ı ve istek öncesi yönlendirici.', when: 'Yalnızca Jev’i seçtiğinizde (`taksim set-judge jev`).' },
+    ],
+    egressNote: 'Sizin talimatınızla ayrıca: `taksim notify configure` ile ayarladığınız bir Slack veya webhook adresi ve ekip export’ları için seçtiğiniz bir klasör. Claude Code, Codex ve diğer kodlama istemcileri prompt’ları kendi sağlayıcılarına, o sağlayıcıların koşulları altında gönderir; Taksim, makinenizdeki yerel gateway dışında, bunların nereye bağlandığını değiştirmez.',
+    sections: [
+      {
+        title: 'Yerel servisler loopback üzerinde kalır',
+        body: 'Gateway, dashboard ve hook uç noktası yalnızca 127.0.0.1 üzerinde dinler. Host, Origin ve Sec-Fetch-Site başlıklarını denetler ve siteler arası tarayıcı isteklerini reddeder; böylece tarayıcınızda açık bir web sayfası bunlara erişemez.',
+      },
+      {
+        title: 'Hook secret',
+        body: 'Hook uç noktası olayları yalnızca kurulum başına paylaşılan bir secret ile (`X-Taksim-Hook-Secret` başlığı) kabul eder. Secret, Taksim ana klasörünüzde durur; uç nokta prompt metnini değil, olay kimliğini ve zamanlamasını saklar.',
+      },
+      {
+        title: 'Kimlik bilgileri',
+        body: 'Taksim’e verdiğiniz key’ler, örneğin bir Anthropic veya Jev judge key’i ya da bir Slack webhook adresi, deftere değil Windows Credential Manager’a veya macOS Keychain’e kaydedilir. Bu, onları makinenin diğer kullanıcılarından korur; sizin adınıza çalışan programlardan korumaz. Claude girişiniz asla okunmaz, kopyalanmaz veya loglanmaz: subscription yönlendirmesini açtığınızda gateway `Authorization` başlığını değiştirmeden iletir.',
+      },
+      {
+        title: 'Doğrulanmış sürümler',
+        body: 'Her sürüm `SHA256SUMS.txt` ile gelir. Yükleyici ve `taksim update --apply`, indirdiklerini bununla karşılaştırır; uyuşmazlıkta veya eksik kayıtta durur. İmzalı bir yükleyici, binary içine sabitlenmiş bir yayıncıdan gelmelidir.',
+      },
+      {
+        title: 'Kod imzalama',
+        body: 'Kod imzalama: beklemede; binary’ler bugün imzasız. Bu değişene kadar `SHA256SUMS.txt` dosyasını yükleyicinin yaptığı gibi doğrulayın ve Windows SmartScreen’in ilk çalıştırmada onay istemesini bekleyin.',
+      },
+      {
+        title: 'Neleri kapatabilirsiniz',
+        body: 'Güncelleme kontrolleri: `TAKSIM_UPDATE_CHECK=0` ayarlayın. Uzak judge’lar: yalnızca onlar için bir key yapılandırdıysanız çalışır; `taksim set-judge off` Jev judge’ını kapatır, Ollama ise judge işini makinenizde tutar. Bildirimler: `taksim notify configure` çalıştırana kadar hiçbir Slack veya webhook adresine bağlanılmaz.',
+      },
+      {
+        title: 'Neler saklanır',
+        body: 'Defter ve asla tutmadıkları [gizlilik sayfasında](/privacy) anlatılır.',
+      },
+      {
+        title: 'Güvenlik açığı bildirme',
+        body: '[info@edgee.tech](mailto:info@edgee.tech) adresine Taksim sürümünü (`taksim version`) ve yeniden üretme adımlarını yazın. Lütfen prompt, kaynak kod veya kimlik bilgisi eklemeyin. Aynı iletişim bilgisi [security.txt](https://taksim.edgee.tech/.well-known/security.txt) dosyasında da yayımlanır.',
+      },
+    ],
+    effectiveLabel: 'Son gözden geçirme:',
+    effective: '29 Ekim 2026.',
   },
 
   privacy: {

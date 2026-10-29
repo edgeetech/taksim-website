@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { ArrowRight, Menu } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { LanguageSwitcher } from '@/components/language-switcher';
-import { TrustStrip } from '@/components/trust-strip';
 import { funnel } from '@/lib/funnel';
 import { getDictionary, localePath, type Locale } from '@/lib/i18n';
 
@@ -95,7 +94,6 @@ export function Footer({ locale }: { locale: Locale }) {
   const href = (path: string) => localePath(locale, path);
   return (
     <>
-      <TrustStrip t={t.trust} />
       <footer className="site-footer">
         <div className="shell footer-grid">
           <div>
@@ -114,6 +112,7 @@ export function Footer({ locale }: { locale: Locale }) {
             <strong>{t.footer.legal}</strong>
             <Link href={href('/privacy')}>{t.footer.privacy}</Link>
             <Link href={href('/terms')}>{t.footer.terms}</Link>
+            <Link href={href('/security')}>{t.footer.security}</Link>
           </nav>
         </div>
         <div className="shell footer-bottom">

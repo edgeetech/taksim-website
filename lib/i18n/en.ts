@@ -54,6 +54,11 @@ export const en = {
         description:
           'Preview terms describing free developer use, paid plans, third-party providers, verification, and economics boundaries.',
       },
+      security: {
+        title: 'Security',
+        description:
+          'Where Taksim connects, how its local services are protected, how releases are verified, and how to report a vulnerability.',
+      },
       quickStart: {
         title: 'Easy install',
         description:
@@ -116,19 +121,13 @@ export const en = {
       legal: 'Legal',
       privacy: 'Privacy',
       terms: 'Terms',
+      security: 'Security',
       company: 'EdgeeTech Ltd.',
     },
     language: {
       label: 'Language',
     },
     untranslated: 'This page is currently available in English only.',
-    trust: {
-      eyebrow: 'Trust & Compliance',
-      title: 'Building the controls serious engineering teams expect.',
-      soc2: 'SOC 2 — In progress',
-      iso: 'ISO 27001 — In progress',
-      underway: 'Certification process underway.',
-    },
   },
 
   notFound: {
@@ -159,7 +158,7 @@ export const en = {
       },
       {
         title: 'Private by design.',
-        body: 'A local binary that stores metadata only: no prompts, responses, code, paths or credentials.',
+        body: 'A local binary that stores metadata only: no prompts, responses, code or credentials. Repository folders stay on your machine and never appear in exports.',
       },
     ],
     pilot: {
@@ -286,7 +285,7 @@ export const en = {
         {
           name: 'Your own API key',
           economics: 'Anthropic and OpenAI API keys: billed dollars per token.',
-          current: 'Everything above, plus an optional local gateway in sessions you launch with taksim claude or taksim codex, routing recommendations from consensus verdicts, and opt-in automatic routing for taksim claude sessions that escalates back to your model.',
+          current: 'Everything above, plus an optional local gateway in sessions you launch with taksim claude, routing recommendations from consensus verdicts, and opt-in automatic routing for taksim claude sessions that escalates back to your model.',
         },
         {
           name: 'Private and local models',
@@ -313,7 +312,7 @@ export const en = {
       title: 'It stores the shape of your work, never the words.',
       points: [
         'Stored: client, model, tokens, cost and judge verdicts.',
-        'Never stored: prompts, responses, source code, credentials or local paths.',
+        'Never stored: prompts, responses, source code or credentials. Local repository folders stay in your local database only, to attribute cost, and never appear in exports.',
         'A remote judge on your own key receives truncated excerpts, only after you opt in. With Ollama, judging stays on your machine.',
       ],
       link: 'Read the privacy model',
@@ -462,9 +461,10 @@ export const en = {
         'Client, model and effort per turn',
         'Token counts, cache use and list-price cost',
         'Judge verdicts: tier, confidence, flags',
+        'Local repository folders, in your local database only, to attribute cost; never in exports',
       ],
       neverTitle: 'Never stored',
-      never: ['Prompts and model responses', 'Source code and diffs', 'Credentials and local paths'],
+      never: ['Prompts and model responses', 'Source code and diffs', 'Credentials'],
       judgingTitle: 'Where judging happens',
       judges: [
         {
@@ -757,11 +757,11 @@ export const en = {
       codexApi: {
         client: 'Codex CLI',
         access: 'OpenAI API key',
-        observe: 'History import and the local gateway.',
+        observe: 'History import from CODEX_HOME sessions.',
         judge: '',
-        gateway: 'Optional, in sessions you start with taksim codex.',
+        gateway: 'Not used for Codex.',
         context: '',
-        route: 'Optional, through the local gateway, in sessions you start with taksim codex.',
+        route: 'Observed; not routed. Taksim routes only between Claude models.',
       },
       copilotPlan: {
         client: 'GitHub Copilot',
@@ -981,7 +981,7 @@ export const en = {
       'Install Taksim and use it without an account or sign-in. Taksim runs no server of its own: the ledger, the reports and the dashboard stay on your machine. Start with the [easy install](/docs/quick-start).',
     how: {
       title: 'How Taksim works',
-      body: 'Taksim reads the local history and hooks your coding clients already write, prices each session by model, and records it in a local ledger. It stores metadata only: no prompts, responses, code, paths or credentials.',
+      body: 'Taksim reads the local history and hooks your coding clients already write, prices each session by model, and records it in a local ledger. It stores metadata only: no prompts, responses, code or credentials. Local repository folders stay in your local database only, to attribute cost, and never appear in exports.',
       calloutTitle: 'Observe first',
       calloutBody:
         'By default Taksim records and judges. It does not change which model runs. Live routing is optional and limited to traffic billed to your own API key.',
@@ -1022,7 +1022,7 @@ export const en = {
       body3:
         'Why it is opt-in and Claude-only: Taksim never routes a subscription turn to a third-party model, and the gateway never reads, copies or logs your login. EdgeeTech reads Anthropic’s terms as allowing a choice among Claude models and forbidding third-party models; this is not an endorsement by Anthropic. Anthropic’s Legal and compliance page for Claude Code restricts third-party intermediation of Claude.ai credentials (it names Free, Pro and Max; Team and Enterprise are not clearly addressed), which is why `routing.subscription` is off by default and you decide whether to turn it on. OpenAI documents a proxy path for ChatGPT sign-in, but Taksim has not verified that plan, quota and workspace controls survive it, so Codex plans stay observe-only. Provider entitlements and workspace policy stay authoritative.',
       body4:
-        'Claude desktop app (Code tab) sessions are observed, not routed yet: the app sets its own API endpoint for each session, so they go straight to Anthropic. `taksim desktop on` routes plain `claude` CLI sessions started from a terminal on that profile; `taksim desktop off` turns it off, and it is off by default. It builds on `routing.subscription`, so the same Claude-only allowlist, `availableModels`, --model and /model rules apply, and the login is forwarded unchanged, never read or stored. One gateway runs per Windows logon session. If it is unavailable, sessions go straight to Anthropic (fail open). Tested on Windows; macOS is untested for this feature.',
+        'Claude desktop app (Code tab) sessions are observed, not routed yet: the app sets its own API endpoint for each session, so they go straight to Anthropic. `taksim desktop on` routes plain `claude` CLI sessions started from a terminal on that profile; `taksim desktop off` turns it off, and it is off by default. It builds on `routing.subscription`, so the same Claude-only allowlist, `availableModels`, --model and /model rules apply, and the login is forwarded unchanged, never read or stored. One gateway runs per Windows logon session. If the gateway is unavailable when a session starts, the session goes straight to Anthropic. Tested on Windows; macOS is untested for this feature.',
     },
     verification: {
       title: 'Verification is evidence-dependent',
@@ -1210,7 +1210,7 @@ export const en = {
     },
     session: {
       title: '6. Optional: start a managed session',
-      body: 'You can keep running `claude`, `codex` and your other clients exactly as before; Taksim reads their history. To let Taksim launch Claude Code or Codex with its hooks and status line (and optional routing), run one of these. Arguments for the native client can follow the command.',
+      body: 'You can keep running `claude`, `codex` and your other clients exactly as before; Taksim reads their history. To let Taksim launch Claude Code with its hooks, status line and optional routing, or Codex with its hooks and status line, run one of these. Arguments for the native client can follow the command.',
       expectTitle: 'What to expect',
       expectBody:
         'On a Claude or ChatGPT subscription, Taksim starts the client natively and observes it; Claude Code subscription traffic passes through Taksim only if you opt in with `taksim routing subscription on`. With an API key, Taksim prepares its local gateway on `127.0.0.1` first; if the managed path is unavailable, the client falls back to its native behaviour. The ledger stays local. Update and pricing checks use the network; optional remote judges and configured notifications or exports send selected data. Your coding client still connects to its own provider.',
@@ -1329,6 +1329,63 @@ export const en = {
       desktop: 'Routing (plain claude sessions)',
       team: 'Team roll-up',
     },
+  },
+
+  security: {
+    eyebrow: 'Security',
+    title: 'Runs on your machine. Connects only where it has to.',
+    lede: 'EdgeeTech operates no Taksim server, so there is no hosted ledger to breach and no telemetry endpoint to trust. This page lists the network destinations Taksim itself uses, how its local services are protected, and how to report a problem.',
+    summaryLabel: 'Plain-language summary.',
+    summary: 'Your ledger, dashboard and settings stay on your computer. Taksim connects out only to the hosts below, and each one is tied to a feature you start or switch on. Your coding clients still talk to their own providers under those providers’ terms.',
+    egressTitle: 'Network destinations',
+    egressLede: 'Every host Taksim connects to, and when.',
+    egressCaption: 'Network destinations used by Taksim, with the feature that uses each one',
+    egressHeaders: { host: 'Host', purpose: 'What for', when: 'When' },
+    egress: [
+      { host: 'api.anthropic.com', purpose: 'Your Claude requests, when they pass through the local gateway, and the optional Anthropic API-key judge.', when: 'In sessions you start with `taksim claude` on an API key, or on a Claude login once you turn on `taksim routing subscription on`. The judge only runs with a key you configured.' },
+      { host: 'github.com', purpose: 'Release downloads, the installer and update checks.', when: 'When you install, run `taksim update`, or an update check runs. Set `TAKSIM_UPDATE_CHECK=0` to turn update checks off.' },
+      { host: 'api.github.com', purpose: 'Pull request and repository identifiers, to tie work to spend.', when: 'Only when `GITHUB_TOKEN` is set or the GitHub CLI is signed in.' },
+      { host: 'platform.claude.com', purpose: 'Anthropic’s public pricing and model-lifecycle pages, to keep Taksim’s model price catalogue current.', when: 'When the local gateway refreshes its model catalogue.' },
+      { host: 'huggingface.co', purpose: 'A bounded preview of a public research dataset (including datasets-server.huggingface.co).', when: 'Only when you run `taksim research trace-commons`.' },
+      { host: 'api.typesafe.ai', purpose: 'The Jev judge and pre-request router, with your own key.', when: 'Only when you choose Jev (`taksim set-judge jev`).' },
+    ],
+    egressNote: 'Also on your instruction: a Slack or webhook address you set with `taksim notify configure`, and a folder you choose for team exports. Claude Code, Codex and other coding clients send prompts to their own providers under those providers’ terms; Taksim does not change where they connect, apart from the local gateway on your machine.',
+    sections: [
+      {
+        title: 'Local services stay on loopback',
+        body: 'The gateway, the dashboard and the hook endpoint listen on 127.0.0.1 only. They check the Host, Origin and Sec-Fetch-Site headers and refuse cross-site browser requests, so a web page open in your browser cannot call them.',
+      },
+      {
+        title: 'Hook secret',
+        body: 'The hook endpoint accepts events only with a per-installation shared secret (the `X-Taksim-Hook-Secret` header). The secret lives in your Taksim home folder, and the endpoint stores event identity and timing, not prompt text.',
+      },
+      {
+        title: 'Credentials',
+        body: 'Keys you give Taksim, such as an Anthropic or Jev judge key or a Slack webhook address, are kept in Windows Credential Manager or the macOS Keychain, never in the ledger. That protects them from other users of the machine, not from programs running as you. Your Claude login is never read, copied or logged: when you opt in to subscription routing, the gateway forwards the `Authorization` header unchanged.',
+      },
+      {
+        title: 'Verified releases',
+        body: 'Every release ships `SHA256SUMS.txt`. The installer and `taksim update --apply` check what they download against it and stop on a mismatch or a missing entry. A signed installer must come from a publisher pinned inside the binary.',
+      },
+      {
+        title: 'Code signing',
+        body: 'Code signing: pending; binaries are unsigned today. Until that changes, check `SHA256SUMS.txt` as the installer does, and expect Windows SmartScreen to ask you to confirm the first run.',
+      },
+      {
+        title: 'What you can turn off',
+        body: 'Update checks: set `TAKSIM_UPDATE_CHECK=0`. Remote judges: one runs only when you have configured a key for it; `taksim set-judge off` turns the Jev judge off, and Ollama keeps judging on your machine. Notifications: no Slack or webhook address is contacted until you run `taksim notify configure`.',
+      },
+      {
+        title: 'What is stored',
+        body: 'The ledger, and what it never holds, are described on the [privacy page](/privacy).',
+      },
+      {
+        title: 'Reporting a vulnerability',
+        body: 'Email [info@edgee.tech](mailto:info@edgee.tech) with the Taksim version (`taksim version`) and the steps to reproduce. Please leave out prompts, source code and credentials. The same contact is published in [security.txt](https://taksim.edgee.tech/.well-known/security.txt).',
+      },
+    ],
+    effectiveLabel: 'Last reviewed:',
+    effective: '29 October 2026.',
   },
 
   privacy: {

@@ -9,16 +9,6 @@ async function source(path) {
 // English copy lives in the dictionary; page components only hold structure, commands and code samples.
 const copyPath = 'lib/i18n/en.ts';
 
-test('keeps the preview trust strip visible and qualifies both programmes', async () => {
-  const chrome = await source('components/site-chrome.tsx');
-  const trust = await source('components/trust-strip.tsx');
-  const copy = await source(copyPath);
-  assert.match(chrome, /<TrustStrip t=\{t\.trust\} \/>/);
-  assert.match(trust, /\.chatgpt\.site/);
-  assert.match(copy, /SOC 2 — In progress/);
-  assert.match(copy, /ISO 27001 — In progress/);
-});
-
 test('uses the selected Taksim brand mark alongside accessible product text', async () => {
   const chrome = await source('components/site-chrome.tsx');
   const metadata = await source('lib/i18n/index.ts');
