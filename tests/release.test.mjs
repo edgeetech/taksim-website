@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import { readdir, readFile } from 'node:fs/promises';
 import test from 'node:test';
 import { validateManifest } from '../scripts/release.mjs';
+import { proofExport } from '../lib/plans.ts';
 
 const root = new URL('../', import.meta.url);
 const manifest = JSON.parse(
@@ -75,7 +76,22 @@ test('site copy mentions no Taksim version other than the current release', () =
   }
 });
 
+// `taksim proof export` is built but unreleased. While proofExport.shippedIn is null the site may name it, and says it is
+// not in the current release. Once set, the command must be in the synced manifest like every other command.
+test('the unreleased proof export is named only while it is unreleased, and the site is re-checked on a new release', () => {
+  if (proofExport.shippedIn === null) {
+    assert.equal(
+      manifest.version,
+      proofExport.writtenForRelease,
+      `release ${manifest.version} is newer than the ${proofExport.writtenForRelease} this site was written for: check whether it ships \`taksim proof export\` and set proofExport.shippedIn in lib/plans.ts`,
+    );
+  } else {
+    assert.ok(commandSet.has('proof export'), `proofExport.shippedIn is set but ${manifest.tag} has no \`proof export\``);
+  }
+});
+
 test('every `taksim ...` command on the site exists in the release', () => {
+  const unreleased = new Set(proofExport.shippedIn === null ? ['proof'] : []);
   let seen = 0;
   for (const [path, text] of copy) {
     for (const m of text.matchAll(
@@ -83,6 +99,7 @@ test('every `taksim ...` command on the site exists in the release', () => {
     )) {
       const [first, second] = m[1].trim().split(' ');
       seen++;
+      if (unreleased.has(first) && second === 'export') continue;
       assert.ok(
         commandSet.has(first),
         `${path}: "taksim ${first}" is not a ${manifest.tag} command`,

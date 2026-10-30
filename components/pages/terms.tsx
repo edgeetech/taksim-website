@@ -36,11 +36,13 @@ export function TermsPage() {
           </p>
           <h2>3. Paid plans</h2>
           <p>
-            Pro (${prices.pro} per month) adds automatic routing, budget caps
-            that step down to a cheaper Claude model, digest delivery and the
-            HTML executive summary for one developer. Team (${prices.team} per
+            Routing and the proof export are part of the free Developer plan.
+            Pro (${prices.pro} per month) adds enforcement and automation for
+            one developer: budget caps that step down to a cheaper Claude
+            model, digest delivery, the HTML executive summary, native-router
+            audit details and priority support. Team (${prices.team} per
             active developer per month, {prices.teamMinDevelopers}-developer minimum) adds the team
-            roll-up across developer exports and team budgets. Paid plans are
+            roll-up across developer exports, team budgets and org policy. Paid plans are
             not on sale yet: billing opens when checkout is live, and
             reserving a seat costs nothing. The first {foundingOffer.customers}{' '}
             customers get {foundingOffer.discountPercent}% off for the first{' '}

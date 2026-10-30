@@ -107,6 +107,9 @@ export function ComparePage({ locale }: { locale: Locale }) {
               <Link className="btn btn-ghost" href={href('/benchmark')}>
                 {t.cta.benchmark}
               </Link>
+              <Link className="btn btn-ghost" href={href('/proof')}>
+                {t.cta.proof}
+              </Link>
             </div>
           </article>
         </div>

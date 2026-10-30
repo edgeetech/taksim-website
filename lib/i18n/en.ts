@@ -1,28 +1,36 @@
 // English copy. Every string shown on the site lives here; tr.ts mirrors this shape.
 // Inline markup understood by <Rich>: `code`, **bold**, [label](href).
-import { entitlements, foundingOffer, freeFeatures, prices, type FeatureId } from '../plans.ts';
+import { entitlements, foundingOffer, freeFeatures, prices, proofExport, type FeatureId } from '../plans.ts';
+
+const proofPending = proofExport.shippedIn === null;
 
 const feature = {
   'free.history':
-    'Works with the history you already have: Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code, Pi and Agent Workstation',
+    'The ledger and imports: works with the history you already have (Claude Code, Codex, Copilot, Devin, OpenCode, Kilo Code, Pi and Agent Workstation)',
   'free.dashboard': 'Local dashboard, weekly report, on-demand digest and status line',
   'free.insights': 'Spend by model, repo and client, cache efficiency and subscription quota windows',
   'free.judge':
     'Turn-by-turn judging with two-judge consensus and your choice of judge (in-session Claude or Codex, Ollama, your own API key)',
   'free.memory': 'Decision memory and verification evidence, kept locally',
-  'free.mode':
-    'Manual `taksim mode` (economy, balanced, quality) and opt-in Claude-only routing on a Claude subscription',
+  'free.proof': `Proof export (\`taksim proof export\`): a redacted, hash-stamped summary of your own numbers that you can read before you publish it${proofPending ? ' (in development; not in the current release)' : ''}`,
+  'free.mode': 'Manual routing with `taksim mode economy|balanced|quality`, Claude models only',
+  'free.routingAuto':
+    'Automatic outcome-learned routing (`taksim routing auto on`): fresh contexts start on a cheaper Claude model where your own verdicts support it, and step back up on failure signals',
+  'free.routingSubscription':
+    'Opt-in Claude-only routing on a Claude Pro, Max or Team login (`taksim routing subscription on`)',
   'free.budgetWarnings': 'Budget warnings by developer and repo; a warning never blocks a request',
   'free.privacy': 'Private by design: no prompts, responses or code in the ledger',
-  'routing.auto':
-    'Automatic outcome-learned routing (`taksim routing auto on`): fresh contexts start on a cheaper Claude model where your own verdicts support it, and step back up on failure signals',
   'budget.enforce':
     'Budget caps that step down to a cheaper Claude model and never block a request (`taksim budget enforce --mode downgrade`)',
   'digest.delivery': 'Digest and budget alerts delivered to Slack or a webhook you configure (`taksim notify configure`)',
   'report.summaryHtml': 'Executive summary report as a printable HTML page (`taksim report summary --html`)',
+  'audit.native':
+    'Native-router audit details beyond the headline figure, for Claude Code’s own routing and `/advisor` (planned; not in the current release)',
+  'support.priority': 'Priority support',
   'report.team':
     'Team roll-up and chargeback from developer exports (`taksim report team`): cost by repo and task, no hosted service required. Each developer can inspect their export before sharing; exports carry repo aliases, never paths',
   'budget.team': 'Team budgets by developer, repo and team',
+  'policy.org': 'Org policy: one set of routing and budget rules for the whole team (planned; not in the current release)',
 } satisfies Record<FeatureId, string>;
 
 const featureList = (ids: readonly FeatureId[]) => ids.map((id) => feature[id]);
@@ -100,6 +108,11 @@ export const en = {
         description:
           'What changed in each recent Taksim release, one sentence per change, with the detail one click away.',
       },
+      proof: {
+        title: 'Proof',
+        description:
+          'Proof: measured, not promised. One developer, one machine, 30 days, Claude only: the paired pilot, the observed model mix as ratios, the judge counts, overhead including the native cold launch, and what is not yet proven.',
+      },
       compare: {
         title: 'Compare',
         description:
@@ -127,6 +140,7 @@ export const en = {
       pricing: 'Pricing',
       docs: 'Docs',
       benchmark: 'Pilot benchmark',
+      proof: 'Proof',
       compare: 'Compare',
       changelog: 'Changelog',
     },
@@ -146,6 +160,56 @@ export const en = {
       label: 'Language',
     },
     untranslated: 'This page is currently available in English only.',
+  },
+
+  contact: {
+    eyebrow: 'Founding seats and team pilots',
+    title: 'Reserve a seat, start a pilot, or ask a question.',
+    lede: 'Paid plans are not on sale yet. Reserve a Pro founding seat or start a Team pilot and we will contact you when billing opens; reserving costs nothing.',
+    form: {
+      need: 'What do you need?',
+      selectRequest: 'Select a request',
+      intents: { pro: 'Pro founding seat', team: 'Team pilot', security: 'Security question' },
+      email: 'Email',
+      company: 'Company (optional)',
+      teamSize: 'Engineering team size',
+      selectRange: 'Select a range',
+      spend: 'Approximate monthly AI spend',
+      spendNone: 'Prefer not to say',
+      tools: 'Primary coding-agent tools',
+      toolsPlaceholder: 'Claude Code, Codex, Copilot…',
+      private: 'Private or local intelligence available?',
+      yes: 'Yes',
+      no: 'No',
+      unsure: 'Not sure',
+      goal: 'What are you trying to improve?',
+      goalPlaceholder: 'Spend visibility, policy, quality evidence, private capacity…',
+      agreeBefore: 'I agree that EdgeeTech may use these details to respond to this request. See the ',
+      agreeLink: 'Privacy notice',
+      agreeAfter: '.',
+      submit: 'Send by email',
+      noteIdle: 'This opens your email application with the details filled in; it does not send form data to a third-party form service.',
+      noteSent: 'Your email application has opened with the details. If nothing opened, copy the address below and send them yourself.',
+      noMail: 'No mail client? Write to',
+      copy: 'Copy address',
+      copied: 'Copied',
+      mail: {
+        fallback: 'Contact',
+        request: 'Request',
+        email: 'Work email',
+        company: 'Company',
+        teamSize: 'Team size',
+        spend: 'Monthly AI spend',
+        tools: 'Coding-agent tools',
+        private: 'Private/local intelligence',
+        goal: 'What we want to improve',
+      },
+    },
+    next: {
+      title: 'What happens next',
+      steps: ['Usage and constraints', 'Opportunity review', 'Pilot discussion', 'Team deployment, if suitable'],
+      warning: 'Do not send prompts, source code, diffs, credentials, provider keys, or raw session exports.',
+    },
   },
 
   notFound: {
@@ -271,6 +335,7 @@ export const en = {
         'Internal pilot, not an independent benchmark. Run 2026-10-15 in two halves, the first on that day’s earlier Taksim release and the second on the current one, with Claude Code CLI on one Claude Team subscription. Each half was a cold start, with no prior outcome history. {tasks} tasks in 5 categories (bounded feature, bug repair, configuration migration, refactor, research and documentation), easy to hard; 3 arms × {repetitions} repetitions = {totalRuns} runs. One task of the 30-task pool was excluded as a test harness artifact. Results hold for this pilot only. Costs are API-equivalent at Anthropic list prices; on a subscription they are plan quota, not an invoice. Taksim only switches between Claude models.',
       note: 'Internal pilot, not an independent benchmark. Costs are API-equivalent list prices; Taksim only switches between Claude models.',
       methodLink: 'Method, task set and caveats',
+      proofLink: 'The 30-day proof',
       notMeasured: 'not measured',
       undefinedPerAccepted: 'undefined (no accepted runs)',
     },
@@ -342,7 +407,7 @@ export const en = {
       link: 'Read the privacy model',
       more: 'What is stored, in detail',
     },
-    pricingTitle: 'Free for developers. Paid for automation and teams.',
+    pricingTitle: 'Free for developers. Paid for enforcement and teams.',
     pricingMore: 'Compare plans',
     faqTitle: 'Questions',
     faqMore: 'More questions',
@@ -353,7 +418,7 @@ export const en = {
       },
       {
         q: 'Can I use the free version at work?',
-        a: 'Yes. The CLI is free for any individual. Pro and Team add automation and team reporting.',
+        a: 'Yes. The CLI is free for any individual. Routing and the proof export are free too. Pro adds enforcement and automation, and Team adds team reporting.',
       },
       {
         q: 'Does anything leave my machine?',
@@ -611,6 +676,227 @@ export const en = {
     back: 'Back to the results',
   },
 
+  proof: {
+    eyebrow: 'Proof',
+    title: 'Proof: measured, not promised',
+    lede: 'One developer, one machine, 30 days, Claude only. Every number here carries its date, its source and its caveat, and what we have not measured is listed as plainly as what we have.',
+    headline: 'One developer, one machine, 30 days, Claude only',
+    snapshot: {
+      title: 'The snapshot',
+      date: 'Snapshot date',
+      version: 'Taksim version',
+      window: 'Window',
+      windowValue: '{since} to {until} ({days} days), compared with {prevSince} to {prevUntil}',
+      download: 'Download the raw JSON',
+      hash: 'sha256 of its canonical content',
+      source: 'sha256 of the unredacted export it was made from',
+      localBuild: 'A local build of the proof-export branch, not a published release.',
+      refreshed: 'Last refreshed {date}. The log in section G lists every refresh.',
+    },
+    statusLabel: 'Status labels used on this page',
+    status: {
+      measured: { label: 'Measured', body: 'Counted from recorded runs or traces, with the method on this page.' },
+      observed: { label: 'Observed, not routed', body: 'Taksim read these numbers from traffic it did not change.' },
+      notYet: { label: 'Not yet measured', body: 'No number exists yet. The section names what will produce it.' },
+    },
+    a: {
+      title: 'A. The paired pilot',
+      intro:
+        'The only controlled comparison we have. {tasks} coding tasks ran under three arms, always Opus, always Sonnet and Taksim choosing, {repetitions} times each on 15 Oct 2026, on our own Claude Team subscription. Hidden automated checks graded every run. It is an internal pilot, not an independent benchmark.',
+      caption: 'The three arms of the pilot: runs accepted, cost and cost per accepted task',
+      cols: { arm: 'Arm', accepted: 'Accepted', cost: 'Cost', perAccepted: 'Cost per accepted task' },
+      arms: { opus: 'Always Opus', sonnet: 'Always Sonnet', taksim: 'Taksim routed' },
+      acceptedOf: '{n} of {total}',
+      saving:
+        'The saving is against always-Opus. Taksim was not cheaper than always-Sonnet.',
+      savingDetail:
+        'Taksim cost {taksimCost}: {costSavingPct} below always-Opus ({opusCost}) and above always-Sonnet ({sonnetCost}).',
+      noise:
+        'Acceptance differences of {opusAccepted} vs {sonnetAccepted} vs {taksimAccepted} are within noise.',
+      served:
+        'What Taksim served. Cold start: Sonnet on {servedSonnet} of {runsPerArm} runs and Opus on {servedOpus}. Warm re-run, after it had learned from the rejected tasks: Sonnet on {warmServedSonnet} and Opus on {warmServedOpus} of {warmRuns} runs, {warmAccepted} accepted, {warmCost}. That is a step-down default plus learning, not per-turn routing.',
+      learned:
+        'Tasks Taksim got wrong on the cold run: {correctedColdRejected} failed runs on the cold pass, {correctedWarmRejected} on the warm re-run.',
+      method: 'Task set, hidden checks, cost basis and every run: [the pilot benchmark](/benchmark).',
+    },
+    b: {
+      title: 'B. The 30-day ledger',
+      notRouted: 'This traffic was not routed. Taksim measured it.',
+      intro:
+        'Over {days} days ({since} to {until}) Taksim read the founder’s Claude Code history and sessions and priced every turn. At export time the settings were mode `{mode}`, `routing.auto` {autoState} and `routing.subscription` {subscriptionState}. The gateway did rewrite {routedDecisions} requests in the window, {routedCostShare} of the cost; everything else was imported history and native sessions that Taksim only observed.',
+      basis: 'Amounts are API-equivalent (quota-equivalent), not an invoice.',
+      credential:
+        '{notRecordedShare} of the executions do not record how they were paid for, mostly imported history, and {pricedShare} could be priced. Read every cost share as quota-equivalent.',
+      ratiosOnly:
+        'Only shares are shown. The founder’s absolute dollar totals and execution counts are not published; the method note in section G says exactly what was removed.',
+      mixTitle: 'Which models did the work',
+      mixCaption: 'Share of cost and of output tokens by model family',
+      mixCols: { family: 'Model family', cost: 'Share of cost', now: 'Share of output tokens, this window', before: 'Share of output tokens, previous 30 days' },
+      families: { opus: 'Opus', sonnet: 'Sonnet', fable: 'Fable', haiku: 'Haiku', other: 'Other (not Claude, or no model recorded)' },
+      mix: 'Opus produced {opusTokensBefore} of the output tokens in the previous 30 days and {opusTokensNow} in this window. Taksim did not choose these models, apart from the {routedDecisions} requests mentioned above.',
+      cache: 'Prompt cache hit ratio: {cacheHit}. Definition: {cacheDefinition}.',
+      leversTitle: 'Where the money went, sized from this ledger',
+      leversIntro:
+        'Each lever is a share of the 30-day cost, API-equivalent, not an invoice, sorted by size. Levers overlap (idle gaps are part of the cache breaks), so do not add them up.',
+      leversCaption: 'Cost levers in the 30-day ledger as a share of cost',
+      leversCols: { lever: 'Lever', events: 'Events', share: 'Share of cost' },
+      levers: {
+        contextOver200k: 'Context above 200k tokens: the excess part of the prompt',
+        cacheBreak: 'Prompt-cache breaks: the write premium on a lost prefix',
+        idleGap: 'Idle gaps over an hour (part of the cache breaks)',
+        failureLoops: 'Failure loops: repeated failing attempts',
+        counterfactual: 'Cheaper tier, strong consensus only: an estimate of what the counted turns would have cost less',
+      },
+      events: {
+        contextOver200k: '{share} of turns',
+        cacheBreak: '{n} breaks',
+        idleGap: '{n} gaps',
+        failureLoops: '{n} loops',
+        counterfactual: 'N = {n} turns',
+      },
+      spikes: 'Days flagged as spend spikes: {n} of {days}.',
+      leversRead:
+        'In this ledger the cache and context levers are far larger than the model-downgrade estimate, which rests on the {countedTurns} strong-consensus turns that ran on a costlier model than the judges found enough.',
+    },
+    c: {
+      title: 'C. The judge honesty panel',
+      intro:
+        'An LLM judge grades finished turns. A verdict counts only when two judges agree and one of them is strong. Everything else is shown here and not counted.',
+      caption: 'Judged turns by how many judges agreed',
+      cols: { kind: 'Judged turns', turns: 'Count', counted: 'Counted toward savings' },
+      yes: 'Yes',
+      no: 'No',
+      rows: {
+        strong: 'Strong consensus: two judges agree, one strong',
+        weak: 'Weak consensus: only weak judges agree',
+        disputed: 'Disputed: the judges disagree',
+        single: 'Single judge: one verdict only',
+      },
+      stored: '{verdicts} verdicts are stored in total; {judgedTurns} turns were judged.',
+      outcome:
+        'Of the {strong} strong-consensus turns, {right} ran on a sufficient model, {over} on a model more expensive than needed and {under} on one too weak.',
+      matrixCaption: 'Strong-consensus turns: the model that ran against the cheapest model the judges agreed was enough',
+      matrixCols: { ran: 'Ran on', enough: 'Judges agreed enough', turns: 'Turns' },
+      honesty: 'LLM judges, no ground truth; agreement is not accuracy.',
+      small: 'With {strong} counted turns this is a demonstration of the rule, not a rate to rely on.',
+    },
+    d: {
+      title: 'D. Overhead',
+      label: 'fake upstream, Windows x64, not an SLO',
+      intro:
+        'Added time at the gateway on a synthetic benchmark, measured on {measuredOn} on an older build. {requests} routed requests across {levels} concurrency levels (four of them are shown below; the rest are in the product’s report), {errors} HTTP errors, {degraded} degraded, {byteMismatches} changed response bytes.',
+      caption: 'Added time to first byte at the gateway, synthetic benchmark, capture off',
+      cols: { concurrency: 'Concurrent requests', p50: 'Added time to first byte, p50 (ms)', p95: 'p95 (ms)' },
+      nativeTitle: 'The native cold launch, beside it',
+      nativeCaption: 'Claude Code launched through Taksim against launched directly, {pairs} paired calls',
+      nativeCols: { metric: 'Measure', p50: 'p50', p95: 'p95' },
+      native: {
+        added: 'Added time to first text',
+        prep: 'Local preparation inside it',
+        direct: 'Direct, for scale',
+      },
+      nativeSentence:
+        'Launching Claude Code through Taksim cold adds about {nativeP50} seconds at the median. Taksim is not invisible in that case.',
+      nativeScope:
+        'This was a fresh local service started for every call, on build {build} with Claude Code {claudeCli}, {measuredOn}. A warm interactive session was not measured, and we have not re-measured it on the current release.',
+      real: 'Latency on real traffic: not measured. This ledger holds {samples} gateway latency samples, because capture is off by default.',
+    },
+    e: {
+      title: 'E. Not yet proven',
+      intro: 'These claims are fenced off until something measures them. Each item names the command or issue that will produce the number.',
+      commandLabel: 'Produced by',
+      items: [
+        {
+          title: 'Real-traffic latency',
+          body: 'Everything in section D is synthetic or cold-launch. Always-on latency counters do not exist yet.',
+          by: '`TAKSIM_PERFORMANCE_CAPTURE=1`, then `taksim diagnostics performance`',
+        },
+        {
+          title: 'Routed savings on subscription quota',
+          body: 'The 30 days in section B were not routed, so they show what Taksim measures, not what routing saves.',
+          by: '`taksim routing subscription on` for a stated window, then `taksim proof export` and compare the two windows',
+        },
+        {
+          title: 'Quality on real work',
+          body: 'The ledger holds no authoritative pass or fail outcomes. Only the pilot in section A measured acceptance, on {tasks} small tasks.',
+          by: 'The held-out 30-task paired run, tracked as issue #232 in the product repository',
+        },
+        {
+          title: 'Haiku quality',
+          body: 'The pilot routed between Sonnet and Opus only. No acceptance result exists for Haiku.',
+          by: 'The same held-out run (#232), with Haiku as an arm',
+        },
+        {
+          title: 'Other developers and teams',
+          body: 'This is one developer. Nothing here says what your work looks like.',
+          by: '`taksim proof export` on your own history; we will list someone else’s snapshot here only if its owner agrees',
+        },
+        {
+          title: 'macOS',
+          body: 'macOS is a preview and has not been tested on Mac hardware, so no number here covers it.',
+          by: 'A run on Mac hardware, once there is one',
+        },
+      ],
+    },
+    f: {
+      title: 'F. Reproduce it',
+      intro:
+        'Run these on your own machine. They read your local ledger; the proof export writes one file and never sends it anywhere.',
+      pending:
+        '`taksim proof export` is not in {releaseVersion}, the release you can download today. It is built but not yet released, and the snapshot above was made with a local build. Run the other three now.',
+      commands: [
+        { command: 'taksim doctor', about: 'Health, coverage, and whether your sessions are routed at all.' },
+        { command: 'taksim report cost --by model --since 30d', about: 'Cost by model over 30 days, as in section B.' },
+        { command: 'taksim judge status', about: 'Judge coverage and consensus counts, as in section C.' },
+        { command: 'taksim proof export --since 30d', about: 'A redacted, hash-stamped bundle of the same numbers, written to a file you can read before you share it.' },
+      ],
+    },
+    g: {
+      title: 'G. Method and caveats',
+      method: [
+        'Window: {days} UTC days, {since} to {until}, compared with the {days} days before it. Dates are days; nothing finer is recorded.',
+        'Cost: API-equivalent at published list prices, not an invoice. A cost share divides one model family’s cost by the window’s total.',
+        'A verdict counts only when two judges agree and at least one is strong. Single-judge, weak-consensus and disputed turns are never counted.',
+        'The counterfactual is an estimate from judge verdicts, not from running the cheaper model.',
+        'Gateway overhead comes from the product’s synthetic benchmark and one native cold-launch run, both dated in section D.',
+      ],
+      publishTitle: 'What was removed, and why',
+      publish:
+        'The unredacted export holds absolute dollar totals and execution counts. By decision, this page publishes only shares and ratios of them, so those fields were removed or turned into shares before the file was published. The removed fields:',
+      hashTitle: 'Checking the hash',
+      hash:
+        'The sha256 is the hash of the file’s canonical JSON (keys sorted, no whitespace) without its own sha256 field. It proves the file was not edited after it was made; it does not prove the numbers are true, and it is not a signature. The hash of the unredacted export is listed in the header, but that file is not published, so only this copy can be checked.',
+      caveatsTitle: 'Caveats recorded in the snapshot',
+      caveats: {
+        NO_GROUND_TRUTH: 'The counterfactual rests on judge verdicts, not on running the cheaper model.',
+        NO_EXECUTIONS: 'The window holds no executions.',
+        UNPRICED_EXECUTIONS: 'Some executions could not be priced, so cost shares are a floor.',
+        CREDENTIAL_NOT_RECORDED: 'Some executions do not record how they were paid for, mostly imported history.',
+        QUOTA_EQUIVALENT_DOLLARS: 'Some dollars are API-equivalent quota, not a bill.',
+        NOT_ROUTED_WINDOW: 'Taksim rewrote no request in the window.',
+        NO_STRONG_CONSENSUS: 'No turn has strong consensus, so the counterfactual is zero by construction.',
+        SINGLE_JUDGE_EXCLUDED: 'Single-judge turns exist and are not counted.',
+        WEAK_CONSENSUS_EXCLUDED: 'Turns where only weak judges agree exist and are not counted.',
+        DISPUTED_EXCLUDED: 'Turns where judges disagree exist and are not counted.',
+        OVERHEAD_NOT_MEASURED: 'No gateway latency samples were recorded in the window.',
+      },
+      logTitle: 'Refresh log',
+      logBody: 'Every refresh is appended here with its date. Entries are never rewritten.',
+      log: [
+        {
+          date: '2026-10-29',
+          text: 'First snapshot: 30 days to 2026-10-29, exported with a local build of the then-current release and published as shares only. Pilot figures are from the 2026-10-15 benchmark; overhead is from the 2026-10-03 benchmark.',
+        },
+      ],
+    },
+    cta: {
+      title: 'Run it on your own history in 5 minutes.',
+      body: 'Install is free and reads the history your coding agents already keep. You will see your own version of section B before you change anything.',
+      install: 'Get Taksim free',
+      benchmark: 'See the pilot data',
+    },
+  },
+
   compare: {
     eyebrow: 'Compare',
     title: 'Taksim next to the alternatives.',
@@ -759,6 +1045,7 @@ export const en = {
       body: 'Install is free and reads the history your coding agents already keep, so you can see what a cheaper model could have done before you change anything.',
       install: 'Get Taksim free',
       benchmark: 'See the pilot data',
+      proof: 'See the 30-day proof',
     },
   },
 
@@ -776,7 +1063,7 @@ export const en = {
       price: `$${prices.pro}`,
       per: 'per month',
       badge: `First ${foundingOffer.customers} customers: ${foundingOffer.discountPercent}% off for the first ${foundingOffer.months} months`,
-      sub: 'For one developer who wants Taksim to apply the savings, not only report them.',
+      sub: 'For one developer who wants enforcement and automation on top of the free tools: budget caps that step down, delivered digests, the HTML summary and priority support.',
       lead: 'Everything in Developer, plus:',
       features: featureList(entitlements.pro),
       cta: 'Reserve a founding seat',
@@ -794,14 +1081,14 @@ export const en = {
   },
 
   pricing: {
-    title: 'Free for developers. Paid for automation and teams.',
-    lede: 'The Developer plan is free for any individual, at home or at work: install the CLI and use it, no account required. Pro adds automatic routing and budget caps for one developer; Team adds the roll-up for companies.',
+    title: 'Free for developers. Paid for enforcement and teams.',
+    lede: 'The Developer plan is free for any individual, at home or at work: install the CLI and use it, no account required. Everything that saves money or shows evidence is free, including routing and the proof export. Pro adds enforcement and automation for one developer; Team adds the roll-up and policy for companies.',
     modesTitle: 'How Taksim counts cost depends on how the work is billed',
     faqTitle: 'Pricing questions',
     faq: [
       {
         q: 'Can I use the free version at work?',
-        a: 'Yes. The CLI is free for any individual. Pro and Team add automation and team reporting.',
+        a: 'Yes. The CLI is free for any individual. Routing and the proof export are free too. Pro adds enforcement and automation, and Team adds team reporting.',
       },
       {
         q: 'Can I buy a plan today?',
@@ -821,7 +1108,7 @@ export const en = {
       },
       {
         q: 'What happens when a paid plan lapses?',
-        a: 'Nothing breaks. The Pro and Team features switch off: automatic routing and budget step-down stop, and requests follow your manual `taksim mode` setting or pass through unchanged. Your local data is left untouched, Claude is never blocked, and the Developer features keep working.',
+        a: 'Nothing breaks. The Pro and Team features switch off: budget step-down enforcement, digest delivery and the HTML summary stop, and budgets go back to warnings. Routing, the ledger and the proof export are free, so they keep working. Your local data is left untouched and Claude is never blocked.',
       },
       {
         q: 'How is an active developer counted?',
@@ -1367,7 +1654,7 @@ export const en = {
       'Install and run Taksim directly. There is no Taksim sign-in and no Taksim server; everything runs on your machine.',
     plan: {
       title: '1. Confirm your plan',
-      body: 'The Taksim CLI is free for any individual developer, at home or at work. Pro and Team are paid plans that add automation and team reporting.',
+      body: 'The Taksim CLI is free for any individual developer, at home or at work. Pro and Team are paid plans that add enforcement, automation and team reporting; routing and the proof export stay free.',
       selfTitle: 'Install for myself',
       selfSub: 'Continue with the free CLI',
       teamTitle: 'Set up my team',

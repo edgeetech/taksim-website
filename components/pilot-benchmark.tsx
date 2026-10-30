@@ -365,6 +365,10 @@ export function PilotBenchmark({
           <Link className="text-link" href={localePath(locale, '/benchmark')}>
             {t.methodLink} →
           </Link>
+          {' · '}
+          <Link className="text-link" href={localePath(locale, '/proof')}>
+            {t.proofLink} →
+          </Link>
         </p>
       </div>
     </section>

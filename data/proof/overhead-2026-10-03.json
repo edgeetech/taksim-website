@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "measuredOn": "2026-10-03",
+  "source": {
+    "document": "docs/PERFORMANCE.md",
+    "reports": [
+      {
+        "file": "performance-capacity-fixed-off-2026-10-03.json",
+        "sha256": "ca51ed7393070c5e331eab91e0ccf5987c56d86116fc51309625e2d41317489b"
+      },
+      {
+        "file": "performance-native-2026-10-03.json",
+        "sha256": "75542278c2d610375357832692a43329ff867917d0460a1906bf692123b3522b"
+      }
+    ]
+  },
+  "synthetic": {
+    "upstream": "fake Anthropic Messages SSE upstream on loopback",
+    "environment": "Windows x64, 16 cores, .NET 10.0.6",
+    "capture": "off",
+    "seed": 42,
+    "pairsPerLevel": 500,
+    "levels": [
+      1,
+      5,
+      10,
+      25,
+      50,
+      100
+    ],
+    "managedRequests": 3030,
+    "errors": 0,
+    "degraded": 0,
+    "byteMismatches": 0,
+    "rows": [
+      {
+        "concurrency": 1,
+        "pairs": 500,
+        "addedTtfbMs": {
+          "p50": 0.51,
+          "p95": 1.15
+        },
+        "addedE2eMs": {
+          "p50": 0.3,
+          "p95": 2.94
+        },
+        "errors": 0,
+        "degraded": 0,
+        "byteMismatches": 0
+      },
+      {
+        "concurrency": 10,
+        "pairs": 500,
+        "addedTtfbMs": {
+          "p50": 0.6,
+          "p95": 2.42
+        },
+        "addedE2eMs": {
+          "p50": 0.16,
+          "p95": 4.51
+        },
+        "errors": 0,
+        "degraded": 0,
+        "byteMismatches": 0
+      },
+      {
+        "concurrency": 50,
+        "pairs": 500,
+        "addedTtfbMs": {
+          "p50": 1.08,
+          "p95": 5.36
+        },
+        "addedE2eMs": {
+          "p50": 0.85,
+          "p95": 10.39
+        },
+        "errors": 0,
+        "degraded": 0,
+        "byteMismatches": 0
+      },
+      {
+        "concurrency": 100,
+        "pairs": 500,
+        "addedTtfbMs": {
+          "p50": 2.44,
+          "p95": 19.06
+        },
+        "addedE2eMs": {
+          "p50": 1.36,
+          "p95": 30.78
+        },
+        "errors": 0,
+        "degraded": 0,
+        "byteMismatches": 0
+      }
+    ]
+  },
+  "native": {
+    "build": "0.3.7+local",
+    "claudeCli": "2.1.286",
+    "model": "claude-sonnet-5-5",
+    "pairs": 30,
+    "warmupPairs": 2,
+    "mode": "cold launch: a fresh Taksim local service for every call",
+    "addedTtftMs": {
+      "p50": 7598.28,
+      "p95": 8474.31
+    },
+    "addedE2eMs": {
+      "p50": 8030.89,
+      "p95": 8780.04
+    },
+    "localPreparationMs": {
+      "p50": 6924.0,
+      "p95": 7591.0
+    },
+    "directTtftMs": {
+      "p50": 1779.2,
+      "p95": 2272.94
+    }
+  }
+}

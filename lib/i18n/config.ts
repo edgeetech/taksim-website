@@ -23,6 +23,7 @@ export const localizedRoutes = [
   '/how-it-works/',
   '/clients/',
   '/benchmark/',
+  '/proof/',
   '/compare/',
   '/changelog/',
   '/privacy/',

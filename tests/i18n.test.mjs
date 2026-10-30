@@ -123,3 +123,21 @@ test('every localized route exists in every locale', async () => {
     }
   }
 });
+
+test('the Turkish contact page and form are translated, not wrapped English', async () => {
+  const route = await source('app/tr/contact/page.tsx');
+  assert.doesNotMatch(route, /UntranslatedNote|lang="en"/);
+  const page = await source('components/pages/contact.tsx');
+  const form = await source('components/contact-form.tsx');
+  assert.doesNotMatch(page, /English only/);
+  assert.match(page, /getDictionary\(locale\)\.contact/);
+  assert.match(form, /copy: ContactCopy/);
+  // Shared on purpose: the product name in the placeholder list.
+  const same = new Set(['toolsPlaceholder']);
+  for (const [path, a, b] of pairs(en.contact, tr.contact, 'contact')) {
+    if (typeof a !== 'string' || same.has(path.split('.').at(-1))) continue;
+    assert.notEqual(a, b, `${path} is still English in tr`);
+  }
+  assert.equal(tr.contact.next.steps.length, en.contact.next.steps.length);
+  assert.deepEqual(Object.keys(tr.contact.form.intents), Object.keys(en.contact.form.intents));
+});

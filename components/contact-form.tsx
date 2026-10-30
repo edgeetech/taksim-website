@@ -3,22 +3,20 @@
 import Link from 'next/link';
 import { type SyntheticEvent, useEffect, useRef, useState } from 'react';
 import { localePath, type Locale } from '@/lib/i18n/config';
+import type { Dictionary } from '@/lib/i18n';
 
 const supportEmail = 'info@edgee.tech';
 
-const intents = [
-  { id: 'pro', label: 'Pro founding seat' },
-  { id: 'team', label: 'Team pilot' },
-  { id: 'security', label: 'Security question' },
-] as const;
+const intents = ['pro', 'team', 'security'] as const;
 
-type Intent = (typeof intents)[number]['id'];
+type Intent = (typeof intents)[number];
+export type ContactCopy = Dictionary['contact']['form'];
 
 function isIntent(value: string | null): value is Intent {
-  return intents.some((intent) => intent.id === value);
+  return intents.some((intent) => intent === value);
 }
 
-export function ContactForm({ locale }: { locale: Locale }) {
+export function ContactForm({ locale, copy }: { locale: Locale; copy: ContactCopy }) {
   const [sent, setSent] = useState(false);
   const [copied, setCopied] = useState(false);
   const intentSelect = useRef<HTMLSelectElement>(null);
@@ -39,10 +37,12 @@ export function ContactForm({ locale }: { locale: Locale }) {
       const entry = data.get(key);
       return typeof entry === 'string' ? entry : '';
     };
-    const intentLabel = intents.find((item) => item.id === value('intent'))?.label ?? 'Contact';
+    const requested = value('intent');
+    const intentLabel = isIntent(requested) ? copy.intents[requested] : copy.mail.fallback;
+    const { mail } = copy;
     const subject = encodeURIComponent(`Taksim: ${intentLabel}${value('company') ? ` (${value('company')})` : ''}`);
     const body = encodeURIComponent(
-      `Request: ${intentLabel}\nWork email: ${value('email')}\nCompany: ${value('company')}\nTeam size: ${value('team')}\nMonthly AI spend: ${value('spend')}\nCoding-agent tools: ${value('tools')}\nPrivate/local intelligence: ${value('private')}\n\nWhat we want to improve:\n${value('goal')}`,
+      `${mail.request}: ${intentLabel}\n${mail.email}: ${value('email')}\n${mail.company}: ${value('company')}\n${mail.teamSize}: ${value('team')}\n${mail.spend}: ${value('spend')}\n${mail.tools}: ${value('tools')}\n${mail.private}: ${value('private')}\n\n${mail.goal}:\n${value('goal')}`,
     );
     window.location.href = `mailto:${supportEmail}?subject=${subject}&body=${body}`;
     setSent(true);
@@ -50,34 +50,34 @@ export function ContactForm({ locale }: { locale: Locale }) {
   return (
     <form className="contact-form" onSubmit={submit}>
       <label>
-        What do you need?
+        {copy.need}
         <select name="intent" required defaultValue="" ref={intentSelect}>
           <option value="" disabled>
-            Select a request
+            {copy.selectRequest}
           </option>
-          {intents.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.label}
+          {intents.map((id) => (
+            <option key={id} value={id}>
+              {copy.intents[id]}
             </option>
           ))}
         </select>
       </label>
       <div className="form-grid">
         <label>
-          Email
+          {copy.email}
           <input name="email" type="email" autoComplete="email" required />
         </label>
         <label>
-          Company (optional)
+          {copy.company}
           <input name="company" autoComplete="organization" />
         </label>
       </div>
       <div className="form-grid">
         <label>
-          Engineering team size
+          {copy.teamSize}
           <select name="team" required defaultValue="">
             <option value="" disabled>
-              Select a range
+              {copy.selectRange}
             </option>
             <option>1</option>
             <option>2–4</option>
@@ -87,62 +87,61 @@ export function ContactForm({ locale }: { locale: Locale }) {
           </select>
         </label>
         <label>
-          Approximate monthly AI spend
+          {copy.spend}
           <select name="spend" required defaultValue="">
             <option value="" disabled>
-              Select a range
+              {copy.selectRange}
             </option>
             <option>&lt; $500</option>
             <option>$500–2k</option>
             <option>$2–10k</option>
             <option>$10k+</option>
-            <option>Prefer not to say</option>
+            <option>{copy.spendNone}</option>
           </select>
         </label>
       </div>
       <label>
-        Primary coding-agent tools
+        {copy.tools}
         <input
           name="tools"
-          placeholder="Claude Code, Codex, Copilot…"
+          placeholder={copy.toolsPlaceholder}
           required
         />
       </label>
       <label>
-        Private or local intelligence available?
-        <select name="private" defaultValue="Not sure">
-          <option>Yes</option>
-          <option>No</option>
-          <option>Not sure</option>
+        {copy.private}
+        <select name="private" defaultValue={copy.unsure}>
+          <option>{copy.yes}</option>
+          <option>{copy.no}</option>
+          <option>{copy.unsure}</option>
         </select>
       </label>
       <label>
-        What are you trying to improve?
+        {copy.goal}
         <textarea
           name="goal"
           rows={5}
-          placeholder="Spend visibility, policy, quality evidence, private capacity…"
+          placeholder={copy.goalPlaceholder}
         />
       </label>
       <label className="check-label">
         <input type="checkbox" required />{' '}
         <span>
-          I agree that EdgeeTech may use these details to respond to this
-          request. See the <Link href={localePath(locale, '/privacy')}>Privacy notice</Link>.
+          {copy.agreeBefore}
+          <Link href={localePath(locale, '/privacy')}>{copy.agreeLink}</Link>
+          {copy.agreeAfter}
         </span>
       </label>
       <button className="button purple-button" type="submit">
-        Send by email
+        {copy.submit}
       </button>
       <p className="form-note" aria-live="polite">
-        {sent
-          ? 'Your email application has opened with the details. If nothing opened, copy the address below and send them yourself.'
-          : 'This opens your email application with the details filled in; it does not send form data to a third-party form service.'}
+        {sent ? copy.noteSent : copy.noteIdle}
       </p>
       <p className="form-note">
-        No mail client? Write to <code>{supportEmail}</code>{' '}
+        {copy.noMail} <code>{supportEmail}</code>{' '}
         <button className="button button-small button-secondary" type="button" onClick={copyAddress}>
-          {copied ? 'Copied' : 'Copy address'}
+          {copied ? copy.copied : copy.copy}
         </button>
       </p>
     </form>
