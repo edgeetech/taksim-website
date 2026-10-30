@@ -687,7 +687,7 @@ export const en = {
       items: {
         a: { label: 'A. Paired pilot', body: '{costSavingPct} cheaper than always-Opus on {tasks} tasks. Not cheaper than always-Sonnet.' },
         b: { label: 'B. 30-day ledger', body: 'Not routed, only measured. Prompt cache and long context cost far more than model choice.' },
-        c: { label: 'C. Judges', body: '{strong} of {judgedTurns} judged turns met the counting rule. The rest had one judge only.' },
+        c: { label: 'C. Judges', body: '{strong} of {judgedTurns} judged turns met the counting rule. In {over} of them a cheaper model would have been enough.' },
         d: { label: 'D. Overhead', body: 'A cold launch through Taksim adds about {nativeP50} s at the median. Real-traffic latency is not measured.' },
         e: { label: 'E. Not yet proven', body: 'Routed savings, quality on real work, Haiku, other developers and macOS.' },
       },
@@ -703,7 +703,7 @@ export const en = {
       download: 'Download the raw JSON',
       hash: 'sha256 of its canonical content',
       source: 'sha256 of the unredacted export it was made from',
-      localBuild: 'A local build of the proof-export branch, not a published release.',
+      localBuild: 'A local build ahead of the published release, not a release itself.',
       refreshed: 'Last refreshed {date}. The log in section G lists every refresh.',
     },
     statusLabel: 'Status labels used on this page',
@@ -786,12 +786,21 @@ export const en = {
         single: 'Single judge: one verdict only',
       },
       stored: '{verdicts} verdicts are stored in total; {judgedTurns} turns were judged.',
+      crossTitle: 'The blind cross-check',
+      cross:
+        'Most turns used to have one judge only: the Claude session grading its own turns. To get a second, independent vote, {crossPairs} of those turns were graded again by a fresh Claude session that had no tools and saw no earlier verdict, no model name and no path. That second vote is what turned them into strong consensus.',
+      agreement:
+        'The two judges named exactly the same tier on {exact} of the pairs and were at most one tier apart on {within}; Cohen’s kappa, which corrects for chance, is {kappa}.',
+      calibratedNo:
+        'That is below the bar for trusting a single judge on its own (at least {minPairs} pairs, {minExact} exact agreement and kappa {minKappa}). So the turns that still have one judge stay out of every number on this page, and the estimate has no wider upper end.',
+      calibratedYes:
+        'That meets the bar for trusting a single judge on its own (at least {minPairs} pairs, {minExact} exact agreement and kappa {minKappa}). Single verdicts at confidence {minConfidence} or more therefore widen the upper end of the estimate.',
       outcome:
         'Of the {strong} strong-consensus turns, {right} ran on a sufficient model, {over} on a model more expensive than needed and {under} on one too weak.',
       matrixCaption: 'Strong-consensus turns: the model that ran against the cheapest model the judges agreed was enough',
       matrixCols: { ran: 'Ran on', enough: 'Judges agreed enough', turns: 'Turns' },
       honesty: 'LLM judges, no ground truth; agreement is not accuracy.',
-      small: 'With {strong} counted turns this is a demonstration of the rule, not a rate to rely on.',
+      small: '{strong} counted turns from one developer’s 30 days: enough to see the pattern in this ledger, not a rate for anyone else’s work.',
     },
     d: {
       title: 'D. Overhead',
@@ -869,7 +878,7 @@ export const en = {
       method: [
         'Window: {days} UTC days, {since} to {until}, compared with the {days} days before it. Dates are days; nothing finer is recorded.',
         'Cost: API-equivalent at published list prices, not an invoice. A cost share divides one model family’s cost by the window’s total.',
-        'A verdict counts only when two judges agree and at least one is strong. Single-judge, weak-consensus and disputed turns are never counted.',
+        'A verdict counts only when two judges agree and at least one is strong. The second strong judge is the blind cross-check in section C. Weak-consensus and disputed turns are never counted; single-judge turns count only if the cross-check meets its bar.',
         'The counterfactual is an estimate from judge verdicts, not from running the cheaper model.',
         'Gateway overhead comes from the product’s synthetic benchmark and one native cold-launch run, both dated in section D.',
       ],
@@ -888,7 +897,10 @@ export const en = {
         QUOTA_EQUIVALENT_DOLLARS: 'Some dollars are API-equivalent quota, not a bill.',
         NOT_ROUTED_WINDOW: 'Taksim rewrote no request in the window.',
         NO_STRONG_CONSENSUS: 'No turn has strong consensus, so the counterfactual is zero by construction.',
-        SINGLE_JUDGE_EXCLUDED: 'Single-judge turns exist and are not counted.',
+        SINGLE_JUDGE_EXCLUDED: 'Single-judge turns exist and are not counted in the consensus figure.',
+        SINGLE_JUDGE_UNCALIBRATED: 'The blind cross-check has not met its bar, so single-judge turns do not widen the estimate either.',
+        ADVISOR_NOT_RECORDED: 'No advisor calls were recorded in the window.',
+        DEFAULT_MODEL_COULD_NOT_TELL: 'Some Opus turns could not be classified as a default or a choice, so they are not counted as either.',
         WEAK_CONSENSUS_EXCLUDED: 'Turns where only weak judges agree exist and are not counted.',
         DISPUTED_EXCLUDED: 'Turns where judges disagree exist and are not counted.',
         OVERHEAD_NOT_MEASURED: 'No gateway latency samples were recorded in the window.',
@@ -899,6 +911,10 @@ export const en = {
         {
           date: '2026-10-29',
           text: 'First snapshot: 30 days to 2026-10-29, exported with a local build of the then-current release and published as shares only. Pilot figures are from the 2026-10-15 benchmark; overhead is from the 2026-10-03 benchmark.',
+        },
+        {
+          date: '2026-10-30',
+          text: 'Second snapshot: 30 days to 2026-10-30, after a blind cross-check regraded 304 single-judge turns. Strong-consensus turns went from 8 to 273; the first snapshot’s file stays downloadable at /proof/2026-10-29.json.',
         },
       ],
     },

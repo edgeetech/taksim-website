@@ -26,7 +26,7 @@ const visible = (page) =>
     .replace(/\s+/g, ' ');
 const section = (page, id, next) => page.slice(page.indexOf(`id="proof-${id}"`), page.indexOf(`id="proof-${next}"`));
 
-const SNAPSHOT = 'data/proof/2026-10-29.json';
+const SNAPSHOT = 'data/proof/2026-10-30.json';
 
 test('the published snapshot hashes to its own sha256, by an independent implementation', async () => {
   const bundle = await json(SNAPSHOT);
@@ -39,7 +39,7 @@ test('the published snapshot hashes to its own sha256, by an independent impleme
 });
 
 test('the download in public/ is byte for byte the snapshot the page loads', async () => {
-  assert.equal(await source('public/proof/2026-10-29.json'), await source(SNAPSHOT));
+  assert.equal(await source('public/proof/2026-10-30.json'), await source(SNAPSHOT));
 });
 
 test('the loader fails on an edited snapshot and on an absolute figure', async () => {
@@ -73,7 +73,7 @@ test('the published snapshot carries only ratios: no dollar totals, no execution
   // Every share is a share.
   for (const match of text.matchAll(/"(\w*SharePct)":\s*([0-9.]+)/g)) assert.ok(Number(match[2]) <= 100, match[0]);
   // Figures from the unredacted export that must never reach the site.
-  const original = ['3547.65', '3325.84', '174.36', '46.79', '31648', '31623', '27990', '3427', '672.68', '652.62', '877.28', '713.76', '15350021', '25893356'];
+  const original = ['3547.65', '3325.84', '174.36', '46.79', '31648', '31623', '27990', '3427', '672.68', '652.62', '877.28', '713.76', '15350021', '25893356', '3578.82', '33627', '3576.97', '33619', '111.55', '655.72'];
   for (const figure of original) assert.ok(!text.includes(figure), `${figure} is an absolute figure from the export`);
 });
 
@@ -282,7 +282,7 @@ test('every number in section B equals a field in the snapshot', buildOptions, a
 test('/proof and its download are in the built site', buildOptions, async () => {
   const sitemap = await html('sitemap.xml');
   assert.ok(sitemap.includes('/proof/') && sitemap.includes('/tr/proof/'));
-  assert.equal(await html('proof/2026-10-29.json'), await source(SNAPSHOT));
+  assert.equal(await html('proof/2026-10-30.json'), await source(SNAPSHOT));
   const llms = await html('llms.txt');
   assert.match(llms, /https:\/\/taksim\.edgee\.tech\/proof/);
   for (const [path, prefix] of [

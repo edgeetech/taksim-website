@@ -1,0 +1,232 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-30",
+  "generatedBy": {
+    "commit": "unknown",
+    "taksimVersion": "0.3.17+local"
+  },
+  "window": {
+    "days": 30,
+    "previousWindow": {
+      "since": "2026-09-01",
+      "until": "2026-09-30"
+    },
+    "since": "2026-10-01",
+    "until": "2026-10-30"
+  },
+  "publication": {
+    "basis": "ratios-only",
+    "sourceSha256": "e1a1430926a39086d58dee4e87b2dbcf587a0212474be3cbdbb31939a22fe17b",
+    "removed": [
+      "spend.total",
+      "spend.executions",
+      "spend.pricedExecutions",
+      "spend.byFamily.*.executions",
+      "spend.byFamily.*.cost",
+      "spend.byCredentialKind.*.executions",
+      "spend.byCredentialKind.*.pricedExecutions",
+      "spend.byCredentialKind.*.cost",
+      "modelMix.*.outputTokens",
+      "routing.observedUnroutedCost",
+      "routing.routedLiveCost",
+      "cache.executions",
+      "levers.*.cost",
+      "levers.contextOver200kExcess.turns",
+      "counterfactual.saving",
+      "counterfactual.upperBound.saving"
+    ]
+  },
+  "spend": {
+    "pricedSharePct": 99.9,
+    "byFamily": {
+      "haiku": {
+        "costSharePct": 0.02
+      },
+      "sonnet": {
+        "costSharePct": 8.2
+      },
+      "opus": {
+        "costSharePct": 90.6
+      },
+      "fable": {
+        "costSharePct": 1.2
+      },
+      "other": {
+        "costSharePct": 0
+      }
+    },
+    "byCredentialKind": {
+      "subscription": {
+        "basis": "quota-equivalent",
+        "executionSharePct": 0.09
+      },
+      "api_key": {
+        "basis": "invoiced",
+        "executionSharePct": 0
+      },
+      "not_recorded": {
+        "basis": "quota-equivalent",
+        "executionSharePct": 99.9
+      }
+    }
+  },
+  "modelMix": {
+    "window": {
+      "sharePct": {
+        "fable": 1.3,
+        "haiku": 1.2,
+        "opus": 77.2,
+        "other": 0,
+        "sonnet": 20.3
+      }
+    },
+    "previousWindow": {
+      "sharePct": {
+        "fable": 5.1,
+        "haiku": 1.5,
+        "opus": 56.6,
+        "other": 7.2,
+        "sonnet": 29.6
+      }
+    }
+  },
+  "routing": {
+    "routingEnabled": {
+      "gatewayUsed": true,
+      "mode": "balanced",
+      "routingAuto": false,
+      "routingSubscription": false
+    },
+    "routedDecisions": 27,
+    "routedLiveCostSharePct": 0.05,
+    "escalations": {
+      "downgrade": 2,
+      "managedPolicy": 0
+    }
+  },
+  "judge": {
+    "calibration": {
+      "calibrated": false,
+      "exactAgreementPct": 69.1,
+      "kappa": 0.4,
+      "pairs": 304,
+      "thresholds": {
+        "minimumExactAgreementPct": 80,
+        "minimumKappa": 0.6,
+        "minimumPairs": 50
+      },
+      "withinOneTierPct": 99.7
+    },
+    "confusionMatrix": [
+      {
+        "requested": "sonnet",
+        "sufficient": "haiku",
+        "turns": 2
+      },
+      {
+        "requested": "sonnet",
+        "sufficient": "sonnet",
+        "turns": 8
+      },
+      {
+        "requested": "sonnet",
+        "sufficient": "opus",
+        "turns": 1
+      },
+      {
+        "requested": "opus",
+        "sufficient": "haiku",
+        "turns": 61
+      },
+      {
+        "requested": "opus",
+        "sufficient": "sonnet",
+        "turns": 196
+      },
+      {
+        "requested": "opus",
+        "sufficient": "opus",
+        "turns": 5
+      }
+    ],
+    "disputed": 22,
+    "overServed": 259,
+    "rightServed": 13,
+    "singleJudgeNotCounted": 807,
+    "storedVerdicts": 1397,
+    "strongConsensus": 273,
+    "underServed": 1,
+    "weakConsensus": 0
+  },
+  "counterfactual": {
+    "basis": "strong-consensus-only",
+    "countedTurns": 259,
+    "consensusOverTurns": 259,
+    "savingSharePct": {
+      "low": 1.8,
+      "high": 3.1
+    },
+    "upperBound": {
+      "basis": "consensus-plus-calibrated-single",
+      "calibrated": false,
+      "countedTurns": 259,
+      "calibratedSingleOverTurns": 0,
+      "savingSharePct": {
+        "low": 1.8,
+        "high": 3.1
+      }
+    }
+  },
+  "cache": {
+    "definition": "cache read / (cache read + cache write + uncached input), token-weighted over Claude executions with recorded cache counts",
+    "hitRatioPct": 96.6
+  },
+  "levers": {
+    "cacheBreak": {
+      "breaks": 271,
+      "costSharePct": {
+        "low": 18.3,
+        "high": 18.3
+      }
+    },
+    "idleGap": {
+      "breaks": 237,
+      "costSharePct": {
+        "low": 17.7,
+        "high": 17.7
+      }
+    },
+    "contextOver200k": {
+      "turnsSharePct": 27.9,
+      "costSharePct": {
+        "low": 19.1,
+        "high": 23.6
+      }
+    },
+    "failureLoops": {
+      "count": 12,
+      "costSharePct": {
+        "low": 0.46,
+        "high": 0.46
+      }
+    },
+    "spendSpikeDays": 9
+  },
+  "overhead": {
+    "addedTtfbMs": "not measured",
+    "gatewayPerformanceSampleCount": 0
+  },
+  "caveats": [
+    "ADVISOR_NOT_RECORDED",
+    "CREDENTIAL_NOT_RECORDED",
+    "DEFAULT_MODEL_COULD_NOT_TELL",
+    "DISPUTED_EXCLUDED",
+    "NO_GROUND_TRUTH",
+    "OVERHEAD_NOT_MEASURED",
+    "QUOTA_EQUIVALENT_DOLLARS",
+    "SINGLE_JUDGE_EXCLUDED",
+    "SINGLE_JUDGE_UNCALIBRATED",
+    "UNPRICED_EXECUTIONS"
+  ],
+  "sha256": "c38eedcff6fd40eb5dd607bb00f8ad263ab3b96d78c28a6767b324e062951514"
+}
