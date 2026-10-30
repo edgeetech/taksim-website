@@ -86,6 +86,9 @@ export function ProofPage({ locale }: { locale: Locale }) {
     judge.disputed +
     judge.singleJudgeNotCounted;
   const nativeAdded = overhead.native.addedTtftMs;
+  const calibration = judge.calibration;
+  const decimal = (value: number) =>
+    locale === 'tr' ? value.toFixed(2).replace('.', ',') : value.toFixed(2);
   const tokens: Record<string, string> = {
     ...copyTokens(report, locale, labels),
     warmServedSonnet: String(report.warm.served[SONNET] ?? 0),
@@ -113,6 +116,23 @@ export function ProofPage({ locale }: { locale: Locale }) {
     strong: int(judge.strongConsensus, locale),
     right: int(judge.rightServed, locale),
     over: int(judge.overServed, locale),
+    crossPairs: int(calibration?.pairs ?? 0, locale),
+    exact:
+      calibration?.exactAgreementPct == null
+        ? '–'
+        : pct(calibration.exactAgreementPct, locale),
+    within:
+      calibration?.withinOneTierPct == null
+        ? '–'
+        : pct(calibration.withinOneTierPct, locale),
+    kappa: calibration?.kappa == null ? '–' : decimal(calibration.kappa),
+    minPairs: int(calibration?.thresholds.minimumPairs ?? 0, locale),
+    minExact: pct(
+      calibration?.thresholds.minimumExactAgreementPct ?? 0,
+      locale,
+    ),
+    minKappa: decimal(calibration?.thresholds.minimumKappa ?? 0),
+    minConfidence: locale === 'tr' ? '0,8' : '0.8',
     under: int(judge.underServed, locale),
     verdicts: int(judge.storedVerdicts, locale),
     judgedTurns: int(judgedTurns, locale),
@@ -461,6 +481,18 @@ export function ProofPage({ locale }: { locale: Locale }) {
               </table>
             </section>
             <p>{t.c.stored}</p>
+            {calibration && calibration.pairs > 0 ? (
+              <>
+                <h3>{t.c.crossTitle}</h3>
+                <p>{t.c.cross}</p>
+                <p>{t.c.agreement}</p>
+                <p>
+                  {calibration.calibrated
+                    ? t.c.calibratedYes
+                    : t.c.calibratedNo}
+                </p>
+              </>
+            ) : null}
             <p>{t.c.outcome}</p>
             <section
               className="table-scroll"

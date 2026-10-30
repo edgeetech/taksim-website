@@ -2,7 +2,7 @@
 // loader. The snapshot is the ratios-only copy that scripts/proof-publish.mjs makes from a `taksim proof export`
 // bundle; loading it recomputes its sha256 and checks the shape, so a hand-edited or stale file fails the build
 // instead of publishing a number nobody can trace.
-import snapshotJson from '../../data/proof/2026-10-29.json' with { type: 'json' };
+import snapshotJson from '../../data/proof/2026-10-30.json' with { type: 'json' };
 import overheadJson from '../../data/proof/overhead-2026-10-03.json' with { type: 'json' };
 import { bundleHash, type Json } from './canonical.ts';
 
@@ -39,8 +39,28 @@ export type ProofSnapshot = {
     rightServed: number;
     overServed: number;
     confusionMatrix: { requested: string; sufficient: string; turns: number }[];
+    calibration?: {
+      pairs: number;
+      exactAgreementPct: number | null;
+      withinOneTierPct: number | null;
+      kappa: number | null;
+      calibrated: boolean;
+      thresholds: { minimumPairs: number; minimumExactAgreementPct: number; minimumKappa: number };
+    };
   };
-  counterfactual: { basis: string; countedTurns: number; consensusOverTurns: number; savingSharePct: Range };
+  counterfactual: {
+    basis: string;
+    countedTurns: number;
+    consensusOverTurns: number;
+    savingSharePct: Range;
+    upperBound?: {
+      basis: string;
+      calibrated: boolean;
+      countedTurns: number;
+      calibratedSingleOverTurns: number;
+      savingSharePct: Range;
+    };
+  };
   cache: { definition: string; hitRatioPct: number };
   levers: {
     cacheBreak: { breaks: number; costSharePct: Range };

@@ -687,7 +687,7 @@ export const tr: Dictionary = {
       items: {
         a: { label: 'A. Eşli pilot', body: '{tasks} görevde her zaman Opus’tan {costSavingPct} daha ucuz. Her zaman Sonnet’ten daha ucuz değil.' },
         b: { label: 'B. 30 günlük defter', body: 'Yönlendirilmedi, yalnızca ölçüldü. Prompt önbelleği ve uzun bağlam, model seçiminden çok daha pahalı.' },
-        c: { label: 'C. Hakemler', body: 'Hakemlenen {judgedTurns} turdan {strong} tanesi sayım kuralını karşıladı. Geri kalanların tek hakemi vardı.' },
+        c: { label: 'C. Hakemler', body: 'Hakemlenen {judgedTurns} turdan {strong} tanesi sayım kuralını karşıladı. Bunların {over} tanesinde daha ucuz bir model yeterdi.' },
         d: { label: 'D. Ek yük', body: 'Taksim üzerinden soğuk açılış medyanda yaklaşık {nativeP50} s ekliyor. Gerçek trafikte gecikme ölçülmedi.' },
         e: { label: 'E. Henüz kanıtlanmadı', body: 'Yönlendirilmiş tasarruf, gerçek işte kalite, Haiku, diğer geliştiriciler ve macOS.' },
       },
@@ -703,7 +703,7 @@ export const tr: Dictionary = {
       download: 'Ham JSON’u indirin',
       hash: 'Kurallı (canonical) içeriğinin sha256’sı',
       source: 'Bu kopyanın üretildiği, maskelenmemiş export’un sha256’sı',
-      localBuild: 'proof-export dalının yerel derlemesi; yayımlanmış bir sürüm değil.',
+      localBuild: 'Yayımlanmış sürümün ilerisindeki bir yerel derleme; kendisi bir sürüm değil.',
       refreshed: 'Son yenileme: {date}. G bölümündeki günlük her yenilemeyi listeler.',
     },
     statusLabel: 'Bu sayfada kullanılan durum etiketleri',
@@ -786,12 +786,21 @@ export const tr: Dictionary = {
         single: 'Tek judge: yalnızca bir karar',
       },
       stored: 'Toplam {verdicts} karar saklanıyor; {judgedTurns} tur değerlendirildi.',
+      crossTitle: 'Kör çapraz kontrol',
+      cross:
+        'Turların çoğunun eskiden tek judge’ı vardı: kendi turlarını notlayan Claude oturumu. İkinci ve bağımsız bir oy için bu turlardan {crossPairs} tanesi, aracı olmayan ve önceki kararı, model adını ya da yolu görmeyen yeni bir Claude oturumunda yeniden notlandı. Onları güçlü consensus’a çeviren bu ikinci oydur.',
+      agreement:
+        'İki judge çiftlerin {exact} kadarında tam olarak aynı katmanı seçti, {within} kadarında en fazla bir katman ayrıştı; şansa göre düzeltilmiş Cohen kappa değeri {kappa}.',
+      calibratedNo:
+        'Bu, tek bir judge’a kendi başına güvenme eşiğinin altında (en az {minPairs} çift, {minExact} tam uyum ve kappa {minKappa}). Bu yüzden hâlâ tek judge’ı olan turlar bu sayfadaki hiçbir rakama girmiyor ve tahminin daha geniş bir üst ucu yok.',
+      calibratedYes:
+        'Bu, tek bir judge’a kendi başına güvenme eşiğini karşılıyor (en az {minPairs} çift, {minExact} tam uyum ve kappa {minKappa}). Bu yüzden güveni {minConfidence} ve üstü olan tek kararlar tahminin üst ucunu genişletiyor.',
       outcome:
         '{strong} güçlü-consensus turu: {right} tanesi yeterli bir modelde, {over} tanesi gerekenden pahalı bir modelde, {under} tanesi fazla zayıf bir modelde çalıştı.',
       matrixCaption: 'Güçlü-consensus turları: çalışan model ve judge’ların yeterli bulduğu en ucuz model',
       matrixCols: { ran: 'Çalıştığı model', enough: 'Judge’ların yeterli bulduğu', turns: 'Tur' },
       honesty: 'LLM judge’lar, gerçek referans yok; uzlaşma doğruluk değildir.',
-      small: '{strong} sayılan turla bu, kurala bir örnektir; güvenilecek bir oran değildir.',
+      small: 'Tek geliştiricinin 30 gününden {strong} sayılan tur: bu defterdeki örüntüyü görmeye yeter, başkasının işi için bir oran değildir.',
     },
     d: {
       title: 'D. Ek yük',
@@ -869,7 +878,7 @@ export const tr: Dictionary = {
       method: [
         'Pencere: {days} UTC günü, {since} – {until}; öncesindeki {days} günle karşılaştırılır. Tarihler gün cinsindendir; daha ince bir şey kaydedilmez.',
         'Maliyet: yayımlanmış liste fiyatlarıyla API-eşdeğeri; fatura değildir. Bir maliyet payı, bir model ailesinin maliyetini pencerenin toplamına böler.',
-        'Bir karar yalnızca iki judge uzlaştığında ve en az biri güçlü olduğunda sayılır. Tek-judge, zayıf-consensus ve ihtilaflı turlar asla sayılmaz.',
+        'Bir karar yalnızca iki judge uzlaştığında ve en az biri güçlü olduğunda sayılır. İkinci güçlü judge, C bölümündeki kör çapraz kontroldür. Zayıf-consensus ve ihtilaflı turlar asla sayılmaz; tek-judge turları yalnızca çapraz kontrol eşiğini karşılarsa sayılır.',
         'Counterfactual, daha ucuz modeli çalıştırarak değil, judge kararlarından yapılan bir tahmindir.',
         'Gateway ek yükü, ürünün sentetik benchmark’ından ve D bölümünde tarihleri verilen bir native soğuk başlatma koşusundan gelir.',
       ],
@@ -888,7 +897,10 @@ export const tr: Dictionary = {
         QUOTA_EQUIVALENT_DOLLARS: 'Bazı dolarlar API-eşdeğeri kotadır, fatura değildir.',
         NOT_ROUTED_WINDOW: 'Taksim pencerede hiçbir isteği yeniden yazmadı.',
         NO_STRONG_CONSENSUS: 'Hiçbir turda güçlü consensus yok; counterfactual tasarım gereği sıfırdır.',
-        SINGLE_JUDGE_EXCLUDED: 'Tek-judge turları var ve sayılmıyor.',
+        SINGLE_JUDGE_EXCLUDED: 'Tek-judge turları var ve consensus rakamına sayılmıyor.',
+        SINGLE_JUDGE_UNCALIBRATED: 'Kör çapraz kontrol eşiğini karşılamadı; bu yüzden tek-judge turları tahmini de genişletmiyor.',
+        ADVISOR_NOT_RECORDED: 'Pencerede advisor çağrısı kaydedilmedi.',
+        DEFAULT_MODEL_COULD_NOT_TELL: 'Bazı Opus turları varsayılan mı seçim mi diye sınıflanamadı; hiçbirine sayılmıyor.',
         WEAK_CONSENSUS_EXCLUDED: 'Yalnızca zayıf judge’ların uzlaştığı turlar var ve sayılmıyor.',
         DISPUTED_EXCLUDED: 'Judge’ların aynı fikirde olmadığı turlar var ve sayılmıyor.',
         OVERHEAD_NOT_MEASURED: 'Pencerede gateway gecikme örneği kaydedilmedi.',
@@ -899,6 +911,10 @@ export const tr: Dictionary = {
         {
           date: '2026-10-29',
           text: 'İlk görüntü: 2026-10-29’a kadar 30 gün; o günkü sürümün yerel derlemesiyle export edildi ve yalnızca pay olarak yayımlandı. Pilot rakamları 2026-10-15 benchmark’ından, ek yük 2026-10-03 benchmark’ından.',
+        },
+        {
+          date: '2026-10-30',
+          text: 'İkinci görüntü: 2026-10-30’a kadar 30 gün; kör çapraz kontrol 304 tek-judge turunu yeniden notladıktan sonra. Güçlü consensus turları 8’den 273’e çıktı; ilk görüntünün dosyası /proof/2026-10-29.json adresinde indirilebilir kalıyor.',
         },
       ],
     },

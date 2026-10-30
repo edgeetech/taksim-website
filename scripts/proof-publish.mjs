@@ -29,6 +29,7 @@ export const removedFields = [
   'levers.*.cost',
   'levers.contextOver200kExcess.turns',
   'counterfactual.saving',
+  'counterfactual.upperBound.saving',
 ];
 
 // One decimal from 1% up, two below it, so that small shares do not collapse to 0.
@@ -89,6 +90,17 @@ export function publish(original) {
       countedTurns: original.counterfactual.countedTurns,
       consensusOverTurns: original.counterfactual.consensusOverTurns,
       savingSharePct: ofCostRange(original.counterfactual.saving),
+      ...(original.counterfactual.upperBound
+        ? {
+            upperBound: {
+              basis: original.counterfactual.upperBound.basis,
+              calibrated: original.counterfactual.upperBound.calibrated,
+              countedTurns: original.counterfactual.upperBound.countedTurns,
+              calibratedSingleOverTurns: original.counterfactual.upperBound.calibratedSingleOverTurns,
+              savingSharePct: ofCostRange(original.counterfactual.upperBound.saving),
+            },
+          }
+        : {}),
     },
     cache: { definition: original.cache.definition, hitRatioPct: original.cache.hitRatioPct },
     levers: {
