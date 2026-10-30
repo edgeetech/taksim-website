@@ -682,8 +682,20 @@ export const tr: Dictionary = {
     title: 'Kanıt: vaat değil, ölçüm',
     lede: 'Tek geliştirici, tek makine, 30 gün, yalnızca Claude. Buradaki her rakamın tarihi, kaynağı ve çekincesi yanında yazılıdır; ölçmediklerimiz de ölçtiklerimiz kadar açık biçimde listelenir.',
     headline: 'Tek geliştirici, tek makine, 30 gün, yalnızca Claude',
+    summary: {
+      title: 'Kısaca',
+      items: {
+        a: { label: 'A. Eşli pilot', body: '{tasks} görevde her zaman Opus’tan {costSavingPct} daha ucuz. Her zaman Sonnet’ten daha ucuz değil.' },
+        b: { label: 'B. 30 günlük defter', body: 'Yönlendirilmedi, yalnızca ölçüldü. Prompt önbelleği ve uzun bağlam, model seçiminden çok daha pahalı.' },
+        c: { label: 'C. Hakemler', body: 'Hakemlenen {judgedTurns} turdan {strong} tanesi sayım kuralını karşıladı. Geri kalanların tek hakemi vardı.' },
+        d: { label: 'D. Ek yük', body: 'Taksim üzerinden soğuk açılış medyanda yaklaşık {nativeP50} s ekliyor. Gerçek trafikte gecikme ölçülmedi.' },
+        e: { label: 'E. Henüz kanıtlanmadı', body: 'Yönlendirilmiş tasarruf, gerçek işte kalite, Haiku, diğer geliştiriciler ve macOS.' },
+      },
+    },
+    onPage: 'Bu sayfada',
     snapshot: {
       title: 'Anlık görüntü',
+      details: 'Görüntü ayrıntıları: tarih, sürüm, ham JSON ve hash’ler',
       date: 'Görüntü tarihi',
       version: 'Taksim sürümü',
       window: 'Pencere',

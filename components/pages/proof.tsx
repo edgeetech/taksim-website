@@ -2,7 +2,12 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { CopyCommand } from '@/components/copy-command';
 import { Rich } from '@/components/rich';
-import { copyTokens, fillKnown, formatUsd, report } from '@/lib/benchmark/report';
+import {
+  copyTokens,
+  fillKnown,
+  formatUsd,
+  report,
+} from '@/lib/benchmark/report';
 import { getDictionary, localePath, type Locale } from '@/lib/i18n';
 import { funnel } from '@/lib/funnel';
 import { proofExport } from '@/lib/plans';
@@ -61,11 +66,25 @@ function Section({
 export function ProofPage({ locale }: { locale: Locale }) {
   const dict = getDictionary(locale);
   const pilot = dict.home.pilot;
-  const labels = { notMeasured: pilot.notMeasured, undefinedPerAccepted: pilot.undefinedPerAccepted };
-  const onOff = (value: boolean) => (value ? (locale === 'tr' ? 'açık' : 'on') : locale === 'tr' ? 'kapalı' : 'off');
+  const labels = {
+    notMeasured: pilot.notMeasured,
+    undefinedPerAccepted: pilot.undefinedPerAccepted,
+  };
+  const onOff = (value: boolean) =>
+    value
+      ? locale === 'tr'
+        ? 'açık'
+        : 'on'
+      : locale === 'tr'
+        ? 'kapalı'
+        : 'off';
   const s = snapshot;
   const { judge, levers, counterfactual } = s;
-  const judgedTurns = judge.strongConsensus + judge.weakConsensus + judge.disputed + judge.singleJudgeNotCounted;
+  const judgedTurns =
+    judge.strongConsensus +
+    judge.weakConsensus +
+    judge.disputed +
+    judge.singleJudgeNotCounted;
   const nativeAdded = overhead.native.addedTtftMs;
   const tokens: Record<string, string> = {
     ...copyTokens(report, locale, labels),
@@ -81,7 +100,10 @@ export function ProofPage({ locale }: { locale: Locale }) {
     subscriptionState: onOff(s.routing.routingEnabled.routingSubscription),
     routedDecisions: int(s.routing.routedDecisions, locale),
     routedCostShare: pct(s.routing.routedLiveCostSharePct, locale),
-    notRecordedShare: pct(s.spend.byCredentialKind.not_recorded.executionSharePct, locale),
+    notRecordedShare: pct(
+      s.spend.byCredentialKind.not_recorded.executionSharePct,
+      locale,
+    ),
     pricedShare: pct(s.spend.pricedSharePct, locale),
     opusTokensNow: pct(s.modelMix.window.sharePct.opus, locale),
     opusTokensBefore: pct(s.modelMix.previousWindow.sharePct.opus, locale),
@@ -117,22 +139,54 @@ export function ProofPage({ locale }: { locale: Locale }) {
     { id: 'sonnet', arm: cold.sonnet },
     { id: 'taksim', arm: cold.taksim },
   ] as const;
-  const acceptedOf = (n: number, total: number) => t.a.acceptedOf.replace('{n}', String(n)).replace('{total}', String(total));
+  const acceptedOf = (n: number, total: number) =>
+    t.a.acceptedOf.replace('{n}', String(n)).replace('{total}', String(total));
   const proofPending = proofExport.shippedIn === null;
 
-  const leverRows: { id: keyof typeof t.b.levers; share: Range; events: string }[] = [
+  const leverRows: {
+    id: keyof typeof t.b.levers;
+    share: Range;
+    events: string;
+  }[] = [
     {
       id: 'contextOver200k',
       share: levers.contextOver200k.costSharePct,
-      events: t.b.events.contextOver200k.replace('{share}', pct(levers.contextOver200k.turnsSharePct, locale)),
+      events: t.b.events.contextOver200k.replace(
+        '{share}',
+        pct(levers.contextOver200k.turnsSharePct, locale),
+      ),
     },
-    { id: 'cacheBreak', share: levers.cacheBreak.costSharePct, events: t.b.events.cacheBreak.replace('{n}', int(levers.cacheBreak.breaks, locale)) },
-    { id: 'idleGap', share: levers.idleGap.costSharePct, events: t.b.events.idleGap.replace('{n}', int(levers.idleGap.breaks, locale)) },
-    { id: 'failureLoops', share: levers.failureLoops.costSharePct, events: t.b.events.failureLoops.replace('{n}', int(levers.failureLoops.count, locale)) },
+    {
+      id: 'cacheBreak',
+      share: levers.cacheBreak.costSharePct,
+      events: t.b.events.cacheBreak.replace(
+        '{n}',
+        int(levers.cacheBreak.breaks, locale),
+      ),
+    },
+    {
+      id: 'idleGap',
+      share: levers.idleGap.costSharePct,
+      events: t.b.events.idleGap.replace(
+        '{n}',
+        int(levers.idleGap.breaks, locale),
+      ),
+    },
+    {
+      id: 'failureLoops',
+      share: levers.failureLoops.costSharePct,
+      events: t.b.events.failureLoops.replace(
+        '{n}',
+        int(levers.failureLoops.count, locale),
+      ),
+    },
     {
       id: 'counterfactual',
       share: counterfactual.savingSharePct,
-      events: t.b.events.counterfactual.replace('{n}', int(counterfactual.countedTurns, locale)),
+      events: t.b.events.counterfactual.replace(
+        '{n}',
+        int(counterfactual.countedTurns, locale),
+      ),
     },
   ];
   leverRows.sort((a, b) => b.share.high - a.share.high);
@@ -156,47 +210,85 @@ export function ProofPage({ locale }: { locale: Locale }) {
       <section className="content-section">
         <article className="shell narrow prose">
           <h2 className="proof-headline">{t.headline}</h2>
-          <dl className="proof-facts">
-            <div>
-              <dt>{t.snapshot.date}</dt>
-              <dd>
-                <time dateTime={s.generatedAt}>{s.generatedAt}</time>
-              </dd>
-            </div>
-            <div>
-              <dt>{t.snapshot.version}</dt>
-              <dd>
-                <code>{s.generatedBy.taksimVersion}</code>
-                <br />
-                {t.snapshot.localBuild}
-              </dd>
-            </div>
-            <div>
-              <dt>{t.snapshot.window}</dt>
-              <dd>{t.snapshot.windowValue}</dd>
-            </div>
-            <div>
-              <dt>{t.snapshot.download}</dt>
-              <dd>
-                <a href={proofFile.path} download>
-                  <code>{proofFile.name}</code>
-                </a>
-              </dd>
-            </div>
-            <div>
-              <dt>{t.snapshot.hash}</dt>
-              <dd>
-                <code className="proof-hash">{s.sha256}</code>
-              </dd>
-            </div>
-            <div>
-              <dt>{t.snapshot.source}</dt>
-              <dd>
-                <code className="proof-hash">{s.publication.sourceSha256}</code>
-              </dd>
-            </div>
-          </dl>
-          <p>{t.snapshot.refreshed}</p>
+          <section className="proof-summary" aria-labelledby="proof-summary">
+            <h3 id="proof-summary">{t.summary.title}</h3>
+            <ul>
+              {(['a', 'b', 'c', 'd', 'e'] as const).map((id) => (
+                <li key={id}>
+                  <a className="proof-summary-link" href={`#proof-${id}`}>
+                    {t.summary.items[id].label}
+                  </a>
+                  <p>{t.summary.items[id].body}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+          <nav className="proof-toc" aria-label={t.onPage}>
+            <p>{t.onPage}</p>
+            <ol>
+              {(
+                [
+                  ['a', t.a.title],
+                  ['b', t.b.title],
+                  ['c', t.c.title],
+                  ['d', t.d.title],
+                  ['e', t.e.title],
+                  ['f', t.f.title],
+                  ['g', t.g.title],
+                ] as const
+              ).map(([id, title]) => (
+                <li key={id}>
+                  <a href={`#proof-${id}`}>{title}</a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+          <details className="proof-details">
+            <summary>{t.snapshot.details}</summary>
+            <dl className="proof-facts">
+              <div>
+                <dt>{t.snapshot.date}</dt>
+                <dd>
+                  <time dateTime={s.generatedAt}>{s.generatedAt}</time>
+                </dd>
+              </div>
+              <div>
+                <dt>{t.snapshot.version}</dt>
+                <dd>
+                  <code>{s.generatedBy.taksimVersion}</code>
+                  <br />
+                  {t.snapshot.localBuild}
+                </dd>
+              </div>
+              <div>
+                <dt>{t.snapshot.window}</dt>
+                <dd>{t.snapshot.windowValue}</dd>
+              </div>
+              <div>
+                <dt>{t.snapshot.download}</dt>
+                <dd>
+                  <a href={proofFile.path} download>
+                    <code>{proofFile.name}</code>
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt>{t.snapshot.hash}</dt>
+                <dd>
+                  <code className="proof-hash">{s.sha256}</code>
+                </dd>
+              </div>
+              <div>
+                <dt>{t.snapshot.source}</dt>
+                <dd>
+                  <code className="proof-hash">
+                    {s.publication.sourceSha256}
+                  </code>
+                </dd>
+              </div>
+            </dl>
+            <p>{t.snapshot.refreshed}</p>
+          </details>
           <div className="notice proof-legend">
             <p>
               <strong>{t.statusLabel}</strong>
@@ -204,15 +296,25 @@ export function ProofPage({ locale }: { locale: Locale }) {
             <ul>
               {(['measured', 'observed', 'notYet'] as const).map((status) => (
                 <li key={status}>
-                  <StatusChip status={status} label={t.status[status].label} /> {t.status[status].body}
+                  <StatusChip status={status} label={t.status[status].label} />{' '}
+                  {t.status[status].body}
                 </li>
               ))}
             </ul>
           </div>
 
-          <Section id="a" title={t.a.title} status="measured" statusLabel={t.status.measured.label}>
+          <Section
+            id="a"
+            title={t.a.title}
+            status="measured"
+            statusLabel={t.status.measured.label}
+          >
             <p>{t.a.intro}</p>
-            <section className="table-scroll" tabIndex={0} aria-label={t.a.caption}>
+            <section
+              className="table-scroll"
+              tabIndex={0}
+              aria-label={t.a.caption}
+            >
               <table className="tabular proof-table">
                 <caption className="sr-only">{t.a.caption}</caption>
                 <thead>
@@ -244,7 +346,12 @@ export function ProofPage({ locale }: { locale: Locale }) {
             <p>{rich(t.a.method)}</p>
           </Section>
 
-          <Section id="b" title={t.b.title} status="observed" statusLabel={t.status.observed.label}>
+          <Section
+            id="b"
+            title={t.b.title}
+            status="observed"
+            statusLabel={t.status.observed.label}
+          >
             <p className="proof-statement">
               <strong>{t.b.notRouted}</strong>
             </p>
@@ -254,7 +361,11 @@ export function ProofPage({ locale }: { locale: Locale }) {
             </p>
             <p>{t.b.ratiosOnly}</p>
             <h3>{t.b.mixTitle}</h3>
-            <section className="table-scroll" tabIndex={0} aria-label={t.b.mixCaption}>
+            <section
+              className="table-scroll"
+              tabIndex={0}
+              aria-label={t.b.mixCaption}
+            >
               <table className="tabular proof-table">
                 <caption className="sr-only">{t.b.mixCaption}</caption>
                 <thead>
@@ -269,9 +380,16 @@ export function ProofPage({ locale }: { locale: Locale }) {
                   {FAMILIES.map((family) => (
                     <tr key={family}>
                       <th scope="row">{t.b.families[family]}</th>
-                      <td>{pct(s.spend.byFamily[family].costSharePct, locale)}</td>
+                      <td>
+                        {pct(s.spend.byFamily[family].costSharePct, locale)}
+                      </td>
                       <td>{pct(s.modelMix.window.sharePct[family], locale)}</td>
-                      <td>{pct(s.modelMix.previousWindow.sharePct[family], locale)}</td>
+                      <td>
+                        {pct(
+                          s.modelMix.previousWindow.sharePct[family],
+                          locale,
+                        )}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -281,7 +399,11 @@ export function ProofPage({ locale }: { locale: Locale }) {
             <p>{t.b.cache}</p>
             <h3>{t.b.leversTitle}</h3>
             <p>{t.b.leversIntro}</p>
-            <section className="table-scroll" tabIndex={0} aria-label={t.b.leversCaption}>
+            <section
+              className="table-scroll"
+              tabIndex={0}
+              aria-label={t.b.leversCaption}
+            >
               <table className="tabular proof-table proof-levers">
                 <caption className="sr-only">{t.b.leversCaption}</caption>
                 <thead>
@@ -306,9 +428,18 @@ export function ProofPage({ locale }: { locale: Locale }) {
             <p>{t.b.leversRead}</p>
           </Section>
 
-          <Section id="c" title={t.c.title} status="measured" statusLabel={t.status.measured.label}>
+          <Section
+            id="c"
+            title={t.c.title}
+            status="measured"
+            statusLabel={t.status.measured.label}
+          >
             <p>{t.c.intro}</p>
-            <section className="table-scroll" tabIndex={0} aria-label={t.c.caption}>
+            <section
+              className="table-scroll"
+              tabIndex={0}
+              aria-label={t.c.caption}
+            >
               <table className="tabular proof-table">
                 <caption className="sr-only">{t.c.caption}</caption>
                 <thead>
@@ -331,7 +462,11 @@ export function ProofPage({ locale }: { locale: Locale }) {
             </section>
             <p>{t.c.stored}</p>
             <p>{t.c.outcome}</p>
-            <section className="table-scroll" tabIndex={0} aria-label={t.c.matrixCaption}>
+            <section
+              className="table-scroll"
+              tabIndex={0}
+              aria-label={t.c.matrixCaption}
+            >
               <table className="tabular proof-table">
                 <caption className="sr-only">{t.c.matrixCaption}</caption>
                 <thead>
@@ -344,8 +479,16 @@ export function ProofPage({ locale }: { locale: Locale }) {
                 <tbody>
                   {judge.confusionMatrix.map((cell) => (
                     <tr key={`${cell.requested}-${cell.sufficient}`}>
-                      <th scope="row">{t.b.families[cell.requested as keyof typeof t.b.families] ?? cell.requested}</th>
-                      <td>{t.b.families[cell.sufficient as keyof typeof t.b.families] ?? cell.sufficient}</td>
+                      <th scope="row">
+                        {t.b.families[
+                          cell.requested as keyof typeof t.b.families
+                        ] ?? cell.requested}
+                      </th>
+                      <td>
+                        {t.b.families[
+                          cell.sufficient as keyof typeof t.b.families
+                        ] ?? cell.sufficient}
+                      </td>
                       <td>{int(cell.turns, locale)}</td>
                     </tr>
                   ))}
@@ -357,10 +500,19 @@ export function ProofPage({ locale }: { locale: Locale }) {
             </p>
           </Section>
 
-          <Section id="d" title={t.d.title} status="measured" statusLabel={t.status.measured.label}>
+          <Section
+            id="d"
+            title={t.d.title}
+            status="measured"
+            statusLabel={t.status.measured.label}
+          >
             <p className="proof-label">{t.d.label}</p>
             <p>{t.d.intro}</p>
-            <section className="table-scroll" tabIndex={0} aria-label={t.d.caption}>
+            <section
+              className="table-scroll"
+              tabIndex={0}
+              aria-label={t.d.caption}
+            >
               <table className="tabular proof-table">
                 <caption className="sr-only">{t.d.caption}</caption>
                 <thead>
@@ -382,7 +534,11 @@ export function ProofPage({ locale }: { locale: Locale }) {
               </table>
             </section>
             <h3>{t.d.nativeTitle}</h3>
-            <section className="table-scroll" tabIndex={0} aria-label={t.d.nativeCaption}>
+            <section
+              className="table-scroll"
+              tabIndex={0}
+              aria-label={t.d.nativeCaption}
+            >
               <table className="tabular proof-table proof-native">
                 <caption className="sr-only">{t.d.nativeCaption}</caption>
                 <thead>
@@ -395,18 +551,32 @@ export function ProofPage({ locale }: { locale: Locale }) {
                 <tbody>
                   <tr data-row="native-added">
                     <th scope="row">{t.d.native.added}</th>
-                    <td>+{seconds(overhead.native.addedTtftMs.p50, locale)} s</td>
-                    <td>+{seconds(overhead.native.addedTtftMs.p95, locale)} s</td>
+                    <td>
+                      +{seconds(overhead.native.addedTtftMs.p50, locale)} s
+                    </td>
+                    <td>
+                      +{seconds(overhead.native.addedTtftMs.p95, locale)} s
+                    </td>
                   </tr>
                   <tr>
                     <th scope="row">{t.d.native.prep}</th>
-                    <td>{seconds(overhead.native.localPreparationMs.p50, locale)} s</td>
-                    <td>{seconds(overhead.native.localPreparationMs.p95, locale)} s</td>
+                    <td>
+                      {seconds(overhead.native.localPreparationMs.p50, locale)}{' '}
+                      s
+                    </td>
+                    <td>
+                      {seconds(overhead.native.localPreparationMs.p95, locale)}{' '}
+                      s
+                    </td>
                   </tr>
                   <tr>
                     <th scope="row">{t.d.native.direct}</th>
-                    <td>{seconds(overhead.native.directTtftMs.p50, locale)} s</td>
-                    <td>{seconds(overhead.native.directTtftMs.p95, locale)} s</td>
+                    <td>
+                      {seconds(overhead.native.directTtftMs.p50, locale)} s
+                    </td>
+                    <td>
+                      {seconds(overhead.native.directTtftMs.p95, locale)} s
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -418,7 +588,12 @@ export function ProofPage({ locale }: { locale: Locale }) {
             <p>{t.d.real}</p>
           </Section>
 
-          <Section id="e" title={t.e.title} status="notYet" statusLabel={t.status.notYet.label}>
+          <Section
+            id="e"
+            title={t.e.title}
+            status="notYet"
+            statusLabel={t.status.notYet.label}
+          >
             <p>{t.e.intro}</p>
             <ul className="proof-unproven">
               {t.e.items.map((item) => (
@@ -437,7 +612,9 @@ export function ProofPage({ locale }: { locale: Locale }) {
 
           <Section id="f" title={t.f.title}>
             <p>{t.f.intro}</p>
-            {proofPending ? <p className="notice">{rich(t.f.pending)}</p> : null}
+            {proofPending ? (
+              <p className="notice">{rich(t.f.pending)}</p>
+            ) : null}
             <ul className="proof-commands">
               {t.f.commands.map((item) => (
                 <li key={item.command}>
@@ -473,7 +650,8 @@ export function ProofPage({ locale }: { locale: Locale }) {
             <ul>
               {s.caveats.map((code) => (
                 <li key={code}>
-                  <code>{code}</code>: {t.g.caveats[code as keyof typeof t.g.caveats] ?? code}
+                  {t.g.caveats[code as keyof typeof t.g.caveats] ?? code}{' '}
+                  <code className="proof-code">{code}</code>
                 </li>
               ))}
             </ul>
@@ -488,16 +666,22 @@ export function ProofPage({ locale }: { locale: Locale }) {
             </ol>
           </Section>
 
-          <h2>{t.cta.title}</h2>
-          <p>{t.cta.body}</p>
-          <div className="button-row">
-            <Link className="btn btn-primary" href={href('/docs/quick-start')} data-funnel={funnel.getFree}>
-              {t.cta.install}
-            </Link>
-            <Link className="btn btn-ghost" href={href('/benchmark')}>
-              {t.cta.benchmark}
-            </Link>
-          </div>
+          <section className="proof-cta" aria-labelledby="proof-cta">
+            <h2 id="proof-cta">{t.cta.title}</h2>
+            <p>{t.cta.body}</p>
+            <div className="button-row">
+              <Link
+                className="btn btn-primary"
+                href={href('/docs/quick-start')}
+                data-funnel={funnel.getFree}
+              >
+                {t.cta.install}
+              </Link>
+              <Link className="btn btn-ghost" href={href('/benchmark')}>
+                {t.cta.benchmark}
+              </Link>
+            </div>
+          </section>
         </article>
       </section>
     </main>
