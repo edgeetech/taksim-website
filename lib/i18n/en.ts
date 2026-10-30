@@ -682,8 +682,20 @@ export const en = {
     title: 'Proof: measured, not promised',
     lede: 'One developer, one machine, 30 days, Claude only. Every number here carries its date, its source and its caveat, and what we have not measured is listed as plainly as what we have.',
     headline: 'One developer, one machine, 30 days, Claude only',
+    summary: {
+      title: 'In short',
+      items: {
+        a: { label: 'A. Paired pilot', body: '{costSavingPct} cheaper than always-Opus on {tasks} tasks. Not cheaper than always-Sonnet.' },
+        b: { label: 'B. 30-day ledger', body: 'Not routed, only measured. Prompt cache and long context cost far more than model choice.' },
+        c: { label: 'C. Judges', body: '{strong} of {judgedTurns} judged turns met the counting rule. The rest had one judge only.' },
+        d: { label: 'D. Overhead', body: 'A cold launch through Taksim adds about {nativeP50} s at the median. Real-traffic latency is not measured.' },
+        e: { label: 'E. Not yet proven', body: 'Routed savings, quality on real work, Haiku, other developers and macOS.' },
+      },
+    },
+    onPage: 'On this page',
     snapshot: {
       title: 'The snapshot',
+      details: 'Snapshot details: date, version, raw JSON and hashes',
       date: 'Snapshot date',
       version: 'Taksim version',
       window: 'Window',
