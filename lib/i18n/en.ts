@@ -902,7 +902,7 @@ export const en = {
     eyebrow: 'Compare',
     title: 'Taksim next to the alternatives.',
     lede: 'Taksim is one of several ways to spend less on Claude Code. This page sets it beside the tools you are most likely to be weighing. Every competitor fact links to its public source, and the last section says where Taksim is weaker.',
-    asOf: 'As of 29 Oct 2026.',
+    asOf: 'As of 30 Oct 2026.',
     asOfNote:
       'Competitor products change often. Check each source before you decide, and tell us at [info@edgee.tech](mailto:info@edgee.tech) if a fact here is out of date.',
     freeSentence: 'If `/model sonnet` is enough for your work, use it; it is free.',
@@ -910,7 +910,7 @@ export const en = {
       'Taksim is for work where it is not enough: you want ordinary requests kept on Sonnet without thinking about it, spend that steps down instead of cutting off, and a judged record of when Opus was actually needed.',
     tableLabel:
       'Comparison of Taksim with GitHub Copilot Fusion, Claude /advisor, Not Diamond Code, ccusage and plain /model sonnet. The table scrolls sideways.',
-    tableCaption: 'Capabilities compared across Taksim and five alternatives, as of 29 Oct 2026',
+    tableCaption: 'Capabilities compared across Taksim and five alternatives, as of 30 Oct 2026',
     featureHeader: 'Capability',
     columns: {
       taksim: 'Taksim',
@@ -928,10 +928,11 @@ export const en = {
         cells: {
           taksim: 'Yes. It switches only among Claude models, never to a third-party model.',
           fusion:
-            'No. The pool changes over time; a third-party write-up lists Claude and GPT models, and GitHub’s page names no vendors.',
-          advisor: 'Yes. Your Claude main model consults a Claude advisor model.',
+            'GitHub Copilot Fusion (preview name: Project HydraFusion). No. The pool changes as models become available, and the GA docs name no models. GitHub’s 14 Oct 2026 changelog lists Claude Opus 5.5, GPT-6 Astra, GPT-6.1 Sol and GPT-6 Luna in the research-preview pool. Since 28 Oct 2026, Standard can also route to an experimental on-device model, and routing decisions are still made in the cloud.',
+          advisor:
+            'Yes. Your Claude main model consults a Claude advisor model. It is experimental, works on the Anthropic API only (not Amazon Bedrock, Claude Platform on AWS, Google Cloud’s Agent Platform or Microsoft Foundry), and stays off where `DISABLE_TELEMETRY` is set.',
           notDiamond:
-            'Not stated. Its configuration page lists Anthropic, AWS Bedrock and forwarded Claude Code logins as providers.',
+            'Not found on the pages we checked on 30 Oct 2026. Its configuration page names Anthropic and AWS Bedrock credentials and an internal LLM gateway option.',
           ccusage: 'Not a router. It reports usage from local data.',
           sonnet: 'Yes. You pick one Claude model and it stays until you change it.',
         },
@@ -951,15 +952,16 @@ export const en = {
         },
       },
       stepDown: {
-        feature: 'Budget caps that step down instead of blocking',
+        feature: 'Budget step-down with no proxy server to host',
         cells: {
           taksim:
-            'Opt-in `taksim budget enforce --mode downgrade` serves routed Claude requests on a cheaper tier at the cap and never blocks one. It is a Pro feature, and paid plans are not on sale yet.',
+            'Opt-in `taksim budget enforce --mode downgrade` serves routed Claude requests on a cheaper tier at the cap and never blocks one. It runs in Taksim’s local gateway, so there is no proxy to host. It is a Pro feature, and paid plans are not on sale yet.',
           fusion:
-            'No cap in the Fusion docs. Copilot budgets exist per user, cost center and enterprise, and stop usage only if you turn that option on.',
-          advisor: 'No. The docs say there is no setting to cap or force advisor calls.',
-          notDiamond: 'Budget caps are not mentioned in its configuration docs.',
-          ccusage: 'Budget enforcement is not mentioned on its page.',
+            'Not found on the pages we checked on 30 Oct 2026: a Fusion-specific budget cap. Fusion has Standard, High and Max effort tiers; High and Max are not on Free, Student or Pro, and may use more AI credits than Standard. It routes along cache boundaries. Copilot budgets exist per user, cost center and enterprise, and stop usage only if you turn that option on.',
+          advisor:
+            'No. The docs say: “There is no setting to cap or force advisor calls.” The advisor is experimental and Anthropic API only.',
+          notDiamond: 'Not found on the pages we checked on 30 Oct 2026.',
+          ccusage: 'Not found on the pages we checked on 30 Oct 2026.',
           sonnet: 'Not applicable. The model stays as you set it, with no cap.',
         },
       },
@@ -969,11 +971,11 @@ export const en = {
           taksim:
             'Yes, for judged clients. A judge grades finished turns, and a verdict counts only when two judges agree and one is strong. See [how it works](/how-it-works) and [Clients](/clients).',
           fusion:
-            'No verdicts. After a response you can hover over the effort level to see the models used; the docs do not say why they were chosen.',
+            'After a response you can hover over the effort level name to see the models used. Not found on the pages we checked on 30 Oct 2026: a per-turn verdict on whether a cheaper model would have done.',
           advisor:
-            'It shows an Advising line and whether the advisor reviewed, declined or was unavailable. The docs describe no verdict on whether a cheaper model would have done.',
+            'It shows an Advising line and whether the advisor reviewed, declined or was unavailable. Not found on the pages we checked on 30 Oct 2026: a verdict on whether a cheaper model would have done.',
           notDiamond:
-            'The dashboard shows session activity, usage and savings. Per-turn quality verdicts are not described.',
+            'Its getting-started page says admins see tier usage, cost and savings in the dashboard. Not found on the pages we checked on 30 Oct 2026: per-turn quality verdicts.',
           ccusage: 'No. It produces usage and cost reports.',
           sonnet: 'No. It only switches the model.',
         },
@@ -1010,20 +1012,21 @@ export const en = {
             'Coming; not in this release. Today the gateway forwards `/advisor` unchanged and records advisor usage as its own priced execution.',
           fusion: 'No. It is the router, and its docs show which models were used per response.',
           advisor: 'No. It is the native feature; its usage appears in `/usage`.',
-          notDiamond: 'Not described.',
-          ccusage: 'It reports which models were used; auditing routing decisions is not part of its page.',
+          notDiamond: 'Not found on the pages we checked on 30 Oct 2026.',
+          ccusage: 'It reports which models were used. Auditing routing decisions: not found on the pages we checked on 30 Oct 2026.',
           sonnet: 'No.',
         },
       },
       price: {
         feature: 'Price',
         cells: {
-          taksim: `The CLI is free for any individual, at home or at work. Pro is $${prices.pro} a month and Team is $${prices.team} per developer a month; paid plans are not on sale yet. See [pricing](/pricing).`,
+          taksim: `The CLI is free for any individual, at home or at work. Pro is $${prices.pro} a month and Team is $${prices.team} per seat a month; paid plans are not on sale yet. See [pricing](/pricing).`,
           fusion:
             'No separate Fusion charge: each model used is billed at its standard rate, with 30% off model costs on paid plans through 30 Nov 2026.',
           advisor:
             'No separate charge. Advisor tokens are billed at the advisor model’s rate on the API and count toward plan limits on a subscription.',
-          notDiamond: 'Pricing is not stated on the pages we read.',
+          notDiamond:
+            'Pay-as-you-go at $0.05 per million tokens routed, by waitlist (“Apply for access”); Enterprise by contacting sales, with no price listed. Free tier: not found on the pages we checked on 30 Oct 2026. The pricing page shows no date; we read it on 30 Oct 2026.',
           ccusage: 'MIT licensed; run it with `npx ccusage`.',
           sonnet: 'No extra cost. It is built into Claude Code, and you pay only for model usage.',
         },
@@ -1036,6 +1039,7 @@ export const en = {
         'Routing was not cheaper than always-Sonnet in our pilot. Always-Sonnet cost {sonnetCost} with {sonnetAccepted} of {runsPerArm} runs accepted. Taksim routed cost {taksimCost} with {taksimAccepted} of {runsPerArm}. The {costSavingPct} saving is against always-Opus only. [Method and data](/benchmark).',
         'The pilot is internal: {tasks} tasks on our own Claude Team subscription, not an independent benchmark. We have not run Taksim head to head against `/advisor` or Copilot Fusion, and there is no public independent result yet.',
         'Budget caps that step down are a Pro feature, and paid plans are not on sale yet. The free Developer plan warns and never blocks.',
+        'Budget step-down is not unique to Taksim. LiteLLM’s `budget_fallbacks` reroute Opus to Sonnet to Haiku once a per-model budget is spent, through a LiteLLM proxy ([LiteLLM Claude Code cost tutorial](https://docs.litellm.ai/docs/tutorials/claude_code_cut_costs)). Taksim’s version needs no proxy to host, but it is a Pro feature and paid plans are not on sale yet.',
         'The binaries are unsigned today, so Windows SmartScreen asks you to confirm the first run. See [Security](/security).',
         'Taksim routes only between Claude models. Sessions on AWS Bedrock, Google Vertex AI or Microsoft Foundry start natively, and the Claude desktop app’s Code tab is observed, not routed.',
         'There is no hosted team dashboard: team reports are built from exports each developer shares. macOS is a preview that has not been tested on Mac hardware, and there is no Linux build.',

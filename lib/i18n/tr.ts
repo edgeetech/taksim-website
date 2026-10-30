@@ -902,7 +902,7 @@ export const tr: Dictionary = {
     eyebrow: 'Karşılaştırma',
     title: 'Taksim, alternatiflerinin yanında.',
     lede: 'Taksim, Claude Code’da daha az harcamanın birkaç yolundan biri. Bu sayfa onu, büyük olasılıkla karşılaştıracağınız araçların yanına koyuyor. Her rakip bilgisi, herkese açık kaynağına bağlantı veriyor; son bölüm Taksim’in nerede geride kaldığını söylüyor.',
-    asOf: '29 Eki 2026 itibarıyla.',
+    asOf: '30 Eki 2026 itibarıyla.',
     asOfNote:
       'Rakip ürünler sık değişir. Karar vermeden önce her kaynağı kontrol edin; buradaki bir bilgi güncelliğini yitirmişse [info@edgee.tech](mailto:info@edgee.tech) adresinden bize yazın.',
     freeSentence: '`/model sonnet` işiniz için yetiyorsa onu kullanın; ücretsizdir.',
@@ -910,7 +910,7 @@ export const tr: Dictionary = {
       'Taksim, bunun yetmediği iş içindir: sıradan isteklerin siz uğraşmadan Sonnet’te kalmasını, harcamanın işi kesmek yerine bir alt modele inmesini ve Opus’un gerçekten ne zaman gerektiğinin judge kaydıyla görülmesini istiyorsanız.',
     tableLabel:
       'Taksim’in GitHub Copilot Fusion, Claude /advisor, Not Diamond Code, ccusage ve düz /model sonnet ile karşılaştırması. Tablo yatay kaydırılır.',
-    tableCaption: 'Taksim ve beş alternatifin yetenek karşılaştırması, 29 Eki 2026 itibarıyla',
+    tableCaption: 'Taksim ve beş alternatifin yetenek karşılaştırması, 30 Eki 2026 itibarıyla',
     featureHeader: 'Yetenek',
     columns: {
       taksim: 'Taksim',
@@ -928,10 +928,11 @@ export const tr: Dictionary = {
         cells: {
           taksim: 'Evet. Yalnızca Claude modelleri arasında geçiş yapar, üçüncü taraf modele asla geçmez.',
           fusion:
-            'Hayır. Havuz zamanla değişiyor; üçüncü taraf bir yazı Claude ve GPT modellerini sayıyor, GitHub’ın sayfası ise hiçbir üretici adı vermiyor.',
-          advisor: 'Evet. Claude ana modeliniz, bir Claude advisor modeline danışır.',
+            'GitHub Copilot Fusion (önizleme adı: Project HydraFusion). Hayır. Havuz yeni modeller çıktıkça değişiyor ve GA dokümanı hiçbir model adı vermiyor. GitHub’ın 14 Eki 2026 tarihli değişiklik notu, araştırma önizlemesi havuzunda Claude Opus 5.5, GPT-6 Astra, GPT-6.1 Sol ve GPT-6 Luna’yı sayıyor. 28 Eki 2026’dan beri Standard, deneysel bir cihaz içi modele de yönlendirebiliyor; yönlendirme kararları yine bulutta veriliyor.',
+          advisor:
+            'Evet. Claude ana modeliniz, bir Claude advisor modeline danışır. Deneyseldir, yalnızca Anthropic API ile çalışır (Amazon Bedrock, Claude Platform on AWS, Google Cloud’un Agent Platform’u ve Microsoft Foundry’de değil) ve `DISABLE_TELEMETRY` ayarlıysa kapalı kalır.',
           notDiamond:
-            'Belirtilmemiş. Yapılandırma sayfası sağlayıcı olarak Anthropic, AWS Bedrock ve iletilen Claude Code girişlerini sayıyor.',
+            '30 Eki 2026’da baktığımız sayfalarda bulunamadı. Yapılandırma sayfası Anthropic ve AWS Bedrock kimlik bilgilerini ve bir iç LLM gateway seçeneğini sayıyor.',
           ccusage: 'Router değil. Yerel veriden kullanım raporu çıkarır.',
           sonnet: 'Evet. Bir Claude modeli seçersiniz ve siz değiştirene kadar o kalır.',
         },
@@ -951,15 +952,16 @@ export const tr: Dictionary = {
         },
       },
       stepDown: {
-        feature: 'İşi kesmek yerine bir alt modele inen bütçe sınırları',
+        feature: 'Barındıracağınız bir proxy sunucusu olmadan, bütçede alt modele inme',
         cells: {
           taksim:
-            'İsteğe bağlı `taksim budget enforce --mode downgrade`, sınırda yönlendirilen Claude isteklerini daha ucuz bir kademede sunar ve hiçbirini engellemez. Pro özelliğidir; ücretli planlar henüz satışta değil.',
+            'İsteğe bağlı `taksim budget enforce --mode downgrade`, sınırda yönlendirilen Claude isteklerini daha ucuz bir kademede sunar ve hiçbirini engellemez. Taksim’in yerel gateway’inde çalışır; barındıracağınız bir proxy yoktur. Pro özelliğidir; ücretli planlar henüz satışta değil.',
           fusion:
-            'Fusion dokümanında sınır yok. Copilot bütçeleri kullanıcı, maliyet merkezi ve kurum düzeyinde var; kullanımı yalnızca o seçeneği açarsanız durdurur.',
-          advisor: 'Hayır. Dokümana göre advisor çağrılarını sınırlayacak ya da zorlayacak bir ayar yok.',
-          notDiamond: 'Yapılandırma dokümanında bütçe sınırlarından söz edilmiyor.',
-          ccusage: 'Sayfasında bütçe uygulamasından söz edilmiyor.',
+            '30 Eki 2026’da baktığımız sayfalarda bulunamadı: Fusion’a özgü bir bütçe sınırı. Fusion’ın Standard, High ve Max efor seviyeleri var; High ve Max, Free, Student ve Pro’da yok ve Standard’dan daha fazla AI kredisi kullanabilir. Yönlendirmeyi cache sınırlarında yapar. Copilot bütçeleri kullanıcı, maliyet merkezi ve kurum düzeyinde var; kullanımı yalnızca o seçeneği açarsanız durdurur.',
+          advisor:
+            'Hayır. Dokümana göre advisor çağrılarını sınırlayacak ya da zorlayacak bir ayar yok. Advisor deneyseldir ve yalnızca Anthropic API ile çalışır.',
+          notDiamond: '30 Eki 2026’da baktığımız sayfalarda bulunamadı.',
+          ccusage: '30 Eki 2026’da baktığımız sayfalarda bulunamadı.',
           sonnet: 'Geçerli değil. Model, ayarladığınız gibi kalır; sınır yoktur.',
         },
       },
@@ -969,11 +971,11 @@ export const tr: Dictionary = {
           taksim:
             'Evet, judge’ın desteklediği istemcilerde. Bir judge biten turları değerlendirir; karar yalnızca iki judge anlaşır ve biri güçlüyse sayılır. [Nasıl çalışır](/how-it-works) ve [İstemciler](/clients) sayfalarına bakın.',
           fusion:
-            'Karar yok. Yanıttan sonra kullanılan modelleri görmek için efor seviyesinin üzerine gelebilirsiniz; dokümanda neden seçildikleri anlatılmıyor.',
+            'Yanıttan sonra kullanılan modelleri görmek için efor seviyesi adının üzerine gelebilirsiniz. 30 Eki 2026’da baktığımız sayfalarda bulunamadı: daha ucuz bir modelin yetip yetmeyeceğine dair tur başına karar.',
           advisor:
-            'Bir Advising satırı ve advisor’ın inceleyip incelemediğini, reddedip reddetmediğini ya da ulaşılamadığını gösterir. Dokümanda, daha ucuz bir modelin yetip yetmeyeceğine dair bir karar tanımlanmıyor.',
+            'Bir Advising satırı ve advisor’ın inceleyip incelemediğini, reddedip reddetmediğini ya da ulaşılamadığını gösterir. 30 Eki 2026’da baktığımız sayfalarda bulunamadı: daha ucuz bir modelin yetip yetmeyeceğine dair karar.',
           notDiamond:
-            'Dashboard oturum etkinliğini, kullanımı ve tasarrufu gösterir. Tur başına kalite kararları anlatılmıyor.',
+            'Başlangıç sayfası, yöneticilerin dashboard’da kademe kullanımını, maliyeti ve tasarrufu gördüğünü söylüyor. 30 Eki 2026’da baktığımız sayfalarda bulunamadı: tur başına kalite kararları.',
           ccusage: 'Hayır. Kullanım ve maliyet raporları üretir.',
           sonnet: 'Hayır. Yalnızca modeli değiştirir.',
         },
@@ -1011,20 +1013,21 @@ export const tr: Dictionary = {
             'Yakında; bu sürümde yok. Bugün gateway `/advisor`’ı değiştirmeden iletir ve advisor kullanımını fiyatlandırılmış ayrı bir çalıştırma olarak kaydeder.',
           fusion: 'Hayır. Router’ın kendisidir; dokümanı yanıt başına hangi modellerin kullanıldığını gösterir.',
           advisor: 'Hayır. Yerel özelliğin kendisidir; kullanımı `/usage` içinde görünür.',
-          notDiamond: 'Anlatılmıyor.',
-          ccusage: 'Hangi modellerin kullanıldığını raporlar; yönlendirme kararlarını denetlemek sayfasının konusu değil.',
+          notDiamond: '30 Eki 2026’da baktığımız sayfalarda bulunamadı.',
+          ccusage: 'Hangi modellerin kullanıldığını raporlar. Yönlendirme kararlarını denetleme: 30 Eki 2026’da baktığımız sayfalarda bulunamadı.',
           sonnet: 'Hayır.',
         },
       },
       price: {
         feature: 'Fiyat',
         cells: {
-          taksim: `CLI, evde ya da işte, her bireysel geliştirici için ücretsizdir. Pro aylık $${prices.pro}, Team geliştirici başına aylık $${prices.team}; ücretli planlar henüz satışta değil. [Fiyatlandırma](/pricing) sayfasına bakın.`,
+          taksim: `CLI, evde ya da işte, her bireysel geliştirici için ücretsizdir. Pro aylık $${prices.pro}, Team koltuk başına aylık $${prices.team}; ücretli planlar henüz satışta değil. [Fiyatlandırma](/pricing) sayfasına bakın.`,
           fusion:
             'Ayrı bir Fusion ücreti yok: kullanılan her model standart fiyatıyla faturalanır; ücretli planlarda model maliyetlerinde 30 Kas 2026’ya kadar %30 indirim var.',
           advisor:
             'Ayrı ücret yok. Advisor token’ları API’de advisor modelinin fiyatıyla faturalanır, subscription’da plan limitlerine sayılır.',
-          notDiamond: 'Okuduğumuz sayfalarda fiyat belirtilmiyor.',
+          notDiamond:
+            'Kullandıkça öde: yönlendirilen milyon token başına $0.05, bekleme listesiyle (“Apply for access”); Enterprise için satışla iletişim, fiyat listelenmiyor. Ücretsiz katman: 30 Eki 2026’da baktığımız sayfalarda bulunamadı. Fiyat sayfasında tarih yok; 30 Eki 2026’da okuduk.',
           ccusage: 'MIT lisanslı; `npx ccusage` ile çalıştırılır.',
           sonnet: 'Ek maliyet yok. Claude Code’a yerleşiktir; yalnızca model kullanımının ücretini ödersiniz.',
         },
@@ -1037,6 +1040,7 @@ export const tr: Dictionary = {
         'Pilotumuzda yönlendirme, her zaman Sonnet kullanmaktan daha ucuz çıkmadı. Her zaman Sonnet {sonnetCost} tuttu ve {runsPerArm} çalıştırmanın {sonnetAccepted} tanesi kabul edildi. Taksim yönlendirmesi {taksimCost} tuttu ve {runsPerArm} çalıştırmanın {taksimAccepted} tanesi kabul edildi. {costSavingPct} tasarruf yalnızca her zaman Opus’a göre. [Yöntem ve veri](/benchmark).',
         'Pilot şirket içinde yapıldı: kendi Claude Team subscription’ımızda {tasks} görev; bağımsız bir benchmark değil. Taksim’i `/advisor` ya da Copilot Fusion ile baş başa denemedik ve henüz bağımsız, herkese açık bir sonuç yok.',
         'Bir alt modele inen bütçe sınırları Pro özelliğidir ve ücretli planlar henüz satışta değil. Ücretsiz Developer planı uyarır ve hiçbir isteği engellemez.',
+        'Bütçede alt modele inmek yalnızca Taksim’e özgü değil. LiteLLM’in `budget_fallbacks` ayarı, model başına bütçe bittiğinde Opus’u Sonnet’e, Sonnet’i Haiku’ya yönlendirir; bunu bir LiteLLM proxy’si üzerinden yapar ([LiteLLM Claude Code maliyet rehberi](https://docs.litellm.ai/docs/tutorials/claude_code_cut_costs)). Taksim’in sürümü barındıracağınız bir proxy gerektirmez, ama Pro özelliğidir ve ücretli planlar henüz satışta değil.',
         'Binary’ler bugün imzasız; bu yüzden Windows SmartScreen ilk çalıştırmada onay ister. [Güvenlik](/security) sayfasına bakın.',
         'Taksim yalnızca Claude modelleri arasında yönlendirir. AWS Bedrock, Google Vertex AI ya da Microsoft Foundry üzerindeki oturumlar Taksim’e uğramadan doğrudan başlar; Claude masaüstü uygulamasının Code sekmesi ise gözlemlenir, yönlendirilmez.',
         'Barındırılan bir ekip dashboard’u yok: ekip raporları her geliştiricinin paylaştığı export’lardan üretilir. macOS, Mac donanımında test edilmemiş bir önizlemedir ve Linux sürümü yoktur.',
