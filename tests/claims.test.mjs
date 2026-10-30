@@ -181,3 +181,138 @@ test('the build copies security.txt and the headers file next to the pages', bui
   const sitemap = await readFile(new URL('sitemap.xml', built), 'utf8');
   assert.ok(sitemap.includes('/security/') && sitemap.includes('/tr/security/'));
 });
+
+// R2-01: site claims that went stale or were written by hand.
+const sentences = (text) => text.split(/(?<=[.!?])\s+/);
+
+test('never limits live routing to the API key without naming the Claude-login opt-in', async () => {
+  const en = await source('lib/i18n/en.ts');
+  const tr = await source('lib/i18n/tr.ts');
+  const llms = await source('release/llms.template.txt');
+  let seen = 0;
+  for (const sentence of [...sentences(en), ...sentences(llms)]) {
+    if (!/limited to traffic billed to your own API key/.test(sentence)) continue;
+    seen++;
+    assert.match(sentence, /opt in/, sentence.slice(0, 160));
+  }
+  for (const sentence of sentences(tr)) {
+    if (!/kendi API key’inize faturalanan trafikle sınırlı/.test(sentence)) continue;
+    seen++;
+    assert.match(sentence, /açmadıkça|açtıktan/, sentence.slice(0, 160));
+  }
+  assert.ok(seen >= 2, 'expected the Claude-only routing sentences to exist in both languages');
+  const { en: enDict } = await import('../lib/i18n/en.ts');
+  const { tr: trDict } = await import('../lib/i18n/tr.ts');
+  assert.ok(enDict.docs.how.calloutBody.includes('`taksim routing subscription on`'));
+  assert.ok(trDict.docs.how.calloutBody.includes('`taksim routing subscription on`'));
+  assert.doesNotMatch(enDict.docs.how.calloutBody, /limited to traffic billed/);
+});
+
+test('prices plans per seat and never says "active developer"', async () => {
+  for (const path of ['lib/i18n/en.ts', 'lib/i18n/tr.ts', 'components/pages/terms.tsx', 'release/llms.template.txt']) {
+    assert.doesNotMatch(await source(path), /active developer|aktif geliştirici/i, path);
+  }
+  const { en } = await import('../lib/i18n/en.ts');
+  assert.equal(en.plans.pro.per, 'per seat per month');
+  assert.equal(en.plans.team.per, 'per seat per month');
+  assert.equal(en.pricing.faq.some((item) => /active developer/i.test(item.q)), false);
+  const { tr } = await import('../lib/i18n/tr.ts');
+  assert.match(en.meta.pages.pricing.description, /Pro: \$12 per seat per month/);
+  assert.match(tr.meta.pages.pricing.description, /Pro: koltuk başına aylık \$12/);
+  assert.match(en.compare.rows.price.cells.taksim, /Pro is \$12 per seat a month/);
+  assert.match(tr.compare.rows.price.cells.taksim, /Pro koltuk başına aylık \$12/);
+});
+
+test('"API key only" routing copy is left only on the Codex row, where ChatGPT sign-in is observed', async () => {
+  const { en } = await import('../lib/i18n/en.ts');
+  const { tr } = await import('../lib/i18n/tr.ts');
+  for (const [dict, only] of [
+    [en, /API key only/i],
+    [tr, /Yalnızca API key/i],
+  ]) {
+    const rows = dict.docs.compat.rows.filter((row) => only.test(row[2])).map((row) => row[0]);
+    assert.deepEqual(rows, ['Codex']);
+  }
+  for (const path of ['lib/i18n/en.ts', 'lib/i18n/tr.ts']) {
+    assert.doesNotMatch(await source(path), /routing path for API-key traffic|API key trafiği için isteğe bağlı, fail-open/, path);
+  }
+});
+
+test('the compatibility table date is the synced release date, not a hand-written one', async () => {
+  const manifest = JSON.parse(await source('release/manifest.json'));
+  const released = Date.parse(manifest.publishedAt.slice(0, 10));
+  const { en } = await import('../lib/i18n/en.ts');
+  const { tr } = await import('../lib/i18n/tr.ts');
+  const months = {
+    en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    tr: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+  };
+  for (const locale of /** @type {const} */ (['en', 'tr'])) {
+    const dict = locale === 'en' ? en : tr;
+    const match = /(\d{1,2}) (\p{L}+) (\d{4})$/u.exec(dict.docs.compat.updated);
+    assert.ok(match, `${locale}: ${dict.docs.compat.updated}`);
+    const month = months[locale].indexOf(match[2]);
+    assert.ok(month >= 0, `${locale} month ${match[2]}`);
+    const verified = Date.UTC(Number(match[3]), month, Number(match[1]));
+    assert.ok(verified >= released, `${locale}: "Last verified" ${dict.docs.compat.updated} is older than release ${manifest.publishedAt}`);
+  }
+  for (const path of ['lib/i18n/en.ts', 'lib/i18n/tr.ts']) {
+    assert.doesNotMatch(await source(path), /(?:Last verified|Son doğrulama) · \d/, `${path} hard-codes the verified date`);
+  }
+  const claude = en.docs.compat.rows.find((row) => row[0] === 'Claude Code');
+  assert.equal(claude[2], 'API key: optional. Claude login: opt-in, Claude models only.');
+  const desktop = (await source('lib/i18n/en.ts')).includes('Claude desktop app (Code tab) sessions are observed, not routed yet');
+  assert.ok(desktop, 'the Code-tab desktop app stays not routable');
+});
+
+test('the plan table uses the product feature ids and keeps unshipped features out of "Included now"', async () => {
+  const { entitlements, isShipped, shippedIn } = await import('../lib/plans.ts');
+  const { en } = await import('../lib/i18n/en.ts');
+  const { tr } = await import('../lib/i18n/tr.ts');
+  // Exactly the ids in LicenseFeatures.cs (origin/claude/license-seam), grouped by plan.
+  assert.deepEqual(entitlements.pro, ['budget.enforce', 'digest.delivery', 'report.summaryHtml', 'audit.nativeRouter', 'support.priority']);
+  assert.deepEqual(entitlements.team, ['report.team', 'budget.team', 'policy.org']);
+  const mirror = JSON.parse(await source('data/entitlements.json'));
+  const ids = [...entitlements.pro, ...entitlements.team];
+  for (const id of ids) assert.ok(mirror.features.some((feature) => feature.id === id), `${id} is missing from data/entitlements.json`);
+  assert.deepEqual(mirror.features.map((feature) => feature.id), ids, 'data/entitlements.json lists ids the site does not know');
+  for (const feature of mirror.features) assert.equal(entitlements[feature.plan].includes(feature.id), true, `${feature.id} plan`);
+  assert.deepEqual(Object.keys(shippedIn), ids);
+  assert.deepEqual(
+    ids.filter((id) => shippedIn[id] === null),
+    ['audit.nativeRouter', 'policy.org'],
+  );
+  const pending = new Set(ids.filter((id) => !isShipped(id)));
+  const enCopy = await source('lib/i18n/en.ts');
+  for (const dict of [en, tr]) {
+    const included = [...dict.plans.pro.features, ...dict.plans.team.features];
+    const coming = [...dict.plans.pro.coming, ...dict.plans.team.coming];
+    assert.equal(coming.length, pending.size);
+    assert.equal(included.length + coming.length, ids.length);
+    assert.equal(new Set([...included, ...coming]).size, ids.length);
+    assert.ok(dict.plans.includedNow && dict.plans.comingLabel);
+  }
+  // The unshipped features are exactly the ones whose copy sits in "coming", in both languages.
+  assert.match(en.plans.pro.coming[0], /Native-router audit details/);
+  assert.match(en.plans.team.coming[0], /^Org policy/);
+  assert.match(tr.plans.pro.coming[0], /native yönlendirici denetim/);
+  assert.match(tr.plans.team.coming[0], /^Kurum politikası/);
+  for (const text of [...en.plans.pro.features, ...en.plans.team.features]) assert.doesNotMatch(text, /Native-router audit|^Org policy/);
+  assert.equal(en.plans.comingLabel, 'Coming (not billed until shipped)');
+  assert.ok(enCopy.includes("includedNow: 'Included now'"));
+});
+
+test('names no annual price', async () => {
+  const { en } = await import('../lib/i18n/en.ts');
+  const { tr } = await import('../lib/i18n/tr.ts');
+  for (const dict of [en, tr]) assert.doesNotMatch(JSON.stringify(dict.plans) + JSON.stringify(dict.pricing), /annual|yıllık|per year|\/year/i);
+});
+
+test('the live check is a script and stays out of npm test', async () => {
+  const pkg = JSON.parse(await source('package.json'));
+  assert.equal(pkg.scripts['live-check'], 'node scripts/live-check.mjs');
+  assert.doesNotMatch(pkg.scripts.test, /live-check/);
+  assert.doesNotMatch(pkg.scripts.pretest, /live-check/);
+  const script = await source('scripts/live-check.mjs');
+  assert.doesNotMatch(script, /method:\s*['"](?:POST|PUT|PATCH|DELETE)/i, 'the live check is read-only');
+});

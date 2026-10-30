@@ -37,17 +37,18 @@ export function TermsPage() {
           <h2>3. Paid plans</h2>
           <p>
             Routing and the proof export are part of the free Developer plan.
-            Pro (${prices.pro} per month) adds enforcement and automation for
+            Pro (${prices.pro} per seat per month) adds enforcement and automation for
             one developer: budget caps that step down to a cheaper Claude
-            model, digest delivery, the HTML executive summary, native-router
-            audit details and priority support. Team (${prices.team} per
-            active developer per month, {prices.teamMinDevelopers}-developer minimum) adds the team
-            roll-up across developer exports, team budgets and org policy. Paid plans are
-            not on sale yet: billing opens when checkout is live, and
-            reserving a seat costs nothing. The first {foundingOffer.customers}{' '}
-            customers get {foundingOffer.discountPercent}% off for the first{' '}
-            {foundingOffer.months} months. Plan details are published on the
-            pricing page.
+            model, digest delivery, the HTML executive summary and priority
+            support. Team (${prices.team} per seat per month,{' '}
+            {prices.teamMinSeats}-seat minimum) adds the team roll-up across
+            developer exports and team budgets. Native-router audit details
+            and org policy are coming and are not billed until they ship. Paid
+            plans are not on sale yet: billing opens when checkout is live, and
+            reserving a seat costs nothing. The first {foundingOffer.seats} Pro
+            seats get {foundingOffer.discountPercent}% off for the first{' '}
+            {foundingOffer.months} months; Team has no founding discount. Plan
+            details are published on the pricing page.
           </p>
           <h2>4. Customer responsibilities</h2>
           <p>

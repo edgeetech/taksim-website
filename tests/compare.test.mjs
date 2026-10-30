@@ -61,7 +61,7 @@ test('every competitor cell has copy and at least one public source in both lang
   const { en } = await import('../lib/i18n/en.ts');
   const { tr } = await import('../lib/i18n/tr.ts');
   const { compareColumns, compareRowIds, compareSources, compareAsOf } = await import('../lib/compare.ts');
-  assert.equal(compareAsOf, '2026-10-29');
+  assert.equal(compareAsOf, '2026-10-30');
   for (const dict of [en, tr]) {
     assert.deepEqual(Object.keys(dict.compare.rows), [...compareRowIds]);
     for (const id of compareRowIds) {
@@ -74,8 +74,8 @@ test('every competitor cell has copy and at least one public source in both lang
       }
     }
   }
-  assert.match(en.compare.asOf, /^As of 29 Oct 2026\.$/);
-  assert.match(tr.compare.asOf, /29 Eki 2026/);
+  assert.match(en.compare.asOf, /^As of 30 Oct 2026\.$/);
+  assert.match(tr.compare.asOf, /30 Eki 2026/);
   assert.equal(en.compare.freeSentence, 'If `/model sonnet` is enough for your work, use it; it is free.');
 });
 
@@ -127,10 +127,10 @@ test('the built home page has no illustrative total and links to the benchmark',
 test('the built /compare pages carry the sentence, the date and a source in every row', buildOptions, async () => {
   const en = await html('compare/index.html');
   assert.ok(visible(en).includes('it is free'));
-  assert.ok(visible(en).includes('As of 29 Oct 2026'));
+  assert.ok(visible(en).includes('As of 30 Oct 2026'));
   assert.ok(visible(en).includes('Routing was not cheaper than always-Sonnet in our pilot'));
   const tr = await html('tr/compare/index.html');
-  assert.ok(visible(tr).includes('29 Eki 2026'));
+  assert.ok(visible(tr).includes('30 Eki 2026'));
   for (const [name, page] of [
     ['en', en],
     ['tr', tr],
@@ -144,4 +144,96 @@ test('the built /compare pages carry the sentence, the date and a source in ever
   }
   const sitemap = await readFile(new URL('sitemap.xml', built), 'utf8');
   assert.ok(sitemap.includes('/compare/') && sitemap.includes('/tr/compare/'));
+});
+
+test('every competitor cell that states a number, a price or a date has a source URL', async () => {
+  const { en } = await import('../lib/i18n/en.ts');
+  const { tr } = await import('../lib/i18n/tr.ts');
+  const { compareColumns, compareRowIds, compareSources } = await import('../lib/compare.ts');
+  const factual = /\d|\$|\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\b|\b(?:Oca|Şub|Nis|Haz|Tem|Ağu|Eyl|Eki|Kas|Ara)[a-zşğıüöç]*\b/;
+  let checked = 0;
+  for (const dict of [en, tr]) {
+    for (const id of compareRowIds) {
+      for (const column of compareColumns) {
+        if (column === 'taksim') continue;
+        const cell = dict.compare.rows[id].cells[column];
+        if (!factual.test(cell)) continue;
+        checked++;
+        const links = compareSources[id][column];
+        assert.ok(links.length >= 1 && links.every((link) => link.startsWith('https://')), `${id}.${column} states a figure or date but has no source URL`);
+      }
+    }
+  }
+  assert.ok(checked >= 10, `expected several dated or priced cells, found ${checked}`);
+  assert.ok(factual.test('$0.05'));
+  assert.ok(factual.test('30 Oct 2026'));
+});
+
+test('the refreshed competitor facts cite their primary sources', async () => {
+  const { en } = await import('../lib/i18n/en.ts');
+  const { tr } = await import('../lib/i18n/tr.ts');
+  const { compareSources, compareAsOf } = await import('../lib/compare.ts');
+  const compareSource = await source('lib/compare.ts');
+  assert.doesNotMatch(compareSource, /cellcog/i);
+  for (const dict of [en, tr]) assert.doesNotMatch(JSON.stringify(dict), /cellcog/i);
+  assert.equal(compareAsOf, '2026-10-30');
+  assert.ok(compareSources.price.notDiamond.includes('https://www.notdiamond.ai/pricing'));
+  assert.match(compareSource, /ndPricing:/);
+  for (const link of [
+    'https://github.blog/changelog/2026-10-14-hydrafusion-updates-and-new-max-option',
+    'https://github.blog/changelog/2026-10-28-github-copilot-fusion-now-supports-selection-of-local-models',
+  ]) {
+    assert.ok(compareSources.claudeOnly.fusion.includes(link), link);
+  }
+  for (const dict of [en, tr]) {
+    const fusion = dict.compare.rows.claudeOnly.cells.fusion;
+    assert.match(fusion, /^GitHub Copilot Fusion(?:, which brings together the research preview|; araştırma önizlemesi) Project HydraFusion/);
+    assert.doesNotMatch(fusion, /preview name|önizleme adı/, 'the GA changelog never calls HydraFusion a preview name');
+    assert.match(fusion, /name no cloud models|hiçbir bulut modelinin adını vermiyor/);
+    assert.ok(fusion.includes('Claude Opus 5.5'));
+    assert.match(fusion, /14 (?:Oct|Eki) 2026/);
+    assert.match(fusion, /28 (?:Oct|Eki) 2026/);
+  }
+  const price = en.compare.rows.price.cells.notDiamond;
+  assert.ok(price.includes('$0.05 per million tokens routed') && price.includes('Apply for access'));
+  assert.doesNotMatch(price, /not stated on the pages we read/);
+  const stepDown = en.compare.rows.stepDown.cells;
+  assert.match(stepDown.fusion, /Standard, High and Max/);
+  assert.match(stepDown.fusion, /not on Free, Student or Pro/);
+  assert.match(stepDown.fusion, /cache boundaries/);
+  assert.match(stepDown.advisor, /There is no setting to cap or force advisor calls/);
+  assert.match(en.compare.rows.claudeOnly.cells.advisor, /experimental, works on the Anthropic API only \(not Amazon Bedrock/);
+  assert.match(en.compare.rows.claudeOnly.cells.advisor, /DISABLE_TELEMETRY/);
+  assert.equal(en.compare.rows.stepDown.feature, 'Budget step-down with no separate proxy to set up');
+  // Taksim's own gateway is a local proxy, so the copy may only say no separate one is needed.
+  for (const dict of [en, tr]) {
+    assert.doesNotMatch(JSON.stringify(dict.compare), /no proxy to host|proxy server to host|barındıracağınız bir proxy/i);
+  }
+  const litellm = 'https://docs.litellm.ai/docs/tutorials/claude_code_cut_costs';
+  for (const dict of [en, tr]) {
+    const item = dict.compare.limits.items.find((text) => text.includes('budget_fallbacks'));
+    assert.ok(item?.includes(litellm), 'the LiteLLM bullet cites its tutorial');
+  }
+});
+
+test('a cell that asserts absence says when we looked, in both languages', async () => {
+  const { en } = await import('../lib/i18n/en.ts');
+  const { tr } = await import('../lib/i18n/tr.ts');
+  const { compareColumns, compareRowIds } = await import('../lib/compare.ts');
+  const vague = /not (?:mentioned|stated|described)|are not described|is not part of|(?:bahsedilmiyor|belirtilmemiş|anlatılmıyor|söz edilmiyor)/i;
+  const dated = { en: /not found on the pages we checked on 30 Oct 2026/i, tr: /30 Eki 2026’da baktığımız sayfalarda bulunamadı/ };
+  let found = 0;
+  const dicts = { en, tr };
+  for (const locale of /** @type {const} */ (['en', 'tr'])) {
+    for (const id of compareRowIds) {
+      for (const column of compareColumns) {
+        const cell = dicts[locale].compare.rows[id].cells[column];
+        assert.doesNotMatch(cell, vague, `${locale} ${id}.${column}`);
+        if (dated[locale].test(cell)) found++;
+      }
+    }
+  }
+  assert.ok(found >= 16, `expected the absence cells in both languages, found ${found}`);
+  assert.doesNotMatch(JSON.stringify(en.compare), /Pricing is not stated/);
+  assert.equal(en.compare.rows.nativeAudit.cells.taksim.startsWith('Coming; not in this release.'), true);
 });

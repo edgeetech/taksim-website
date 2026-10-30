@@ -1,6 +1,7 @@
 // English copy. Every string shown on the site lives here; tr.ts mirrors this shape.
 // Inline markup understood by <Rich>: `code`, **bold**, [label](href).
-import { entitlements, foundingOffer, freeFeatures, prices, proofExport, type FeatureId } from '../plans.ts';
+import { releaseDateLabel } from '../release.ts';
+import { entitlements, foundingOffer, freeFeatures, isShipped, prices, proofExport, type FeatureId } from '../plans.ts';
 
 const proofPending = proofExport.shippedIn === null;
 
@@ -24,13 +25,13 @@ const feature = {
     'Budget caps that step down to a cheaper Claude model and never block a request (`taksim budget enforce --mode downgrade`)',
   'digest.delivery': 'Digest and budget alerts delivered to Slack or a webhook you configure (`taksim notify configure`)',
   'report.summaryHtml': 'Executive summary report as a printable HTML page (`taksim report summary --html`)',
-  'audit.native':
-    'Native-router audit details beyond the headline figure, for Claude Code’s own routing and `/advisor` (planned; not in the current release)',
+  'audit.nativeRouter':
+    'Native-router audit details beyond the headline figure, for Claude Code’s own routing and `/advisor`',
   'support.priority': 'Priority support',
   'report.team':
     'Team roll-up and chargeback from developer exports (`taksim report team`): cost by repo and task, no hosted service required. Each developer can inspect their export before sharing; exports carry repo aliases, never paths',
   'budget.team': 'Team budgets by developer, repo and team',
-  'policy.org': 'Org policy: one set of routing and budget rules for the whole team (planned; not in the current release)',
+  'policy.org': 'Org policy: one set of routing and budget rules for the whole team',
 } satisfies Record<FeatureId, string>;
 
 const featureList = (ids: readonly FeatureId[]) => ids.map((id) => feature[id]);
@@ -46,7 +47,7 @@ export const en = {
       pricing: {
         title: 'Pricing',
         description:
-          `The Taksim CLI is free for any individual developer, at home or at work. Pro: $${prices.pro} per month. Team: $${prices.team} per active developer per month, ${prices.teamMinDevelopers}-developer minimum.`,
+          `The Taksim CLI is free for any individual developer, at home or at work. Pro: $${prices.pro} per seat per month. Team: $${prices.team} per seat per month, ${prices.teamMinSeats}-seat minimum.`,
       },
       docs: {
         title: 'Documentation',
@@ -393,7 +394,7 @@ export const en = {
     },
     clients: {
       title: 'What Taksim does with each client',
-      body: 'Taksim works inside each vendor’s terms. Claude Code on a Claude subscription is observed unless you opt in to Claude-only routing; Codex on a ChatGPT plan is only observed. Other live routing is limited to traffic billed to your own API key.',
+      body: 'Taksim works inside each vendor’s terms. Claude Code on a Claude subscription is observed unless you opt in to Claude-only routing, and Codex on a ChatGPT plan is only observed; all other live routing is limited to traffic billed to your own API key.',
       listLabel: 'Supported coding clients',
       more: 'See the full client table',
     },
@@ -901,7 +902,7 @@ export const en = {
     eyebrow: 'Compare',
     title: 'Taksim next to the alternatives.',
     lede: 'Taksim is one of several ways to spend less on Claude Code. This page sets it beside the tools you are most likely to be weighing. Every competitor fact links to its public source, and the last section says where Taksim is weaker.',
-    asOf: 'As of 29 Oct 2026.',
+    asOf: 'As of 30 Oct 2026.',
     asOfNote:
       'Competitor products change often. Check each source before you decide, and tell us at [info@edgee.tech](mailto:info@edgee.tech) if a fact here is out of date.',
     freeSentence: 'If `/model sonnet` is enough for your work, use it; it is free.',
@@ -909,7 +910,7 @@ export const en = {
       'Taksim is for work where it is not enough: you want ordinary requests kept on Sonnet without thinking about it, spend that steps down instead of cutting off, and a judged record of when Opus was actually needed.',
     tableLabel:
       'Comparison of Taksim with GitHub Copilot Fusion, Claude /advisor, Not Diamond Code, ccusage and plain /model sonnet. The table scrolls sideways.',
-    tableCaption: 'Capabilities compared across Taksim and five alternatives, as of 29 Oct 2026',
+    tableCaption: 'Capabilities compared across Taksim and five alternatives, as of 30 Oct 2026',
     featureHeader: 'Capability',
     columns: {
       taksim: 'Taksim',
@@ -927,10 +928,11 @@ export const en = {
         cells: {
           taksim: 'Yes. It switches only among Claude models, never to a third-party model.',
           fusion:
-            'No. The pool changes over time; a third-party write-up lists Claude and GPT models, and GitHub’s page names no vendors.',
-          advisor: 'Yes. Your Claude main model consults a Claude advisor model.',
+            'GitHub Copilot Fusion, which brings together the research preview Project HydraFusion and auto model selection. No. The pool changes as models become available, and the GA docs name no cloud models. GitHub’s 14 Oct 2026 changelog lists Claude Opus 5.5, GPT-6 Astra, GPT-6.1 Sol and GPT-6 Luna in the research-preview pool. Since 28 Oct 2026, Standard can also route to an experimental on-device model, and routing decisions are still made in the cloud.',
+          advisor:
+            'Yes. Your Claude main model consults a Claude advisor model. It is experimental, works on the Anthropic API only (not Amazon Bedrock, Claude Platform on AWS, Google Cloud’s Agent Platform or Microsoft Foundry), and stays off where `DISABLE_TELEMETRY` is set.',
           notDiamond:
-            'Not stated. Its configuration page lists Anthropic, AWS Bedrock and forwarded Claude Code logins as providers.',
+            'Not found on the pages we checked on 30 Oct 2026. Its configuration page names Anthropic and AWS Bedrock credentials, a forwarded Claude Code login and an internal LLM gateway option.',
           ccusage: 'Not a router. It reports usage from local data.',
           sonnet: 'Yes. You pick one Claude model and it stays until you change it.',
         },
@@ -950,15 +952,16 @@ export const en = {
         },
       },
       stepDown: {
-        feature: 'Budget caps that step down instead of blocking',
+        feature: 'Budget step-down with no separate proxy to set up',
         cells: {
           taksim:
-            'Opt-in `taksim budget enforce --mode downgrade` serves routed Claude requests on a cheaper tier at the cap and never blocks one. It is a Pro feature, and paid plans are not on sale yet.',
+            'Opt-in `taksim budget enforce --mode downgrade` serves routed Claude requests on a cheaper tier at the cap and never blocks one. It runs in the local gateway Taksim starts on 127.0.0.1, so there is no separate proxy to set up. It is a Pro feature, and paid plans are not on sale yet.',
           fusion:
-            'No cap in the Fusion docs. Copilot budgets exist per user, cost center and enterprise, and stop usage only if you turn that option on.',
-          advisor: 'No. The docs say there is no setting to cap or force advisor calls.',
-          notDiamond: 'Budget caps are not mentioned in its configuration docs.',
-          ccusage: 'Budget enforcement is not mentioned on its page.',
+            'Not found on the pages we checked on 30 Oct 2026: a Fusion-specific budget cap. Fusion has Standard, High and Max effort tiers; High and Max are not on Free, Student or Pro, and may use more AI credits than Standard. It routes along cache boundaries. Copilot budgets exist per user, cost center and enterprise, and stop usage only if you turn that option on.',
+          advisor:
+            'No. The docs say: “There is no setting to cap or force advisor calls.” The advisor is experimental and Anthropic API only.',
+          notDiamond: 'Not found on the pages we checked on 30 Oct 2026.',
+          ccusage: 'Not found on the pages we checked on 30 Oct 2026.',
           sonnet: 'Not applicable. The model stays as you set it, with no cap.',
         },
       },
@@ -968,11 +971,11 @@ export const en = {
           taksim:
             'Yes, for judged clients. A judge grades finished turns, and a verdict counts only when two judges agree and one is strong. See [how it works](/how-it-works) and [Clients](/clients).',
           fusion:
-            'No verdicts. After a response you can hover over the effort level to see the models used; the docs do not say why they were chosen.',
+            'After a response you can hover over the effort level name to see the models used. Not found on the pages we checked on 30 Oct 2026: a per-turn verdict on whether a cheaper model would have done.',
           advisor:
-            'It shows an Advising line and whether the advisor reviewed, declined or was unavailable. The docs describe no verdict on whether a cheaper model would have done.',
+            'It shows an Advising line and whether the advisor reviewed, declined or was unavailable. Not found on the pages we checked on 30 Oct 2026: a verdict on whether a cheaper model would have done.',
           notDiamond:
-            'The dashboard shows session activity, usage and savings. Per-turn quality verdicts are not described.',
+            'Its getting-started page says admins see tier usage, cost and savings in the dashboard. Not found on the pages we checked on 30 Oct 2026: per-turn quality verdicts.',
           ccusage: 'No. It produces usage and cost reports.',
           sonnet: 'No. It only switches the model.',
         },
@@ -1009,20 +1012,21 @@ export const en = {
             'Coming; not in this release. Today the gateway forwards `/advisor` unchanged and records advisor usage as its own priced execution.',
           fusion: 'No. It is the router, and its docs show which models were used per response.',
           advisor: 'No. It is the native feature; its usage appears in `/usage`.',
-          notDiamond: 'Not described.',
-          ccusage: 'It reports which models were used; auditing routing decisions is not part of its page.',
+          notDiamond: 'Not found on the pages we checked on 30 Oct 2026.',
+          ccusage: 'It reports which models were used. Auditing routing decisions: not found on the pages we checked on 30 Oct 2026.',
           sonnet: 'No.',
         },
       },
       price: {
         feature: 'Price',
         cells: {
-          taksim: `The CLI is free for any individual, at home or at work. Pro is $${prices.pro} a month and Team is $${prices.team} per developer a month; paid plans are not on sale yet. See [pricing](/pricing).`,
+          taksim: `The CLI is free for any individual, at home or at work. Pro is $${prices.pro} per seat a month and Team is $${prices.team} per seat a month; paid plans are not on sale yet. See [pricing](/pricing).`,
           fusion:
             'No separate Fusion charge: each model used is billed at its standard rate, with 30% off model costs on paid plans through 30 Nov 2026.',
           advisor:
             'No separate charge. Advisor tokens are billed at the advisor model’s rate on the API and count toward plan limits on a subscription.',
-          notDiamond: 'Pricing is not stated on the pages we read.',
+          notDiamond:
+            'Pay-as-you-go at $0.05 per million tokens routed, by waitlist (“Apply for access”); Enterprise by contacting sales, with no price listed. Free tier: not found on the pages we checked on 30 Oct 2026. The pricing page shows no date; we read it on 30 Oct 2026.',
           ccusage: 'MIT licensed; run it with `npx ccusage`.',
           sonnet: 'No extra cost. It is built into Claude Code, and you pay only for model usage.',
         },
@@ -1035,6 +1039,7 @@ export const en = {
         'Routing was not cheaper than always-Sonnet in our pilot. Always-Sonnet cost {sonnetCost} with {sonnetAccepted} of {runsPerArm} runs accepted. Taksim routed cost {taksimCost} with {taksimAccepted} of {runsPerArm}. The {costSavingPct} saving is against always-Opus only. [Method and data](/benchmark).',
         'The pilot is internal: {tasks} tasks on our own Claude Team subscription, not an independent benchmark. We have not run Taksim head to head against `/advisor` or Copilot Fusion, and there is no public independent result yet.',
         'Budget caps that step down are a Pro feature, and paid plans are not on sale yet. The free Developer plan warns and never blocks.',
+        'Budget step-down is not unique to Taksim. LiteLLM’s `budget_fallbacks` reroute Opus to Sonnet to Haiku once a per-model budget is spent, through a LiteLLM proxy ([LiteLLM Claude Code cost tutorial](https://docs.litellm.ai/docs/tutorials/claude_code_cut_costs)). Taksim’s version runs in its own local gateway with no separate proxy to set up, but it is a Pro feature and paid plans are not on sale yet.',
         'The binaries are unsigned today, so Windows SmartScreen asks you to confirm the first run. See [Security](/security).',
         'Taksim routes only between Claude models. Sessions on AWS Bedrock, Google Vertex AI or Microsoft Foundry start natively, and the Claude desktop app’s Code tab is observed, not routed.',
         'There is no hosted team dashboard: team reports are built from exports each developer shares. macOS is a preview that has not been tested on Mac hardware, and there is no Linux build.',
@@ -1061,28 +1066,32 @@ export const en = {
     pro: {
       name: 'Pro',
       price: `$${prices.pro}`,
-      per: 'per month',
-      badge: `First ${foundingOffer.customers} customers: ${foundingOffer.discountPercent}% off for the first ${foundingOffer.months} months`,
+      per: 'per seat per month',
+      badge: `First ${foundingOffer.seats} Pro seats: ${foundingOffer.discountPercent}% off for the first ${foundingOffer.months} months`,
       sub: 'For one developer who wants enforcement and automation on top of the free tools: budget caps that step down, delivered digests, the HTML summary and priority support.',
       lead: 'Everything in Developer, plus:',
-      features: featureList(entitlements.pro),
+      features: featureList(entitlements.pro.filter(isShipped)),
+      coming: featureList(entitlements.pro.filter((id) => !isShipped(id))),
       cta: 'Reserve a founding seat',
     },
     team: {
       name: 'Team',
       price: `$${prices.team}`,
-      per: 'per active developer per month',
-      sub: `${prices.teamMinDevelopers}-developer minimum ($${prices.teamMinMonthly}/month)`,
+      per: 'per seat per month',
+      sub: `${prices.teamMinSeats}-seat minimum ($${prices.teamMinMonthly}/month). No founding discount.`,
       lead: 'Everything in Pro, plus:',
-      features: featureList(entitlements.team),
+      features: featureList(entitlements.team.filter(isShipped)),
+      coming: featureList(entitlements.team.filter((id) => !isShipped(id))),
       cta: 'Start a team pilot',
     },
+    includedNow: 'Included now',
+    comingLabel: 'Coming (not billed until shipped)',
     billingNote: 'Billing opens when checkout is live; reserving costs nothing.',
   },
 
   pricing: {
     title: 'Free for developers. Paid for enforcement and teams.',
-    lede: 'The Developer plan is free for any individual, at home or at work: install the CLI and use it, no account required. Everything that saves money or shows evidence is free, including routing and the proof export. Pro adds enforcement and automation for one developer; Team adds the roll-up and policy for companies.',
+    lede: 'The Developer plan is free for any individual, at home or at work: install the CLI and use it, no account required. Everything that saves money or shows evidence is free, including routing and the proof export. Pro adds enforcement and automation for one developer; Team adds the team roll-up and team budgets for companies.',
     modesTitle: 'How Taksim counts cost depends on how the work is billed',
     faqTitle: 'Pricing questions',
     faq: [
@@ -1092,7 +1101,7 @@ export const en = {
       },
       {
         q: 'Can I buy a plan today?',
-        a: 'Not yet. Paid plans are not on sale until checkout is live. Reserve a founding seat or start a team pilot through the [contact form](/contact); reserving costs nothing and does not charge you. The first 20 customers get 50% off for the first 12 months.',
+        a: 'Not yet. Paid plans are not on sale until checkout is live. Reserve a founding seat or start a team pilot through the [contact form](/contact); reserving costs nothing and does not charge you. The first 20 Pro seats get 50% off for the first 12 months. Team has no founding discount.',
       },
       {
         q: 'Does Taksim change my model on a Claude or ChatGPT subscription?',
@@ -1111,8 +1120,8 @@ export const en = {
         a: 'Nothing breaks. The Pro and Team features switch off: budget step-down enforcement, digest delivery and the HTML summary stop, and budgets go back to warnings. Routing, the ledger and the proof export are free, so they keep working. Your local data is left untouched and Claude is never blocked.',
       },
       {
-        q: 'How is an active developer counted?',
-        a: 'An active developer is one person who uses Taksim on their own machine during the month. Each person counts once, whatever the number of repos or clients, and the Team plan has a 5-developer minimum ($90 per month). The exact seat terms are confirmed before billing opens.',
+        q: 'What is a seat?',
+        a: `A seat is one named developer on the licence. Team needs ${prices.teamMinSeats} seats ($${prices.teamMinMonthly}/month minimum).`,
       },
     ],
   },
@@ -1405,7 +1414,7 @@ export const en = {
       },
       {
         title: 'Local gateway',
-        copy: 'Understand the optional, fail-open routing path for API-key traffic.',
+        copy: 'Understand the optional, fail-open local gateway that carries routed traffic.',
         href: '#connector',
         keywords: 'gateway local fail open resilience native fallback',
       },
@@ -1433,7 +1442,7 @@ export const en = {
       body: 'Taksim reads the local history and hooks your coding clients already write, prices each session by model, and records it in a local ledger. It stores metadata only: no prompts, responses, code or credentials. Local repository folders stay in your local database only, to attribute cost, and never appear in exports.',
       calloutTitle: 'Observe first',
       calloutBody:
-        'By default Taksim records and judges. It does not change which model runs. Live routing is optional and limited to traffic billed to your own API key.',
+        'By default Taksim records and judges. It does not change which model runs. Live routing is optional: with an API key, or on a Claude login after you opt in to Claude-only routing (`taksim routing subscription on`).',
     },
     judging: {
       title: 'Judging and consensus',
@@ -1458,7 +1467,7 @@ export const en = {
     },
     gateway: {
       title: 'Local gateway, fail-open by design',
-      body: 'Optional live routing for API-key traffic uses a local gateway on 127.0.0.1. The gateway answers only loopback requests from your own machine and refuses cross-site browser requests, so web pages cannot reach it. Telemetry, persistence, and remote advice do not get to hold a healthy provider request hostage.',
+      body: 'Optional live routing uses a local gateway on 127.0.0.1. The gateway answers only loopback requests from your own machine and refuses cross-site browser requests, so web pages cannot reach it. Telemetry, persistence, and remote advice do not get to hold a healthy provider request hostage.',
       calloutTitle: 'Native workflow stays available',
       calloutBody:
         'If the managed path cannot start safely, Taksim preserves the native client invocation instead of blocking the developer. Raw prompt, response, and source content is not persisted by default. Update and pricing checks use the network; optional remote judges receive evaluation content, and configured notifications or exports send their selected data. Your coding client still connects to its own provider.',
@@ -1479,14 +1488,14 @@ export const en = {
     },
     compat: {
       title: 'Client compatibility',
-      updated: 'Last verified · 26 September 2026',
+      updated: `Last verified · ${releaseDateLabel('en')}`,
       caption: 'Client compatibility',
       headers: ['Client', 'History', 'Live routing', 'Judging', 'Boundary'],
       rows: [
         [
           'Claude Code',
           'Available',
-          'API key only, optional',
+          'API key: optional. Claude login: opt-in, Claude models only.',
           'Available',
           'Subscription traffic is observed; Claude-only routing is opt-in',
         ],
