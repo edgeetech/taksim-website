@@ -216,6 +216,26 @@ test('prices plans per seat and never says "active developer"', async () => {
   assert.equal(en.plans.pro.per, 'per seat per month');
   assert.equal(en.plans.team.per, 'per seat per month');
   assert.equal(en.pricing.faq.some((item) => /active developer/i.test(item.q)), false);
+  const { tr } = await import('../lib/i18n/tr.ts');
+  assert.match(en.meta.pages.pricing.description, /Pro: \$12 per seat per month/);
+  assert.match(tr.meta.pages.pricing.description, /Pro: koltuk başına aylık \$12/);
+  assert.match(en.compare.rows.price.cells.taksim, /Pro is \$12 per seat a month/);
+  assert.match(tr.compare.rows.price.cells.taksim, /Pro koltuk başına aylık \$12/);
+});
+
+test('"API key only" routing copy is left only on the Codex row, where ChatGPT sign-in is observed', async () => {
+  const { en } = await import('../lib/i18n/en.ts');
+  const { tr } = await import('../lib/i18n/tr.ts');
+  for (const [dict, only] of [
+    [en, /API key only/i],
+    [tr, /Yalnızca API key/i],
+  ]) {
+    const rows = dict.docs.compat.rows.filter((row) => only.test(row[2])).map((row) => row[0]);
+    assert.deepEqual(rows, ['Codex']);
+  }
+  for (const path of ['lib/i18n/en.ts', 'lib/i18n/tr.ts']) {
+    assert.doesNotMatch(await source(path), /routing path for API-key traffic|API key trafiği için isteğe bağlı, fail-open/, path);
+  }
 });
 
 test('the compatibility table date is the synced release date, not a hand-written one', async () => {

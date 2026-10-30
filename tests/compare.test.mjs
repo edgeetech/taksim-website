@@ -187,7 +187,9 @@ test('the refreshed competitor facts cite their primary sources', async () => {
   }
   for (const dict of [en, tr]) {
     const fusion = dict.compare.rows.claudeOnly.cells.fusion;
-    assert.match(fusion, /^GitHub Copilot Fusion \((?:preview name|önizleme adı): Project HydraFusion\)/);
+    assert.match(fusion, /^GitHub Copilot Fusion(?:, which brings together the research preview|; araştırma önizlemesi) Project HydraFusion/);
+    assert.doesNotMatch(fusion, /preview name|önizleme adı/, 'the GA changelog never calls HydraFusion a preview name');
+    assert.match(fusion, /name no cloud models|hiçbir bulut modelinin adını vermiyor/);
     assert.ok(fusion.includes('Claude Opus 5.5'));
     assert.match(fusion, /14 (?:Oct|Eki) 2026/);
     assert.match(fusion, /28 (?:Oct|Eki) 2026/);
@@ -202,7 +204,11 @@ test('the refreshed competitor facts cite their primary sources', async () => {
   assert.match(stepDown.advisor, /There is no setting to cap or force advisor calls/);
   assert.match(en.compare.rows.claudeOnly.cells.advisor, /experimental, works on the Anthropic API only \(not Amazon Bedrock/);
   assert.match(en.compare.rows.claudeOnly.cells.advisor, /DISABLE_TELEMETRY/);
-  assert.equal(en.compare.rows.stepDown.feature, 'Budget step-down with no proxy server to host');
+  assert.equal(en.compare.rows.stepDown.feature, 'Budget step-down with no separate proxy to set up');
+  // Taksim's own gateway is a local proxy, so the copy may only say no separate one is needed.
+  for (const dict of [en, tr]) {
+    assert.doesNotMatch(JSON.stringify(dict.compare), /no proxy to host|proxy server to host|barındıracağınız bir proxy/i);
+  }
   const litellm = 'https://docs.litellm.ai/docs/tutorials/claude_code_cut_costs';
   for (const dict of [en, tr]) {
     const item = dict.compare.limits.items.find((text) => text.includes('budget_fallbacks'));

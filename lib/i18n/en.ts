@@ -47,7 +47,7 @@ export const en = {
       pricing: {
         title: 'Pricing',
         description:
-          `The Taksim CLI is free for any individual developer, at home or at work. Pro: $${prices.pro} per month. Team: $${prices.team} per seat per month, ${prices.teamMinSeats}-seat minimum.`,
+          `The Taksim CLI is free for any individual developer, at home or at work. Pro: $${prices.pro} per seat per month. Team: $${prices.team} per seat per month, ${prices.teamMinSeats}-seat minimum.`,
       },
       docs: {
         title: 'Documentation',
@@ -928,11 +928,11 @@ export const en = {
         cells: {
           taksim: 'Yes. It switches only among Claude models, never to a third-party model.',
           fusion:
-            'GitHub Copilot Fusion (preview name: Project HydraFusion). No. The pool changes as models become available, and the GA docs name no models. GitHub’s 14 Oct 2026 changelog lists Claude Opus 5.5, GPT-6 Astra, GPT-6.1 Sol and GPT-6 Luna in the research-preview pool. Since 28 Oct 2026, Standard can also route to an experimental on-device model, and routing decisions are still made in the cloud.',
+            'GitHub Copilot Fusion, which brings together the research preview Project HydraFusion and auto model selection. No. The pool changes as models become available, and the GA docs name no cloud models. GitHub’s 14 Oct 2026 changelog lists Claude Opus 5.5, GPT-6 Astra, GPT-6.1 Sol and GPT-6 Luna in the research-preview pool. Since 28 Oct 2026, Standard can also route to an experimental on-device model, and routing decisions are still made in the cloud.',
           advisor:
             'Yes. Your Claude main model consults a Claude advisor model. It is experimental, works on the Anthropic API only (not Amazon Bedrock, Claude Platform on AWS, Google Cloud’s Agent Platform or Microsoft Foundry), and stays off where `DISABLE_TELEMETRY` is set.',
           notDiamond:
-            'Not found on the pages we checked on 30 Oct 2026. Its configuration page names Anthropic and AWS Bedrock credentials and an internal LLM gateway option.',
+            'Not found on the pages we checked on 30 Oct 2026. Its configuration page names Anthropic and AWS Bedrock credentials, a forwarded Claude Code login and an internal LLM gateway option.',
           ccusage: 'Not a router. It reports usage from local data.',
           sonnet: 'Yes. You pick one Claude model and it stays until you change it.',
         },
@@ -952,10 +952,10 @@ export const en = {
         },
       },
       stepDown: {
-        feature: 'Budget step-down with no proxy server to host',
+        feature: 'Budget step-down with no separate proxy to set up',
         cells: {
           taksim:
-            'Opt-in `taksim budget enforce --mode downgrade` serves routed Claude requests on a cheaper tier at the cap and never blocks one. It runs in Taksim’s local gateway, so there is no proxy to host. It is a Pro feature, and paid plans are not on sale yet.',
+            'Opt-in `taksim budget enforce --mode downgrade` serves routed Claude requests on a cheaper tier at the cap and never blocks one. It runs in the local gateway Taksim starts on 127.0.0.1, so there is no separate proxy to set up. It is a Pro feature, and paid plans are not on sale yet.',
           fusion:
             'Not found on the pages we checked on 30 Oct 2026: a Fusion-specific budget cap. Fusion has Standard, High and Max effort tiers; High and Max are not on Free, Student or Pro, and may use more AI credits than Standard. It routes along cache boundaries. Copilot budgets exist per user, cost center and enterprise, and stop usage only if you turn that option on.',
           advisor:
@@ -1020,7 +1020,7 @@ export const en = {
       price: {
         feature: 'Price',
         cells: {
-          taksim: `The CLI is free for any individual, at home or at work. Pro is $${prices.pro} a month and Team is $${prices.team} per seat a month; paid plans are not on sale yet. See [pricing](/pricing).`,
+          taksim: `The CLI is free for any individual, at home or at work. Pro is $${prices.pro} per seat a month and Team is $${prices.team} per seat a month; paid plans are not on sale yet. See [pricing](/pricing).`,
           fusion:
             'No separate Fusion charge: each model used is billed at its standard rate, with 30% off model costs on paid plans through 30 Nov 2026.',
           advisor:
@@ -1039,7 +1039,7 @@ export const en = {
         'Routing was not cheaper than always-Sonnet in our pilot. Always-Sonnet cost {sonnetCost} with {sonnetAccepted} of {runsPerArm} runs accepted. Taksim routed cost {taksimCost} with {taksimAccepted} of {runsPerArm}. The {costSavingPct} saving is against always-Opus only. [Method and data](/benchmark).',
         'The pilot is internal: {tasks} tasks on our own Claude Team subscription, not an independent benchmark. We have not run Taksim head to head against `/advisor` or Copilot Fusion, and there is no public independent result yet.',
         'Budget caps that step down are a Pro feature, and paid plans are not on sale yet. The free Developer plan warns and never blocks.',
-        'Budget step-down is not unique to Taksim. LiteLLM’s `budget_fallbacks` reroute Opus to Sonnet to Haiku once a per-model budget is spent, through a LiteLLM proxy ([LiteLLM Claude Code cost tutorial](https://docs.litellm.ai/docs/tutorials/claude_code_cut_costs)). Taksim’s version needs no proxy to host, but it is a Pro feature and paid plans are not on sale yet.',
+        'Budget step-down is not unique to Taksim. LiteLLM’s `budget_fallbacks` reroute Opus to Sonnet to Haiku once a per-model budget is spent, through a LiteLLM proxy ([LiteLLM Claude Code cost tutorial](https://docs.litellm.ai/docs/tutorials/claude_code_cut_costs)). Taksim’s version runs in its own local gateway with no separate proxy to set up, but it is a Pro feature and paid plans are not on sale yet.',
         'The binaries are unsigned today, so Windows SmartScreen asks you to confirm the first run. See [Security](/security).',
         'Taksim routes only between Claude models. Sessions on AWS Bedrock, Google Vertex AI or Microsoft Foundry start natively, and the Claude desktop app’s Code tab is observed, not routed.',
         'There is no hosted team dashboard: team reports are built from exports each developer shares. macOS is a preview that has not been tested on Mac hardware, and there is no Linux build.',
@@ -1121,7 +1121,7 @@ export const en = {
       },
       {
         q: 'What is a seat?',
-        a: 'A seat is one named developer on the licence. Team needs 5 seats ($90/month minimum).',
+        a: `A seat is one named developer on the licence. Team needs ${prices.teamMinSeats} seats ($${prices.teamMinMonthly}/month minimum).`,
       },
     ],
   },
@@ -1414,7 +1414,7 @@ export const en = {
       },
       {
         title: 'Local gateway',
-        copy: 'Understand the optional, fail-open routing path for API-key traffic.',
+        copy: 'Understand the optional, fail-open local gateway that carries routed traffic.',
         href: '#connector',
         keywords: 'gateway local fail open resilience native fallback',
       },
