@@ -1,0 +1,13 @@
+{
+  "source": "Taksim product repo, src/Taksim.Application/Licensing/LicenseFeatures.cs (origin/claude/license-seam). Replace this file with the output of `taksim license features --json` once that command exists.",
+  "features": [
+    { "id": "budget.enforce", "plan": "pro" },
+    { "id": "digest.delivery", "plan": "pro" },
+    { "id": "report.summaryHtml", "plan": "pro" },
+    { "id": "audit.nativeRouter", "plan": "pro" },
+    { "id": "support.priority", "plan": "pro" },
+    { "id": "report.team", "plan": "team" },
+    { "id": "budget.team", "plan": "team" },
+    { "id": "policy.org", "plan": "team" }
+  ]
+}

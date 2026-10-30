@@ -1,6 +1,7 @@
 // Turkish copy. Mirrors en.ts key-for-key; commands, prices and product names stay as in English.
 import type { Dictionary } from './en';
-import { entitlements, foundingOffer, freeFeatures, prices, proofExport, type FeatureId } from '../plans.ts';
+import { releaseDateLabel } from '../release.ts';
+import { entitlements, foundingOffer, freeFeatures, isShipped, prices, proofExport, type FeatureId } from '../plans.ts';
 
 const proofPending = proofExport.shippedIn === null;
 
@@ -24,13 +25,13 @@ const feature = {
     'Daha ucuz bir Claude modeline inen ve hiçbir isteği engellemeyen bütçe sınırları (`taksim budget enforce --mode downgrade`)',
   'digest.delivery': 'Digest ve bütçe uyarılarının yapılandırdığınız Slack’e veya webhook’a iletilmesi (`taksim notify configure`)',
   'report.summaryHtml': 'Yazdırılabilir HTML sayfası olarak yönetici özeti raporu (`taksim report summary --html`)',
-  'audit.native':
-    'Başlık rakamının ötesinde native yönlendirici denetim ayrıntıları; Claude Code’un kendi yönlendirmesi ve `/advisor` için (planlanıyor; mevcut sürümde yok)',
+  'audit.nativeRouter':
+    'Başlık rakamının ötesinde native yönlendirici denetim ayrıntıları; Claude Code’un kendi yönlendirmesi ve `/advisor` için',
   'support.priority': 'Öncelikli destek',
   'report.team':
     'Geliştirici export’larından ekip toplu görünümü ve iç maliyet dağıtımı (`taksim report team`): repo ve göreve göre maliyet, barındırılan bir servis gerekmez. Her geliştirici export’unu paylaşmadan önce inceleyebilir; export’lar dosya yollarını değil, repo takma adlarını içerir',
   'budget.team': 'Geliştirici, repo ve ekip bazında ekip bütçeleri',
-  'policy.org': 'Kurum politikası: tüm ekip için tek bir yönlendirme ve bütçe kuralı seti (planlanıyor; mevcut sürümde yok)',
+  'policy.org': 'Kurum politikası: tüm ekip için tek bir yönlendirme ve bütçe kuralı seti',
 } satisfies Record<FeatureId, string>;
 
 const featureList = (ids: readonly FeatureId[]) => ids.map((id) => feature[id]);
@@ -46,7 +47,7 @@ export const tr: Dictionary = {
       pricing: {
         title: 'Fiyatlandırma',
         description:
-          `Taksim CLI, evde ya da işte, her bireysel geliştirici için ücretsizdir. Pro: aylık $${prices.pro}. Team: aktif geliştirici başına aylık $${prices.team}, en az ${prices.teamMinDevelopers} geliştirici.`,
+          `Taksim CLI, evde ya da işte, her bireysel geliştirici için ücretsizdir. Pro: aylık $${prices.pro}. Team: koltuk başına aylık $${prices.team}, en az ${prices.teamMinSeats} koltuk.`,
       },
       docs: {
         title: 'Dokümantasyon',
@@ -393,7 +394,7 @@ export const tr: Dictionary = {
     },
     clients: {
       title: 'Taksim her istemciyle ne yapar',
-      body: 'Taksim her sağlayıcının koşulları dahilinde çalışır. Claude subscription’ındaki Claude Code, yalnızca-Claude yönlendirmesini siz açmadıkça yalnızca gözlemlenir; ChatGPT planındaki Codex her zaman yalnızca gözlemlenir. Diğer canlı yönlendirme, kendi API key’inize faturalanan trafikle sınırlıdır.',
+      body: 'Taksim her sağlayıcının koşulları dahilinde çalışır. Claude subscription’ındaki Claude Code, yalnızca-Claude yönlendirmesini siz açmadıkça yalnızca gözlemlenir, ChatGPT planındaki Codex ise her zaman yalnızca gözlemlenir; diğer tüm canlı yönlendirme kendi API key’inize faturalanan trafikle sınırlıdır.',
       listLabel: 'Desteklenen kodlama istemcileri',
       more: 'Tüm istemci tablosunu görün',
     },
@@ -1062,28 +1063,32 @@ export const tr: Dictionary = {
     pro: {
       name: 'Pro',
       price: `$${prices.pro}`,
-      per: 'aylık',
-      badge: `İlk ${foundingOffer.customers} müşteriye ilk ${foundingOffer.months} ay için %${foundingOffer.discountPercent} indirim`,
+      per: 'koltuk başına, aylık',
+      badge: `İlk ${foundingOffer.seats} Pro koltuğa ilk ${foundingOffer.months} ay için %${foundingOffer.discountPercent} indirim`,
       sub: 'Ücretsiz araçların üstüne zorlama ve otomasyon isteyen tek bir geliştirici için: alt modele inen bütçe sınırları, iletilen digest’ler, HTML özet ve öncelikli destek.',
       lead: 'Developer planındaki her şey, ayrıca:',
-      features: featureList(entitlements.pro),
+      features: featureList(entitlements.pro.filter(isShipped)),
+      coming: featureList(entitlements.pro.filter((id) => !isShipped(id))),
       cta: 'Kurucu müşteri yerinizi ayırtın',
     },
     team: {
       name: 'Team',
       price: `$${prices.team}`,
-      per: 'aktif geliştirici başına, aylık',
-      sub: `En az ${prices.teamMinDevelopers} geliştirici (aylık $${prices.teamMinMonthly})`,
+      per: 'koltuk başına, aylık',
+      sub: `En az ${prices.teamMinSeats} koltuk (aylık $${prices.teamMinMonthly}). Kurucu indirimi yok.`,
       lead: 'Pro planındaki her şey, ayrıca:',
-      features: featureList(entitlements.team),
+      features: featureList(entitlements.team.filter(isShipped)),
+      coming: featureList(entitlements.team.filter((id) => !isShipped(id))),
       cta: 'Ekip pilotu başlatın',
     },
+    includedNow: 'Şimdi dahil',
+    comingLabel: 'Yakında (yayına girene kadar faturalanmaz)',
     billingNote: 'Faturalandırma, ödeme sayfası yayına girdiğinde başlar; yer ayırtmak ücretsizdir.',
   },
 
   pricing: {
     title: 'Geliştiricilere ücretsiz. Zorlama ve ekipler için ücretli.',
-    lede: 'Developer planı, evde ya da işte, her birey için ücretsizdir: CLI’ı kurun ve kullanın, hesap gerekmez. Para tasarrufu sağlayan ya da kanıt gösteren her şey ücretsizdir; yönlendirme ve kanıt dışa aktarımı dahil. Pro tek bir geliştirici için zorlama ve otomasyon ekler; Team şirketler için ekip toplu görünümünü ve politikayı ekler.',
+    lede: 'Developer planı, evde ya da işte, her birey için ücretsizdir: CLI’ı kurun ve kullanın, hesap gerekmez. Para tasarrufu sağlayan ya da kanıt gösteren her şey ücretsizdir; yönlendirme ve kanıt dışa aktarımı dahil. Pro tek bir geliştirici için zorlama ve otomasyon ekler; Team şirketler için ekip toplu görünümünü ve ekip bütçelerini ekler.',
     modesTitle: 'Taksim’in maliyeti nasıl saydığı, işin nasıl faturalandığına bağlıdır',
     faqTitle: 'Fiyatlandırma soruları',
     faq: [
@@ -1093,7 +1098,7 @@ export const tr: Dictionary = {
       },
       {
         q: 'Bugün bir plan satın alabilir miyim?',
-        a: 'Henüz hayır. Ödeme sayfası yayına girene kadar ücretli planlar satışta değildir. [İletişim formu](/contact) üzerinden kurucu müşteri yerinizi ayırtın veya ekip pilotu başlatın; yer ayırtmak ücretsizdir ve sizden ödeme alınmaz. İlk 20 müşteriye ilk 12 ay için %50 indirim uygulanır.',
+        a: 'Henüz hayır. Ödeme sayfası yayına girene kadar ücretli planlar satışta değildir. [İletişim formu](/contact) üzerinden kurucu müşteri yerinizi ayırtın veya ekip pilotu başlatın; yer ayırtmak ücretsizdir ve sizden ödeme alınmaz. İlk 20 Pro koltuğa ilk 12 ay için %50 indirim uygulanır; Team için kurucu indirimi yoktur.',
       },
       {
         q: 'Taksim, Claude veya ChatGPT subscription’ımda modelimi değiştirir mi?',
@@ -1112,8 +1117,8 @@ export const tr: Dictionary = {
         a: 'Hiçbir şey bozulmaz. Pro ve Team özellikleri kapanır: bütçe sınırında alt modele inme, digest iletimi ve HTML özet durur; bütçeler yeniden uyarıya döner. Yönlendirme, defter ve kanıt dışa aktarımı ücretsiz olduğu için çalışmaya devam eder. Yerel verileriniz olduğu gibi kalır ve Claude hiçbir zaman engellenmez.',
       },
       {
-        q: 'Aktif geliştirici nasıl sayılır?',
-        a: 'Aktif geliştirici, ay içinde Taksim’i kendi makinesinde kullanan kişidir. Repo veya istemci sayısı ne olursa olsun her kişi bir kez sayılır; Team planında en az 5 geliştirici koşulu vardır (aylık $90). Lisans koşullarının ayrıntıları faturalandırma başlamadan önce netleştirilir.',
+        q: 'Koltuk nedir?',
+        a: 'Koltuk, lisansa adıyla yazılan tek bir geliştiricidir. Team için en az 5 koltuk gerekir (aylık en az $90).',
       },
     ],
   },
@@ -1435,7 +1440,7 @@ export const tr: Dictionary = {
       body: 'Taksim, kodlama istemcilerinizin zaten yazdığı yerel geçmişi ve hook’ları okur, her oturumu modele göre fiyatlandırır ve yerel bir deftere kaydeder. Yalnızca metadata saklar: prompt, yanıt, kod veya kimlik bilgisi saklamaz. Yerel repo klasörleri maliyeti atfetmek için yalnızca yerel veritabanınızda tutulur ve export’larda asla yer almaz.',
       calloutTitle: 'Önce gözlem',
       calloutBody:
-        'Varsayılan olarak Taksim kaydeder ve değerlendirir. Hangi modelin çalışacağını değiştirmez. Canlı yönlendirme isteğe bağlıdır ve yalnızca kendi API key’inize faturalanan trafikle sınırlıdır.',
+        'Varsayılan olarak Taksim kaydeder ve değerlendirir. Hangi modelin çalışacağını değiştirmez. Canlı yönlendirme isteğe bağlıdır: API key ile ya da yalnızca-Claude yönlendirmeyi açtıktan sonra Claude girişinizle (`taksim routing subscription on`).',
     },
     judging: {
       title: 'Judge ve consensus',
@@ -1460,7 +1465,7 @@ export const tr: Dictionary = {
     },
     gateway: {
       title: 'Yerel gateway, tasarımı gereği fail-open',
-      body: 'API key trafiği için isteğe bağlı canlı yönlendirme, 127.0.0.1 üzerindeki yerel bir gateway’i kullanır. Gateway yalnızca kendi makinenizden gelen loopback isteklerini yanıtlar ve siteler arası (cross-site) tarayıcı isteklerini reddeder; web sayfaları ona erişemez. Telemetri, kalıcı kayıt ve uzak öneriler, sağlıklı bir sağlayıcı isteğini asla bekletemez.',
+      body: 'İsteğe bağlı canlı yönlendirme, 127.0.0.1 üzerindeki yerel bir gateway’i kullanır. Gateway yalnızca kendi makinenizden gelen loopback isteklerini yanıtlar ve siteler arası (cross-site) tarayıcı isteklerini reddeder; web sayfaları ona erişemez. Telemetri, kalıcı kayıt ve uzak öneriler, sağlıklı bir sağlayıcı isteğini asla bekletemez.',
       calloutTitle: 'Yerel iş akışı her zaman kullanılabilir',
       calloutBody:
         'Yönetilen yol güvenli şekilde başlatılamazsa Taksim, geliştiriciyi engellemek yerine istemcinin yerel çağrısını korur. Ham prompt, yanıt ve kaynak içerik varsayılan olarak kalıcı saklanmaz. Güncelleme ve fiyat kontrolleri ağı kullanır; isteğe bağlı uzak judge’lar değerlendirme içeriğini, yapılandırılmış bildirim veya dışa aktarma hedefleri seçilen verileri alır. Kodlama istemciniz kendi sağlayıcısına bağlanmaya devam eder.',
@@ -1481,14 +1486,14 @@ export const tr: Dictionary = {
     },
     compat: {
       title: 'İstemci uyumluluğu',
-      updated: 'Son doğrulama · 26 Eylül 2026',
+      updated: `Son doğrulama · ${releaseDateLabel('tr')}`,
       caption: 'İstemci uyumluluğu',
       headers: ['İstemci', 'Geçmiş', 'Canlı yönlendirme', 'Değerlendirme', 'Sınır'],
       rows: [
         [
           'Claude Code',
           'Mevcut',
-          'Yalnızca API key, isteğe bağlı',
+          'API key: isteğe bağlı. Claude girişi: isteğe bağlı olarak açılır, yalnızca Claude modelleri.',
           'Mevcut',
           'Subscription trafiği gözlemlenir; yalnızca-Claude yönlendirme isteğe bağlıdır',
         ],

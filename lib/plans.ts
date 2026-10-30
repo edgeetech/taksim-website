@@ -4,23 +4,43 @@
 export const prices = {
   pro: 12,
   team: 18,
-  teamMinDevelopers: 5,
+  teamMinSeats: 5,
   teamMinMonthly: 90,
 } as const;
 
+// The first 20 Pro seats only; Team has no founding discount.
 export const foundingOffer = {
-  customers: 20,
+  seats: 20,
   discountPercent: 50,
   months: 12,
 } as const;
 
-// CEO decision 2026-10-29: everything that saves money or shows evidence is free; Pro and Team charge for
-// automation, enforcement and team features. Entitlement enforcement in the product stays off until the owner
-// sets a real public key and launches checkout, so today every command works without a licence.
+// Measuring, reporting and routing are free; Pro and Team charge for enforcement, delivery and team features.
+// The ids are the product's own (`LicenseFeatures.cs`, mirrored in data/entitlements.json). Entitlement
+// enforcement in the product stays off until the owner sets a real public key and launches checkout, so today
+// every command works without a licence.
 export const entitlements = {
-  pro: ['budget.enforce', 'digest.delivery', 'report.summaryHtml', 'audit.native', 'support.priority'],
+  pro: ['budget.enforce', 'digest.delivery', 'report.summaryHtml', 'audit.nativeRouter', 'support.priority'],
   team: ['report.team', 'budget.team', 'policy.org'],
 } as const;
+
+export type EntitlementId = (typeof entitlements.pro)[number] | (typeof entitlements.team)[number];
+
+// The first release that contains each paid feature, or null while it is not in a published release. The
+// pricing page lists a feature under "Included now" only when this is set, and under "Coming" otherwise;
+// a null one is never billed for. Set it to the release version when the feature ships.
+export const shippedIn: Record<EntitlementId, string | null> = {
+  'budget.enforce': '0.3.17',
+  'digest.delivery': '0.3.17',
+  'report.summaryHtml': '0.3.17',
+  'audit.nativeRouter': null,
+  'support.priority': '0.3.17',
+  'report.team': '0.3.17',
+  'budget.team': '0.3.17',
+  'policy.org': null,
+};
+
+export const isShipped = (id: EntitlementId) => shippedIn[id] !== null;
 
 export const freeFeatures = [
   'free.history',
@@ -44,6 +64,5 @@ export const proofExport = {
   writtenForRelease: '0.3.17',
 } as const;
 
-export type EntitlementId = (typeof entitlements.pro)[number] | (typeof entitlements.team)[number];
 export type FreeFeatureId = (typeof freeFeatures)[number];
 export type FeatureId = EntitlementId | FreeFeatureId;

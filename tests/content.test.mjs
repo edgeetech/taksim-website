@@ -30,10 +30,11 @@ test('keeps the CLI free for individuals, including at work, and publishes Free,
     assert.equal(dict.plans.team.price, '$18');
     assert.match(dict.plans.team.sub, /\$90/);
   }
-  assert.match(en.plans.team.sub, /5-developer minimum/);
-  assert.match(tr.plans.team.sub, /En az 5 geliştirici/);
-  assert.equal(en.plans.pro.badge, 'First 20 customers: 50% off for the first 12 months');
-  assert.equal(tr.plans.pro.badge, 'İlk 20 müşteriye ilk 12 ay için %50 indirim');
+  assert.match(en.plans.team.sub, /5-seat minimum/);
+  assert.match(en.plans.team.sub, /No founding discount/);
+  assert.match(tr.plans.team.sub, /En az 5 koltuk/);
+  assert.equal(en.plans.pro.badge, 'First 20 Pro seats: 50% off for the first 12 months');
+  assert.equal(tr.plans.pro.badge, 'İlk 20 Pro koltuğa ilk 12 ay için %50 indirim');
   assert.equal(en.plans.pro.cta, 'Reserve a founding seat');
   assert.equal(en.plans.team.cta, 'Start a team pilot');
   assert.equal(en.plans.billingNote, 'Billing opens when checkout is live; reserving costs nothing.');
@@ -68,34 +69,37 @@ test('keeps the retired Team price and plan wording out of every page and the ll
   for (const [path, text] of Object.entries(texts)) {
     for (const pattern of retired) assert.doesNotMatch(text, pattern, path);
   }
-  assert.match(llms, /\$12 per month/);
-  assert.match(llms, /\$18 per active developer per month/);
-  assert.match(llms, /5-developer minimum \(\$90 per month\)/);
+  assert.match(llms, /\$12 per seat per month/);
+  assert.match(llms, /\$18 per seat per month/);
+  assert.match(llms, /5-seat minimum \(\$90 per month\)/);
+  assert.match(llms, /first 20 Pro seats get 50% off for the first 12 months; Team has no founding discount/);
 });
 
 test('takes plan prices and the feature split from one constants file', async () => {
   const { en } = await import('../lib/i18n/en.ts');
   const { tr } = await import('../lib/i18n/tr.ts');
   const { entitlements, freeFeatures, prices, foundingOffer } = await import('../lib/plans.ts');
-  assert.deepEqual(entitlements.pro, ['budget.enforce', 'digest.delivery', 'report.summaryHtml', 'audit.native', 'support.priority']);
+  // The ids must be exactly the product's own (LicenseFeatures.cs on origin/claude/license-seam).
+  assert.deepEqual(entitlements.pro, ['budget.enforce', 'digest.delivery', 'report.summaryHtml', 'audit.nativeRouter', 'support.priority']);
   assert.deepEqual(entitlements.team, ['report.team', 'budget.team', 'policy.org']);
   // Routing and the proof export are free; only enforcement, automation and team features are paid.
   for (const id of ['free.mode', 'free.routingAuto', 'free.routingSubscription', 'free.proof']) assert.ok(freeFeatures.includes(id), id);
   assert.ok(![...entitlements.pro, ...entitlements.team].some((id) => id.startsWith('routing.')));
-  assert.deepEqual([prices.pro, prices.team, prices.teamMinDevelopers, prices.teamMinMonthly], [12, 18, 5, 90]);
-  assert.equal(prices.teamMinDevelopers * prices.team, prices.teamMinMonthly);
-  assert.deepEqual([foundingOffer.customers, foundingOffer.discountPercent, foundingOffer.months], [20, 50, 12]);
+  assert.deepEqual([prices.pro, prices.team, prices.teamMinSeats, prices.teamMinMonthly], [12, 18, 5, 90]);
+  assert.equal(prices.teamMinSeats * prices.team, prices.teamMinMonthly);
+  assert.deepEqual([foundingOffer.seats, foundingOffer.discountPercent, foundingOffer.months], [20, 50, 12]);
   for (const dict of [en, tr]) {
     assert.equal(dict.plans.developer.features.length, freeFeatures.length);
-    assert.equal(dict.plans.pro.features.length, entitlements.pro.length);
-    assert.equal(dict.plans.team.features.length, entitlements.team.length);
+    assert.equal(dict.plans.pro.features.length + dict.plans.pro.coming.length, entitlements.pro.length);
+    assert.equal(dict.plans.team.features.length + dict.plans.team.coming.length, entitlements.team.length);
   }
   for (const path of ['lib/i18n/en.ts', 'lib/i18n/tr.ts']) assert.match(await source(path), /from '\.\.\/plans\.ts'/, path);
-  const counted = en.pricing.faq.find((item) => item.q === 'How is an active developer counted?');
-  assert.ok(counted?.a.includes(`${prices.teamMinDevelopers}-developer minimum ($${prices.teamMinMonthly} per month)`));
+  const seat = en.pricing.faq.find((item) => item.q === 'What is a seat?');
+  assert.equal(seat?.a, `A seat is one named developer on the licence. Team needs ${prices.teamMinSeats} seats ($${prices.teamMinMonthly}/month minimum).`);
   assert.ok(en.pricing.faq.some((item) => item.q === 'What happens when a paid plan lapses?'));
   const buy = en.pricing.faq.find((item) => item.q === 'Can I buy a plan today?');
-  assert.ok(buy?.a.includes(`${foundingOffer.discountPercent}% off for the first ${foundingOffer.months} months`));
+  assert.ok(buy?.a.includes(`first ${foundingOffer.seats} Pro seats get ${foundingOffer.discountPercent}% off for the first ${foundingOffer.months} months`));
+  assert.ok(buy?.a.includes('Team has no founding discount'));
   assert.equal(tr.pricing.faq.length, en.pricing.faq.length);
 });
 

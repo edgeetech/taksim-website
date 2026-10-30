@@ -22,3 +22,17 @@ export const release = {
   commands: manifest.commands as string[],
   clients: manifest.clients as ReleaseClient[],
 };
+
+const monthNames = {
+  en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+  tr: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+} as const;
+
+// The day the synced release was published (UTC), as `2026-10-29`. The compatibility table is checked against
+// that release, so its date comes from here and not from a hand-written string.
+export const releaseDate = manifest.publishedAt.slice(0, 10);
+
+export function releaseDateLabel(locale: 'en' | 'tr') {
+  const [year, month, day] = releaseDate.split('-').map(Number);
+  return `${day} ${monthNames[locale][month - 1]} ${year}`;
+}
