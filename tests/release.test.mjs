@@ -58,7 +58,7 @@ test('the release manifest is valid', () => {
 
 test('site copy mentions no Taksim version other than the current release', () => {
   for (const [path, text] of copy) {
-    for (const m of text.matchAll(/(?<![\d.])v?(\d+\.\d+\.\d+)(?![\d.])/g)) {
+    for (const m of text.matchAll(/(?<![\d.])(?<!Claude Code )v?(\d+\.\d+\.\d+)(?![\d.])/g)) {
       assert.equal(
         m[1],
         manifest.version,

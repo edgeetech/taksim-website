@@ -2,6 +2,194 @@
   "schema": "taksim.changelog.v1",
   "entries": [
     {
+      "version": "0.3.18",
+      "date": "2026-11-05",
+      "items": [
+        {
+          "summary": "Add `routing.clientPromptParity` (`taksim routing prompt-parity on|off|status`, off by default;).",
+          "details": "With it on, when `taksim claude` may serve a session with a model other than its start model, it disables the start model's Claude Code prompt bundle (initially `opus_5_5_prompt_bundle` for Opus 5.5) through the undocumented `CLAUDE_CODE_MODEL_CAPABILITIES` variable. Only for Claude Code versions verified to read it (2.1.306); any other or unknown version sets nothing and records a bounded reason in `TAKSIM_CLIENT_PROMPT_PARITY`. Managed or remote Claude settings outrank Taksim, so a value from them is left alone (`managed-override`). When the setting is on but nothing is applied (`version-unverified`, `version-unknown`, `managed-override`), `taksim claude` prints one line at launch and `taksim routing prompt-parity status` shows why. The user's own value is merged, never replaced and never printed. Dated model ids (`claude-opus-5-5-2026...`) and an `ANTHROPIC_DEFAULT_OPUS_MODEL` behind the `opus` alias are resolved first. The `claude --version` probe is cached per executable path, last-write time and size. Sessions that stay on Opus also lose the Opus bundle; the effect on Opus quality is unmeasured.",
+          "points": []
+        },
+        {
+          "summary": "An escalation backed by evidence that the model was not enough (failed verification, repair, repeated invalid tool input, a blocking finding) now sticks for its phase.",
+          "details": "Before, an escalation that leased Opus 5.5 without an explicit effort lasted one call: the next main-conversation request asked for its own effort, the keep-current check failed on the effort, and Opus 5.5 carries no escalation role, so nothing kept the lease. Such a lease is now marked `QUALITY_ESCALATION_LEASE` and kept (`ESCALATION_LEASE_STICKY`), at the request's explicit effort when it gives one.",
+          "points": []
+        },
+        {
+          "summary": "A prompt-only escalation (complexity, qualified risk) no longer moves the session's lease.",
+          "details": "In SWE-bench Pro held-out runs every mid-session escalation came from a small side request, which closed the main conversation's Sonnet lease; the next main call then dropped back to Sonnet. Such an escalation now serves that one request on the escalated model (`PROMPT_ESCALATION_SINGLE_REQUEST`), takes no lease and leaves the context's lease and warm cache in place.",
+          "points": []
+        },
+        {
+          "summary": "A step down within a phase is now quoted instead of always refused.",
+          "details": "The gateway keeps the provider usage of each session's last 32 calls in memory and compares the cost of rewriting the prefix on the cheaper model (largest recent prefix x the target's cache-write rate for the TTL in use) with the per-token saving on the session's mean output and uncached input over at most 10 further calls. It steps down only when the saving beats the switch cost by 1.5x and the lease has served 3 calls (`SWITCH_COST_QUOTED_DOWNGRADE`); otherwise it keeps the model (`SWITCH_COST_EXCEEDS_SAVING_KEEP_CURRENT`, `SWITCH_COST_STEP_DOWN_COOLDOWN`, or `SWITCH_COST_UNKNOWN_KEEP_CURRENT` without usage). Escalations, pins, budget fallbacks and the downgrade-escalation latch never consult the quote. See Cache-aware stickiness.",
+          "points": []
+        },
+        {
+          "summary": "Switch-cost routing after review.",
+          "details": "Stickiness keys on the lease's escalated-to state, not on the model's catalog role, and a latched downgrade escalation is sticky without a quote, so it no longer proposes the cheaper model for the latch to override on every call. A prompt-only escalation serves a single request only for a small side context (below half of the session's largest recent prefix, or below 20k tokens without usage); in the main conversation it takes an ordinary lease that the quote may step down. An explicit effort change renews the lease on the same model with its start, call count and markers kept (`LEASE_EFFORT_RENEWAL`), so a first-request escalation at `medium` no longer drops to Sonnet on the next request's `high`, and the cooldown no longer restarts. Cold-start keeps (security flag, learned keep) are never stepped down by the quote. An evidence escalation waits 10 calls before a step down is quoted. The saving uses the lease's own calls, a target that is not cheaper reports `SWITCH_COST_NOT_CHEAPER`, only canonical calls feed the usage ledger, and the ledger evicts the least recently observed session in constant time. The renewal also keeps the auto-default and budget-downgrade markers, which it had dropped.",
+          "points": []
+        },
+        {
+          "summary": "Failed test runs that no hook reports now count for downgrade escalation.",
+          "details": "The gateway reads the previous turn's tool results in each Claude request: a test or build command whose result is an error starting with `Exit code 1`-`123`, or that exited 0 (`| tail`, `|| true`) while its output carries a test runner's own failure summary (Jest, Vitest, Mocha, `go test`, pytest, `dotnet test`, `cargo test`, Maven Surefire), is one failed run. It feeds the same counter, two-failure threshold and guards as `PostToolUseFailure` hooks, and a run seen in both counts once (keyed by its `tool_use_id`). Before, a stepped-down session whose failure hooks were lost or never fired stayed on the cheaper model: in one SWE-bench Pro run, six test runs reached Taksim as zero failures. Only the start and end of each result are read, and only a hash of each failed run's id is kept, in memory. An escalation that used this evidence carries `DOWNGRADE_ESCALATION_EVIDENCE_TOOL_RESULT`. See Failed runs in the request body.",
+          "points": []
+        },
+        {
+          "summary": "Only failed fix attempts count, not reproductions, from hooks and request bodies alike.",
+          "details": "A failed test run counts toward downgrade escalation only when the session edited a non-test source file since its previous test run (or since session start). A run that reproduces the bug before any edit, or a TDD red run after test-only edits, is a red baseline and is not counted, so an agent that checks the failure first no longer escalates on that alone. Edits come from `Edit`, `Write`, `MultiEdit` and `NotebookEdit` calls in the request bodies and their `PostToolUse` hooks, deduplicated by `tool_use_id`. A file is a test file by path shape only (`test`/`tests`/`__tests__`/`spec` directories, `*_test.go`, `*.test.*`, `*.spec.*`, `test_*.py`, `*_test.py`, `*Tests.cs`). A fix attempt whose runner summary shows fewer failed tests than the previous failed run is progress and does not count. The two-failure threshold and every guard are unchanged. Only a flag, the last failed count and counters are kept per session, in memory; no path is stored. See Reproductions do not count.",
+          "points": []
+        },
+        {
+          "summary": "Fix-attempt evidence after review.",
+          "details": "Only a real runner invocation (a runner as a command word) is a run: `cat`, `grep`, `rg`, `git`, `ls`, `head`, `tail`, `echo`, `sed -n` and `find` are never runs, their output is never read, and they no longer reset \"source edited since the last run\". A bare `AssertionError` line is no longer a failure marker (passing `pytest -s` runs print them). A successful shell command that may write files (`sed -i`, `perl -i`, a redirection, a heredoc, `tee`, `patch`, `cp`, `mv`, `git apply`, `git checkout -- <path>`) counts as a source edit, except a redirect to a `.log`, `.txt` or `.out` file, a temp directory or `/dev/`, a `cat <<EOF` heredoc with no write redirect, and `cp`, `mv`, `tee` or `patch` with every target in a temp directory (`go vet ./... 2> vet.log` is not a fix attempt). A hook's edited path is classified relative to its `cwd`, otherwise by its last three segments, so a `test` directory above the project no longer makes every edit a test edit; `*.Tests`/`*.Test` directories and `*Test.cs`, `*Test.java` and `*_spec.rb` files are test files. Fewer failures is progress only for the same command (a short hash, in memory) and at most twice in a row before a pass. An unkeyed hook failure keeps body evidence out only for its failure window; an unkeyed edit or pass no longer switches body evidence off for the session. Hooks and bodies use one predicate: a runner that exited 1-123 or a runner failure summary on exit 0.",
+          "points": []
+        },
+        {
+          "summary": "Failing test runs now escalate a stepped-down session.",
+          "details": "A test or build command that exits with status 1-123 is labelled a failed verification command before its output is searched for environment or permission words. Before, a failing `go test` or `jest` run whose output contained \"timeout\", \"network\", \"denied\", \"unauthorized\" or just a `0.429s` duration was labelled an environment failure, so it never reached the two-failure threshold of downgrade escalation, and an Opus start stepped down to Sonnet stayed on Sonnet through repeated failing runs. Exit codes 124-127 (timeout, could not start, not found) keep their old labels.",
+          "points": []
+        },
+        {
+          "summary": "A test or build runner now counts only as a command word, at the start of a command or after `;`, `&&`, `||`, `|`, `(`, `cd X &&`, environment assignments or a wrapper.",
+          "details": "Before, any command containing `tsc`, `jest`, `pytest`, `make `, `mvn ` or `gradle` counted, so `cat tsconfig.json`, `rg jest`, `cmake --version` or a commit message mentioning \"make\" were taken for test runs. `python -m unittest`, `bun test`, `node --test` and `npx playwright test` are now recognised. `yarn test:unit`, `pnpm test:ci`, `bun build:prod`, `pnpm -r test` and `pnpm --filter web test` count (a script starting `test` or `build`, after leading flags and their values); `command -v pytest` is a lookup and does not.",
+          "points": []
+        },
+        {
+          "summary": "Fix: `routing.max_frontier_share` now counts Opus 5.5.",
+          "details": "Before, only the one catalog resource with the escalation role (Opus 5) counted as frontier, but the ranked policy escalates to Opus 5.5. Opus 5.5 usage therefore never moved the frontier share, and the cap never blocked an Opus 5.5 request. The Claude Code catalog now marks every Opus and Fable model as frontier, and the budget share, budget reservations and recorded usage all use that flag. Resources saved before this change have no flag, so the share derives it from the model id and counts Opus 5.5 right after the upgrade. A month with Haiku traffic no longer reports the frontier share as unknown, which also had switched the cap off. Opus 5 stays the single escalation target, and escalation-lease behaviour is unchanged. The cap now waits for 10 tasks in the month before it applies, so the first request of a month is not a 1/1 share that always hits the cap. **Behaviour change.** If you set `routing.max_frontier_share`, the cap is now enforced where it was not before: Opus 5.5 counts toward it, and Haiku traffic no longer switches it off. A request that would push the share to the cap or above can now end with `MAX_FRONTIER_SHARE_REACHED` and need approval where it ran freely until now. Raise or remove the setting if you want the old behaviour.",
+          "points": []
+        },
+        {
+          "summary": "Blind cross-session judge, so Taksim can learn with only the in-session judge.",
+          "details": "Before, a turn counted only when two different judges agreed, and in most setups the in-session judge was the only strong one, so almost every verdict stayed \"single-judge\" and nothing learned from it. Now a second Claude model grades such turns blind: the user prompt and the final reply as quoted data under a fresh alias, redacted like a support bundle (absolute paths too), then cut to 3000 characters each, with no model, no earlier grade, no request id and no path. Its verdict is stored as `claude_code_cross_session`, a strong judge, so an agreeing pair is consensus under the existing rule and `routing auto`, policy suggestions, `routing recommend` and the proof counterfactual gain evidence. Only Claude-served turns whose one strong verdict is an in-session verdict at the current prompt version qualify; weak judges do not count against a turn.",
+          "points": []
+        },
+        {
+          "summary": "`taksim judge cross-check export --count N (--project <alias> | --all-projects)` writes such a batch over history, with `--seed` for a reproducible sample, `--since` for the age (default 30 days, at most 90) and `--exclude-session` (default: the managed session it runs in) to leave out a grading session's own turns, forks and anything it was already shown.",
+          "details": "Grade the batch in a fresh `claude -p` run without tools, MCP servers, settings or hooks (the command line is in the docs), then run `taksim judge cross-check submit --grader-model <model> --stdin`: it stores the verdicts only for aliases an export issued in the last 48 h, refuses a Haiku or unknown grader, and prints accepted and rejected counts.",
+          "points": []
+        },
+        {
+          "summary": "The in-session Stop hook also adds one turn per pass that is due anyway (`judge/cross.json` `{\"perPass\": n}`, or `TAKSIM_JUDGE_CROSS_SESSION_PER_PASS`; at most 2, 0 turns it off) from another session of the same project, never another project, only in `default` permission mode, only while the session runs on Sonnet, Opus or Fable, and only with at least 3 s of the hook deadline left.",
+          "details": "`judge submit` stores a cross verdict only for an alias issued to that session in the last 2 h, and says how many ids it rejected. Issued aliases and `judge backlog` excerpts are kept in `judge/cross-issued.json` (ids and times only, 90 days); the database schema does not change. A corrupt file is set aside and pauses cross turns until a fresh one exists, while submits still record the session's own verdicts.",
+          "points": []
+        },
+        {
+          "summary": "Calibration: `taksim judge status` prints a `Cross-check:` line with the turns issued and graded and how often the in-session judge and the cross judge name the same tier (exact, within one tier, and Cohen's kappa).",
+          "details": "From 50 pairs at 80% exact agreement and a kappa of 0.6 the in-session judge counts as calibrated: its lone verdicts at confidence 0.8 or higher then show as `CALIBRATED_SINGLE_JUDGE` in `insights advisor` and `insights default-model`, and the proof export uses them for the upper bound of its counterfactual (`counterfactual.upperBound`, consensus stays the lower bound) and reports the measurement in `judge.calibration` (schema minor 2, new caveat `SINGLE_JUDGE_UNCALIBRATED`). Routing never reads the calibrated tier. See Blind cross-session check.",
+          "points": []
+        },
+        {
+          "summary": "Launcher watchdog: while a managed session runs, its launcher reads the shared gateway's `/health` every 2 s, and after two misses in a row restarts a gateway that crashed, on the same port and through the same `gateway.lock` path as `gateway ensure`, so two launchers that notice the same crash start one gateway.",
+          "details": "A gateway whose record is gone was stopped on purpose (`gateway stop`, the idle timeout) and stays stopped. A `gateway.failed` marker blocks the restart, and a launcher restarts at most three times in ten minutes; when it cannot restart the gateway it prints one stderr line, `Taksim gateway stopped and could not restart; /exit and run claude directly.` (`codex` and so on for the other launchers), and stops watching. The restarted gateway starts without the old one's in-flight work: a response that was streaming when the gateway died is lost and that one request fails. Every launcher registers its session's lease on the new gateway, also when another launcher restarted it. The gateway no longer logs the per-request lines of its own `/health` reads (or any request) at information level.",
+          "points": []
+        },
+        {
+          "summary": "`taksim gateway stop --force` is refused while a launcher holds a live session lease on the gateway (exit code 3, with the session count); `--force-sessions` stops it anyway.",
+          "details": "Without `--force` it already stopped only an idle gateway, and the `taksim update` hand-off keeps doing that. See Configuration.",
+          "points": []
+        },
+        {
+          "summary": "Offline licence seam (plans: Free, Pro, Team).",
+          "details": "`taksim license activate <file|base64>` verifies an Ed25519-signed licence on this machine (no network call), checks it against public keys compiled into the binary and installs it atomically as `$TAKSIM_HOME/license.json`; `taksim license status [--json]` shows the plan in force, org, seats, expiry, the 14-day grace period, whether licensing is enforced and a feature table; `taksim license deactivate` removes it, `uninstall --purge-data` deletes it with the rest of the home's data and `taksim home migrate` moves it. `taksim doctor` has a `license` block and the status line shows `Taksim Pro` once a licence is installed. A Team licence needs at least 5 seats; a tampered licence grants no plan, with the reason `signature invalid`. Free is everything that saves money or shows evidence (ledger, imports, dashboard, reports, judge, insights, proof export, `taksim mode`, `routing.auto`, subscription routing); Pro ($12 per month) adds `budget enforce`, scheduled digest delivery, the HTML summary export, native-router audit details and priority support; Team ($18 per developer, 5-developer minimum) adds the team roll-up, team budgets and organisation policy. Nothing changes for any user today: paid plans are not on sale yet, licensing is not enforced (the compiled enforcement date is null and the compiled public key is a named placeholder, so no licence verifies in this build), every user is in the founding preview, and `license status` says so. Once enforced, only `budget enforce` consults the plan: without Pro it stores the setting, prints one line naming the plan, and the gateway forwards requests unchanged; nothing ever blocks or fails a Claude request. New `tools/Taksim.LicenseIssuer` (offline `keygen` and `issue`; the private key is never in the repository, `*.key` is git-ignored). See Licensing. EULA section 2 names the Pro features.",
+          "points": []
+        },
+        {
+          "summary": "`taksim diagnostics bundle [--out file.zip]`: writes a redacted zip to attach to a support request.",
+          "details": "It lists the files before it writes them. It holds a header (Taksim version and commit, OS and architecture, build, .NET runtime and `claude --version`), the `taksim doctor` result, the gateway and update status, the hook install state, the settings integrity verdict (not the contents of `settings.json`, whose `env` block can hold credentials), the last fail-open record and the last 500 lines of the gateway log. Your home folder, `TAKSIM_HOME` and account name become `<HOME>`, `<TAKSIM_HOME>` and `<USER>`; API keys, bearer and basic tokens, authorization and cookie headers, secret-named settings, the values of secret-named environment variables and of the `settings.json` `env` block, e-mail addresses and private keys are removed from every file. It never contains prompts, database files or credentials, and never overwrites an existing file. See Configuration.",
+          "points": []
+        },
+        {
+          "summary": "`taksim update --rollback`: switches a release installation back to the previously installed version without a download.",
+          "details": "It checks that the previous version is installed and starts, swaps `current` the way `install-release.ps1` does (a `current.new` link, then a rename; a symlink on macOS), stops an idle gateway of the newer version (or restarts the desktop gateway) and records the rolled-back release in `update-skip.json`, so the update check does not offer it again until a newer release exists (builds from before this change do not read that file). A `current` link that points nowhere, a leftover `current.new` or a plain folder named `current` is repaired on the way and reported (`Fixed: ...`). It refuses when the previous version knows an older database migration than the one your database already has, because an older Taksim on a newer schema can misread it. See Configuration.",
+          "points": []
+        },
+        {
+          "summary": "Start-up: the launcher's own time is now measured, and a cold `taksim claude` launch adds a median 1.75 s (3.27 s for the same source without ReadyToRun) and a warm one 1.05 s (2.13 s).",
+          "details": "The `origin/main` launcher could not be timed on the measuring machine (see the readiness item below), so there is no launcher before/after against the previous release.",
+          "points": [
+            "Schema stamp: after a successful migration the database records the migration count in `PRAGMA user_version`. A start that finds the current count, WAL mode and this build's latest migration in the history skips Entity Framework entirely (no `DbContext`, no pending-migration query), for the launcher, the gateway and the hooks alike. Anything else, including a lower, missing or higher stamp, takes the full migration path, which stays the only writer of the stamp. The gateway's database phase drops from a median 778 ms on main to 82 ms (44 ms with ReadyToRun as well).",
+            "The release publish is ReadyToRun (a property of `Taksim.Edge.csproj`, so every workflow and `Build-LocalRelease.ps1` get it). The single-file executable grows from 126.9 MB to 189.5 MB (49.4%). Gateway process start to listening: 1,616 ms on main, 665 ms now.",
+            "The launcher's readiness polling of a recorded or just-started gateway confirms a port the OS listener table does not show with a 150 ms loopback connect (the same single connect as the 300 ms confirmation above, shorter because the poll retries). The table can lag a real listener by seconds or more, which kept launches waiting for the full 20 s and then native.",
+            "Trace: each managed launch appends one content-free line (phase timings, `reused` or `started`, version, client type) to `gateway/launch-timings.ndjson` (last 50); `TAKSIM_STARTUP_TRACE=1` also prints it to stderr. The gateway records when each managed session first sent `SessionStart` and its first `/v1/messages` (`gateway/session-contacts.ndjson`), and its own database, services and listening times (`gateway/startup.json`). `taksim doctor` shows the last cold and warm launch.",
+            "`scripts/Test-ClaudePerformance.ps1 -Client stub` measures all of this with a $0 stand-in for Claude Code and a fake upstream: 30 interleaved rounds per arm, medians on this machine (a shared one, so relative): cold launch added time 1.75 s p50 and 2.18 s p95, warm 1.05 s p50 and 1.29 s p95; without ReadyToRun 3.27 s and 2.13 s. Warm is still above the 400 ms goal: the launcher's session metadata write (about 550 ms) is the next cost to remove. See PERFORMANCE.md."
+          ]
+        },
+        {
+          "summary": "Taksim routes Claude only.",
+          "details": "A Codex request, with an API key or a ChatGPT sign-in, and a Gemini API-key request are now forwarded unchanged, byte for byte (no model or `reasoning.effort` rewrite, whatever the routing mode) and only observed for usage and cost. The `gpt-*` resources stay in the catalog for pricing and observation but are never routing candidates, and the gateway refuses to select any resource whose provider is not Anthropic: such a selection is treated as a routing error and the original request is forwarded. `taksim codex` sessions keep working and keep their usage and cost reporting; they just are not switched between models. README \"What is routed\" and Routing now say \"Codex: observed, not routed\".",
+          "points": []
+        },
+        {
+          "summary": "Jev is off the request path.",
+          "details": "The gateway no longer waits for the Jev router before forwarding a request and never applies its choice: when `taksim set-router jev` is on, a prompt excerpt (up to 4,000 characters, unchanged) is sent to TypeSafe only after the provider response was delivered, on the bounded post-response shadow-planning lifetime, for Claude API-key requests whose provider call succeeded, and the choice is discarded after accounting (the call stays a separate service call and counts under `liveRouter` in `/health`). A slow Jev endpoint can no longer delay a request. `routing/jev.json` is read through a 5 second cache instead of once per request. Execution records written earlier that name `decision_engine_pre_request` are left as they are; new records carry `applied: false`.",
+          "points": []
+        },
+        {
+          "summary": "Upstream base URL overrides (`TAKSIM_ANTHROPIC_UPSTREAM_BASE_URL`, `TAKSIM_OPENAI_UPSTREAM_BASE_URL`, `TAKSIM_GEMINI_UPSTREAM_BASE_URL`) must be `https`, or `http` only for a loopback host (`127.0.0.1`, `localhost`, `[::1]`); anything else stops the gateway from starting with `must be HTTPS; HTTP is allowed only for loopback`, so API keys and prompts cannot be sent in the clear to a remote host by a stray environment variable.",
+          "details": "",
+          "points": []
+        },
+        {
+          "summary": "The message shown when subscription traffic reaches the gateway no longer tells you to relaunch with `taksim codex` or `taksim devin`.",
+          "details": "",
+          "points": []
+        },
+        {
+          "summary": "`taksim proof export` no longer refuses to write on a real home.",
+          "details": "The privacy check treated every word of a recorded repository path as private, so a folder such as `hubui-app-itr-2026` made the bare number `2026` a private term that matched every date in the bundle (exit 3, \"would contain a private term\"). A part that is only digits, shorter than four characters, a generic path word (`users`, `workspace`, `documents`, `src`, ...) or a word of the bundle's own text is no longer a term on its own. The whole folder name and path, its distinctive parts (`hubui`), user names, machine names, repository IDs and developer aliases still block the export.",
+          "points": []
+        },
+        {
+          "summary": "Gateway start no longer fails when Windows reports an incomplete TCP listener table.",
+          "details": "After some Windows updates and driver changes the listener table (`GetActiveTcpListeners`, `netstat`) omits real listeners, so a healthy gateway was never accepted: `taksim gateway ensure` waited 20 s, logged \"did not become ready\" and continued natively, and later launches hit the failure backoff. Taksim now uses the table only as a fast positive hint and confirms a negative answer with a short (300 ms) real connect to 127.0.0.1 before concluding that nothing listens. A port that accepts connections but whose owner the table cannot name is reported as held by an unidentified process and is never killed or replaced.",
+          "points": []
+        },
+        {
+          "summary": "First-run value: `taksim doctor`, `taksim setup`, the dashboard Overview and `taksim judge status` say what to do next.",
+          "details": "",
+          "points": [
+            "`taksim doctor` now prints grouped PASS/WARN/FAIL lines (Install, Database, Clients detected, Credential mode, Gateway, Startup, Hooks, Pricing coverage, Update) and ends with a Plan of at most three next commands. The previous JSON report moved behind `taksim doctor --json`, with the same schema. The probes run side by side, and doctor no longer loads every execution or walks every Claude transcript to build its numbers (about 17 to 19 s before and 5 to 8 s after on a 65,000-execution home, measured with the unoptimised build on a busy machine; judge providers are also probed concurrently).",
+            "With `claude` on PATH, doctor classifies the credential mode itself: the cached `claude auth status` answer, or one probe of at most 3 seconds, so a saved `/login` is no longer reported as `unknown`. If it is still unknown (no `claude` on PATH, or the probe did not answer in time, which is no longer read as a subscription), doctor warns and names `taksim doctor --probe-claude-auth`, which keeps the full probe timeout. A timed-out probe in `taksim setup` or the dashboard card likewise falls back to the budget step instead of suggesting subscription routing.",
+            "A missing `policy.yaml` is informational in doctor (the JSON `policyStatus` still reads `POLICY_FILE_MISSING`), and doctor stops recommending `taksim history import` once imported turns exist.",
+            "`taksim setup` ends with a headline computed from the imported history, `Last 30 days: $X API-equivalent across N sessions; Opus/Fable was P% of it. Upper bound if every Opus/Fable turn had run on Sonnet: $D less ($Y in total). Judges agreed on $a-$b of avoidable spend so far (n turns). In our pilot, routing cost about the same as always-Sonnet.`, then exactly one next command by Claude credential mode: `taksim mode economy` for an API key, `taksim routing subscription on` (with a pointer to the plan-terms note) for a subscription, otherwise `taksim budget set` with a monthly cap 20 percent above the last 30 days. $Y reprices every Opus/Fable-class Claude turn at Sonnet 5 list prices (it never raises the figure), and $D = $X - $Y is the saving that implies, labelled an upper bound: it says nothing about whether Sonnet would have been good enough. `$a-$b` and `n` (the over-served turns counted) come from the digest's downgrade-safe counterfactual (consensus-only), the same one `taksim digest --since 30d` and `taksim proof export` report, so they agree on the judged low, high and turn count (proof export counts whole UTC days, so a turn on the oldest day can land on one side only). With fewer than 20 consensus-judged turns the sentence reads `Judged evidence: not enough judged turns yet (k).`, k being that consensus count. `--json` carries `headline`, `nextStep`, `opusSharePct`, `judgedRangeUsd` (`low`, `high`) and `judgedTurns` (n); `/api/first-run` carries the same fields. The previous four-command list (and its Cursor extras) is gone. The dashboard Overview shows the same card at the top (`/api/first-run`), loaded after the overview so a slow probe never holds it back.",
+            "`taksim judge status` hides clients and populations with no turns (no more `0 of 0` lines) unless `--all`, adds one sentence after the coverage lines on what to do, and shows the verdicts per prompt version, including the legacy ones, only with `--verbose`. `--json` is unchanged."
+          ]
+        },
+        {
+          "summary": "`taksim proof export [--since 30d] [--out <path>] [--format json|md]`: a versioned, redacted, hash-stamped bundle of what the local data shows, meant to be published on purpose.",
+          "details": "It reports, over whole UTC days and the previous window of equal length, spend (API-equivalent total, by model family and by credential kind, with `quota-equivalent` marking dollars that are not invoiced), the output-token model mix, routing settings and the live-routed and observed-unrouted cost (kept separate, never added to the counterfactual), judge evidence (strong and weak consensus, disputed and single-judge turns, the requested-versus-sufficient confusion matrix), a strong-consensus-only counterfactual range with N, the cache hit ratio, the main levers (cache breaks, idle gaps, context above 200k, failure loops, spend-spike days), gateway overhead (`not measured` without samples, never zero) and machine-readable caveat codes. It holds counts, dollars and a fixed vocabulary only: no repository aliases or paths, PR or ticket keys, session or request IDs, user or host names, model IDs or times finer than a day, and a privacy check refuses to write a bundle that would contain any. The JSON is canonical (sorted keys, no whitespace) and carries a `sha256` of itself without that field; two exports of the same data in the same window are byte-identical. `--format md` renders a readable receipt that spells out every caveat and the small-window re-identification risk. Nothing is sent anywhere. See Proof export.",
+          "points": []
+        },
+        {
+          "summary": "Prompt-cache hit ratio: `taksim insights cache`, `taksim digest`, `taksim report weekly` and the proof bundle now compute it with one definition, `cache read / (cache read + cache write + uncached input)`, token-weighted over every Claude execution in a session with all three counts recorded (side calls and subagent turns included).",
+          "details": "The same window used to show two different numbers (for example 97.4% against 96.6%) because `insights cache` left side calls and subagent turns out and counted other clients' turns, and the digest counted executions without a session. Existing reports can move by a point or two: the `insights cache` headline is now Claude-only (its per-repository and per-model rows still cover every client), the digest ignores executions that belong to no session, and `insights cache` shows the number of executions behind the ratio (`hitRatioExecutions` in `--json`).",
+          "points": []
+        },
+        {
+          "summary": "Removed local repository paths from the database.",
+          "details": "A repository is now stored as its salted alias only: `source-control discover` (and so `repo discover`, `routing promote` and `policy explain`) no longer writes `repositories.local_root`, a migration sets every existing value to NULL (the column stays, always empty, until a later release drops it), and the places that read it resolve the root from the working directory instead. Spend budgets scoped to a repo still match the current repo through its alias, including from a subdirectory, a linked worktree or a working directory spelled in another case than the disk stores. `report cost --by repo`, `routing recommend` and the dashboard show the alias unless you set a label with `taksim repo alias --name` (the folder-name fallback is gone). The Crush import and judge find a project-local `.crush` only in the repository they run in or through Crush's `projects.json`, no longer in every repository you ever discovered. `logs/gateway.log` writes your user profile folder (on Windows also its 8.3 short name) as `~`. The \"no local paths\" statement in `docs/PRIVACY_AND_COMPLIANCE.md` now holds.",
+          "points": []
+        },
+        {
+          "summary": "Removed repository branch names from the database.",
+          "details": "`source-control discover` no longer writes `repositories.default_branch` (neither the checked-out branch nor GitHub's default branch), a migration sets every existing value to NULL and zeroes the freed bytes (the column stays, always empty, until a later release drops it), and nothing read the value, so the branch is resolved from the checkout or GitHub at the moment it is needed. The statement in `docs/PRIVACY_AND_COMPLIANCE.md` that the database keeps no branch names now holds.",
+          "points": []
+        },
+        {
+          "summary": "Native-router audits: `taksim insights advisor [--since 7d]` and `taksim insights default-model [--since 7d]`, audits of what Claude's own routing does when Taksim is not choosing.",
+          "details": "`insights advisor` joins the advisor executions recorded since 0.3.17 with the judge verdicts on the same turn and reports advisor cost, the share of advisor calls where the judges say advice was needed (the judge's minimum sufficient tier is above the tier that served the turn), cost by executor/advisor family pair and N. `insights default-model` finds Opus main-thread turns and says who chose Opus: an explicit choice (a user pin at the gateway or an earlier `/model` switch), Taksim-routed, default (a managed gateway request with no pin), or `could not tell`. Claude Code transcripts carry no default-model marker, so imported history alone is `could not tell` and is never guessed. It reports the Opus-default cost and the share of those turns the judges say Sonnet would have sufficed. Every line that holds a share names its evidence tier: `CONSENSUS` (the existing rule) or the new, clearly weaker `PROVISIONAL_SINGLE_JUDGE`, one verdict from a strong Claude judge (the in-session judge, or the API judge on Sonnet or Opus) at confidence 0.8 or higher on a turn without consensus. A share needs 20 judged turns per scope and tier; below that the output says `not enough evidence` with N and no percentage. Weak judges (Jev, small Ollama models) are never counted as provisional evidence, and provisional findings are shown, never applied: `routing auto`, `routing recommend` and policy suggestions still read consensus only. A second strong verdict that disagrees (a human, `codex_in_session` or the Haiku API judge) leaves the turn uncounted. Both audits add one line to `report weekly`, a \"Native-router audits\" section to `taksim digest` (`nativeRouterAudits` in its JSON) and an aggregate `advisor` and `defaultModel` section to `taksim proof export` (schema minor 1, `schemaMinor`; new caveat codes `ADVISOR_NOT_RECORDED`, `DEFAULT_MODEL_COULD_NOT_TELL` and `PROVISIONAL_SINGLE_JUDGE_SHOWN`). See Native-router audits.",
+          "points": []
+        },
+        {
+          "summary": "`taksim copilot usage` prints an observe-only \"Copilot auto model\" row: the calls the Copilot SDK flagged `isAuto`, the models it reported serving them and any Fusion attribution, with N.",
+          "details": "It is what Copilot reported, not a Taksim choice; Taksim does not route Copilot. The history importer captures no routed model for Auto or HydraFusion (the usage event holds only that word), so the row comes from the native observation files only.",
+          "points": []
+        }
+      ]
+    },
+    {
       "version": "0.3.17",
       "date": "2026-10-29",
       "items": [
@@ -212,27 +400,6 @@
         },
         {
           "summary": "`taksim.exe` now carries the Taksim icon and version info (file description `Taksim`, product `Taksim`, company `EdgeeTech`), so Windows Task Manager shows the logo and name.",
-          "details": "",
-          "points": []
-        }
-      ]
-    },
-    {
-      "version": "0.3.13",
-      "date": "2026-10-16",
-      "items": [
-        {
-          "summary": "Desktop routing rehearsal fixes.",
-          "details": "A gateway that crashed shortly after starting no longer makes the next session start back off: in desktop mode only a second consecutive failure does, and one crash gets a real restart (a resume 4 s after the kill now succeeds routed in about 6 s instead of hanging 190 s on ECONNREFUSED). Fail-open now points `env.ANTHROPIC_BASE_URL` at `https://api.anthropic.com` instead of removing it, because Claude Code keeps a removed value in running sessions, and the hook waits 4 s (`TAKSIM_DESKTOP_RELOAD_WAIT_MS`) so the starting session goes direct. The SessionStart restore after a fail-open waits too, so that session is routed from its first request. `off` uses the same two steps, deletes a settings file that `on` created (and its backup), and otherwise restores the original bytes when nothing else changed.",
-          "points": []
-        },
-        {
-          "summary": "Faster gateway restarts: probes of a stopped gateway read the OS listener table instead of waiting out Windows' 2 s refused-connect retries, and the start poll is tighter.",
-          "details": "A liveness restart takes about 2.3 s (was 6.7-12 s); the gateway log records its start-up phases, and `gateway ensure --trace` prints the client's. The liveness probe times out after 0.5 s.",
-          "points": []
-        },
-        {
-          "summary": "`taksim doctor` reports `claudeGatewayContextStatus: desktop-routing` while desktop mode is on, reading the settings `env` base URL before the process environment, as Claude Code does.",
           "details": "",
           "points": []
         }

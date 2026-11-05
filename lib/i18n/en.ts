@@ -92,7 +92,7 @@ export const en = {
       clients: {
         title: 'Clients',
         description:
-          'What Taksim does with each coding client: observe, judge, gateway and model routing for Claude Code, Codex, GitHub Copilot, Devin, OpenCode, Kilo Code, Pi and more.',
+          'What Taksim does with each coding client: observe, judge and gateway for Claude Code, Codex, GitHub Copilot, Devin, OpenCode, Kilo Code, Pi and more; model routing for Claude models only.',
       },
       benchmark: {
         title: 'Pilot benchmark',
@@ -394,7 +394,7 @@ export const en = {
     },
     clients: {
       title: 'What Taksim does with each client',
-      body: 'Taksim works inside each vendor’s terms. Claude Code on a Claude subscription is observed unless you opt in to Claude-only routing, and Codex on a ChatGPT plan is only observed; all other live routing is limited to traffic billed to your own API key.',
+      body: 'Taksim works inside each vendor’s terms. Taksim routes Claude models only: Codex and Gemini requests are forwarded unchanged and only observed. Claude Code on a Claude subscription is observed unless you opt in to Claude-only routing; all other live routing is limited to traffic billed to your own API key.',
       listLabel: 'Supported coding clients',
       more: 'See the full client table',
     },
@@ -1232,7 +1232,7 @@ export const en = {
         access: 'OpenAI API key',
         observe: 'History import from CODEX_HOME sessions.',
         judge: '',
-        gateway: 'Optional: in Codex sessions Taksim launches on an API key, the local gateway forwards requests to OpenAI.',
+        gateway: 'Optional: in Codex sessions Taksim launches on an API key, the local gateway forwards requests to OpenAI unchanged and observes usage and cost.',
         context: '',
         route: 'Observed; not routed. Taksim routes only between Claude models.',
       },
@@ -1636,7 +1636,7 @@ export const en = {
     update: {
       title: 'Update',
       body: '`taksim doctor` tells you when a newer release is out. To check, and then install it:',
-      after: 'Updating keeps your data and settings. Running the install line again does the same. `taksim update --apply` checks the downloaded installer against the release’s `SHA256SUMS.txt` and refuses on a mismatch or a missing entry. A signed installer is accepted only from a publisher built into Taksim, and an unsigned one still needs `--allow-unsigned`.',
+      after: 'Updating keeps your data and settings. Running the install line again does the same. `taksim update --apply` checks the downloaded installer against the release’s `SHA256SUMS.txt` and refuses on a mismatch or a missing entry. A signed installer is accepted only from a publisher built into Taksim, and an unsigned one still needs `--allow-unsigned`. To go back, `taksim update --rollback` switches to the version you had before, without a download. It refuses if the older version cannot read your database.',
     },
     uninstall: {
       title: 'Uninstall',
@@ -1787,6 +1787,8 @@ export const en = {
         'To grade the history you imported with a judge you choose (a local Ollama model, or your own Anthropic key), start with a dry run that shows how many turns would be graded and the estimated cost:',
       after:
         'The in-session judge asks at the end of a session and you can decline. `judge status` shows coverage and agreement. Only verdicts where two judges agree, one of them strong, count toward the “could have saved” figure.',
+      crossCheck:
+        'Turns that only the in-session judge graded can get a second opinion. `taksim judge cross-check export` writes a batch of past turns for a second Claude model to grade blind: the prompt and the final reply are redacted and cut to 3000 characters each, with no model name, earlier grade or path. You grade the batch in a fresh `claude -p` run and send the result back with `taksim judge cross-check submit`. Verdicts are accepted only for turns an export issued in the last 48 hours, and a Haiku or unknown grader is refused. The excerpts go to the Claude model you run, so use this on projects where that is fine. The in-session Stop hook also adds one such turn per pass (at most two) when it can; set `perPass` to 0 in `judge/cross.json` to turn that off. `judge status` shows how often the two judges name the same tier.',
     },
     budgets: {
       title: 'Budgets, the weekly digest and Slack alerts',
@@ -1804,11 +1806,15 @@ export const en = {
         'Cache costs are priced at the lifetime each write recorded (5 minutes or 1 hour), including fast mode. The cache report shows that mix and which pauses really cost a re-cache:',
     },
     insights: {
-      title: 'Subscription quota and spend anomalies',
+      title: 'Quota, anomalies and audits',
       quota:
         'On a Claude Pro or Max plan, or Codex signed in with ChatGPT, `insights quota` shows how much of your 5-hour and weekly limits you used, how often you hit them, and which repos, models and sessions used the most, from the readings the clients already report. Taksim never reads subscription credentials and never calls a vendor usage endpoint. The status line adds a quota segment once a window passes 75%.',
       anomalies:
         '`insights anomalies` compares recent spend with the 28 days before it and lists what stands out, such as spend spikes, runaway sessions, a jump in Opus or fast-mode share, or a switch from subscription to API-key billing, each with the reason and a suggested action. It stays quiet until there is enough history.',
+      advisor:
+        'Claude’s own routing makes choices Taksim does not. `taksim insights advisor` reports advisor cost and how often the judges say advice was needed, from the advisor runs Taksim has recorded. `taksim insights default-model` finds Opus main-thread turns and says who chose Opus: you, Taksim, the default, or `could not tell`. Imported history alone is always `could not tell`; Taksim does not guess. A share is shown only with at least 20 judged turns per scope and tier, and each line names its evidence tier, `CONSENSUS` or the weaker `PROVISIONAL_SINGLE_JUDGE`. Provisional findings are shown, never applied.',
+      proof:
+        '`taksim proof export` writes a redacted, hash-stamped bundle of what your local data shows, meant to be published on purpose. It holds counts, dollars and a fixed vocabulary only: no repository aliases or paths, ticket keys, session or request IDs, user or host names, model IDs or times finer than a day, and a privacy check refuses to write a bundle that would contain any. The same data and window give a byte-identical file. Nothing is sent anywhere. `--format md` writes a readable receipt that spells out every caveat.',
     },
     routing: {
       title: 'Routing on your own API key',
@@ -1821,6 +1827,14 @@ export const en = {
         'Claude Code’s `/advisor` works through Taksim. The advisor tool and its responses are forwarded unchanged, and routing never swaps your model into a pairing the API would refuse; the request keeps your model instead. Advisor tokens are recorded and priced as their own execution at the advisor model’s rates and show up in `taksim report task-cost`; a result Taksim cannot price is flagged, not counted as zero.',
       escalation:
         'When a downgraded turn shows signs of trouble (tool, test or build failures, a retry or correction, an upstream error), Taksim goes back to the model you asked for and stays there for that phase. A downgraded call that fails before any response reaches you is retried once on your model. `diagnostics downgrades` shows every downgrade and escalation. Claude subscription routing is a separate opt-in (`taksim routing subscription on`); ChatGPT plans are observed only. Routing also learns from outcomes. If you reply to a stepped-down turn with a correction such as “No, that’s wrong” (Turkish or English), Taksim moves back to the start model and records the rejection itself; a `taksim routing outcome record --session <id> --result rejected` report or an in-session judge verdict counts too. Taksim then keeps the start model the next time the same kind of task starts. It stores only a keyed task fingerprint, `taksim routing outcome list` shows what was recorded, and `taksim memory forget` clears it.',
+      claudeOnly:
+        'Taksim routes Claude models only. A Codex request (API key or ChatGPT sign-in) and a Gemini API-key request are forwarded unchanged, byte for byte, and only observed for usage and cost. `taksim codex` sessions keep their usage and cost reporting; they are just not switched between models.',
+      parity:
+        '`taksim routing prompt-parity on` is an opt-in setting, off by default. When Taksim may serve a session with a model other than the one it started on, it turns off the start model’s Claude Code prompt bundle (today, the Opus 5.5 bundle) through the undocumented `CLAUDE_CODE_MODEL_CAPABILITIES` variable. It works only on Claude Code versions Taksim has verified to read that variable, currently Claude Code 2.1.306; on any other or unknown version it sets nothing. Managed or remote Claude settings outrank it and are left alone. Your own value of the variable is merged, never replaced and never printed. `taksim routing prompt-parity status` says whether it is applied and, if not, why. Sessions that stay on Opus also lose the Opus bundle, and the effect on Opus quality is unmeasured.',
+      stickiness:
+        'Escalations now hold when the evidence is real. If the model was not enough (a failed verification, a repair, repeated invalid tool input, a blocking finding, or a failing test or build run after a fix attempt), the escalation lasts for the whole phase; before, it could end after one call. An escalation caused only by the prompt (complexity, qualified risk) serves a small side request on the stronger model once and leaves the main conversation on its model. Before Taksim steps down inside a phase, it compares the cost of rewriting the prompt cache on the cheaper model with the per-token difference over the next calls. It steps down only when the difference is at least 1.5 times that cost and the lease has served 3 calls (10 after an escalation on evidence). Otherwise it keeps the current model.',
+      frontier:
+        '`routing.max_frontier_share` caps how much of a month’s use may run on frontier models (every Opus and Fable model). It now counts Opus 5.5, which it did not before, and Haiku traffic no longer switches the cap off. The cap applies once the month has 10 tasks. A request that would take the share to the cap or above can end with `MAX_FRONTIER_SHARE_REACHED` and need your approval. If you set this option, review it: it may now stop requests that ran freely before.',
     },
     desktop: {
       title: 'Routing plain claude terminal sessions',
@@ -1850,7 +1864,7 @@ export const en = {
     commandLabel: 'Run',
     outputLabel: 'You should see',
     stillStuck:
-      'Still stuck? Run `taksim doctor` and send its output to [support](mailto:info@edgee.tech?subject=Taksim%20support).',
+      'Still stuck? Run `taksim doctor` and send its output to [support](mailto:info@edgee.tech?subject=Taksim%20support). If we ask for more, run `taksim diagnostics bundle`: it lists the files, then writes a redacted zip with no prompts, database files or credentials that you can attach.',
     toc: { label: 'On this page' },
     items: {
       gateway: {
@@ -1860,7 +1874,7 @@ export const en = {
         steps: [
           'Check whether it is running. A healthy gateway prints these lines; the port is 4027 unless you changed it.',
           'If it prints `Gateway: not running.`, or the process it names no longer exists (after a crash or a reboot, for example), start it again. The command is safe to repeat.',
-          'If it still does not come up, stop it and start it again. `taksim gateway stop` waits for an idle gateway; add `--force` to stop a busy one.',
+          'If it still does not come up, stop it and start it again. `taksim gateway stop` waits for an idle gateway; add `--force` to stop a busy one. `--force` is refused while a launched session still holds the gateway (exit code 3); `--force-sessions` stops it anyway.',
         ],
       },
       judge: {
