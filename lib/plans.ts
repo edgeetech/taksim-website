@@ -33,7 +33,7 @@ export const shippedIn: Record<EntitlementId, string | null> = {
   'budget.enforce': '0.3.17',
   'digest.delivery': '0.3.17',
   'report.summaryHtml': '0.3.17',
-  'audit.nativeRouter': null,
+  'audit.nativeRouter': '0.3.18',
   'support.priority': '0.3.17',
   'report.team': '0.3.17',
   'budget.team': '0.3.17',
@@ -60,8 +60,8 @@ export const freeFeatures = [
 // wherever it names the command. Set it to the first release version that contains the command; a test fails
 // if the synced release moves past the version the site was written for while this is still null.
 export const proofExport = {
-  shippedIn: null as string | null,
-  writtenForRelease: '0.3.17',
+  shippedIn: '0.3.18' as string | null,
+  writtenForRelease: '0.3.18',
 } as const;
 
 export type FreeFeatureId = (typeof freeFeatures)[number];

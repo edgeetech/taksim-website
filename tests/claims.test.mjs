@@ -92,6 +92,8 @@ test('ties no Codex launcher to the gateway or routing in the built pages', buil
       .replace(/<\/(?:p|li|pre|td|th|tr|summary|details|h\d|div|section|article)>/g, '.\n')
       .replace(/<[^>]+>/g, ' ');
     for (const sentence of text.split(/(?<=\.)\s|\n/)) {
+      // The changelog says the gateway message no longer points to a Codex launcher; that is a removal, not a claim.
+      if (/no longer tells you to relaunch with/.test(sentence)) continue;
       assert.doesNotMatch(sentence, codexRouting, `${file.path}: ${sentence.slice(0, 120)}`);
     }
   }
@@ -280,7 +282,7 @@ test('the plan table uses the product feature ids and keeps unshipped features o
   assert.deepEqual(Object.keys(shippedIn), ids);
   assert.deepEqual(
     ids.filter((id) => shippedIn[id] === null),
-    ['audit.nativeRouter', 'policy.org'],
+    ['policy.org'],
   );
   const pending = new Set(ids.filter((id) => !isShipped(id)));
   const enCopy = await source('lib/i18n/en.ts');
@@ -293,11 +295,13 @@ test('the plan table uses the product feature ids and keeps unshipped features o
     assert.ok(dict.plans.includedNow && dict.plans.comingLabel);
   }
   // The unshipped features are exactly the ones whose copy sits in "coming", in both languages.
-  assert.match(en.plans.pro.coming[0], /Native-router audit details/);
+  assert.equal(en.plans.pro.coming.length, 0);
+  assert.match(en.plans.pro.features.join('\n'), /Native-router audit details/);
   assert.match(en.plans.team.coming[0], /^Org policy/);
-  assert.match(tr.plans.pro.coming[0], /native yönlendirici denetim/);
+  assert.equal(tr.plans.pro.coming.length, 0);
+  assert.match(tr.plans.pro.features.join('\n'), /native yönlendirici denetim/);
   assert.match(tr.plans.team.coming[0], /^Kurum politikası/);
-  for (const text of [...en.plans.pro.features, ...en.plans.team.features]) assert.doesNotMatch(text, /Native-router audit|^Org policy/);
+  for (const text of [...en.plans.pro.features, ...en.plans.team.features]) assert.doesNotMatch(text, /^Org policy/);
   assert.equal(en.plans.comingLabel, 'Coming (not billed until shipped)');
   assert.ok(enCopy.includes("includedNow: 'Included now'"));
 });

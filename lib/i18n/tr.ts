@@ -92,7 +92,7 @@ export const tr: Dictionary = {
       clients: {
         title: 'İstemciler',
         description:
-          'Taksim her kodlama istemcisiyle ne yapar: Claude Code, Codex, GitHub Copilot, Devin, OpenCode, Kilo Code, Pi ve diğerleri için gözlem, değerlendirme, gateway ve model yönlendirme.',
+          'Taksim her kodlama istemcisiyle ne yapar: Claude Code, Codex, GitHub Copilot, Devin, OpenCode, Kilo Code, Pi ve diğerleri için gözlem, değerlendirme ve gateway; model yönlendirme yalnızca Claude modelleri için.',
       },
       benchmark: {
         title: 'Pilot benchmark',
@@ -394,7 +394,7 @@ export const tr: Dictionary = {
     },
     clients: {
       title: 'Taksim her istemciyle ne yapar',
-      body: 'Taksim her sağlayıcının koşulları dahilinde çalışır. Claude subscription’ındaki Claude Code, yalnızca-Claude yönlendirmesini siz açmadıkça yalnızca gözlemlenir, ChatGPT planındaki Codex ise her zaman yalnızca gözlemlenir; diğer tüm canlı yönlendirme kendi API key’inize faturalanan trafikle sınırlıdır.',
+      body: 'Taksim her sağlayıcının koşulları dahilinde çalışır. Taksim yalnızca Claude modellerini yönlendirir: Codex ve Gemini istekleri değiştirilmeden iletilir ve yalnızca gözlemlenir. Claude subscription’ındaki Claude Code, yalnızca-Claude yönlendirmesini siz açmadıkça yalnızca gözlemlenir; diğer tüm canlı yönlendirme kendi API key’inize faturalanan trafikle sınırlıdır.',
       listLabel: 'Desteklenen kodlama istemcileri',
       more: 'Tüm istemci tablosunu görün',
     },
@@ -1234,7 +1234,7 @@ export const tr: Dictionary = {
         access: 'OpenAI API key',
         observe: 'CODEX_HOME oturumlarından geçmiş içe aktarma.',
         judge: '',
-        gateway: 'İsteğe bağlı: Taksim’in API key ile başlattığı Codex oturumlarında yerel gateway istekleri OpenAI’a iletir.',
+        gateway: 'İsteğe bağlı: Taksim’in API key ile başlattığı Codex oturumlarında yerel gateway istekleri OpenAI’a değiştirmeden iletir ve kullanım ile maliyeti gözlemler.',
         context: '',
         route: 'Gözlemlenir; yönlendirilmez. Taksim yalnızca Claude modelleri arasında yönlendirme yapar.',
       },
@@ -1638,7 +1638,7 @@ export const tr: Dictionary = {
     update: {
       title: 'Güncelleme',
       body: 'Yeni bir sürüm çıktığında `taksim doctor` size söyler. Kontrol etmek ve ardından kurmak için:',
-      after: 'Güncelleme verilerinizi ve ayarlarınızı korur. Kurulum satırını yeniden çalıştırmak da aynı işi yapar. `taksim update --apply`, indirilen kurulum betiğini sürümün `SHA256SUMS.txt` dosyasıyla karşılaştırır; uyuşmazlık veya eksik kayıt varsa reddeder. İmzalı bir kurulum betiği yalnızca Taksim’in içine gömülü bir yayıncıdan kabul edilir; imzasız olan için yine `--allow-unsigned` gerekir.',
+      after: 'Güncelleme verilerinizi ve ayarlarınızı korur. Kurulum satırını yeniden çalıştırmak da aynı işi yapar. `taksim update --apply`, indirilen kurulum betiğini sürümün `SHA256SUMS.txt` dosyasıyla karşılaştırır; uyuşmazlık veya eksik kayıt varsa reddeder. İmzalı bir kurulum betiği yalnızca Taksim’in içine gömülü bir yayıncıdan kabul edilir; imzasız olan için yine `--allow-unsigned` gerekir. Geri dönmek için `taksim update --rollback`, indirme yapmadan önceki sürüme geçer. Eski sürüm veritabanınızı okuyamıyorsa reddeder.',
     },
     uninstall: {
       title: 'Kaldırma',
@@ -1789,6 +1789,8 @@ export const tr: Dictionary = {
         'İçe aktardığınız geçmişi seçtiğiniz bir judge ile (yerel bir Ollama modeli veya kendi Anthropic key’iniz) değerlendirmek için, kaç turun değerlendirileceğini ve tahmini maliyeti gösteren bir deneme çalıştırmasıyla başlayın:',
       after:
         'Oturum içi judge, oturumun sonunda sorar ve reddedebilirsiniz. `judge status` kapsamı ve uzlaşmayı gösterir. “Tasarruf edilebilirdi” rakamına yalnızca, biri güçlü olmak üzere iki judge’ın uzlaştığı kararlar sayılır.',
+      crossCheck:
+        'Yalnızca oturum içi judge’ın değerlendirdiği turlar ikinci bir görüş alabilir. `taksim judge cross-check export`, ikinci bir Claude modelinin kör olarak değerlendirmesi için geçmiş turlardan bir grup yazar: istem ve son yanıt temizlenir ve her biri 3000 karakterle kesilir; model adı, önceki not ve yol yer almaz. Grubu yeni bir `claude -p` çalıştırmasında değerlendirir, sonucu `taksim judge cross-check submit` ile geri gönderirsiniz. Kararlar yalnızca bir dışa aktarmanın son 48 saatte verdiği turlar için kabul edilir; Haiku veya bilinmeyen bir değerlendirici reddedilir. Alıntılar sizin çalıştırdığınız Claude modeline gider; bunu yalnızca buna uygun projelerde kullanın. Oturum içi Stop hook’u da mümkün olduğunda her geçişe böyle bir tur ekler (en çok iki); kapatmak için `judge/cross.json` içinde `perPass` değerini 0 yapın. `judge status`, iki judge’ın aynı katmanı ne sıklıkla seçtiğini gösterir.',
     },
     budgets: {
       title: 'Bütçeler, haftalık digest ve Slack uyarıları',
@@ -1806,11 +1808,15 @@ export const tr: Dictionary = {
         'Cache maliyetleri, her yazmanın kaydettiği ömürle (5 dakika veya 1 saat), fast mode dahil fiyatlanır. Cache raporu bu dağılımı ve hangi duraklamaların gerçekten yeniden cache’lemeye mal olduğunu gösterir:',
     },
     insights: {
-      title: 'Subscription kotası ve harcama anomalileri',
+      title: 'Kota, anomaliler ve denetimler',
       quota:
         'Claude Pro veya Max planında ya da ChatGPT ile giriş yapılmış Codex’te `insights quota`, 5 saatlik ve haftalık limitlerinizin ne kadarını kullandığınızı, bunlara ne sıklıkla ulaştığınızı ve en çok hangi repo, model ve oturumların kullandığını, istemcilerin zaten bildirdiği okumalardan gösterir. Taksim subscription kimlik bilgilerini asla okumaz ve hiçbir sağlayıcı kullanım uç noktasını çağırmaz. Bir pencere %75’i geçtiğinde status line’a bir kota bölümü eklenir.',
       anomalies:
         '`insights anomalies`, son harcamayı ondan önceki 28 günle karşılaştırır ve öne çıkanları listeler: harcama sıçramaları, kontrolden çıkan oturumlar, Opus veya fast mode payındaki artış ya da subscription’dan API key faturalamasına geçiş gibi; her biri nedeni ve önerilen bir eylemle birlikte. Yeterli geçmiş birikene kadar sessiz kalır.',
+      advisor:
+        'Claude’un kendi yönlendirmesi, Taksim’in vermediği seçimler yapar. `taksim insights advisor`, Taksim’in kaydettiği advisor çalıştırmalarından advisor maliyetini ve judge’ların tavsiyenin gerekli olduğunu söyleme sıklığını raporlar. `taksim insights default-model`, Opus ana konuşma turlarını bulur ve Opus’u kimin seçtiğini söyler: siz, Taksim, varsayılan ya da `could not tell`. Yalnızca içe aktarılan geçmiş her zaman `could not tell` olur; Taksim tahmin yürütmez. Bir oran, kapsam ve katman başına en az 20 değerlendirilmiş tur varsa gösterilir ve her satır kanıt katmanını belirtir: `CONSENSUS` veya daha zayıf olan `PROVISIONAL_SINGLE_JUDGE`. Geçici bulgular gösterilir, hiçbir zaman uygulanmaz.',
+      proof:
+        '`taksim proof export`, yerel verilerinizin gösterdiklerinden temizlenmiş ve hash damgalı bir paket yazar; bilerek yayımlamak içindir. Yalnızca sayılar, dolar tutarları ve sabit bir sözcük dağarcığı içerir: repo takma adı veya yolu, ticket anahtarı, oturum veya istek kimliği, kullanıcı veya makine adı, model kimliği ya da günden ince zaman yoktur; bunlardan birini içerecek bir paketin yazılmasını gizlilik denetimi reddeder. Aynı veri ve aynı aralık, bayt bayt aynı dosyayı verir. Hiçbir yere bir şey gönderilmez. `--format md`, her uyarıyı açıkça yazan okunabilir bir makbuz üretir.',
     },
     routing: {
       title: 'Kendi API key’inizle yönlendirme',
@@ -1823,6 +1829,14 @@ export const tr: Dictionary = {
         'Claude Code’un `/advisor` özelliği Taksim üzerinden çalışır. Advisor aracı ve yanıtları değiştirilmeden iletilir; yönlendirme modelinizi API’nin reddedeceği bir eşleşmeye asla çevirmez, bunun yerine istek sizin modelinizde kalır. Advisor token’ları kendi çalıştırması olarak kaydedilir, advisor modelinin fiyatıyla hesaplanır ve `taksim report task-cost` çıktısında görünür; Taksim’in fiyatlayamadığı bir sonuç sıfır sayılmaz, işaretlenir.',
       escalation:
         'Düşürülmüş bir turda sorun işaretleri görüldüğünde (tool, test veya build hataları, yeniden deneme ya da düzeltme, upstream hatası), Taksim istediğiniz modele geri döner ve o aşama boyunca orada kalır. Size herhangi bir yanıt ulaşmadan başarısız olan düşürülmüş bir çağrı, sizin modelinizle bir kez yeniden denenir. `diagnostics downgrades` her düşürmeyi ve escalation’ı gösterir. Claude subscription yönlendirmesi ayrı bir isteğe bağlı ayardır (`taksim routing subscription on`); ChatGPT planları yalnızca gözlemlenir. Yönlendirme sonuçlardan da öğrenir. Aşağı geçilen bir tura “Hayır, yanlış olmuş” gibi bir düzeltmeyle cevap verirseniz (Türkçe ya da İngilizce), Taksim başlangıç modeline döner ve reddi kendisi kaydeder; `taksim routing outcome record --session <id> --result rejected` ile bildirim ya da oturum içi bir judge kararı da sayılır. Ardından Taksim aynı türden bir görev bir sonraki sefer başladığında başlangıç modelini korur. Yalnızca anahtarlı bir görev parmak izi saklanır, `taksim routing outcome list` kaydedilenleri gösterir ve `taksim memory forget` bunu temizler.',
+      claudeOnly:
+        'Taksim yalnızca Claude modellerini yönlendirir. Bir Codex isteği (API key veya ChatGPT girişi) ve bir Gemini API key isteği, değiştirilmeden, bayt bayt aynı biçimde iletilir ve yalnızca kullanım ve maliyet için gözlemlenir. `taksim codex` oturumları kullanım ve maliyet raporlamasını korur; yalnızca modeller arasında değiştirilmezler.',
+      parity:
+        '`taksim routing prompt-parity on` isteğe bağlı bir ayardır ve varsayılan olarak kapalıdır. Taksim bir oturumu başladığı modelden başka bir modelle sunabildiğinde, başlangıç modelinin Claude Code istem paketini (bugün Opus 5.5 paketi) belgelenmemiş `CLAUDE_CODE_MODEL_CAPABILITIES` değişkeniyle kapatır. Yalnızca Taksim’in bu değişkeni okuduğunu doğruladığı Claude Code sürümlerinde çalışır, şu an Claude Code 2.1.306; başka veya bilinmeyen bir sürümde hiçbir şey ayarlamaz. Yönetilen veya uzak Claude ayarları ondan üstündür ve dokunulmaz. Değişkenin sizdeki değeri birleştirilir, hiçbir zaman değiştirilmez ve yazdırılmaz. `taksim routing prompt-parity status`, uygulanıp uygulanmadığını ve uygulanmadıysa nedenini söyler. Opus’ta kalan oturumlar da Opus paketini kaybeder; bunun Opus kalitesine etkisi ölçülmemiştir.',
+      stickiness:
+        'Gerçek kanıt olduğunda yükseltmeler artık kalıcıdır. Model yetmediyse (başarısız doğrulama, onarım, tekrarlanan geçersiz tool girdisi, engelleyici bir bulgu ya da bir düzeltme denemesinden sonra başarısız bir test veya build çalıştırması), yükseltme tüm aşama boyunca sürer; önceden tek çağrıdan sonra bitebiliyordu. Yalnızca isteğin kendisinden doğan bir yükseltme (karmaşıklık, nitelikli risk) küçük bir yan isteği bir kez daha güçlü modelde sunar ve ana konuşmayı kendi modelinde bırakır. Taksim bir aşama içinde alta inmeden önce, ucuz modelde istem cache’ini yeniden yazmanın maliyetini sonraki çağrılardaki token başına farkla karşılaştırır. Yalnızca fark bu maliyetin en az 1.5 katıysa ve lease 3 çağrı sunduysa alta iner (kanıta dayalı bir yükseltmeden sonra 10). Aksi halde mevcut modelde kalır.',
+      frontier:
+        '`routing.max_frontier_share`, bir ayın kullanımının ne kadarının frontier modellerde (her Opus ve Fable modeli) çalışabileceğini sınırlar. Artık daha önce saymadığı Opus 5.5’i sayar ve Haiku trafiği artık sınırı devre dışı bırakmaz. Sınır, ayda 10 görev olunca uygulanır. Payı sınıra veya üstüne çıkaracak bir istek `MAX_FRONTIER_SHARE_REACHED` ile bitebilir ve onayınızı gerektirebilir. Bu ayarı kullanıyorsanız gözden geçirin: daha önce serbestçe çalışan istekleri artık durdurabilir.',
     },
     desktop: {
       title: 'Düz claude terminal oturumlarını yönlendirme',
@@ -1852,7 +1866,7 @@ export const tr: Dictionary = {
     commandLabel: 'Çalıştırın',
     outputLabel: 'Görmeniz gereken',
     stillStuck:
-      'Hâlâ çözülmedi mi? `taksim doctor` komutunu çalıştırıp çıktısını [destek](mailto:info@edgee.tech?subject=Taksim%20support) adresine gönderin.',
+      'Hâlâ çözülmedi mi? `taksim doctor` komutunu çalıştırıp çıktısını [destek](mailto:info@edgee.tech?subject=Taksim%20support) adresine gönderin. Daha fazlasını istersek `taksim diagnostics bundle` çalıştırın: dosyaları listeler, sonra istem, veritabanı dosyası veya kimlik bilgisi içermeyen, eklemeniz için temizlenmiş bir zip yazar.',
     toc: { label: 'Bu sayfada' },
     items: {
       gateway: {
@@ -1862,7 +1876,7 @@ export const tr: Dictionary = {
         steps: [
           'Çalışıp çalışmadığına bakın. Sağlıklı bir gateway şu satırları yazar; değiştirmediyseniz port 4027’dir.',
           '`Gateway: not running.` yazıyorsa ya da adı geçen süreç artık yoksa (örneğin bir çökme ya da yeniden başlatmadan sonra) yeniden başlatın. Komutu tekrar çalıştırmak güvenlidir.',
-          'Yine de açılmıyorsa durdurup yeniden başlatın. `taksim gateway stop` boşta olan gateway’i bekler; meşgul olanı durdurmak için `--force` ekleyin.',
+          'Yine de açılmıyorsa durdurup yeniden başlatın. `taksim gateway stop` boşta olan gateway’i bekler; meşgul olanı durdurmak için `--force` ekleyin. Başlatılmış bir oturum gateway’i hâlâ tutuyorsa `--force` reddedilir (çıkış kodu 3); `--force-sessions` yine de durdurur.',
         ],
       },
       judge: {

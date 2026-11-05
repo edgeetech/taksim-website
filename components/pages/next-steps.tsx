@@ -35,6 +35,16 @@ taksim insights anomalies --since 7d`,
 taksim routing auto status`,
   mode: `taksim mode economy
 taksim mode`,
+  crossCheck: `taksim judge cross-check export --count 20 --project <repo-alias>
+taksim judge cross-check submit --grader-model <model> --stdin
+taksim judge status`,
+  advisorAudit: `taksim insights advisor --since 7d
+taksim insights default-model --since 7d`,
+  proofExport: `taksim proof export --since 30d --out <path>
+taksim proof export --format md`,
+  promptParity: `taksim routing prompt-parity on
+taksim routing prompt-parity status
+taksim routing prompt-parity off`,
   downgrades: `taksim diagnostics downgrades`,
   desktop: `taksim desktop on
 taksim desktop status
@@ -79,6 +89,8 @@ export function NextStepsPage({ locale }: { locale: Locale }) {
           <p>{rich(t.judging.history)}</p>
           <Commands text={commands.judgeHistory} />
           <p>{rich(t.judging.after)}</p>
+          <p>{rich(t.judging.crossCheck)}</p>
+          <Commands text={commands.crossCheck} />
         </section>
 
         <section id="budgets">
@@ -107,6 +119,10 @@ export function NextStepsPage({ locale }: { locale: Locale }) {
           <Commands text={commands.quota} />
           <p>{rich(t.insights.anomalies)}</p>
           <Commands text={commands.anomalies} />
+          <p>{rich(t.insights.advisor)}</p>
+          <Commands text={commands.advisorAudit} />
+          <p>{rich(t.insights.proof)}</p>
+          <Commands text={commands.proofExport} />
         </section>
 
         <section id="routing">
@@ -117,9 +133,14 @@ export function NextStepsPage({ locale }: { locale: Locale }) {
           <Commands text={commands.routingAuto} />
           <p>{rich(t.routing.modes)}</p>
           <Commands text={commands.mode} />
+          <p>{rich(t.routing.claudeOnly)}</p>
+          <p>{rich(t.routing.parity)}</p>
+          <Commands text={commands.promptParity} />
           <p>{rich(t.routing.advisor)}</p>
           <p>{rich(t.routing.escalation)}</p>
+          <p>{rich(t.routing.stickiness)}</p>
           <Commands text={commands.downgrades} />
+          <p>{rich(t.routing.frontier)}</p>
         </section>
 
         <section id="desktop">

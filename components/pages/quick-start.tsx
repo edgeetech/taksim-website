@@ -10,7 +10,8 @@ import { ManualInstall } from '@/components/manual-install';
 import { TurnOnSavings } from '@/components/turn-on-savings';
 
 const updateCommands = `taksim update
-taksim update --apply${release.unsignedInstall ? ' --allow-unsigned' : ''}`;
+taksim update --apply${release.unsignedInstall ? ' --allow-unsigned' : ''}
+taksim update --rollback`;
 
 export function QuickStartPage({ locale }: { locale: Locale }) {
   const t = getDictionary(locale).quickStart;
