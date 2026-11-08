@@ -1,5 +1,4 @@
 // English only for now; locale routes show UntranslatedNote above it.
-import { foundingOffer, prices } from '@/lib/plans';
 
 export function TermsPage() {
   return (
@@ -9,8 +8,8 @@ export function TermsPage() {
           <p className="eyebrow">Terms</p>
           <h1>Clear boundaries for Taksim use.</h1>
           <p>
-            These preview terms capture the intended product and pricing
-            boundaries. Final production terms require legal review.
+            These preview terms described the intended product boundaries.
+            Taksim is now closed as a commercial product.
           </p>
         </div>
       </section>
@@ -36,19 +35,10 @@ export function TermsPage() {
           </p>
           <h2>3. Paid plans</h2>
           <p>
-            Routing and the proof export are part of the free Developer plan.
-            Pro (${prices.pro} per seat per month) adds enforcement and automation for
-            one developer: budget caps that step down to a cheaper Claude
-            model, digest delivery, the HTML executive summary and priority
-            support. Team (${prices.team} per seat per month,{' '}
-            {prices.teamMinSeats}-seat minimum) adds the team roll-up across
-            developer exports and team budgets. Native-router audit details
-            and org policy are coming and are not billed until they ship. Paid
-            plans are not on sale yet: billing opens when checkout is live, and
-            reserving a seat costs nothing. The first {foundingOffer.seats} Pro
-            seats get {foundingOffer.discountPercent}% off for the first{' '}
-            {foundingOffer.months} months; Team has no founding discount. Plan
-            details are published on the pricing page.
+            Taksim is closed as a commercial product. No paid plan was ever on
+            sale, no payment was ever taken, and there are no subscriptions to
+            cancel. Past releases stay available for reference only; they are
+            unsigned and unsupported.
           </p>
           <h2>4. Customer responsibilities</h2>
           <p>

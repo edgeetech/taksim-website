@@ -180,20 +180,18 @@ test('/proof is a localized route with metadata, nav, footer, a home link, a com
   assert.equal(chrome.match(/href\('\/proof'\)/g).length, 3, 'header, mobile menu and footer');
   assert.match(await source('components/pilot-benchmark.tsx'), /localePath\(locale, '\/proof'\)/);
   assert.match(await source('components/pages/compare.tsx'), /href\('\/proof'\)/);
-  const home = await source('components/pages/home.tsx');
-  assert.match(home, /route: '\/proof\/'/);
   const { en } = await import('../lib/i18n/en.ts');
+  assert.ok(en.closing.stays.some((item) => item.route === '/proof/'), 'the closing note links /proof');
   const { tr } = await import('../lib/i18n/tr.ts');
   assert.equal(en.proof.title, 'Proof: measured, not promised');
   assert.equal(en.proof.headline, 'One developer, one machine, 30 days, Claude only');
   assert.ok(en.meta.pages.proof.title && tr.meta.pages.proof.title);
 });
 
-test('the llms file points at /proof and says the proof export is not in the current release', async () => {
+test('the llms file points at /proof', async () => {
   const template = await source('release/llms.template.txt');
   assert.match(template, /https:\/\/taksim\.edgee\.tech\/proof\r?\n/);
   assert.match(template, /7\.6 s native cold launch/);
-  assert.match(template, /`taksim proof export`, in development and not in the current release/);
 });
 
 test('the built /proof/ pages state the honest findings and carry no private pattern', buildOptions, async () => {

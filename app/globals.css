@@ -3533,3 +3533,69 @@ textarea::placeholder {
 .changelog-items details p {
   font-size: 0.92rem;
 }
+
+/* Closing notice (Taksim is closed as a commercial product). */
+.closing-banner {
+  border-bottom: 1px solid var(--line);
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+
+.closing-banner p {
+  margin: 0 auto;
+  padding-block: 0.7rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.closing-banner a {
+  color: var(--accent);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.closing-note {
+  padding-block: clamp(3rem, 8vw, 6rem);
+}
+
+.closing-note h1 {
+  margin: 0.4rem 0 1.4rem;
+}
+
+.closing-note p {
+  max-width: 68ch;
+  margin: 0 0 1rem;
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+
+.closing-note h2 {
+  margin-top: 2.6rem;
+  font-size: 1.25rem;
+}
+
+.closing-signature {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.closing-stays {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0 0 1.4rem;
+  padding: 0;
+  list-style: none;
+}
+
+.closing-stays span {
+  color: var(--muted);
+}
+
+.closing-releases {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.docs-closed {
+  margin-bottom: 1.5rem;
+}

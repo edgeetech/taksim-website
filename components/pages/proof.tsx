@@ -9,7 +9,6 @@ import {
   report,
 } from '@/lib/benchmark/report';
 import { getDictionary, localePath, type Locale } from '@/lib/i18n';
-import { funnel } from '@/lib/funnel';
 import { proofExport } from '@/lib/plans';
 import {
   FAMILIES,
@@ -702,14 +701,7 @@ export function ProofPage({ locale }: { locale: Locale }) {
             <h2 id="proof-cta">{t.cta.title}</h2>
             <p>{t.cta.body}</p>
             <div className="button-row">
-              <Link
-                className="btn btn-primary"
-                href={href('/docs/quick-start')}
-                data-funnel={funnel.getFree}
-              >
-                {t.cta.install}
-              </Link>
-              <Link className="btn btn-ghost" href={href('/benchmark')}>
+              <Link className="btn btn-primary" href={href('/benchmark')}>
                 {t.cta.benchmark}
               </Link>
             </div>

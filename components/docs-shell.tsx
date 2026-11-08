@@ -2,7 +2,8 @@ import Link from 'next/link';
 import { getDictionary, localePath, type Locale } from '@/lib/i18n';
 
 export function DocsShell({ locale, children }: { locale: Locale; children: React.ReactNode }) {
-  const t = getDictionary(locale).docsNav;
+  const dict = getDictionary(locale);
+  const t = dict.docsNav;
   const href = (path: string) => localePath(locale, path);
   return (
     <div className="docs-layout">
@@ -27,7 +28,12 @@ export function DocsShell({ locale, children }: { locale: Locale; children: Reac
           ))}
         </nav>
       </aside>
-      <div className="docs-main">{children}</div>
+      <div className="docs-main">
+        <p className="notice docs-closed" role="note">
+          {dict.closing.releases}
+        </p>
+        {children}
+      </div>
     </div>
   );
 }

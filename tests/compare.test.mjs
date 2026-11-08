@@ -32,13 +32,14 @@ test('the hero no longer shows the illustrative ledger numbers', async () => {
   }
 });
 
-test('hero chips link only to pages that exist, so /proof appears once its route does', async () => {
+test('the home page is the closing note, which links to the pages that stay online', async () => {
   const { localizedRoutes } = await import('../lib/i18n/config.ts');
+  const { en } = await import('../lib/i18n/en.ts');
   const home = await source('components/pages/home.tsx');
-  assert.match(home, /\.filter\(\(chip\) => \(localizedRoutes as readonly string\[\]\)\.includes\(chip\.route\)\)/);
-  assert.match(home, /route: '\/benchmark\/'/);
-  assert.match(home, /route: '\/proof\/'/);
-  assert.ok(localizedRoutes.includes('/benchmark/'));
+  assert.match(home, /<ClosingNote locale=\{locale\} \/>/);
+  const routes = en.closing.stays.map((item) => item.route);
+  assert.deepEqual(routes, ['/benchmark/', '/proof/', '/docs/', '/changelog/']);
+  for (const route of routes) assert.ok(localizedRoutes.includes(route), route);
 });
 
 test('publishes /compare in both languages, the sitemap and the navigation', async () => {
@@ -95,8 +96,6 @@ test('/compare states where Taksim is weaker, including that routing was not che
   assert.match(en.compare.limits.items.join(' '), /unsigned/);
   assert.match(en.compare.limits.items.join(' '), /not been tested on Mac hardware/);
   assert.equal(tr.compare.limits.items.length, en.compare.limits.items.length);
-  assert.match(en.home.hero.chips.benchmark, /not cheaper than always-Sonnet/);
-  assert.match(tr.home.hero.chips.benchmark, /her zaman Sonnet.ten daha ucuz değil/);
 });
 
 test('competitor facts stay within what the sources say', async () => {
