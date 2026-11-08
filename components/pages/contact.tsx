@@ -1,5 +1,6 @@
-import { ContactForm } from '@/components/contact-form';
 import { getDictionary, type Locale } from '@/lib/i18n';
+
+const supportEmail = 'info@edgee.tech';
 
 export function ContactPage({ locale }: { locale: Locale }) {
   const t = getDictionary(locale).contact;
@@ -13,20 +14,11 @@ export function ContactPage({ locale }: { locale: Locale }) {
         </div>
       </section>
       <section className="content-section">
-        <div className="shell contact-layout">
-          <ContactForm locale={locale} copy={t.form} />
-          <aside>
-            <p className="eyebrow">{t.next.title}</p>
-            <ol>
-              {t.next.steps.map((step, index) => (
-                <li key={step}>
-                  <span>{String(index + 1).padStart(2, '0')}</span>
-                  <strong>{step}</strong>
-                </li>
-              ))}
-            </ol>
-            <p>{t.next.warning}</p>
-          </aside>
+        <div className="shell narrow prose">
+          <p>
+            {t.write} <a href={`mailto:${supportEmail}`}>{supportEmail}</a>
+          </p>
+          <p>{t.warning}</p>
         </div>
       </section>
     </main>

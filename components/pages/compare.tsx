@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { Rich } from '@/components/rich';
 import { copyTokens, fillKnown, report } from '@/lib/benchmark/report';
 import { compareAsOf, compareColumns, compareRowIds, compareSources, type CompetitorColumn } from '@/lib/compare';
-import { funnel } from '@/lib/funnel';
 import { getDictionary, localePath, type Locale } from '@/lib/i18n';
 
 export function ComparePage({ locale }: { locale: Locale }) {
@@ -101,10 +100,7 @@ export function ComparePage({ locale }: { locale: Locale }) {
             <h2>{t.cta.title}</h2>
             <p>{t.cta.body}</p>
             <div className="button-row">
-              <Link className="btn btn-primary" href={href('/docs/quick-start')} data-funnel={funnel.getFree}>
-                {t.cta.install}
-              </Link>
-              <Link className="btn btn-ghost" href={href('/benchmark')}>
+              <Link className="btn btn-primary" href={href('/benchmark')}>
                 {t.cta.benchmark}
               </Link>
               <Link className="btn btn-ghost" href={href('/proof')}>

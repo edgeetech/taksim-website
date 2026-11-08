@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { getDictionary, localePath, type Locale } from '@/lib/i18n';
-import { funnel } from '@/lib/funnel';
 
 const tierMix = [
   { key: 'tierTop', share: 70, tone: 'top' },
@@ -28,9 +27,6 @@ export function HowItWorksPage({ locale }: { locale: Locale }) {
           <div className="how-intro">
             <h2 id="first-value-title">{t.firstValue.title}</h2>
             <p>{t.firstValue.body}</p>
-            <Link className="btn btn-primary" href={href('/docs/quick-start')} data-funnel={funnel.getFree}>
-              {dict.chrome.install}
-            </Link>
           </div>
           <ol className="pipeline">
             {t.firstValue.steps.map((step, index) => (

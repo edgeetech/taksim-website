@@ -1,5 +1,6 @@
 import { Bricolage_Grotesque, Geist, Geist_Mono } from 'next/font/google';
 import { themePreferenceScript } from '@/lib/theme';
+import { ClosingBanner } from '@/components/closing';
 import { Footer, Header } from '@/components/site-chrome';
 import { getDictionary, localePreferenceScript, type Locale } from '@/lib/i18n';
 
@@ -34,6 +35,7 @@ export function RootShell({
           {getDictionary(locale).chrome.skipToContent}
         </a>
         <Header locale={locale} />
+        <ClosingBanner locale={locale} />
         <div id="main-content">{children}</div>
         <Footer locale={locale} />
       </body>

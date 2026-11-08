@@ -65,10 +65,6 @@ test('tells the local-paths and Codex truths in the copy', async () => {
   assert.doesNotMatch(en, /Credentials and local paths/);
   assert.doesNotMatch(en + llms, /no prompts, responses, code, paths or credentials/);
   assert.doesNotMatch(tr, /yerel dosya yolları|dosya yolu ya da kimlik/);
-  assert.match(
-    en,
-    /Never stored: prompts, responses, source code or credentials\. Local repository folders stay in your local database only, to attribute cost, and never appear in exports\./,
-  );
   assert.match(en, /If the gateway is unavailable when a session starts, the session goes straight to Anthropic\./);
   assert.doesNotMatch(en, /sessions go straight to Anthropic \(fail open\)/);
   assert.doesNotMatch(en + tr + llms, /taksim claude or taksim codex|taksim claude veya taksim codex/);
@@ -210,19 +206,26 @@ test('never limits live routing to the API key without naming the Claude-login o
   assert.doesNotMatch(enDict.docs.how.calloutBody, /limited to traffic billed/);
 });
 
-test('prices plans per seat and never says "active developer"', async () => {
+test('names no price, plan, checkout or founding offer now that Taksim is closed', async () => {
   for (const path of ['lib/i18n/en.ts', 'lib/i18n/tr.ts', 'components/pages/terms.tsx', 'release/llms.template.txt']) {
-    assert.doesNotMatch(await source(path), /active developer|aktif geliştirici/i, path);
+    const text = await source(path);
+    assert.doesNotMatch(text, /active developer|aktif geliştirici/i, path);
+    assert.doesNotMatch(text, /\$\d+ per seat|per seat per month|koltuk başına aylık|founding seat|founding discount|kurucu müşteri|checkout is live/i, path);
   }
   const { en } = await import('../lib/i18n/en.ts');
-  assert.equal(en.plans.pro.per, 'per seat per month');
-  assert.equal(en.plans.team.per, 'per seat per month');
-  assert.equal(en.pricing.faq.some((item) => /active developer/i.test(item.q)), false);
   const { tr } = await import('../lib/i18n/tr.ts');
-  assert.match(en.meta.pages.pricing.description, /Pro: \$12 per seat per month/);
-  assert.match(tr.meta.pages.pricing.description, /Pro: koltuk başına aylık \$12/);
-  assert.match(en.compare.rows.price.cells.taksim, /Pro is \$12 per seat a month/);
-  assert.match(tr.compare.rows.price.cells.taksim, /Pro koltuk başına aylık \$12/);
+  for (const dict of [en, tr]) {
+    assert.equal('plans' in dict, false);
+    assert.equal('pricing' in dict, false);
+    assert.equal('form' in dict.contact, false);
+  }
+  const plans = await import('../lib/plans.ts');
+  assert.equal('prices' in plans, false);
+  assert.equal('foundingOffer' in plans, false);
+  assert.match(en.compare.rows.price.cells.taksim, /^Closed as a commercial product/);
+  assert.match(tr.compare.rows.price.cells.taksim, /^Ticari ürün olarak kapandı/);
+  assert.match(en.meta.pages.pricing.description, /no plans, prices or sales/);
+  assert.doesNotMatch(await source('components/json-ld.tsx'), /Offer|price/);
 });
 
 test('"API key only" routing copy is left only on the Codex row, where ChatGPT sign-in is observed', async () => {
@@ -267,10 +270,8 @@ test('the compatibility table date is the synced release date, not a hand-writte
   assert.ok(desktop, 'the Code-tab desktop app stays not routable');
 });
 
-test('the plan table uses the product feature ids and keeps unshipped features out of "Included now"', async () => {
-  const { entitlements, isShipped, shippedIn } = await import('../lib/plans.ts');
-  const { en } = await import('../lib/i18n/en.ts');
-  const { tr } = await import('../lib/i18n/tr.ts');
+test('the entitlement ids still mirror the product feature ids', async () => {
+  const { entitlements, shippedIn } = await import('../lib/plans.ts');
   // Exactly the ids in LicenseFeatures.cs (origin/claude/license-seam), grouped by plan.
   assert.deepEqual(entitlements.pro, ['budget.enforce', 'digest.delivery', 'report.summaryHtml', 'audit.nativeRouter', 'support.priority']);
   assert.deepEqual(entitlements.team, ['report.team', 'budget.team', 'policy.org']);
@@ -280,36 +281,6 @@ test('the plan table uses the product feature ids and keeps unshipped features o
   assert.deepEqual(mirror.features.map((feature) => feature.id), ids, 'data/entitlements.json lists ids the site does not know');
   for (const feature of mirror.features) assert.equal(entitlements[feature.plan].includes(feature.id), true, `${feature.id} plan`);
   assert.deepEqual(Object.keys(shippedIn), ids);
-  assert.deepEqual(
-    ids.filter((id) => shippedIn[id] === null),
-    ['policy.org'],
-  );
-  const pending = new Set(ids.filter((id) => !isShipped(id)));
-  const enCopy = await source('lib/i18n/en.ts');
-  for (const dict of [en, tr]) {
-    const included = [...dict.plans.pro.features, ...dict.plans.team.features];
-    const coming = [...dict.plans.pro.coming, ...dict.plans.team.coming];
-    assert.equal(coming.length, pending.size);
-    assert.equal(included.length + coming.length, ids.length);
-    assert.equal(new Set([...included, ...coming]).size, ids.length);
-    assert.ok(dict.plans.includedNow && dict.plans.comingLabel);
-  }
-  // The unshipped features are exactly the ones whose copy sits in "coming", in both languages.
-  assert.equal(en.plans.pro.coming.length, 0);
-  assert.match(en.plans.pro.features.join('\n'), /Native-router audit details/);
-  assert.match(en.plans.team.coming[0], /^Org policy/);
-  assert.equal(tr.plans.pro.coming.length, 0);
-  assert.match(tr.plans.pro.features.join('\n'), /native yönlendirici denetim/);
-  assert.match(tr.plans.team.coming[0], /^Kurum politikası/);
-  for (const text of [...en.plans.pro.features, ...en.plans.team.features]) assert.doesNotMatch(text, /^Org policy/);
-  assert.equal(en.plans.comingLabel, 'Coming (not billed until shipped)');
-  assert.ok(enCopy.includes("includedNow: 'Included now'"));
-});
-
-test('names no annual price', async () => {
-  const { en } = await import('../lib/i18n/en.ts');
-  const { tr } = await import('../lib/i18n/tr.ts');
-  for (const dict of [en, tr]) assert.doesNotMatch(JSON.stringify(dict.plans) + JSON.stringify(dict.pricing), /annual|yıllık|per year|\/year/i);
 });
 
 test('the live check is a script and stays out of npm test', async () => {

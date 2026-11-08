@@ -1,8 +1,6 @@
-import Link from 'next/link';
 import { Rich } from '@/components/rich';
 import { changelogEntries } from '@/lib/changelog';
-import { funnel } from '@/lib/funnel';
-import { getDictionary, localePath, type Locale } from '@/lib/i18n';
+import { getDictionary, type Locale } from '@/lib/i18n';
 
 export function ChangelogPage({ locale }: { locale: Locale }) {
   const dict = getDictionary(locale);
@@ -56,11 +54,6 @@ export function ChangelogPage({ locale }: { locale: Locale }) {
             </section>
           ))}
           <p>{t.source}</p>
-          <div className="button-row">
-            <Link className="btn btn-primary" href={localePath(locale, '/docs/quick-start')} data-funnel={funnel.getFree}>
-              {t.install}
-            </Link>
-          </div>
         </div>
       </section>
     </main>

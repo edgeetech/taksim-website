@@ -1,48 +1,11 @@
-import { EconomicModes } from '@/components/economic-modes';
-import { SoftwareApplicationJsonLd } from '@/components/json-ld';
-import { Rich } from '@/components/rich';
-import { PricingPlans } from '@/components/pricing-plans';
-import { getDictionary, type Locale } from '@/lib/i18n';
+import { ClosingNote } from '@/components/closing';
+import type { Locale } from '@/lib/i18n';
 
+// The former pricing page. Old links land on the closing note: there are no plans, prices or sales.
 export function PricingPage({ locale }: { locale: Locale }) {
-  const dict = getDictionary(locale);
-  const t = dict.pricing;
   return (
     <main className="home">
-      <SoftwareApplicationJsonLd locale={locale} />
-      <section className="band page-lead" aria-labelledby="pricing-title">
-        <div className="shell">
-          <div className="section-lead">
-            <h1 id="pricing-title">{t.title}</h1>
-            <p className="hero-lede">{t.lede}</p>
-          </div>
-          <PricingPlans locale={locale} />
-        </div>
-      </section>
-      <section className="band modes" id="billing-modes" aria-labelledby="pricing-modes-title">
-        <div className="shell">
-          <div className="section-lead">
-            <h2 id="pricing-modes-title">{t.modesTitle}</h2>
-            <p>{dict.home.modes.body}</p>
-          </div>
-          <EconomicModes t={dict.home.modes} />
-        </div>
-      </section>
-      <section className="band faq" aria-labelledby="pricing-faq-title">
-        <div className="shell faq-layout">
-          <h2 id="pricing-faq-title">{t.faqTitle}</h2>
-          <div className="faq-items">
-            {t.faq.map(({ q, a }) => (
-              <details key={q}>
-                <summary>{q}</summary>
-                <p>
-                  <Rich text={a} locale={locale} />
-                </p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ClosingNote locale={locale} />
     </main>
   );
 }

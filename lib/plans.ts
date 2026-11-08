@@ -1,20 +1,5 @@
-// Single source for plan prices and which capability belongs to which plan. en.ts and tr.ts import it, so
-// both languages show the same numbers and the same feature split. Entitlement ids use the dotted names the
-// Taksim product uses for licensed features; `free.*` ids are never gated.
-export const prices = {
-  pro: 12,
-  team: 18,
-  teamMinSeats: 5,
-  teamMinMonthly: 90,
-} as const;
-
-// The first 20 Pro seats only; Team has no founding discount.
-export const foundingOffer = {
-  seats: 20,
-  discountPercent: 50,
-  months: 12,
-} as const;
-
+// Which capability belonged to which plan in the product. Taksim is closed as a commercial product, so there are
+// no prices or offers here any more; the ids stay because the product and data/entitlements.json use them.
 // Measuring, reporting and routing are free; Pro and Team charge for enforcement, delivery and team features.
 // The ids are the product's own (`LicenseFeatures.cs`, mirrored in data/entitlements.json). Entitlement
 // enforcement in the product stays off until the owner sets a real public key and launches checkout, so today

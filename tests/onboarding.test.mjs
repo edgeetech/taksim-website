@@ -50,16 +50,18 @@ test('the built pages carry og:title, og:image and twitter:card', buildOptions, 
   assert.match(trHome, /<meta property="og:locale" content="tr_TR"/);
 });
 
-test('describes the app for search: SoftwareApplication JSON-LD on home and pricing, paid plans as pre-order', buildOptions, async () => {
-  for (const path of ['index.html', 'pricing/index.html', 'tr/index.html', 'tr/pricing/index.html']) {
+test('describes the app for search: SoftwareApplication JSON-LD on home only, with no offers', buildOptions, async () => {
+  for (const path of ['pricing/index.html', 'tr/pricing/index.html']) {
+    assert.doesNotMatch(await html(path), /application\/ld\+json/, path);
+  }
+  for (const path of ['index.html', 'tr/index.html']) {
     const page = await html(path);
     const blocks = [...page.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
     assert.equal(blocks.length, 1, path);
     const data = JSON.parse(blocks[0][1].replaceAll('\\u003c', '<'));
     assert.equal(data['@type'], 'SoftwareApplication');
     assert.equal(data.operatingSystem, 'Windows, macOS');
-    assert.deepEqual(data.offers.map((o) => [o.name, o.price]), [['Developer', 0], ['Pro', 12], ['Team', 18]]);
-    assert.deepEqual(data.offers.map((o) => o.availability.replace('https://schema.org/', '')), ['InStock', 'PreOrder', 'PreOrder']);
+    assert.equal('offers' in data, false, path);
     assert.equal(data.softwareVersion, manifest.version);
     assert.equal('aggregateRating' in data, false);
   }

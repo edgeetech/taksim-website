@@ -19,35 +19,47 @@ test('uses the selected Taksim brand mark alongside accessible product text', as
   assert.match(metadata, /taksim-icon-v1\.svg/);
 });
 
-test('keeps the CLI free for individuals, including at work, and publishes Free, Pro and Team pricing', async () => {
-  const copy = await source(copyPath);
+test('the home and former pricing pages are the closing note, in both languages', async () => {
   const { en } = await import('../lib/i18n/en.ts');
   const { tr } = await import('../lib/i18n/tr.ts');
-  assert.match(copy, /for any individual, at home or at work/);
-  assert.match(copy, /Can I use the free version at work\?/);
-  for (const dict of [en, tr]) {
-    assert.equal(dict.plans.pro.price, '$12');
-    assert.equal(dict.plans.team.price, '$18');
-    assert.match(dict.plans.team.sub, /\$90/);
+  for (const path of ['components/pages/home.tsx', 'components/pages/pricing.tsx']) {
+    const page = await source(path);
+    assert.match(page, /<ClosingNote locale=\{locale\} \/>/, path);
+    assert.doesNotMatch(page, /PricingPlans|CopyCommand|installCommand|quick-start|data-funnel/, path);
   }
-  assert.match(en.plans.team.sub, /5-seat minimum/);
-  assert.match(en.plans.team.sub, /No founding discount/);
-  assert.match(tr.plans.team.sub, /En az 5 koltuk/);
-  assert.equal(en.plans.pro.badge, 'First 20 Pro seats: 50% off for the first 12 months');
-  assert.equal(tr.plans.pro.badge, 'İlk 20 Pro koltuğa ilk 12 ay için %50 indirim');
-  assert.equal(en.plans.pro.cta, 'Reserve a founding seat');
-  assert.equal(en.plans.team.cta, 'Start a team pilot');
-  assert.equal(en.plans.billingNote, 'Billing opens when checkout is live; reserving costs nothing.');
-  assert.doesNotMatch(JSON.stringify(en.plans), /for life|lifetime/i);
-  assert.doesNotMatch(JSON.stringify(tr.plans), /ömür boyu/i);
+  assert.equal(en.closing.postHref, 'https://asozyurt.com/writing/closing-taksim/');
+  assert.equal(tr.closing.postHref, 'https://asozyurt.com/writing/taksim-kapanis/');
+  assert.equal(tr.closing.paragraphs.length, en.closing.paragraphs.length);
+  assert.equal(tr.closing.stays.length, en.closing.stays.length);
+  const note = en.closing.paragraphs.join(' ');
+  assert.match(note, /The tests said no/);
+  assert.match(note, /Deciding to close is itself a management skill/);
+  assert.match(note, /The code will be made public soon\./);
+  assert.match(tr.closing.paragraphs.join(' '), /Kod yakında herkese açık olacak\./);
+  // No date is promised for the code.
+  for (const dict of [en, tr]) assert.doesNotMatch(JSON.stringify(dict.closing), /20\d\d-\d\d-\d\d|by (January|February|March|end of)/);
+  assert.match(en.closing.releases, /unsigned and unsupported/);
+});
+
+test('every page carries the closing banner and no install or pricing call to action', async () => {
+  const shell = await source('components/root-shell.tsx');
+  assert.match(shell, /<Header locale=\{locale\} \/>\s*<ClosingBanner locale=\{locale\} \/>/);
+  const banner = await source('components/closing.tsx');
+  assert.match(banner, /data-closing-banner/);
+  assert.match(banner, /href=\{t\.postHref\}/);
+  assert.match(await source('components/docs-shell.tsx'), /dict\.closing\.releases/);
+  const chrome = await source('components/site-chrome.tsx');
+  assert.doesNotMatch(chrome, /\/pricing|quick-start|nav\.pricing|t\.install/);
   for (const path of [
-    copyPath,
-    'lib/i18n/tr.ts',
-    'components/pages/terms.tsx',
-    'components/pages/getting-started.tsx',
-    'public/llms.txt',
+    'components/pages/changelog.tsx',
+    'components/pages/compare.tsx',
+    'components/pages/how-it-works.tsx',
+    'components/pages/proof.tsx',
   ]) {
-    assert.doesNotMatch(await source(path), /\bSolo\b/, path);
+    assert.doesNotMatch(await source(path), /funnel\.getFree|chrome\.install|cta\.install/, path);
+  }
+  for (const path of ['components/pricing-plans.tsx', 'components/contact-form.tsx', 'components/economic-modes.tsx']) {
+    await assert.rejects(source(path), { code: 'ENOENT' }, path);
   }
 });
 
@@ -55,7 +67,7 @@ test('keeps the retired Team price and plan wording out of every page and the ll
   const { en } = await import('../lib/i18n/en.ts');
   const { tr } = await import('../lib/i18n/tr.ts');
   const llms = await source('public/llms.txt');
-  const retired = [/\$8\b/, /\$99\b/, /20% off with annual billing/, /%20 indirim/, /informational; nothing is blocked/, /hiçbir şey engellenmez/];
+  const retired = [/\$8\b/, /\$99\b/, /\$12\b/, /\$18\b/, /20% off with annual billing/, /%20 indirim/, /informational; nothing is blocked/, /hiçbir şey engellenmez/];
   const texts = {
     'lib/i18n/en.ts': await source(copyPath),
     'lib/i18n/tr.ts': await source('lib/i18n/tr.ts'),
@@ -63,62 +75,26 @@ test('keeps the retired Team price and plan wording out of every page and the ll
     evaluatedEn: JSON.stringify(en),
     evaluatedTr: JSON.stringify(tr),
   };
-  for (const path of ['components/pages/terms.tsx', 'components/pricing-plans.tsx', 'release/llms.template.txt']) {
+  for (const path of ['components/pages/terms.tsx', 'release/llms.template.txt']) {
     texts[path] = await source(path);
   }
   for (const [path, text] of Object.entries(texts)) {
     for (const pattern of retired) assert.doesNotMatch(text, pattern, path);
   }
-  assert.match(llms, /\$12 per seat per month/);
-  assert.match(llms, /\$18 per seat per month/);
-  assert.match(llms, /5-seat minimum \(\$90 per month\)/);
-  assert.match(llms, /first 20 Pro seats get 50% off for the first 12 months; Team has no founding discount/);
+  assert.match(llms, /^# Taksim\r?\n\r?\nStatus: Taksim is closed as a commercial product/);
+  assert.match(llms, /https:\/\/asozyurt\.com\/writing\/closing-taksim\//);
+  assert.doesNotMatch(llms, /taksim\.edgee\.tech\/pricing/);
 });
 
-test('takes plan prices and the feature split from one constants file', async () => {
+test('the contact page gives the address and offers no seats, plans or pilots', async () => {
+  const page = await source('components/pages/contact.tsx');
   const { en } = await import('../lib/i18n/en.ts');
   const { tr } = await import('../lib/i18n/tr.ts');
-  const { entitlements, freeFeatures, prices, foundingOffer } = await import('../lib/plans.ts');
-  // The ids must be exactly the product's own (LicenseFeatures.cs on origin/claude/license-seam).
-  assert.deepEqual(entitlements.pro, ['budget.enforce', 'digest.delivery', 'report.summaryHtml', 'audit.nativeRouter', 'support.priority']);
-  assert.deepEqual(entitlements.team, ['report.team', 'budget.team', 'policy.org']);
-  // Routing and the proof export are free; only enforcement, automation and team features are paid.
-  for (const id of ['free.mode', 'free.routingAuto', 'free.routingSubscription', 'free.proof']) assert.ok(freeFeatures.includes(id), id);
-  assert.ok(![...entitlements.pro, ...entitlements.team].some((id) => id.startsWith('routing.')));
-  assert.deepEqual([prices.pro, prices.team, prices.teamMinSeats, prices.teamMinMonthly], [12, 18, 5, 90]);
-  assert.equal(prices.teamMinSeats * prices.team, prices.teamMinMonthly);
-  assert.deepEqual([foundingOffer.seats, foundingOffer.discountPercent, foundingOffer.months], [20, 50, 12]);
-  for (const dict of [en, tr]) {
-    assert.equal(dict.plans.developer.features.length, freeFeatures.length);
-    assert.equal(dict.plans.pro.features.length + dict.plans.pro.coming.length, entitlements.pro.length);
-    assert.equal(dict.plans.team.features.length + dict.plans.team.coming.length, entitlements.team.length);
-  }
-  for (const path of ['lib/i18n/en.ts', 'lib/i18n/tr.ts']) assert.match(await source(path), /from '\.\.\/plans\.ts'/, path);
-  const seat = en.pricing.faq.find((item) => item.q === 'What is a seat?');
-  assert.equal(seat?.a, `A seat is one named developer on the licence. Team needs ${prices.teamMinSeats} seats ($${prices.teamMinMonthly}/month minimum).`);
-  assert.ok(en.pricing.faq.some((item) => item.q === 'What happens when a paid plan lapses?'));
-  const buy = en.pricing.faq.find((item) => item.q === 'Can I buy a plan today?');
-  assert.ok(buy?.a.includes(`first ${foundingOffer.seats} Pro seats get ${foundingOffer.discountPercent}% off for the first ${foundingOffer.months} months`));
-  assert.ok(buy?.a.includes('Team has no founding discount'));
-  assert.equal(tr.pricing.faq.length, en.pricing.faq.length);
-});
-
-test('offers Pro, Team and security intents on the contact form, prefilled from the URL', async () => {
-  const form = await source('components/contact-form.tsx');
-  const plans = await source('components/pricing-plans.tsx');
-  const { en } = await import('../lib/i18n/en.ts');
-  assert.match(form, /URLSearchParams\(window\.location\.search\)\.get\('intent'\)/);
-  assert.deepEqual(Object.values(en.contact.form.intents), ['Pro founding seat', 'Team pilot', 'Security question']);
-  assert.deepEqual(Object.keys(en.contact.form.intents), ['pro', 'team', 'security']);
-  for (const option of ['<option>1</option>', '2–4', '5–10', '11–50', '50+', '$500–2k', '$2–10k', '$10k+']) {
-    assert.ok(form.includes(option), option);
-  }
-  assert.doesNotMatch(form, /\$100k|\$50k/);
-  assert.match(form, /Taksim: \$\{intentLabel\}/);
-  assert.match(form, /info@edgee\.tech/);
-  assert.equal(en.contact.form.copy, 'Copy address');
-  assert.match(plans, /\/contact\?intent=pro/);
-  assert.match(plans, /\/contact\?intent=team/);
+  assert.match(page, /info@edgee\.tech/);
+  assert.doesNotMatch(page, /ContactForm|intent/);
+  assert.match(en.contact.lede, /closed as a commercial product/);
+  assert.match(tr.contact.lede, /ticari ürün olarak kapandı/);
+  assert.deepEqual(Object.keys(tr.contact), Object.keys(en.contact));
 });
 
 test('keeps the Copilot managed-launch boundary explicit', async () => {
@@ -183,7 +159,6 @@ test('states subscription traffic is observed by default and Claude routing is o
   const copy = await source(copyPath);
   const llms = await source('public/llms.txt');
   assert.match(copy, /does not rewrite the model/i);
-  assert.match(copy, /Does Taksim change my model on a Claude or ChatGPT subscription\?/);
   assert.match(copy, /routing subscription on/);
   assert.match(copy, /Claude models only/);
   assert.match(llms, /forwards `Authorization` unchanged and never reads, copies or logs it/);
@@ -239,34 +214,13 @@ test('keeps the desktop docs navigation readable', async () => {
   assert.doesNotMatch(copy, /href: '#(?:concepts|clients)'/);
 });
 
-test('positions Taksim as a control plane whose ledger proves the decisions', async () => {
+test('describes the last release as a control plane, under the closing note', async () => {
   const { en } = await import('../lib/i18n/en.ts');
   const copy = await source(copyPath);
   const llms = await source('public/llms.txt');
-  assert.equal(en.home.hero.title, 'Spend control and receipts for Claude Code.');
-  assert.match(en.home.hero.lede, /steps down instead of cutting off at a budget cap/);
-  assert.match(en.home.hero.lede, /no Taksim server exists/);
-  assert.match(copy, /when a cheaper model would have done the job/);
+  assert.equal(en.closing.title, 'Taksim is closing');
   assert.match(llms, /control plane for AI coding agents, built around a sufficiency ledger/);
   for (const text of [copy, llms]) assert.doesNotMatch(text, /Selection and delegation governance/);
-});
-
-test('makes Get Taksim free the primary CTA and sends it to the easy install', async () => {
-  const { en } = await import('../lib/i18n/en.ts');
-  const { tr } = await import('../lib/i18n/tr.ts');
-  assert.equal(en.chrome.install, 'Get Taksim free');
-  assert.equal(en.plans.developer.cta, en.chrome.install);
-  assert.match(tr.chrome.install, /ücretsiz/);
-  assert.equal(tr.plans.developer.cta, tr.chrome.install);
-  for (const path of ['components/site-chrome.tsx', 'components/pages/home.tsx', 'components/pricing-plans.tsx']) {
-    const text = await source(path);
-    assert.match(
-      text,
-      /href=\{(?:href|localePath)\((?:locale, )?'\/docs\/quick-start'\)\}\s+data-funnel=\{funnel\.getFree\}/,
-      path,
-    );
-  }
-  assert.match(en.home.hero.trust, /No Taksim account/);
 });
 
 test('shows a first-value path built only from released commands', async () => {
@@ -285,10 +239,6 @@ test('shows a first-value path built only from released commands', async () => {
     steps.map((s) => s.detail).filter(Boolean),
     ['taksim setup', 'taksim history import', 'taksim dashboard', 'taksim report weekly', 'taksim judge enable --in-session'],
   );
-  for (const step of en.home.how.steps) {
-    const words = step.detail.replace(/^taksim /, '').split(' ').filter((w) => !w.startsWith('--'));
-    assert.ok(commands.has(words.join(' ')) || commands.has(words[0]), step.detail);
-  }
 });
 
 test('describes the subscription boundary as current release behaviour, not a permanent rule', async () => {
@@ -299,7 +249,7 @@ test('describes the subscription boundary as current release behaviour, not a pe
     assert.doesNotMatch(text, /asla girmez/i, path);
   }
   assert.match(en.matrix.footnote, /describes the current release/);
-  for (const text of [en.matrix.footnote, en.docs.subscriptions.body3, en.home.modes.futureBody]) {
+  for (const text of [en.matrix.footnote, en.docs.subscriptions.body3]) {
     assert.match(text, /not an endorsement by Anthropic|does not imply Anthropic endorsement/);
     assert.doesNotMatch(text, /bars third-party developers/);
   }
@@ -311,23 +261,12 @@ test('describes the subscription boundary as current release behaviour, not a pe
   assert.match(await source('components/pages/terms.tsx'), /routing is opt-in and off by\s+default/);
 });
 
-test('separates subscription, API-key and private economics without claiming private routing', async () => {
-  const { en } = await import('../lib/i18n/en.ts');
-  const [subscription, apiKey, privateMode] = en.home.modes.items;
-  assert.match(subscription.economics, /labelled as quota, never as billed dollars/);
-  assert.match(subscription.current, /Claude-only model switching/);
-  assert.match(apiKey.economics, /billed dollars per token/);
-  assert.match(privateMode.current, /^Not a routing target in the current release/);
-  assert.match(await source('components/pages/pricing.tsx'), /<EconomicModes t=\{dict\.home\.modes\} \/>/);
-});
-
 test('marks funnel steps without loading any analytics', async () => {
   const { funnel } = await import('../lib/funnel.ts');
-  assert.deepEqual(Object.keys(funnel).sort(), ['docsNext', 'getFree', 'installCopy', 'installGuide', 'proReserve', 'seeHow', 'teamContact']);
+  assert.deepEqual(Object.keys(funnel).sort(), ['docsNext', 'installCopy']);
   const files = [
     'components/site-chrome.tsx',
     'components/pages/home.tsx',
-    'components/pricing-plans.tsx',
     'components/pages/quick-start.tsx',
     'components/copy-command.tsx',
     'components/root-shell.tsx',
@@ -339,24 +278,14 @@ test('marks funnel steps without loading any analytics', async () => {
   assert.match(await source('lib/i18n/en.ts'), /does not load a third-party analytics tracker/);
 });
 
-test('shows the internal pilot benchmark high on the home page with exact, qualified figures', async () => {
+test('keeps the internal pilot on the benchmark page, after the held-out rounds, with exact, qualified figures', async () => {
   const { en } = await import('../lib/i18n/en.ts');
   const { tr } = await import('../lib/i18n/tr.ts');
-  const home = await source('components/pages/home.tsx');
+  const page = await source('components/pages/benchmark.tsx');
   const pilot = await source('components/pilot-benchmark.tsx');
-  assert.ok(
-    home.includes(
-      '<PilotBenchmark t={t.pilot} locale={locale} version={release.version} />',
-    ),
-  );
-  assert.ok(
-    home.indexOf('values-grid') < home.indexOf('<PilotBenchmark'),
-    'after the values band',
-  );
-  assert.ok(
-    home.indexOf('<PilotBenchmark') < home.indexOf('id="how-it-works"'),
-    'before how it works',
-  );
+  assert.ok(page.includes('<PilotBenchmark t={pilot} locale={locale} version={release.version} />'));
+  assert.ok(page.indexOf('t.rounds.items') < page.indexOf('<PilotBenchmark'), 'after the held-out rounds');
+  assert.doesNotMatch(await source('components/pages/home.tsx'), /PilotBenchmark/);
   const flat = pilot.replace(/\s+/g, ' ');
   assert.ok(flat.includes('const userReplyRelease = [0, 3, 11];'));
   // The figures live in data/benchmark and are derived by lib/benchmark/report.ts (tests/benchmark.test.mjs).
@@ -400,7 +329,7 @@ test('shows the internal pilot benchmark high on the home page with exact, quali
   }
   assert.match(en.home.pilot.note, /^Internal pilot, not an independent benchmark/);
   assert.match(tr.home.pilot.note, /^İç pilot; bağımsız bir benchmark değildir/);
-  assert.ok(pilot.includes('{t.note}'), 'the pilot label stays visible on the home page');
+  assert.ok(pilot.includes('{t.note}'), 'the pilot label stays visible');
   assert.ok(pilot.includes("localePath(locale, '/benchmark')"), 'links to the method page');
   assert.match(en.home.pilot.footnote, /only switches between Claude models/);
   assert.equal(en.home.pilot.learn.steps.length, 4);
@@ -464,7 +393,6 @@ test('labels subscription usage as quota and team exports as inspectable aliases
   const copy = await source(copyPath);
   assert.match(copy, /API-equivalent list-price dollars, labelled as quota, not billed/);
   assert.match(copy, /One command, one weekly report/);
-  assert.match(copy, /Free for any individual, at home or at work/);
   assert.match(copy, /can inspect it before sharing; exports carry repo aliases, never paths/);
 });
 

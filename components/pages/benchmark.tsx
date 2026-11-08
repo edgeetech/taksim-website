@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Fragment } from 'react';
+import { PilotBenchmark } from '@/components/pilot-benchmark';
 import { Rich } from '@/components/rich';
 import {
   copyTokens,
@@ -10,6 +11,7 @@ import {
   type Row,
 } from '@/lib/benchmark/report';
 import { getDictionary, localePath, type Locale } from '@/lib/i18n';
+import { release } from '@/lib/release';
 
 type DataCopy = ReturnType<typeof getDictionary>['benchmark']['data'];
 type Labels = { notMeasured: string; undefinedPerAccepted: string };
@@ -98,8 +100,63 @@ export function BenchmarkPage({ locale }: { locale: Locale }) {
           <p>{t.lede}</p>
         </div>
       </section>
+      <section className="content-section" id="rounds" aria-labelledby="rounds-title">
+        <article className="shell narrow prose">
+          <h2 id="rounds-title">{t.rounds.title}</h2>
+          <p>{t.rounds.intro}</p>
+          <ul>
+            {t.rounds.thresholds.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+          {t.rounds.items.map((round) => (
+            <section key={round.id} id={round.id} aria-labelledby={`${round.id}-title`}>
+              <h3 id={`${round.id}-title`}>{round.title}</h3>
+              <p>
+                <Rich text={round.body} locale={locale} />
+              </p>
+              <div className="table-scroll">
+                <table className="tabular">
+                  <caption className="sr-only">{round.title}</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">{t.rounds.cols.measure}</th>
+                      <th scope="col">{t.rounds.cols.opus}</th>
+                      <th scope="col">{t.rounds.cols.sonnet}</th>
+                      <th scope="col">{t.rounds.cols.taksim}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {round.rows.map(([measure, ...cells]) => (
+                      <tr key={measure}>
+                        <th scope="row">{measure}</th>
+                        {cells.map((cell, index) => (
+                          <td key={index}>{cell}</td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <ul>
+                {round.points.map((point) => (
+                  <li key={point}>
+                    <Rich text={point} locale={locale} />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+          <p className="notice">
+            <Rich text={t.rounds.verdict} locale={locale} />
+          </p>
+        </article>
+      </section>
+      <PilotBenchmark t={pilot} locale={locale} version={release.version} />
       <section className="content-section">
         <article className="shell narrow prose">
+          <h2 id="internal-pilot">{t.rounds.internalTitle}</h2>
+          <p>{t.rounds.internalBody}</p>
           <p className="notice">
             <strong>{t.summaryLabel}</strong> {footnote}
           </p>
@@ -187,7 +244,7 @@ export function BenchmarkPage({ locale }: { locale: Locale }) {
             </div>
           </details>
           <p>
-            <Link href={localePath(locale, '/#pilot')}>← {t.back}</Link>
+            <Link href={localePath(locale, '/')}>← {t.back}</Link>
           </p>
         </article>
       </section>
